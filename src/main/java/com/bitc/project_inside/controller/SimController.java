@@ -17,7 +17,7 @@ public class SimController {
     public String app() throws Exception {
 
 
-        return "success";
+        return "successs";
     }
 
 
