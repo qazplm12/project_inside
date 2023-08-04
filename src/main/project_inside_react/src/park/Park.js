@@ -18,7 +18,7 @@ function Park(props) {
 
 
     const handleProjectName = e =>{
-        setProjectCode(projectCode => [...projectCode, setProjectCode])
+        setProjectCode(e.target.value)
     }
 
 
