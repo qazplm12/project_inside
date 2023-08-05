@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
 import Sim from "./Sim";
 import Layout from "./Layout";
-import Park from "./Park";
-import Lee from "./Lee";
+import Park from "./park/Park";
+import Lee from "./Lee"
+import theme from "./theme.css";
 
 function App() {
     return (

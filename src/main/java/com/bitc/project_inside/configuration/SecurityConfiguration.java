@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfiguration {
 
-        private final PersonDetailService personDetailService;
+    private final PersonDetailService personDetailService;
 
 
     //  스프링 시큐리티에서는 무조건 암호화된 비밀번호를 사용해야 함
