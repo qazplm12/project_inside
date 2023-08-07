@@ -8,7 +8,8 @@ icons["bold"] = "<span>B</span>";
 
 function Park(props) {
 
-    const [projectCode, setProjectCode] = useState([]);
+    const [projectCode, setProjectCode] = useState(''); // 선택한 기술 스택을 담을 상태
+    const [selectedStacks, setSelectedStacks] = useState([]); // 선택한 기술 스택들을 담을 배열 상태
 
     // quill 부분
     const quillRef = useRef()
@@ -17,9 +18,11 @@ function Park(props) {
 
 
 
-    const handleProjectName = e =>{
-        setProjectCode(e.target.value)
-    }
+    const handleProjectName = (event) => {
+        const selectedValue = event.target.value;
+        setProjectCode(selectedValue); // 선택한 기술 스택 상태 업데이트
+        setSelectedStacks((prevStacks) => [...prevStacks, selectedValue]); // 선택한 기술 스택 배열에 추가
+    };
 
 
     const toyRegistered = e =>{
@@ -49,7 +52,7 @@ function Park(props) {
                     {/* 프로젝트 / 프로젝트이미지 등록 */}
                     <div className={"col-sm-6 d-flex"}>
                         <div className={"col-sm-3"}>
-                            <label for={"project-name"} className={"form-label"}>프로젝트 명:</label>
+                            <label htmlFor={"project-name"} className={"form-label"}>프로젝트 명:</label>
                         </div>
                         <div className={"col-sm"}>
                             <input type={"text"} className={"form-control"} id={"project-name"} placeholder={"프로젝트 명을 입력해주세요"}/>
@@ -57,7 +60,7 @@ function Park(props) {
                     </div>
                     <div className={"col-sm-6 d-flex "}>
                         <div className={"col-sm-3"}>
-                            <label for={"project-image"} className={"form-label"}>프로젝트 이미지:</label>
+                            <label htmlFor={"project-image"} className={"form-label"}>프로젝트 이미지:</label>
                         </div>
                         <div className={"col-sm"}>
                             <input type={"file"} className={"form-control"} id={"project-image"}/>
@@ -69,7 +72,7 @@ function Park(props) {
                 {/* 주사용 언어 / 선택한 언어 */}
                 <div className={"col-sm-6 d-flex"}>
                     <div className={"col-sm-3"}>
-                        <label for={"project-code"} className={"form-label"}>기술 스택 :</label>
+                        <label htmlFor={"project-code"} className={"form-label"}>기술 스택 :</label>
                     </div>
                     <div className={"col-sm"}>
                         <select id={"project-code"} className={"form-select"} name={"projectCode"} onChange={handleProjectName}>
@@ -83,10 +86,11 @@ function Park(props) {
                 </div>
                 <div className={"col-sm-6 d-flex"}>
                     <div className={"col-sm-3"}>
-                        <label for={"code-store"} className={"form-label"}>내가 선택한 언어:</label>
+                        <label htmlFor={"code-store"} className={"form-label"}>내가 선택한 언어:</label>
                     </div>
                     <div className={"col-sm"}>
-                        <input type={"text"} className={"form-control"} id={"code-store"} value={projectCode}/>
+                        <input
+                            type={"text"} className={"form-control"} id={"code-store"} value={selectedStacks.join(', ')} readOnly />
                     </div>
                 </div>
             </div>
@@ -94,7 +98,7 @@ function Park(props) {
                 {/* 모집인원 / 참여가능한 레벨 */}
                 <div className={"col-sm-6 d-flex"}>
                     <div className={"col-sm-3"}>
-                        <label for={"total-person"} className={"form-label"}>모집인원</label>
+                        <label htmlFor={"total-person"} className={"form-label"}>모집인원</label>
                     </div>
                     <div className={"col-sm d-flex"}>
                         <input id={"total-person"} className={"form-control me-3"}/><span>명</span>
@@ -102,7 +106,7 @@ function Park(props) {
                 </div>
                 <div className={"col-sm-6 d-flex"}>
                     <div className={"col-sm-3"}>
-                        <label for={"level"} className={"form-label"}>참여가능레벨</label>
+                        <label htmlFor={"level"} className={"form-label"}>참여가능레벨</label>
                     </div>
                     <div className={"col-sm"}>
                         <select className={"form-select"} id={"level"} name={"levels"}>
@@ -136,12 +140,12 @@ function Park(props) {
                 <div className={"col-sm-12"}>
                     <div className={"d-grid justify-content-md-end"}>
                         <button type={"submit"} className={"btn btn-primary"} onClick={()=>{
-                            axios.get("http:localhost:8080/pi/park")
+                            axios.post("http:localhost:8080/pi/park")
                                 .then(()=>{
-                                    alert('접속 성공');
+                                    alert('성공');
                                 })
                                 .catch(()=>{
-                                    alert('접속 실패');
+                                    alert('실패');
                                 })
                         }}>등록</button>
                     </div>
