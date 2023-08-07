@@ -6,17 +6,20 @@ import Sim from "./Sim";
 import Layout from "./Layout";
 import Park from "./Park";
 import Lee from "./Lee";
+import Main from "./simComps/main/Main";
+import UserAuth from "./simComps/login&signup/UserAuth";
 
-function App() {
+function App(props) {
     return (
         <div className="App">
             <BrowserRouter>
                 <Routes>
                     <Route path={'/pi'} element={<Layout/>}>
-                        <Route path={'sim'} element={<Sim/>}></Route>
+                        <Route path={'sim'} element={<Main/>}></Route>
                         <Route path={'park'} element={<Park/>}></Route>
                         <Route path={'lee'} element={<Lee/>}></Route>
                     </Route>
+                    <Route path={'/userAuth/:into'} element={<UserAuth/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>

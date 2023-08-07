@@ -7,7 +7,7 @@ import Section2 from "./section2/Section2";
 function Main(props) {
 
     return (
-        <div className={'my-5 py-5'}>
+        <div className={'my-5'}>
             <Section1 />
             <br/><br/><br/><br/>
             <Section2 />

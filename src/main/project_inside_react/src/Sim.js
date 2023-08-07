@@ -8,9 +8,6 @@ function Sim(props) {
     return (
         <div>
             <p>sim 페이지</p>
-            <Header />
-            <Main />
-            <Footer />
         </div>
     )
 }

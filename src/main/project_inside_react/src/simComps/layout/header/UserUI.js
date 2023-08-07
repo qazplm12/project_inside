@@ -16,26 +16,30 @@ function UserUI(props) {
                     placement={'bottom'}
                     overlay={
                         <Popover>
-                            <Popover.Header as="h3">
-                                프로필 들어갈 자리
+                            <Popover.Header>
+                                <div>
+                                    <img src="" alt="프로필" className={'rounded-5'}/>
+                                    <p className={'text-center'}>닉네임 or 이메일</p>
+                                </div>
                             </Popover.Header>
-                            <Popover.Body>
-                                컴포넌트 들어갈 자리
+                            <Popover.Body className={'text-center'}>
+                                <Link to={'/pi/myPage'} className={'theme-link'}>마이 페이지</Link>
+                                <hr/>
+                                <Link to={'/pi/logout'} className={'theme-link'}>로그아웃</Link>
                             </Popover.Body>
                         </Popover>
                     }
                 >
                     <a className={'theme-link'}>이메일 들어갈 자리</a>
                 </OverlayTrigger>
+
+
                 <OverlayTrigger
                     trigger="click"
                     key={'ui2'}
                     placement={'bottom'}
                     overlay={
                         <Popover>
-                            <Popover.Header as="h3">
-                                생략 가능
-                            </Popover.Header>
                             <Popover.Body>
                                 알람 리스트 들어갈 자리
                             </Popover.Body>
@@ -58,10 +62,10 @@ function UserUI(props) {
     // 비로그인 시 보여줄 UI
     return <div className={'d-flex justify-content-around align-items-center me-5'}>
         <h5>
-            <Link to={'/pi/login'} className={'theme-link px-2 m-0'}>로그인</Link>
+            <Link to={'/userAuth/login'}className={'theme-link px-2 m-0'}>로그인</Link>
         </h5>
         <h5>
-            <Link to={'/pi/signup'} className={'theme-link px-2 m-0'}>회원가입</Link>
+            <Link to={'/userAuth/signup'} className={'theme-link px-2 m-0'}>회원가입</Link>
         </h5>
     </div>
 

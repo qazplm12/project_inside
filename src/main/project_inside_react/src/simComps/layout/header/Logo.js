@@ -6,7 +6,7 @@ function Logo(props) {
 
     return (
         // 메인주소 혹은 Route 설계
-        <Link to={''}>
+        <Link to={'/pi/sim'}>
           <img src={logo} className={'m-2'} style={{width : '10rem'}} alt="로고"/>
         </Link>
     )
