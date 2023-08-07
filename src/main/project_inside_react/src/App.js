@@ -1,5 +1,6 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import './theme.css'; // 메인테마 커스터 마이징
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import React from "react";
 import Sim from "./Sim";
 import Layout from "./Layout";
