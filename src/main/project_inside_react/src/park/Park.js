@@ -124,7 +124,7 @@ function Park(props) {
                     <p className={"fs-3 fw-bold text-start"}>상세 내용</p>
                 </div>
                 <div name={"detailContent"}>
-                    {/*  이곳은 에디터를 사용하여 상세 내용을 작업을 합니다.  */}
+                    {/*  이곳은 quill 라는 에디터를 사용하여 상세 내용을 작업을 합니다.  */}
                     <ReactQuill
                         style={{ width: "auto", height: "600px" }}
                         placeholder="프로젝트 상세 내용을 입력해 주세요"
