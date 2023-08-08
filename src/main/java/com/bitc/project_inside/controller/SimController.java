@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/p")
 public class SimController {
 
-    @RequestMapping(value = {"main", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/main", "/"}, method = RequestMethod.GET)
     public String app() throws Exception {
 
 

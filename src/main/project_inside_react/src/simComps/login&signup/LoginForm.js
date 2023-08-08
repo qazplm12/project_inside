@@ -9,6 +9,7 @@ function LoginForm(props) {
             <InputGroup className="mb-5 py-2">
                 <InputGroup.Text id="basic-addon1"><i className="bi bi-envelope"></i></InputGroup.Text>
                 <Form.Control
+                    type={'email'}
                     placeholder="이메일을 입력해주세요"
                     aria-describedby="basic-addon1"
                     name={'personId'}
@@ -19,6 +20,7 @@ function LoginForm(props) {
             <InputGroup className="mb-5 py-2">
                 <InputGroup.Text id="basic-addon2"><i className="bi bi-lock"></i></InputGroup.Text>
                 <Form.Control
+                    type={'password'}
                     placeholder="비밀번호를 입력해주세요"
                     aria-describedby="basic-addon2"
                     name={'personPassword'}

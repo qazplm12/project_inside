@@ -1,5 +1,5 @@
 import React from 'react';
-import logoNoBg from '../../../logo_nobg.png'
+import logoNoBg from '../../../images/logo_nobg.png'
 import {Link} from "react-router-dom";
 
 function LogoNoBg(props) {

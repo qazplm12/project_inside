@@ -15,10 +15,12 @@ function App(props) {
             <BrowserRouter>
                 <Routes>
                     <Route path={'/pi'} element={<Layout/>}>
+                        {/* 헤더, 푸터 필요한 컴포넌트들*/}
                         <Route path={'sim'} element={<Main/>}></Route>
                         <Route path={'park'} element={<Park/>}></Route>
                         <Route path={'lee'} element={<Lee/>}></Route>
                     </Route>
+                    {/* 그 외 개별 컴포넌트들 */}
                     <Route path={'/userAuth/:into'} element={<UserAuth/>}></Route>
                 </Routes>
             </BrowserRouter>
