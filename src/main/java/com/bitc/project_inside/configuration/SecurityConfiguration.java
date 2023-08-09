@@ -62,7 +62,7 @@ public class SecurityConfiguration {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable())
                 .authorizeHttpRequests(authorizeHttpRequestsConfigurer -> authorizeHttpRequestsConfigurer
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/login", "/signup", "/user", "/a", "/**").permitAll() // 비회원이 이용 가능한 페이지
+                        .requestMatchers("/login", "/signup", "/user", "/pi", "/**").permitAll() // 비회원이 이용 가능한 페이지
                         .anyRequest().authenticated())
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
                         .loginPage("/login")

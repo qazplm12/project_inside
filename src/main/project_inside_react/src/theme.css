@@ -1,0 +1,72 @@
+.theme-bg {
+    background-color: rgba(140, 83, 248, 0.7);
+}
+
+.theme-font {
+    color: rgba(140, 83, 248, 0.7);
+}
+
+.theme-link {
+    color: rgba(140, 83, 248, 0.7);
+    text-decoration: none
+}
+
+.theme-link:hover {
+    color: rgba(140, 83, 248, 1);
+    text-decoration: none
+}
+
+.theme-link-white {
+    color: #fff;
+    text-decoration: none
+}
+
+.theme-link-white:hover {
+    color: rgba(140, 83, 248, 1);
+    text-decoration: none
+}
+
+.theme-border {
+    bordr: 1px solid rgba(140, 83, 248, 0.7);
+}
+
+.theme-btn {
+    background-color: rgba(140, 83, 248, 0.7);
+    border: 1px solid rgba(140, 83, 248, 0.7);
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: #fff
+}
+.theme-btn-disabled {
+    background-color: rgba(140, 83, 248, 0.3);
+    border: 1px solid rgba(140, 83, 248, 0.3);
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: #fff
+}
+
+.theme-btn:hover {
+    background-color: #fff;
+    border: 1px solid rgba(140, 83, 248, 0.7);
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: rgba(140, 83, 248, 1.0);
+    transition: 0.4s;
+}
+
+.theme-outline-btn {
+    background-color: #fff;
+    border: 1px solid rgba(140, 83, 248, 0.7);
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: rgba(140, 83, 248, 0.7)
+}
+
+.theme-outline-btn:hover {
+    background-color: rgba(140, 83, 248, 0.7);
+    border: 1px solid rgba(140, 83, 248, 0.7);
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: #fff;
+    transition: 0.4s;
+}
