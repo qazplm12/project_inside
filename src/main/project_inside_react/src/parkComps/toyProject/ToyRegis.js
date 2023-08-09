@@ -3,6 +3,7 @@ import axios from "axios";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
+
 const icons = Quill.import("ui/icons");
 icons["bold"] = "<span>B</span>";
 
@@ -10,6 +11,12 @@ function Park(props) {
 
     const [projectCode, setProjectCode] = useState(''); // 선택한 기술 스택을 담을 상태
     const [selectedStacks, setSelectedStacks] = useState([]); // 선택한 기술 스택들을 담을 배열 상태
+
+    const [projectTitle, setProjectTitle] = useState('');
+    const [totalPerson, setTotalPerson] = useState('');
+    const [levels, setLevels] = useState('');
+
+    
 
     // quill 부분
     const quillRef = useRef()
@@ -26,6 +33,24 @@ function Park(props) {
 
 
     const toyRegistered = e =>{
+
+        axios({
+            method : 'POST',
+            url : 'http://localhost:8080/pi/toyProject/ToyRegis',
+            data : {
+                "projectTitle" : setProjectTitle,
+                "totalPerson" : setTotalPerson,
+                "levels" : setLevels
+
+            }
+        })
+        .then(function(data){
+            console.log('확인'+data)
+        })
+        .catch(function(err){
+            console.log('실패')
+            console.log(err)
+        })
 
     }
 
@@ -55,7 +80,7 @@ function Park(props) {
                             <label htmlFor={"project-name"} className={"form-label"}>프로젝트 명:</label>
                         </div>
                         <div className={"col-sm"}>
-                            <input type={"text"} className={"form-control"} id={"project-name"} placeholder={"프로젝트 명을 입력해주세요"}/>
+                            <input type={"text"} className={"form-control"} id={"project-name"} name={projectTitle} placeholder={"프로젝트 명을 입력해주세요"}/>
                         </div>
                     </div>
                     <div className={"col-sm-6 d-flex "}>
@@ -101,7 +126,7 @@ function Park(props) {
                         <label htmlFor={"total-person"} className={"form-label"}>모집인원</label>
                     </div>
                     <div className={"col-sm d-flex"}>
-                        <input id={"total-person"} className={"form-control me-3"}/><span>명</span>
+                        <input id={"total-person"} name={totalPerson} className={"form-control me-3"}/><span>명</span>
                     </div>
                 </div>
                 <div className={"col-sm-6 d-flex"}>
@@ -109,7 +134,7 @@ function Park(props) {
                         <label htmlFor={"level"} className={"form-label"}>참여가능레벨</label>
                     </div>
                     <div className={"col-sm"}>
-                        <select className={"form-select"} id={"level"} name={"levels"}>
+                        <select className={"form-select"} id={"level"} name={levels}>
                             <option value={"1"}>1</option>
                             <option value={"2"}>2</option>
                             <option value={"3"}>3</option>
@@ -139,15 +164,7 @@ function Park(props) {
             <div className={"row mt-5"}>
                 <div className={"col-sm-12"}>
                     <div className={"d-grid justify-content-md-end"}>
-                        <button type={"submit"} className={"btn btn-primary"} onClick={()=>{
-                            axios.post("http:localhost:8080/pi/park")
-                                .then(()=>{
-                                    alert('성공');
-                                })
-                                .catch(()=>{
-                                    alert('실패');
-                                })
-                        }}>등록</button>
+                        <button type={"submit"} className={"btn btn-primary"} onSubmit={toyRegistered}>등록</button>
                     </div>
                 </div>
             </div>

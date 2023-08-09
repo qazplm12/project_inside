@@ -9,15 +9,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/pi")
 public class ParkController {
 
-    @RequestMapping(value={"/park"}, method = RequestMethod.GET)
-    public String toyproject() throws Exception{
+    @RequestMapping(value={"/toyProject/ToyRegis"}, method = RequestMethod.GET)
+    public String toyProjectGet() throws Exception{
         return "success";
     }
 
     @ResponseBody
-    @RequestMapping(value="/park", method=RequestMethod.POST)
-    public String toyProjectPost() throws Exception{
-
-        return "";
+    @RequestMapping(value="/toyProject/ToyRegis", method=RequestMethod.POST)
+    public String toyProjectPost(
+            @RequestParam("projectTitle") String projectTitle,
+            @RequestParam("totalPerson") String totalPerson,
+            @RequestParam("levels") String levels
+    ) throws Exception{
+        System.out.println("값을 확인을 해 봅시다."+ projectTitle);
+        return "가나";
     }
 }

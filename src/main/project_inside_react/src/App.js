@@ -7,7 +7,7 @@ import Lee from "./Lee";
 import Main from "./simComps/main/Main";
 import UserAuth from "./simComps/login&signup/UserAuth";
 import MyPage from "./simComps/myPage/MyPage";
-import Park from "./parkComps/Park";
+import ToyRegis from "./parkComps/toyProject/ToyRegis";
 
 
 function App(props) {
@@ -19,7 +19,7 @@ function App(props) {
                         {/* 헤더, 푸터 필요한 컴포넌트들*/}
                         <Route path={'sim'} element={<Main/>}></Route>
                         <Route path={'myPage'} element={<MyPage/>}></Route>
-                        <Route path={'park'} element={<Park/>}></Route>
+                        <Route path={'ToyRegis'} element={<ToyRegis/>}></Route>
                         <Route path={'lee'} element={<Lee/>}></Route>
                     </Route>
                     {/* 그 외 개별 컴포넌트들 */}
