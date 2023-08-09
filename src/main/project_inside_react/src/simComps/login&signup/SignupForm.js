@@ -139,7 +139,7 @@ function SignupForm(props) {
     }, [authDone, nickText, passwordText]);
 
     return (
-        <Form action="http://localhost:8080/insertPerson" id={'frm'} method={'POST'}>
+        <Form action="rhttp://localhost:8080/insetPerson" id={'frm'} method={'POST'}>
             <p className={'text-start mt-3'}><strong>이메일</strong></p>
             <InputGroup className="my-2">
                 <InputGroup.Text id="basic-addon1"><i className="bi bi-envelope"></i></InputGroup.Text>
