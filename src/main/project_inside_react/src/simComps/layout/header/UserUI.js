@@ -14,6 +14,7 @@ function UserUI(props) {
                     trigger="click"
                     key={'ui1'}
                     placement={'bottom'}
+                    rootClose
                     overlay={
                         <Popover>
                             <Popover.Header>
@@ -38,6 +39,7 @@ function UserUI(props) {
                     trigger="click"
                     key={'ui2'}
                     placement={'bottom'}
+                    rootClose
                     overlay={
                         <Popover>
                             <Popover.Body>

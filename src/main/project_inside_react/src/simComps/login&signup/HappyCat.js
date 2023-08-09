@@ -45,7 +45,7 @@ function HappyCat(props) {
         <div className="happy-cat" style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
             position: 'absolute',
-            zIndex: 3,
+            zIndex: 1,
             transition: 'transform 1s ease-in-out'
         }}>
             <img src={happyCat} alt="HappyHappyHappy"/>

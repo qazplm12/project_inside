@@ -1,16 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import LogoNoBg from "../layout/header/LogoNoBg";
 import LoginForm from "./LoginForm";
 import {Tab, Tabs} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import SignupForm from "./SignupForm";
 import HappyCat from "./HappyCat";
-import "./UserAuth.css";
 
 function UserAuth(props) {
 
     // 로그인 누르면 로그인 탭, 회원가입 누르면 회원가입 탭이 먼저 나오게해주기 위함
     let {into} = useParams()
+
+    useEffect(() => {
+        // 컴포넌트 마운트 시 스크롤 방지
+        document.body.style.overflow = 'hidden';
+
+        // 컴포넌트 언마운트 시 해제
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
 
     return (
         <div className={'theme-bg py-5'} style={{height:'100vh'}}>

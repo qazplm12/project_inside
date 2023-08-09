@@ -1,7 +1,0 @@
-/*스크롤 생성 방지*/
-html, body {
-    overflow: hidden;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
