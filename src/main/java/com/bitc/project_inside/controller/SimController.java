@@ -39,6 +39,7 @@ public class SimController {
         // entity를 repository 통해서 save하기
 
 
+
     }
 
 
