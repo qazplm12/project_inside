@@ -70,3 +70,11 @@
     color: #fff;
     transition: 0.4s;
 }
+
+.theme-select {
+    background-color: rgba(140, 83, 248, 0.7);
+    border: 1px solid rgba(140, 83, 248, 0.7);
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: #fff
+}
