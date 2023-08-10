@@ -14,14 +14,17 @@ public class ParkController {
         return "success";
     }
 
-    @ResponseBody
-    @RequestMapping(value="/toyProject/ToyRegis", method=RequestMethod.POST)
+    @RequestMapping(value = "/toyProject/ToyRegis", method = RequestMethod.POST)
     public String toyProjectPost(
-            @RequestParam("projectTitle") String projectTitle,
-            @RequestParam("totalPerson") String totalPerson,
-            @RequestParam("levels") String levels
-    ) throws Exception{
-        System.out.println("값을 확인을 해 봅시다."+ projectTitle);
+            @RequestParam(value = "projectTitle", required = false) String projectTitle,
+            @RequestParam(value = "totalPerson", required = false) String totalPerson,
+            @RequestParam(value = "levels", required = false) String levels,
+            @RequestParam(value = "content", required = false) String content
+    ) {
+        System.out.println("projectTitle: " + projectTitle);
+        System.out.println("totalPerson: " + totalPerson);
+        System.out.println("levels: " + levels);
+        System.out.println("content: "+ content);
         return "가나";
     }
 }
