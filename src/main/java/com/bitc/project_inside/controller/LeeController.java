@@ -63,28 +63,24 @@ public class LeeController {
             Select selectOptions = new Select(driver.findElement(By.className("selectpicker")));
             System.out.println("기본 셀렉트옵션 : " + selectOptions.getFirstSelectedOption().getText());
 
-            selectOptions.selectByVisibleText(language);  // 언어 정보 선택 --이까지 실행됨
+            selectOptions.selectByVisibleText(language);  // 언어 정보 선택
             System.out.println("변경 셀렉트옵션 : " + driver.findElement(By.className("filter-option")));  // 굿
 
 
 
 
+//
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement codeMirror = driver.findElement(By.className("CodeMirror-line"));
+//            WebElement codeMirror = driver.findElement(By.cssSelector("#editor > textarea"));
+            WebElement codeMirrorr = wait.until(ExpectedConditions.elementToBeClickable(By.className("CodeMirror-line")));
 
-            // 엘리먼트가 바뀔 때까지 대기 (최대 10초 대기)
-//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));   오류
-//            wait.until(ExpectedConditions.stalenessOf(selectOptions.getFirstSelectedOption()));   오류
 
-            // 엘리먼트가 바뀔 때까지 대기 (최대 10초 대기)
-//            wait.until(ExpectedConditions.stalenessOf(selectOptions.getFirstSelectedOption()));
-//
-//            Select jsOptions = new Select(driver.findElement(By.className("selectpicker")));
-//
-//            System.out.println("변경 셀렉트옵션 : " + jsOptions.getFirstSelectedOption().getText());  // 굿
-//
-//            driver.findElement(By.className("CodeMirror-line")).findElement(By.tagName("span")).click();    // 코드 실행창 기존 내용 지우기
-//            driver.findElement(By.className("CodeMirror-line")).findElement(By.tagName("span")).sendKeys(Keys.CONTROL + "A");
-//            driver.findElement(By.className("CodeMirror-line")).findElement(By.tagName("span")).sendKeys(code);
-//            System.out.println("코드 : " + driver.findElement(By.className("CodeMirror-line")).findElement(By.tagName("span")));  // 코드 내용 입력
+            codeMirrorr.click();    // 코드 실행창 기존 내용 지우기 --이까지 실행됨(내가 정하는 html 코드 에따라 실행의정도가 다름 아마 텍스트가 진짜로 입력이 되는 태그가 있을 건데 그걸 찾아야 하는듯, 입력이나 삭제 이벤트가 안먹는게 아니라 태그가 적절치 않은건가)
+//            codeMirror.sendKeys(Keys.CONTROL + "a");
+//            codeMirror.clear();    //
+            codeMirrorr.sendKeys(code);
+            System.out.println("코드 : " + codeMirrorr);  // 코드 내용 입력
 
 
 
