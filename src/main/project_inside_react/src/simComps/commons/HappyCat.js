@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import happyCat from "../../../src/images/happycat.gif"
+import happyCat from "../../images/happycat.gif"
 
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;

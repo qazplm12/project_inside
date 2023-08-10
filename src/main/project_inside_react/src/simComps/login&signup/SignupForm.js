@@ -1,6 +1,6 @@
 import React, {useEffect, useState,} from 'react';
 import {Form, InputGroup} from "react-bootstrap";
-import DisabledButton from "./DisabledButton";
+import DisabledButton from "../commons/DisabledButton";
 import axios from "axios";
 
 function SignupForm(props) {

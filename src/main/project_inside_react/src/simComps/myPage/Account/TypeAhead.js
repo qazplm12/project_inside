@@ -4,14 +4,17 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import "./Token.css";
 import axios from "axios";
 
+// 가상 유저
+import person from "../../commons/Person";
+
 function TypeAhead(props) {
 
     // 수정시 컴포넌트를 사용할때 매개변수를 부여, 서버에서 personLanguage를 불러와서 사용, 스트링 > 배열로 파싱해야함
-    const [selectedTags, setSelectedTags] = useState(props.initialTokens || []);
+    const [selectedTags, setSelectedTags] = useState(person.language.split(', ') || []);
     const [searchResults, setSearchResults] = useState([]);
     const [tokenValues, setTokenValues] = useState([]);
 
-    // 언어 종류
+    // 기술 스택 종류
     const options = ["Python",
         "JavaScript",
         "HTML",
@@ -87,16 +90,19 @@ function TypeAhead(props) {
     const sendTokenValues = () => {
         // 보내기 전 배열 > 문자열로 파싱
         const param = tokenValues.join(', ');
-        axios.put('http://localhost:8080/simServer/updatePersonInfo', null, {
+        console.log(param);
+        axios.post('http://localhost:8080/simServer/updatePersonInfo', null, {
             params: {
                 personLanguage: param
             }
         })
             .then((resp) => {
-                props.changeMode = true;
+                props.changeMode(true);
+                alert("프로필 업데이트 성공");
             })
-            .catch((err) => {
-                alert('서버 오류 : 다시 시도해주세요');
+            .catch((error) => {
+                alert("프로필 업데이트 실패");
+                console.error(error);
             });
     };
 
@@ -106,7 +112,7 @@ function TypeAhead(props) {
             <div className="text-start">
                 <h5 className={'mt-2'}>자신있는 기술을 선택하세요</h5>
                 {selectedTags.map((tag, index) => (
-                    // 토큰
+                    // 토큰(태그)
                     <div key={index} className="custom-token theme-bg">
                         <div className={'d-flex'}>
                             <span>{tag}</span>
@@ -136,7 +142,8 @@ function TypeAhead(props) {
                 minLength={1}
             />
             {/* 버튼 */}
-            <button type={'button'} onClick={sendTokenValues} className={'float-end px-3 theme-btn'}>저장</button>
+            <button type={'button'} onClick={sendTokenValues} className={'float-end px-3 theme-btn ms-2'}>저장</button>
+            <button type={'button'} onClick={()=>{props.changeMode(true)}} className={'float-end px-3 theme-outline-btn'}>취소</button>
         </div>
     );
 }

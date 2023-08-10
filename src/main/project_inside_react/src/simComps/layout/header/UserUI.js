@@ -4,6 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import {OverlayTrigger, Popover} from "react-bootstrap";
 
+// 가상 유저 정보
+import person from "../../commons/Person";
+
 function UserUI(props) {
 
     // 로그인 시 보여줄 UI
@@ -17,10 +20,14 @@ function UserUI(props) {
                     rootClose
                     overlay={
                         <Popover>
-                            <Popover.Header>
-                                <div>
-                                    <img src="" alt="프로필" className={'rounded-5'}/>
-                                    <p className={'text-center'}>닉네임 or 이메일</p>
+                            <Popover.Body className={'text-center'}>
+                                <h4 className={'text-muted my-auto'}>내 프로필</h4>
+                            </Popover.Body>
+                            <Popover.Header className={'theme-bg border-top rounded-0'}>
+                                <div className={'p-5 py-2'}>
+                                    <img src={person.imgSrc} alt="" className={'circle-background w-100'}/>
+                                    <p className={'text-center m-0'}><strong>{person.email}</strong></p>
+                                    <p className={'text-center text-muted'}><small><strong>{person.nickName}</strong>(Lv.{person.level})</small></p>
                                 </div>
                             </Popover.Header>
                             <Popover.Body className={'text-center'}>

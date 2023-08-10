@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link, Outlet} from "react-router-dom";
-import Header from "./simComps/layout/header/Header";
-import Footer from "./simComps/layout/footer/Footer";
+import Header from "./header/Header";
+import Footer from "./footer/Footer";
 
 function Layout(props) {
 

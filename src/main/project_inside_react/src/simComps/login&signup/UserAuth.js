@@ -4,7 +4,7 @@ import LoginForm from "./LoginForm";
 import {Tab, Tabs} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import SignupForm from "./SignupForm";
-import HappyCat from "./HappyCat";
+import HappyCat from "../commons/HappyCat";
 
 function UserAuth(props) {
 

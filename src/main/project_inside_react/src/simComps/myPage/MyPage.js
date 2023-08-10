@@ -1,8 +1,9 @@
 import React from 'react';
 import {Col, ListGroup, Row, Tab} from "react-bootstrap";
-import Profile from "./Profile";
+import Profile from "./Account/Profile";
 import MyCard from "./MyCard";
-import MyStack from "./MyStack";
+import MyStack from "./Account/MyStack";
+import ChangePassword from "./Account/ChangePassword";
 
 
 
@@ -36,7 +37,7 @@ function MyPage(props) {
                                 <Profile />
                             </MyCard>
                             <MyCard title={'비밀번호'}>
-
+                                <ChangePassword />
                             </MyCard>
                             <MyCard title={'주요기술 / 선호하는 언어'}>
                                 <MyStack />
