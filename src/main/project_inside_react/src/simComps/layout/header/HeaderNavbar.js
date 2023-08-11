@@ -1,9 +1,15 @@
-import React from 'react';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import React, {useState} from 'react';
 import NavItem from "./NavItem";
+import Inquiry from "./Inquiry";
 
 
 function HeaderNavbar(props) {
+
+    const [show, setShow] = useState(false);
+
+    const showHandler = () => {
+        setShow(false);
+    };
 
     return (
         <nav className={"navbar navbar-expand-lg"}>
@@ -18,7 +24,11 @@ function HeaderNavbar(props) {
                         <NavItem name={'알고리즘 문제'} to={'/pi/challenge'}/>
                         <NavItem name={'프로젝트 모집'} to={'/pi/project'}/>
                         <NavItem name={'언어별 공식 문서'} to={'/pi/language'}/>
-                        <NavItem name={'문의'} to={'/pi/inquiry'}/>
+                        <li className={"nav-item"}>
+                            {/* 부모 컴포넌트 영역에서 모달 on시키고, 자식 컴포넌트 영역에서 부모 컴포넌트의 함수를 실행시켜서 모달을 off 시킴 */}
+                            <a onClick={() => {setShow(true)}} className={"theme-link-white mx-3"}>문의</a>
+                            <Inquiry showHandler={showHandler} show={show} />
+                        </li>
                     </ul>
                     <form className={"d-flex"} role="search">
                         <select className="form-select w-50 me-2" aria-label="Default select example">
@@ -33,7 +43,7 @@ function HeaderNavbar(props) {
                 </div>
             </div>
         </nav>
-    )
+    );
 }
 
 export default HeaderNavbar;

@@ -13,6 +13,8 @@ function UserUI(props) {
     if (props.isLoggedIn)
         return (
             <div className={'d-flex align-items-center me-5'}>
+                {/* 관리자 페이지 / 조건부 렌더링 걸어줘야 함*/}
+                <Link to={'admin'} className={'theme-link me-4'} >관리자 페이지</Link>
                 <OverlayTrigger
                     trigger="click"
                     key={'ui1'}
@@ -38,7 +40,7 @@ function UserUI(props) {
                         </Popover>
                     }
                 >
-                    <a className={'theme-link'}>이메일 들어갈 자리</a>
+                    <a className={'theme-link fs-5'}>{person.email}</a>
                 </OverlayTrigger>
 
 

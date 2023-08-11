@@ -62,5 +62,35 @@ public class SimController {
 
     }
 
+    @RequestMapping(value="/sendAnswer", method = RequestMethod.POST)
+    public void sendAnswer(
+            @RequestParam(value = "inquiryAnswer") String answer
+    ) throws Exception {
+
+        System.out.println("/sendAnswer 서버 : " + answer);
+
+
+    }
+
+
+    @RequestMapping(value="/sendInquiry", method = RequestMethod.POST)
+    public void sendInquiry(
+            @RequestParam(value = "inquiryTitle") String title,
+            @RequestParam(value = "inquiryCategory") String category,
+            @RequestParam(value = "inquiryContent") String content
+    ) throws Exception {
+        System.out.println("/sendInquiry 서버 : ");
+
+
+        System.out.println("inquiryTitle : " + title);
+        System.out.println("inquiryCategory : " + category);
+        System.out.println("inquiryContent : " + content);
+
+
+
+
+
+    }
+
 
 }

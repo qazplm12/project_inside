@@ -1,5 +1,5 @@
 import React from 'react';
-
+// 가상 유저 정보
 const Person = {
     email: "bitc@naver.com",
     nickName: "bitc2023",
