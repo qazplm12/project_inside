@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "answer")
+@Table(name = "answer") // 문제 답변
 @Getter
 @Setter
 @ToString

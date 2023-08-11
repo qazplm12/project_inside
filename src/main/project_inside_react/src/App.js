@@ -8,7 +8,7 @@ import Main from "./simComps/main/Main";
 import UserAuth from "./simComps/login&signup/UserAuth";
 import MyPage from "./simComps/myPage/MyPage";
 import Park from "./parkComps/Park";
-import Iframe from "./leeComps/Iframe";
+import ChallengeList from "./leeComps/ChallengeList";
 
 
 function App(props) {
@@ -21,11 +21,11 @@ function App(props) {
                         <Route path={'sim'} element={<Main/>}></Route>
                         <Route path={'myPage'} element={<MyPage/>}></Route>
                         <Route path={'park'} element={<Park/>}></Route>
+                        <Route path={'challengeList'} element={<ChallengeList/>}></Route>
                     </Route>
                     {/* 그 외 개별 컴포넌트들 */}
                     <Route path={'/userAuth/:into'} element={<UserAuth/>}></Route>
                     <Route path={'/lee'} element={<Lee/>}></Route>
-                    <Route path={'/iframe'} element={<Iframe/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>

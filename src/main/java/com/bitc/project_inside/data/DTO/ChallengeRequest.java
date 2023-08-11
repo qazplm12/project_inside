@@ -8,6 +8,10 @@ import lombok.Setter;
 public class ChallengeRequest {
     private int challengeIdx;
     private String challengeTitle;
-    private String challengeContent;
+    private String challengeExplain;
+    private String challengeLimit;
+    private String challengeParamExample;
+    private String challengeSolutionExample;
     private int challengeClass;
+    private int challengeScore;
 }

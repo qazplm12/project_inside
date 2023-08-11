@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import CodeRunner from "./CodeRunner";
 import axios from "axios";
+import CodeChallenge from "./CodeChallenge";
 
 function Lee(props) {
-    const [language, setLanguage] = useState('java');
+    const [language, setLanguage] = useState('JavaScript');
     const [code, setCode] = useState(`var message = "Hello JavaScript";
 console.log(message)`);
+    const [result, setResult] = useState('');
 
     const handleSelect = (e) => {
         setLanguage(e.target.value);
@@ -16,16 +18,21 @@ console.log(message)`);
     }
 
     const handleRun = (e) => {
+        // e.preventDefault();
+
+        // 코드를 JSON 형식으로 변환
+        const requestData = {
+            code: code.replace(/\n/g, ''), // 줄바꿈 제거
+            language: language
+        };
+
         // 셀리니움 호출
-        axios.post('http://localhost:8080/server/test', null, {
-            params: {
-                language: language,
-                code: code
-            }
-        })
+        axios.post('http://localhost:8080/server/challenge', requestData)
             .then(res => {
-                alert('axios 통신 성공');
+                // alert('axios 통신 성공');
                 console.log(res.data);
+
+                setResult(res.data);
             })
             .catch(err => {
                 alert('axios 통신 실패' + err);
@@ -48,21 +55,18 @@ console.log(message)`);
                 <div className={'d-flex border border-1 border-bottom-0 py-2'}>
                     <h5 className={'me-auto m-0 py-1 ps-2'}><b>문제 제목</b></h5>
                     <select name="" id="" className={'me-2 theme-select'} value={language} onChange={handleSelect}>
-                        <option value={'java'} selected={true}>java</option>
-                        <option value={'javascript'}>javascript</option>
-                        <option value={'python'}>python</option>
+                        <option value={'Java'} selected={true}>java</option>
+                        <option value={'JavaScript'}>javascript</option>
+                        <option value={'Python'}>python</option>
                     </select>
                 </div>
             </div>
             <div className={'row'}>
-                <div className={'col-sm border border-1 border-end-0 p-0'}>
-                    <h1>문제 내용 출력</h1>
-                    <button className={'btn btn-primary'}  id={'text'} value={'100'}>asdf</button>
-                    <input type="text" value={language}/>
-                    <input type="text" value={code}/>
+                <div className={'col-sm-5 border border-1 border-end-0 p-0'}>
+                    <CodeChallenge/>
                 </div>
-                <div className={'col-sm p-0'}>
-                    <CodeRunner id={'code-runner'} style={{width: '100%', height: '25em'}} getCode={getCode}/>
+                <div className={'col-sm-7 p-0'}>
+                    <CodeRunner id={'code-runner'} style={{width: '100%', height: '25em'}} getCode={getCode} sendResult={result}/>
                 </div>
             </div>
             <div className={'row'}>

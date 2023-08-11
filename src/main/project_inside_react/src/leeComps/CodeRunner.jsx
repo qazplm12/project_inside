@@ -1,13 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 function CodeRunner(props) {
     const [code, setCode] = useState(`var message = "Hello JavaScript";
 console.log(message)`);
+    const [result, setResult] = useState('');
 
-    const sendCode = (e) => {
-        setCode(e.target.value);
+    useEffect(() => {
+        setResult(props.sendResult);
+    }); // []가 없기 때문에, 상시로 어떤 값이든 바뀔때 마다 실행됨
+
+    useEffect(() => {   // 입력 값이 밀릴때 방법
+        setCode(code)
         props.getCode(code);
-    }
+
+        console.log(code)
+    }, [code]);
 
     return (
         <div className={'container-sm'}>
@@ -19,8 +26,8 @@ console.log(message)`);
                 </div>
             </div>
             <div className={'row'}>
-                <div className={'col-sm border border-1 border-top-0 border-bottom-0'} style={{height: '36vh'}} >
-                    <textarea name="" id="" cols="30" rows="10" value={code} onChange={sendCode}></textarea>
+                <div className={'col-sm border border-1 border-top-0'} style={{height: '36vh'}} >
+                    <textarea name="" id="" cols="30" rows="10" value={code} onChange={(e) => setCode(e.target.value)}></textarea>
                     {/*<div className={'code-idx'}>*/}
                     {/*    <div>1</div>*/}
                     {/*</div>*/}
@@ -31,7 +38,7 @@ console.log(message)`);
             </div>
             <div className={'row'}>
 
-                <div className={'col-sm border border-1'}>
+                <div className={'col-sm border border-1 border-top-0'}>
                     <div className={'p-2'}>
                         <h5 className={'text-start m-0 py-1'}><b>RESULT</b></h5>
                     </div>
@@ -40,7 +47,7 @@ console.log(message)`);
             <div className={'row'}>
 
                 <div className={'col-sm border border-1 border-top-0'} style={{height: '36vh'}}>
-                    <textarea name="" id="" cols="30" rows="10">실행 결과 확인</textarea>
+                    <textarea name="" id="" cols="30" rows="10" value={result}>실행 결과 확인</textarea>
                 </div>
             </div>
         </div>

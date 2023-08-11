@@ -5,7 +5,7 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "solution")
+@Table(name = "solution")   // 문제 풀이법 페이지
 @Getter
 @Setter
 @ToString

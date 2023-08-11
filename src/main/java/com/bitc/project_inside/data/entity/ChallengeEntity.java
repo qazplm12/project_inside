@@ -22,7 +22,16 @@ public class ChallengeEntity {
     private String challengeTitle;
 
     @Column(length = 3000)
-    private String challengeContent;
+    private String challengeExplain;
+
+    @Column
+    private String challengeLimit;
+
+    @Column
+    private String challengeParamExample;
+
+    @Column
+    private String challengeSolutionExample;
 
     @Column
     private int challengeClass;
@@ -35,11 +44,15 @@ public class ChallengeEntity {
 //    public AlgoEntity () {}
 
 //    @Builder    // 매개변수 있는 @Builder를(생성자를) 만들어 주는것이 @AllArgsConstructor
-//    public AlgoEntity(int algoIdx, String algoTitle, String algoContent, int algoClass) {
-//        this.algoIdx = algoIdx;
-//        this.algoTitle = algoTitle;
-//        this.algoContent = algoContent;
-//        this.algoClass = algoClass;
+//    public ChallengeEntity(int challengeIdx, String challengeTitle, String challengeExplain, String challengeLimit, String challengeParamExample, String challengeSolutionExample, int challengeClass, int challengeScore) {
+//        this.challengeIdx = challengeIdx;
+//        this.challengeTitle = challengeTitle;
+//        this.challengeExplain = challengeExplain;
+//        this.challengeLimit = challengeLimit;
+//        this.challengeParamExample = challengeParamExample;
+//        this.challengeSolutionExample = challengeSolutionExample;
+//        this.challengeClass = challengeClass;
+//        this.challengeScore = challengeScore;
 //    }
 
 }
