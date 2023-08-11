@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "project")
@@ -48,9 +49,9 @@ public class ProjectEntity {
     @Column(length = 5000)
     private String projectContent; //
 
-    @Column
+    @Column(nullable = false)
     @CreatedDate
-    private LocalDate projectDate; //
+    private LocalDateTime projectDate = LocalDateTime.now(); //
 
     @Column
     private String projectFull; // 상태값
