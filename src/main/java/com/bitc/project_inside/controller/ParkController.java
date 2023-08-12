@@ -1,23 +1,26 @@
 package com.bitc.project_inside.controller;
 
-import com.bitc.project_inside.data.DTO.ProjectRequest;
 import com.bitc.project_inside.data.entity.ProjectEntity;
-import com.bitc.project_inside.service.ParkService;
 import com.bitc.project_inside.service.ToyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/pi")
 public class ParkController {
+
+    @Value("${app.upload-dir}")
+    private String uploadDir;
 
     private final ToyService toyService;
 
@@ -30,11 +33,12 @@ public class ParkController {
     public ResponseEntity<String> toyProjectPost(
             @RequestParam(value = "projectTitle", required = false) String projectTitle,
             @RequestParam(value="projectThumbnail", required = false) MultipartFile projectThumbnail,
-            @RequestParam(value = "totalPerson", required = false) int totalPerson,
-            @RequestParam(value = "levels", required = false) int levels,
+            @RequestParam(value = "totalPerson") int totalPerson,
+            @RequestParam(value = "levels") int levels,
             @RequestParam(value = "content", required = false) String content,
             @RequestParam(value="projectCode", required = false) String projectCode
     ) {
+
             try{
             ProjectEntity projectEntity = new ProjectEntity();
 
@@ -44,7 +48,6 @@ public class ParkController {
             projectEntity.setProjectContent(content); // 상세 보깁
             projectEntity.setProjectLanguage(projectCode); // 기술 스택
 
-            // 프로젝트 이미지를 저장하고 그 경로를 엔티티에 설정합니다.
             MultipartFile ProjectThumbnail = projectThumbnail;
             String projectImagePath = saveProjectImage(ProjectThumbnail);
             projectEntity.setProjectThumbnail(projectImagePath);
@@ -53,6 +56,7 @@ public class ParkController {
 
             return ResponseEntity.status(HttpStatus.OK).body("프로젝트 등록 성공");
         } catch (Exception e) {
+                e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로젝트 등록 실패");
         }
     }
@@ -74,8 +78,22 @@ public class ParkController {
     // 프로젝트 이미지를 저장하는 메서드
     private String saveProjectImage(MultipartFile image) {
 
-        String savedImagePath = "C:\\Users\\admin\\Desktop\\pro\\project_inside\\src\\main\\project_inside_react\\src\\images\\" + generateRandomFileName() + ".jpg";
-        return savedImagePath;
+        String toyThumbnailFile = image.getOriginalFilename();
+        String fileExtension = toyThumbnailFile.substring(toyThumbnailFile.lastIndexOf(".")+1);
+        String fileName = generateRandomFileName() + "." + fileExtension;
+        String savedImagePath = uploadDir + File.separator + fileName;
+
+        try {
+            byte[] imageData = toyThumbnailFile.getBytes();
+            File imageFile = new File(savedImagePath);
+
+            FileCopyUtils.copy(imageData, imageFile);
+
+            return fileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private String generateRandomFileName() {

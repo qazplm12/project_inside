@@ -6,17 +6,17 @@ import axios from "axios";
 
 function toyDetail(props) {
 
-    const [projectBoard, setProjectBoard] = useState([]);
+    // const [projectBoard, setProjectBoard] = useState([]);
 
-    useEffect(() => {
-        axios.get('http://localhost:8080/pi/toyProject/ToyDetail/16')
-            .then(response => {
-                setProjectBoard(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios.get('http://localhost:8080/pi/toyProject/ToyDetail/16')
+    //         .then(response => {
+    //             setProjectBoard(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //         });
+    // }, []);
 
     return (
         <Container>
@@ -30,9 +30,9 @@ function toyDetail(props) {
             <Row className={"my-5"}>
                 <Col sm className={"pe-5 me-5"}>
                     <span className={"theme-font"}>프로젝트명 : </span>
-                    {projectBoard.map(item =>(
+                    {/* {projectBoard.map(item =>(
                         <span key={item.id}>{item.projectTitle}</span>
-                    ))}
+                    ))} */}
                 </Col>
                 <Col sm>
                     {/*상항 연산자를 통해서 구현해 보기*/}
@@ -61,7 +61,7 @@ function toyDetail(props) {
             </Row>
             <Row>
                 <Col sm>
-                    <span><img src={""} /> </span>
+                    {/* <span><img src={""} /> </span> */}
                 </Col>
             </Row>
             {/* 등록자 프로필 */}

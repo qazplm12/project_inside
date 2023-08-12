@@ -17,6 +17,7 @@ function Park(props) {
 
     const [projectTitle, setProjectTitle] = useState("");
     const [totalPerson, setTotalPerson] = useState("");
+    const [projectThumbnail, setProjectThumbnail] = useState(null);
     const [levels, setLevels] = useState("1");
 
     const handleTagSelectionInParent = (selectedTags) => {
@@ -32,15 +33,26 @@ function Park(props) {
     const toyRegistered = e =>{
         e.preventDefault();
 
+        const thumbNailChange = (e) =>{
+
+        }
+
+        console.log('project thumbnil', projectThumbnail)
+
+        const formData = new FormData();
+        formData.append("projectTitle",projectTitle)
+        formData.append("totalPerson",totalPerson)
+        formData.append("projectCode",projectCode.join(','))
+        formData.append("levels",levels)
+        formData.append("content",content)
+        formData.append("projectThumbnail",projectThumbnail)
+
         axios({
             method : 'POST',
             url : 'http://localhost:8080/pi/toyProject/ToyRegis',
-            params : {
-                "projectTitle": projectTitle,
-                "totalPerson": totalPerson,
-                "projectCode" : projectCode.join(','),
-                "levels": levels,
-                "content" : content
+            data : formData,
+            headers: {
+                'Content-Type': 'multipart/form-data',
             }
         })
         .then(function(data){
@@ -70,7 +82,7 @@ function Park(props) {
 
     return (
         <div className={"container my-3"}>
-            <form onSubmit={toyRegistered} >
+            <form onSubmit={toyRegistered}>
             <div className={"row mb-5 border border-1 rounded py-3"}>
                 <div className={"col-sm-12 d-flex "}>
                     {/* 프로젝트 / 프로젝트이미지 등록 */}
@@ -88,17 +100,18 @@ function Park(props) {
                             <label htmlFor={"project-image"} className={"form-label theme-font"}>프로젝트 이미지:</label>
                         </div>
                         <div className={"col-sm"}>
-                            <input type={"file"} className={"form-control"} id={"project-image"}/>
+                            <input type={"file"} className={"form-control"} id={"project-image"}
+                            onChange={(e) => setProjectThumbnail(e.target.files[0])}/>
                         </div>
                     </div>
                 </div>
             </div>
             <div className={"row mb-5 border border-1 rounded py-3"}>
+                {/* 기술 스택 컴포 넌트 */}
                 <TypeAheadProject onTagSelection={handleTagSelectionInParent} />
-
             </div>
             <div className={"row mb-5 border border-1 rounded py-3"}>
-                {/* 모집인원 / 참여가능한 레벨 */}
+                {/* 모집 인원 / 참여 가능한 레벨 */}
                 <div className={"col-sm-6 d-flex"}>
                     <div className={"col-sm-3"}>
                         <label htmlFor={"total-person"} className={"form-label theme-font"}>모집인원</label>
@@ -134,7 +147,7 @@ function Park(props) {
                         placeholder="프로젝트 상세 내용을 입력해 주세요"
                         theme="snow"
                         ref={quillRef}
-                        value={content}
+                        value={content || ''}
                         onChange={(content, delta, source, editor) => setContent(editor.getHTML())}
                         // onChange={(e) => setContent(e.target.value)}
                         modules={modules}
