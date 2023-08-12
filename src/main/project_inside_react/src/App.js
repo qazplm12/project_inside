@@ -9,6 +9,7 @@ import UserAuth from "./simComps/login&signup/UserAuth";
 import MyPage from "./simComps/myPage/MyPage";
 import ToyRegis from "./parkComps/toyProject/ToyRegis";
 import ToyDetail from "./parkComps/toyProject/ToyDetail";
+import ToyListBoard from "./parkComps/toyProject/ToyListBoard";
 
 
 function App(props) {
@@ -22,6 +23,7 @@ function App(props) {
                         <Route path={'myPage'} element={<MyPage/>}></Route>
                         <Route path={'toyDetail'} element={<ToyDetail/>}></Route>
                         <Route path={'ToyRegis'} element={<ToyRegis/>}></Route>
+                        <Route path={'toyListBoard'} element={<ToyListBoard/>}></Route>
                         <Route path={'lee'} element={<Lee/>}></Route>
                     </Route>
                     {/* 그 외 개별 컴포넌트들 */}

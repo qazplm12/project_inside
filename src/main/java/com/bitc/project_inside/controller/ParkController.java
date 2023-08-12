@@ -24,6 +24,7 @@ public class ParkController {
 
     private final ToyService toyService;
 
+    // 프로젝트 등록
     @RequestMapping(value={"/toyProject/ToyRegis"}, method = RequestMethod.GET)
     public String toyProjectGet() throws Exception{
         return "success";
@@ -61,6 +62,15 @@ public class ParkController {
         }
     }
 
+    // 프로젝트 리스트
+    @RequestMapping(value = "toyProject/ToyListBoard", method = RequestMethod.GET)
+    public ModelAndView toyListBoardGet() throws Exception{
+        ModelAndView mv = new ModelAndView("toyProject/ToyListBoard");
+
+        return mv;
+    }
+
+    // 상세 보기 페이지
     @RequestMapping(value="toyProject/ToyDetail/{projectIdx}", method = RequestMethod.GET)
     public ModelAndView toyDetailGet(@PathVariable("projectIdx") int projectIdx ) throws Exception{
 
