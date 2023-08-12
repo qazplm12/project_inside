@@ -8,7 +8,7 @@ import Main from "./simComps/main/Main";
 import UserAuth from "./simComps/login&signup/UserAuth";
 import MyPage from "./simComps/myPage/MyPage";
 import Park from "./parkComps/Park";
-import ChallengeList from "./leeComps/ChallengeList";
+import ChallengeList from "./leeComps/chanllengeList/ChallengeList";
 
 
 function App(props) {

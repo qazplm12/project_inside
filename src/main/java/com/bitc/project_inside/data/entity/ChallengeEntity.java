@@ -2,6 +2,7 @@ package com.bitc.project_inside.data.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -35,6 +36,14 @@ public class ChallengeEntity {
 
     @Column
     private int challengeClass;
+
+    @Column(columnDefinition = "0")
+//    @ColumnDefault("0")
+    private int challengeCompletePerson;    // 필요없음!! 지워버렷
+
+    @Column
+    @ColumnDefault("0")
+    private int challengeCorrectPercent;
 
     @Column
     private int challengeScore;

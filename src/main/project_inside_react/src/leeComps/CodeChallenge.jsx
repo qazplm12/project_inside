@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
+import {useSearchParams} from "react-router-dom";
 
 function CodeChallenge(props) {
     const [challenge, setChallenge] = useState([]);
-    const [challengeTitle, setChallengeTitle] = useState('');
+
+    const [params, setParams] = useSearchParams();
+    const idx = params.get('idx');
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/challenge?idx=1`)
+        axios.get(`http://localhost:8080/server/challenge?idx=${idx}`)
             .then(res => {
                 // alert('통신 성공')
                 console.log(res.data);

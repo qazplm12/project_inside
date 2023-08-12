@@ -20,7 +20,7 @@ public class SolvedEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int solvedIdx;
 
-    private int solvedAlgoIdx;
+    private int solvedChallengeIdx;
 
     private String solvedContent;
 
@@ -28,9 +28,9 @@ public class SolvedEntity {
     private LocalDate solvedDate;
 
     @Builder
-    public SolvedEntity (int solvedIdx, int solvedAlgoIdx, String solvedContent, LocalDate solvedDate) {
+    public SolvedEntity (int solvedIdx, int solvedChallengeIdx, String solvedContent, LocalDate solvedDate) {
         this.solvedIdx = solvedIdx;
-        this.solvedAlgoIdx = solvedAlgoIdx;
+        this.solvedChallengeIdx = solvedChallengeIdx;
         this.solvedContent = solvedContent;
         this.solvedDate = solvedDate;
     }

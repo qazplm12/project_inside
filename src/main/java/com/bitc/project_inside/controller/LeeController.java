@@ -27,16 +27,50 @@ public class LeeController {
 
     private final LeeService leeService;
 
+    @RequestMapping(value="/challengeList", method = RequestMethod.GET)
+    public Object selectChallengeList() throws Exception {
+        List<ChallengeEntity> challenge = leeService.selectChallengeList();
+        return challenge;
+    }
+
+//    @RequestMapping(value="/challengeListState", method = RequestMethod.GET)
+//    public Object selectChallengeListState() throws Exception {
+//        List<ChallengeEntity> challenge = leeService.selectChallengeListState();
+//        return challenge;
+//    }
+
+    @RequestMapping(value="/challengeListClass", method = RequestMethod.GET)
+    public Object selectChallengeListClass(@RequestParam(value = "challengeClass") int challengeClass, @RequestParam(value = "state") int state) throws Exception { // 9는 아무런 값 없는것임
+        List<ChallengeEntity> challenge = null;
+        if (challengeClass == 9 && state != 9) {
+            challenge = leeService.selectChallengeListState(state);
+        }
+        else if (challengeClass != 9 && state == 9) {
+            challenge = leeService.selectChallengeListClass(challengeClass);
+        }
+        else if (challengeClass != 9 && state != 9) {
+            challenge = leeService.selectChallengeListClassState(challengeClass, state);
+        }
+        else {
+            challenge = leeService.selectChallengeList();
+        }
+
+        return challenge;
+    }
+
+
+
+
+
+
     @RequestMapping(value = "/challenge", method = RequestMethod.GET)
-    public Object selectChallenge (@RequestParam(value = "idx") int idx) throws Exception {
+    public Object selectChallenge(@RequestParam(value = "idx") int idx) throws Exception {
         ChallengeEntity challenge = leeService.selectChallenge(idx);    // DTO 말고 Entity 사용할 것
         return challenge;
     }
 
     @RequestMapping(value = "/challenge", method = RequestMethod.POST)
-    public String codeRunner(
-            @RequestBody Map<String, String> requestData
-            ) {
+    public String codeRunner(@RequestBody Map<String, String> requestData) {
         System.out.println("================크롤링 시작================");
 
         String language = requestData.get("language");

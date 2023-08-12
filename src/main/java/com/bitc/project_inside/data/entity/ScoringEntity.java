@@ -39,7 +39,7 @@ public class ScoringEntity {
     private String case5;
 
     @Column
-    private String answer;
+    private String correct;  // 정답 여부
 
     @Builder
     public ScoringEntity(
@@ -53,7 +53,7 @@ public class ScoringEntity {
             String case4,
             String case5,
             int scoringChallengeIdx,
-            String answer
+            String correct
     ) {
         this.scoringIdx = scoringIdx;
         this.props1 = props1;
@@ -65,6 +65,6 @@ public class ScoringEntity {
         this.case4 = case4;
         this.case5 = case5;
         this.scoringChallengeIdx = scoringChallengeIdx;
-        this.answer = answer;
+        this.correct = correct;
     }
 }

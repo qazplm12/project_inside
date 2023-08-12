@@ -13,5 +13,7 @@ public class ChallengeRequest {
     private String challengeParamExample;
     private String challengeSolutionExample;
     private int challengeClass;
+    private int challengeCompletePerson;
+    private int challengeCorrectPercent;
     private int challengeScore;
 }

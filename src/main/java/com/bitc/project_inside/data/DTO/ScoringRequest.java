@@ -19,5 +19,5 @@ public class ScoringRequest {
     private String case5;
 
     private int scoringAlgoIdx;
-    private String answer;
+    private String correct;
 }
