@@ -42,13 +42,12 @@ public class EmailController {
 
     // 회원가입
     @RequestMapping(value = "/insertPerson", method = RequestMethod.POST)
-    public String insertPerson(PersonEntity person) throws Exception {
+    public void insertPerson(PersonEntity person) throws Exception {
+        System.out.println(person);
 
         simService.insertPerson(person);
-        // insert 완료 후 redirect > 안먹힘
-        // 리액트에서 axios나 js로 해결해야 할듯함
 
-        return "";
+
     }
 
 }

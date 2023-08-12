@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -6,15 +6,35 @@ import {OverlayTrigger, Popover} from "react-bootstrap";
 
 // 가상 유저 정보
 import person from "../../commons/Person";
+import axios from "axios";
 
 function UserUI(props) {
 
+    const [alarmList, setAlarmList] = useState([]);
+
+    useEffect(() => {
+        axios.post('http://localhost:8080/simServer/getAlarmList', null, {
+            params: {
+                alarmToPerson: person.nickName,
+            }
+        })
+            .then((res) => {
+                setAlarmList(res.data);
+
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }, []);
+
+
     // 로그인 시 보여줄 UI
     if (props.isLoggedIn)
+
         return (
             <div className={'d-flex align-items-center me-5'}>
                 {/* 관리자 페이지 / 조건부 렌더링 걸어줘야 함*/}
-                <Link to={'admin'} className={'theme-link me-4'} >관리자 페이지</Link>
+                <Link to={'admin'} className={'theme-link me-4'}>관리자 페이지</Link>
                 <OverlayTrigger
                     trigger="click"
                     key={'ui1'}
@@ -29,7 +49,8 @@ function UserUI(props) {
                                 <div className={'p-5 py-2'}>
                                     <img src={person.imgSrc} alt="" className={'circle-background w-100'}/>
                                     <p className={'text-center m-0'}><strong>{person.email}</strong></p>
-                                    <p className={'text-center text-muted'}><small><strong>{person.nickName}</strong>(Lv.{person.level})</small></p>
+                                    <p className={'text-center text-muted'}>
+                                        <small><strong>{person.nickName}</strong>(Lv.{person.level})</small></p>
                                 </div>
                             </Popover.Header>
                             <Popover.Body className={'text-center'}>
@@ -52,7 +73,12 @@ function UserUI(props) {
                     overlay={
                         <Popover>
                             <Popover.Body>
-                                알람 리스트 들어갈 자리
+                                {alarmList.map((item, index, array) => (
+                                    <div key={index}>
+                                        <span>{item.alarmFromPerson}</span>
+                                        <span>{item.alarmFrom}</span>
+                                    </div>
+                                ))}
                             </Popover.Body>
                         </Popover>
                     }
@@ -69,11 +95,11 @@ function UserUI(props) {
                 </OverlayTrigger>
 
             </div>
-        )
+        );
     // 비로그인 시 보여줄 UI
     return <div className={'d-flex justify-content-around align-items-center me-5'}>
         <h5>
-            <Link to={'/userAuth/login'}className={'theme-link px-2 m-0'}>로그인</Link>
+            <Link to={'/userAuth/login'} className={'theme-link px-2 m-0'}>로그인</Link>
         </h5>
         <h5>
             <Link to={'/userAuth/signup'} className={'theme-link px-2 m-0'}>회원가입</Link>

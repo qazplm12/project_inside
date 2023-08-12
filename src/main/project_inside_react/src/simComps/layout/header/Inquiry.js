@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Form, FormSelect, Modal} from "react-bootstrap";
 import axios from "axios";
+import DisabledButton from "../../commons/DisabledButton";
 
 function Inquiry(props) {
 
@@ -8,6 +9,9 @@ function Inquiry(props) {
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
     const [content, setContent] = useState("");
+
+    // 유효성 검사를 위한 state
+    const [disabled, setDisabled] = useState(true);
 
     //  카테고리 종류
     const categoryList = [
@@ -17,6 +21,17 @@ function Inquiry(props) {
         "카테고리4",
         "카테고리5",
     ]
+
+    // 유효성 검사 / 모든 내용을 충족 시켜야 버튼 disabled가 풀림
+    useEffect(() => {
+
+        if (title.length > 0 && category >= 0 && content.length > 0) {
+            setDisabled(false);
+            console.log('통과')
+        } else {
+            setDisabled(true);
+        }
+    }, [title, category, content]);
 
     const sendInquiry = () => {
         // 유효성 검사 빈칸 예외
@@ -40,7 +55,6 @@ function Inquiry(props) {
     const handleClose = () => {
         props.showHandler();
     }
-    const handleShow = () => setShow(true);
 
     return (
         <Modal
@@ -58,7 +72,9 @@ function Inquiry(props) {
                 <h6>카테고리</h6>
                 <Form.Select className="me-2"
                              onChange={e => setCategory(e.target.value)}
+                             defaultValue={null}
                 >
+                    <option>문의 종류를 선택해주세요</option>
                     {categoryList.map((item, index) => (
                         <option key={index} value={index}>{item}</option>
                     ))}
@@ -83,10 +99,10 @@ function Inquiry(props) {
 
             {/* 문의 작성*/}
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <button className={'theme-outline-btn'} onClick={handleClose}>
                     닫기
-                </Button>
-                <Button type={'button'} variant="primary" onClick={sendInquiry}>작성</Button>
+                </button>
+                <DisabledButton onClick={sendInquiry} btnText={'작성'} disabled={disabled}/>
             </Modal.Footer>
         </Modal>
     );

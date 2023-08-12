@@ -118,6 +118,22 @@ function SignupForm(props) {
         }
     }, [nick]);
 
+    const insertPerson = () => {
+        axios.post("http://localhost:8080/insertPerson", null, {
+            params: {
+                personId: mailVal,
+                personNickName: nick,
+                personPassword: password2,
+            }
+        })
+            .then((resp) => {
+                // 회원가입 완료시 토큰 발급, 메인화면 or 로그인 탭으로 이동
+            })
+            .catch((err) => {
+                alert(err);
+            });
+    };
+
     useEffect(() => {
         if (!password1 || !password2) {
             setPasswordText(false);
@@ -139,7 +155,7 @@ function SignupForm(props) {
     }, [authDone, nickText, passwordText]);
 
     return (
-        <Form action="rhttp://localhost:8080/insetPerson" id={'frm'} method={'POST'}>
+        <Form>
             <p className={'text-start mt-3'}><strong>이메일</strong></p>
             <InputGroup className="my-2">
                 <InputGroup.Text id="basic-addon1"><i className="bi bi-envelope"></i></InputGroup.Text>
@@ -231,7 +247,7 @@ function SignupForm(props) {
                     : ""}
             </div>
             <div className={'d-grid my-5'}>
-                <DisabledButton btnText={'회원가입'} disabled={disabled}/>
+                <DisabledButton btnText={'회원가입'} disabled={disabled} onClick={insertPerson}/>
             </div>
         </Form>
     );

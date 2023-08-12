@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 function Col2(props) {
 
     return (
-        <div className={'bg-light col-sm-3 py-5'}>
+        <div className={'col-sm-4 p-5'}>
             <div className={'d-flex justify-content-between'}>
                 <p>최근 질문</p>
                 {/* 링크 질문 페이지로 */}

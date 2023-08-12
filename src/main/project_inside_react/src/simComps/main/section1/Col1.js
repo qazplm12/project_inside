@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 function Col1(props) {
 
     return (
-        <div className={'bg-light col-sm-3 py-5'}>
+        <div className={'col-sm-4 p-5'}>
             <div className={'d-flex justify-content-between'}>
                 <p>최신 문제</p>
                 <Link to={'/pi/challenge'} className={'theme-link'}>더보기</Link>

@@ -7,54 +7,63 @@ const inquirysPerPage = 7; // 한 페이지에 표시할 문의 수
 
 const dummyInquiryList = [
     {
+        idx : 1,
         category: "문제 풀이1",
         inquiryDt: "2023-08-10",
         title: "문의 제목1",
         content: "문의 내용1",
         nick: "문의자 닉네임1",
     }, {
+        idx : 2,
         category: "문제 풀이2",
         inquiryDt: "2023-08-10",
         title: "문의 제목2",
         content: "문의 내용2",
         nick: "문의자 닉네임2",
     }, {
+        idx : 3,
         category: "문제 풀이3",
         inquiryDt: "2023-08-10",
         title: "문의 제목3",
         content: "문의 내용3",
         nick: "문의자 닉네임3",
     }, {
+        idx : 4,
         category: "문제 풀이4",
         inquiryDt: "2023-08-10",
         title: "문의 제목4",
         content: "문의 내용4",
         nick: "문의자 닉네임4",
     }, {
+        idx : 5,
         category: "문제 풀이5",
         inquiryDt: "2023-08-10",
         title: "문의 제목5",
         content: "문의 내용5",
         nick: "문의자 닉네임5",
     }, {
+        idx : 6,
         category: "문제 풀이6",
         inquiryDt: "2023-08-10",
         title: "문의 제목6",
         content: "문의 내용6",
         nick: "문의자 닉네임6",
     }, {
+        idx : 7,
         category: "문제 풀이7",
         inquiryDt: "2023-08-10",
         title: "문의 제목7",
         content: "문의 내용7",
         nick: "문의자 닉네임7",
     }, {
+        idx : 8,
         category: "문제 풀이8",
         inquiryDt: "2023-08-10",
         title: "문의 제목8",
         content: "문의 내용8",
         nick: "문의자 닉네임8",
     }, {
+        idx : 9,
         category: "문제 풀이9",
         inquiryDt: "2023-08-10",
         title: "문의 제목9",
@@ -81,7 +90,9 @@ function InquiryList(props) {
     const sendAnswer = () => {
         axios.post('http://localhost:8080/simServer/sendAnswer', null, {
             params: {
+                inquiryIdx: target.idx,
                 inquiryAnswer: answer,
+                inquiryPersonNick: target.nick,
             }
         })
             .then((resp) => {
@@ -92,17 +103,17 @@ function InquiryList(props) {
             });
     }
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setTarget(null);
+    };
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        handleShow();
+        if (target != null) {
+            handleShow();
+        }
     }, [target]);
-
-    useEffect(() => {
-        setShow(false);
-    }, [])
-
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -110,16 +121,18 @@ function InquiryList(props) {
 
     return (
         <div>
-            <Table>
+            <Table style={{fontSize : "12px"}}>
                 <colgroup>
-                    <col/>
-                    <col/>
+                    <col width={"8%"}/>
+                    <col width={"18%"}/>
+                    <col width={"20%"}/>
                     <col/>
                     <col/>
                     {/*<col width={'9%'}/>*/}
                 </colgroup>
                 <thead>
                 <tr>
+                    <th>번호</th>
                     <th>날짜</th>
                     <th>종류</th>
                     <th>제목</th>
@@ -130,6 +143,7 @@ function InquiryList(props) {
                 <tbody>
                 {currentInquiry.map((inquiry, index, array) => (
                     <tr key={index}>
+                        <td className={'py-3'}>{inquiry.idx}</td>
                         <td className={'py-3'}>{inquiry.inquiryDt}</td>
                         <td className={'py-3'}>{inquiry.category}</td>
                         <td className={'py-3'}><a className={'theme-link'} onClick={

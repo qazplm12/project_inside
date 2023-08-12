@@ -1,16 +1,21 @@
 package com.bitc.project_inside.controller;
 
+import com.bitc.project_inside.data.entity.AlarmEntity;
+import com.bitc.project_inside.service.SimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/simServer")
 public class SimController {
+
+    private final SimService simService;
 
     // 계정 정보 변경
     @RequestMapping(value = "/updatePersonInfo", method = RequestMethod.POST)
@@ -62,16 +67,15 @@ public class SimController {
 
     }
 
-    @RequestMapping(value="/sendAnswer", method = RequestMethod.POST)
-    public void sendAnswer(
-            @RequestParam(value = "inquiryAnswer") String answer
+    @RequestMapping(value="/getAlarmList", method = RequestMethod.POST)
+    public List<AlarmEntity> getAlarmList(
+            @RequestParam(value = "alarmToPerson") String alarmToPerson
     ) throws Exception {
+        System.out.println("--------- /getAlarmList 서버 --------");
+        System.out.println("alarmToPerson : " + alarmToPerson);
 
-        System.out.println("/sendAnswer 서버 : " + answer);
-
-
+        return simService.getAlarmList(alarmToPerson);
     }
-
 
     @RequestMapping(value="/sendInquiry", method = RequestMethod.POST)
     public void sendInquiry(
@@ -81,14 +85,33 @@ public class SimController {
     ) throws Exception {
         System.out.println("/sendInquiry 서버 : ");
 
-
         System.out.println("inquiryTitle : " + title);
         System.out.println("inquiryCategory : " + category);
         System.out.println("inquiryContent : " + content);
 
+    }
 
 
+    @RequestMapping(value="/sendAnswer", method = RequestMethod.POST)
+    public void sendAnswer(
+            @RequestParam(value = "inquiryIdx") int inquiryIdx,
+            @RequestParam(value = "inquiryAnswer") String answer,
+            @RequestParam(value = "inquiryPersonNick") String alarmToPerson
+    ) throws Exception {
+        System.out.println("/sendAnswer 서버 : " + answer);
+        simService.makeAlarm(alarmToPerson, "admin", "inquiry");
 
+    }
+
+    @RequestMapping(value="/banningPerson", method = RequestMethod.POST)
+    public void banningPerson(
+            String personNickName,
+            String personBannedMsg
+    ) throws Exception {
+        System.out.println("---- /banningPerson 서버 ---- ");
+
+        System.out.println("personNickName : " + personNickName);
+        System.out.println("personBannedMsg: " + personBannedMsg);
 
     }
 
