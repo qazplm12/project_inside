@@ -22,15 +22,23 @@ public class SolvedEntity {
 
     private int solvedChallengeIdx;
 
+    private String solvedId;
+
     private String solvedContent;
 
     @CreatedDate
     private LocalDate solvedDate;
 
+//    @OneToOne
+//    @JoinColumn(name = "solvedId", referencedColumnName = "solutionId")
+//    @JoinColumn(name = "solvedIdx", referencedColumnName = "solutionIdx")
+//    private SolutionEntity solutionEntity;
+
     @Builder
-    public SolvedEntity (int solvedIdx, int solvedChallengeIdx, String solvedContent, LocalDate solvedDate) {
+    public SolvedEntity (int solvedIdx, int solvedChallengeIdx, String solvedId, String solvedContent, LocalDate solvedDate) {
         this.solvedIdx = solvedIdx;
         this.solvedChallengeIdx = solvedChallengeIdx;
+        this.solvedId = solvedId;
         this.solvedContent = solvedContent;
         this.solvedDate = solvedDate;
     }

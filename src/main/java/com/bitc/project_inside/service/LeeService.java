@@ -8,11 +8,11 @@ public interface LeeService {
 
     List<ChallengeEntity> selectChallengeList() throws Exception;
 
-    List<ChallengeEntity> selectChallengeListState(int state);
+    List<ChallengeEntity> selectChallengeListSolvedState(String id, int solvedState) throws Exception;
 
     List<ChallengeEntity> selectChallengeListClass(int challengeClass) throws Exception;
 
-    List<ChallengeEntity> selectChallengeListClassState(int challengeClass, int state);
+    List<ChallengeEntity> selectChallengeListClassSolvedState(int challengeClass, int solvedState);
 
     ChallengeEntity selectChallenge(int idx) throws Exception;
 }

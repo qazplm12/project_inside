@@ -38,8 +38,7 @@ public class ChallengeEntity {
     private int challengeClass;
 
     @Column(columnDefinition = "0")
-//    @ColumnDefault("0")
-    private int challengeCompletePerson;    // 필요없음!! 지워버렷
+    private int challengeCompletePerson;
 
     @Column
     @ColumnDefault("0")

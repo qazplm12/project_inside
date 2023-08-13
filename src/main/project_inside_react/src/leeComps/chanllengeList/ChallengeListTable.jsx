@@ -5,9 +5,9 @@ import {Link} from "react-router-dom";
 function ChallengeListTable(props) {
     const [challengeList, setChallengeList] = useState([]);
 
-    // const challengeListState = props.challengeListState;
-    const challengeListState = null;
-    const challengeListClass = props.challengeListClass;
+    const getChallengeList = props.sendChallengeList;
+    // setChallengeList(getChallengeList);
+    console.log(getChallengeList);
 
     useEffect(() => {
         axios.get("http://localhost:8080/server/challengeList")

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class SolvedRequest {
     private int solvedIdx;
     private int solvedChallengeIdx;
+    private String solvedId;
     private String solvedContent;
     private LocalDate solvedDate;
 }

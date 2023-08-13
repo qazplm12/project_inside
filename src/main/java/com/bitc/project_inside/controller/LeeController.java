@@ -33,23 +33,22 @@ public class LeeController {
         return challenge;
     }
 
-//    @RequestMapping(value="/challengeListState", method = RequestMethod.GET)
-//    public Object selectChallengeListState() throws Exception {
-//        List<ChallengeEntity> challenge = leeService.selectChallengeListState();
-//        return challenge;
-//    }
-
     @RequestMapping(value="/challengeListClass", method = RequestMethod.GET)
-    public Object selectChallengeListClass(@RequestParam(value = "challengeClass") int challengeClass, @RequestParam(value = "state") int state) throws Exception { // 9는 아무런 값 없는것임
+    public Object selectChallengeListClass(
+            @RequestParam(value = "id") String id,
+            @RequestParam(value = "challengeClass") int challengeClass,
+            @RequestParam(value = "solvedState") int solvedState
+    ) throws Exception { // 9는 아무런 값 없는것임
         List<ChallengeEntity> challenge = null;
-        if (challengeClass == 9 && state != 9) {
-            challenge = leeService.selectChallengeListState(state);
+
+        if (challengeClass == 9 && solvedState != 9) {
+            challenge = leeService.selectChallengeListSolvedState(id, solvedState);
         }
-        else if (challengeClass != 9 && state == 9) {
+        else if (challengeClass != 9 && solvedState == 9) {
             challenge = leeService.selectChallengeListClass(challengeClass);
         }
-        else if (challengeClass != 9 && state != 9) {
-            challenge = leeService.selectChallengeListClassState(challengeClass, state);
+        else if (challengeClass != 9 && solvedState != 9) {
+            challenge = leeService.selectChallengeListClassSolvedState(challengeClass, solvedState);
         }
         else {
             challenge = leeService.selectChallengeList();
