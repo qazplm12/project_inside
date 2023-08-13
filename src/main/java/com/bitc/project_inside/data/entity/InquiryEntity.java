@@ -31,5 +31,10 @@ public class InquiryEntity {
     @Column(length = 1000)
     private String inquiryAnswer;
 
+    // status : 1 - 답변 대기 / 2 - 답변 완료
+//    @Column
+//    @ColumnDefault("1")
+//    private String inquiryStatus;
+
 
 }

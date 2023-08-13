@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Col, ListGroup, Row, Tab} from "react-bootstrap";
 import Profile from "./Account/Profile";
 import MyCard from "./MyCard";
 import MyStack from "./Account/MyStack";
 import ChangePassword from "./Account/ChangePassword";
-
+import MyInquiry from "./MyInquiry";
 
 
 function MyPage(props) {
 
-    return(
+    return (
         <Tab.Container defaultActiveKey="#profile">
             <Row>
                 <Col sm={1}></Col>
@@ -27,6 +27,9 @@ function MyPage(props) {
                         <ListGroup.Item className={'py-3'} variant={'light'} action href="#question">
                             질문 / 답변
                         </ListGroup.Item>
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#inquiry">
+                            문의사항
+                        </ListGroup.Item>
                     </ListGroup>
                 </Col>
                 <Col sm={8}>
@@ -34,13 +37,13 @@ function MyPage(props) {
                         <Tab.Pane eventKey="#profile">
                             <h2 className={'text-start ms-5 mt-5'}>계정 관리</h2>
                             <MyCard title={'기본정보'}>
-                                <Profile />
+                                <Profile/>
                             </MyCard>
                             <MyCard title={'비밀번호'}>
-                                <ChangePassword />
+                                <ChangePassword/>
                             </MyCard>
                             <MyCard title={'주요기술 / 선호하는 언어'}>
-                                <MyStack />
+                                <MyStack/>
                             </MyCard>
                             <MyCard title={'알림 설정'}>
 
@@ -68,6 +71,12 @@ function MyPage(props) {
                             </MyCard>
                             <MyCard title={'내가 작성한 답변'}>
 
+                            </MyCard>
+                        </Tab.Pane> 
+                        <Tab.Pane eventKey="#inquiry">
+                            <h2 className={'text-start ms-5 mt-5'}>문의사항</h2>
+                            <MyCard title={'내가 작성한 문의'}>
+                                <MyInquiry />
                             </MyCard>
                         </Tab.Pane>
                     </Tab.Content>

@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import NavItem from "./NavItem";
+import NavItem from "../../commons/NavItem";
 import Inquiry from "./Inquiry";
 import {OverlayTrigger, Popover} from "react-bootstrap";
 import LanguageTab from "./LanguageTab";
-import {getElement} from "bootstrap/js/src/util";
-
 
 function HeaderNavbar(props) {
 
     const [show, setShow] = useState(false);
-    const [test, setTest] = useState(false);
 
     const showHandler = () => {
         setShow(false);
@@ -36,7 +33,7 @@ function HeaderNavbar(props) {
                                 overlay={
                                     <Popover>
                                         <Popover.Body>
-                                            <LanguageTab addClassName={'text-ceter'}/>
+                                            <LanguageTab addClassName={'text-center'}/>
                                         </Popover.Body>
                                     </Popover>
                                 }

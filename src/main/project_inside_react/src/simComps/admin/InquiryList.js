@@ -13,6 +13,7 @@ const dummyInquiryList = [
         title: "문의 제목1",
         content: "문의 내용1",
         nick: "문의자 닉네임1",
+        status: "1",
     }, {
         idx : 2,
         category: "문제 풀이2",
@@ -20,6 +21,7 @@ const dummyInquiryList = [
         title: "문의 제목2",
         content: "문의 내용2",
         nick: "문의자 닉네임2",
+        status: "1",
     }, {
         idx : 3,
         category: "문제 풀이3",
@@ -27,6 +29,7 @@ const dummyInquiryList = [
         title: "문의 제목3",
         content: "문의 내용3",
         nick: "문의자 닉네임3",
+        status: "2",
     }, {
         idx : 4,
         category: "문제 풀이4",
@@ -34,6 +37,7 @@ const dummyInquiryList = [
         title: "문의 제목4",
         content: "문의 내용4",
         nick: "문의자 닉네임4",
+        status: "2",
     }, {
         idx : 5,
         category: "문제 풀이5",
@@ -41,6 +45,7 @@ const dummyInquiryList = [
         title: "문의 제목5",
         content: "문의 내용5",
         nick: "문의자 닉네임5",
+        status: "1",
     }, {
         idx : 6,
         category: "문제 풀이6",
@@ -48,6 +53,7 @@ const dummyInquiryList = [
         title: "문의 제목6",
         content: "문의 내용6",
         nick: "문의자 닉네임6",
+        status: "1",
     }, {
         idx : 7,
         category: "문제 풀이7",
@@ -55,6 +61,7 @@ const dummyInquiryList = [
         title: "문의 제목7",
         content: "문의 내용7",
         nick: "문의자 닉네임7",
+        status: "2",
     }, {
         idx : 8,
         category: "문제 풀이8",
@@ -62,6 +69,7 @@ const dummyInquiryList = [
         title: "문의 제목8",
         content: "문의 내용8",
         nick: "문의자 닉네임8",
+        status: "1",
     }, {
         idx : 9,
         category: "문제 풀이9",
@@ -69,6 +77,7 @@ const dummyInquiryList = [
         title: "문의 제목9",
         content: "문의 내용9",
         nick: "문의자 닉네임9",
+        status: "2",
     },
 ]
 
@@ -121,11 +130,12 @@ function InquiryList(props) {
 
     return (
         <div>
-            <Table style={{fontSize : "12px"}}>
+            <Table style={{fontSize: "12px"}}>
                 <colgroup>
                     <col width={"8%"}/>
                     <col width={"18%"}/>
                     <col width={"20%"}/>
+                    <col/>
                     <col/>
                     <col/>
                     {/*<col width={'9%'}/>*/}
@@ -137,6 +147,7 @@ function InquiryList(props) {
                     <th>종류</th>
                     <th>제목</th>
                     <th>닉네임</th>
+                    <th>상태</th>
                     {/* 다른 필드들도 추가 */}
                 </tr>
                 </thead>
@@ -151,6 +162,11 @@ function InquiryList(props) {
                         }>{inquiry.title}</a>
                         </td>
                         <td className={'py-3'}>{inquiry.nick}</td>
+                        <td className={'py-3'}>{
+                            inquiry.status === "1" 
+                                ? <strong className={'text-danger'}>답변대기</strong> 
+                                : <strong className={'text-success'}>답변완료</strong>
+                        }</td>
                     </tr>
                 ))}
                 </tbody>
@@ -180,8 +196,10 @@ function InquiryList(props) {
                         <h4>답변 작성</h4>
                         <Form.Control
                             as="textarea"
-                            style={{ height: '100px' }}
+                            style={{height: '100px'}}
                             onChange={e => setAnswer(e.target.value)}
+                            // 답변 완료된 상태면 readOnly
+                            readOnly={target ? target.status === "1" ? "" : "readOnly" : ""}
                         />
                     </Modal.Body>
 
@@ -189,7 +207,7 @@ function InquiryList(props) {
                         <Button variant="secondary" onClick={handleClose}>
                             닫기
                         </Button>
-                        <Button type={'button'} variant="primary" onClick={sendAnswer}>답변</Button>
+                        <Button type={'button'} variant="primary" onClick={sendAnswer} disabled={target ? target.status === "1" ? "" : "disabled" : ""}>답변</Button>
                     </Modal.Footer>
                 </Modal>
             </Table>
@@ -221,7 +239,7 @@ function InquiryList(props) {
                     onClick={() => handlePageChange(Math.ceil(dummyInquiryList.length / inquirysPerPage))}/>
             </Pagination>
         </div>
-    )
+    );
 }
 
 export default InquiryList;

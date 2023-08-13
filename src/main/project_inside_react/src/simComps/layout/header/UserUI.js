@@ -2,15 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import {OverlayTrigger, Popover} from "react-bootstrap";
+import {ListGroup, OverlayTrigger, Popover} from "react-bootstrap";
 
 // 가상 유저 정보
 import person from "../../commons/Person";
 import axios from "axios";
 
+
 function UserUI(props) {
 
-    const [alarmList, setAlarmList] = useState([]);
+    const [alarmList, setAlarmList] = useState([])
 
     useEffect(() => {
         axios.post('http://localhost:8080/simServer/getAlarmList', null, {
@@ -20,7 +21,6 @@ function UserUI(props) {
         })
             .then((res) => {
                 setAlarmList(res.data);
-
             })
             .catch((err) => {
                 console.log(err)
@@ -64,7 +64,6 @@ function UserUI(props) {
                     <a className={'theme-link fs-5'}>{person.email}</a>
                 </OverlayTrigger>
 
-
                 <OverlayTrigger
                     trigger="click"
                     key={'ui2'}
@@ -72,13 +71,62 @@ function UserUI(props) {
                     rootClose
                     overlay={
                         <Popover>
-                            <Popover.Body>
-                                {alarmList.map((item, index, array) => (
-                                    <div key={index}>
-                                        <span>{item.alarmFromPerson}</span>
-                                        <span>{item.alarmFrom}</span>
-                                    </div>
-                                ))}
+                            <Popover.Body className={'border-bottom py-2'}>
+                                <h6 className={'m-0'}>알림</h6>
+                            </Popover.Body>
+                            <Popover.Body className={'px-0 py-0'}>
+                                <div className={'m-0 border-bottom'}>
+                                    <ListGroup id={'list-group-alarm'}>
+                                        {alarmList.map((item, index, array) => {
+                                            switch (item.alarmFrom) {
+                                                //
+                                                case "project":
+                                                    return (
+                                                        <ListGroup.Item key={index} className={'py-3'} variant={'light'} action
+                                                                        href={''} // 링크
+                                                        >
+                                                            <div className={"theme-link- mx-3"}>
+                                                                {/*문의사항 {item.content.length < 8*/}
+                                                                {/*? item.content*/}
+                                                                {/*: item.content.slice(0, 5) + '...'}의 답변이 등록되었습니다.*/}
+                                                                {item.alarmFromPerson}
+                                                                <span
+                                                                    className="badge rounded-pill bg-danger text-white">N</span>
+                                                            </div>
+                                                        </ListGroup.Item>
+                                                    )
+
+                                                case "project1":
+                                                    return (
+                                                        <ListGroup.Item key={index} className={'py-3'} variant={'light'} action
+                                                                        href={''} // 링크
+                                                        >
+                                                            프로젝트
+                                                            <div className={"theme-link- mx-3"}>
+                                                                {item.alarmFromPerson}
+                                                                <span
+                                                                    className="badge rounded-pill bg-danger text-white">N</span>
+                                                            </div>
+                                                        </ListGroup.Item>
+                                                    )
+
+                                                case "question":
+                                                    return (
+                                                        <ListGroup.Item key={index} className={'py-3'} variant={'light'} action
+                                                                        href={''} // 링크
+                                                        >
+                                                            문제풀이
+                                                            <div className={"theme-link- mx-3"}>
+                                                                {item.alarmFromPerson}
+                                                            </div>
+                                                        </ListGroup.Item>
+                                                    )
+
+                                            }
+
+                                        })}
+                                    </ListGroup>
+                                </div>
                             </Popover.Body>
                         </Popover>
                     }

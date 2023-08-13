@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import LogoNoBg from "../layout/header/LogoNoBg";
+import LogoNoBg from "../commons/LogoNoBg";
 import LoginForm from "./LoginForm";
 import {Tab, Tabs} from "react-bootstrap";
 import {useParams} from "react-router-dom";

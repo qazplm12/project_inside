@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../../images/logo_pi.jpg'
+import logo from '../../images/logo_pi.jpg'
 import {Link} from "react-router-dom";
 
 function Logo(props) {

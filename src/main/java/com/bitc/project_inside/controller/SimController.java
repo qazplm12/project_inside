@@ -90,6 +90,17 @@ public class SimController {
         System.out.println("inquiryContent : " + content);
 
     }
+    @RequestMapping(value="/updateInquiry", method = RequestMethod.POST)
+    public void updateInquiry(
+            @RequestParam(value = "inquiryIdx") int idx,
+            @RequestParam(value = "inquiryContent") String content
+    ) throws Exception {
+        System.out.println("------ /updateInquiry 서버 ------");
+
+        System.out.println("inquiryidx : " + idx);
+        System.out.println("inquiryContent : " + content);
+
+    }
 
 
     @RequestMapping(value="/sendAnswer", method = RequestMethod.POST)

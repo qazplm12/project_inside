@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import HeaderNavbar from "./HeaderNavbar";
-import Logo from "./Logo";
+import Logo from "../../commons/Logo";
 import UserUI from "./UserUI";
 
 function Header(props) {

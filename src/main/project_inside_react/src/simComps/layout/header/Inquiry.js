@@ -25,7 +25,7 @@ function Inquiry(props) {
     // 유효성 검사 / 모든 내용을 충족 시켜야 버튼 disabled가 풀림
     useEffect(() => {
 
-        if (title.length > 0 && category >= 0 && content.length > 0) {
+        if (title.length > 0 && (category >= 0 && category !== "") && content.length > 0) {
             setDisabled(false);
             console.log('통과')
         } else {
@@ -34,7 +34,6 @@ function Inquiry(props) {
     }, [title, category, content]);
 
     const sendInquiry = () => {
-        // 유효성 검사 빈칸 예외
 
         axios.post('http://localhost:8080/simServer/sendInquiry', null, {
             params: {
