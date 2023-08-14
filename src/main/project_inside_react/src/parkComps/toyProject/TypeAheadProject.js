@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import {Typeahead} from "react-bootstrap-typeahead";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import "../../simComps/myPage/Token.css";
-import theme from '../../theme.css'
-import axios from "axios";
+import "../../simComps/myPage/Account/Token.css";
 
 
 function TypeAheadProject(props) {

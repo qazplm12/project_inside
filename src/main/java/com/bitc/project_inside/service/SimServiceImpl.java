@@ -35,9 +35,9 @@ public class SimServiceImpl implements SimService{
     }
 
     @Override
-    public void makeAlarm(String alarmToPerson, String alarmFromPerson, String alarmFrom) throws Exception {
+    public void makeAlarm(String alarmToPerson, String alarmContent, String alarmFromPerson, String alarmFrom) throws Exception {
 
-        AlarmEntity alarmEntity = new AlarmEntity(alarmToPerson, alarmFromPerson, alarmFrom);
+        AlarmEntity alarmEntity = new AlarmEntity(alarmToPerson, alarmContent, alarmFromPerson, alarmFrom);
         alarmRepository.save(alarmEntity);
     }
 

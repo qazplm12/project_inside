@@ -109,8 +109,8 @@ public class SimController {
             @RequestParam(value = "inquiryAnswer") String answer,
             @RequestParam(value = "inquiryPersonNick") String alarmToPerson
     ) throws Exception {
-        System.out.println("/sendAnswer 서버 : " + answer);
-        simService.makeAlarm(alarmToPerson, "admin", "inquiry");
+//        System.out.println("/sendAnswer 서버 : " + answer);
+//        simService.makeAlarm(alarmToPerson, "admin", "inquiry");
 
     }
 

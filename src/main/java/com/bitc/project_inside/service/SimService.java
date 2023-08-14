@@ -14,7 +14,7 @@ public interface SimService {
 
     void insertPerson(PersonEntity person) throws Exception;
 
-    void makeAlarm(String alarmToPerson, String alarmFromPerson, String alarmFrom) throws Exception;
+    void makeAlarm(String alarmToPerson, String alarmContent, String alarmFromPerson, String alarmFrom) throws Exception;
 
     List<AlarmEntity> getAlarmList(String alarmToPerson) throws Exception;
 }

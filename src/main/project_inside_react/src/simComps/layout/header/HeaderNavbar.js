@@ -24,10 +24,6 @@ function HeaderNavbar(props) {
                     <ul className={"navbar-nav me-auto ms-4 mb-2 mb-lg-0"}>
                         <NavItem name={'알고리즘 문제'} to={'/pi/challenge'}/>
                         <NavItem name={'프로젝트 모집'} to={'/pi/project'}/>
-<<<<<<< HEAD
-                        <NavItem name={'언어별 공식 문서'} to={'/pi/codeLanguage'}/>
-                        <NavItem name={'문의'} to={'/pi/inquiry'}/>
-=======
                         <li className={"nav-item"}>
                             <OverlayTrigger
                                 trigger="click"
@@ -50,7 +46,6 @@ function HeaderNavbar(props) {
                             <a onClick={() => {setShow(true)}} className={"theme-link-white mx-3"}>문의</a>
                             <Inquiry showHandler={showHandler} show={show} />
                         </li>
->>>>>>> origin/usBranch1
                     </ul>
                     <form className={"d-flex"} role="search">
                         <select className="form-select w-50 me-2" aria-label="Default select example">

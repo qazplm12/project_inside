@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
@@ -32,8 +33,8 @@ public class AlarmEntity {
     private String alarmFrom; // 알람 보낸 곳
 
     //
-//    @Column
-//    private String alarmContent; // 문의 - 문의제목 / 문제 - 문제 제목 / 프로젝트 - 프로젝트 명
+    @Column
+    private String alarmContent; // 문의 - 문의제목 / 문제 - 문제 제목 / 프로젝트 - 프로젝트 명
     
     // N - 한번도 읽지 않음 / A - 알림 펼쳐봤지만 확인하지 않음 / Y - 확인함
     // N은 뱃지로 개수 카운트 / 알림에 new 배지 표현
@@ -41,16 +42,16 @@ public class AlarmEntity {
     // 리스트 클릭하여 내용 확인 시 Y로 값 변경
 
     @Column
-//    @ColumnDefault("N") //default 0
+    @ColumnDefault("N") //default 0
     private String alarmChecked;
 
     @Builder
     public AlarmEntity (String alarmToPerson,
-//                        String alarmContent,
+                        String alarmContent,
                         String alarmFromPerson,
                         String alarmFrom) {
         this.alarmToPerson = alarmToPerson;
-//        this.alarmToPerson = alarmToPerson;
+        this.alarmContent = alarmContent;
         this.alarmFromPerson = alarmFromPerson;
         this.alarmFrom = alarmFrom;
     }

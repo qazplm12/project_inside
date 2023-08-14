@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -32,9 +33,9 @@ public class InquiryEntity {
     private String inquiryAnswer;
 
     // status : 1 - 답변 대기 / 2 - 답변 완료
-//    @Column
-//    @ColumnDefault("1")
-//    private String inquiryStatus;
+    @Column
+    @ColumnDefault("1")
+    private String inquiryStatus;
 
 
 }
