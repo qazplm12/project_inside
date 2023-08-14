@@ -17,7 +17,7 @@ function HeaderNavbar(props) {
                     <ul className={"navbar-nav me-auto ms-4 mb-2 mb-lg-0"}>
                         <NavItem name={'알고리즘 문제'} to={'/pi/challenge'}/>
                         <NavItem name={'프로젝트 모집'} to={'/pi/project'}/>
-                        <NavItem name={'언어별 공식 문서'} to={'/pi/language'}/>
+                        <NavItem name={'언어별 공식 문서'} to={'/pi/codeLanguage'}/>
                         <NavItem name={'문의'} to={'/pi/inquiry'}/>
                     </ul>
                     <form className={"d-flex"} role="search">
