@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Link} from "react-router-dom";
 import ChallengeListTable from "./ChallengeListTable";
 import ChallengeListSidebar from "./ChallengeListSidebar";
 
@@ -72,10 +71,9 @@ function ChallengeList(props) {
                 </div>
                 <div className={'col-sm-3'}>
                     <ChallengeListSidebar/>
-                    <Link to={`http://localhost:3000/lee?idx=1`} className={'btn btn-primary'}>문제로 이동</Link>
                 </div>
             </div>
-
+        {/*  ================================== 페이징 자리 ==================================  */}
         </div>
     )
 }
