@@ -28,9 +28,6 @@ function ToyListBoard(props) {
                     <Button className={"ms-3"}>좋아요 순</Button>
                 </Col>
                 <Col sm className=" pb-3"><TypeSearchProject /></Col>
-                    {/* <Button type={"btn .theme-btn me-3"}>최신순</Button> */}
-                    {/* <Button type={"btn .theme-btn ms-3"}>좋아요 순</Button> */}
-                    {/* <TypeSearchProject /> */}
             </Row>
             <Row>
                 {/*  3개 씩 리스트 뿌려 주기  이건 컴포 넌트 를 통해서 만들기*/}
