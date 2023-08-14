@@ -2,6 +2,7 @@ import './App.css';
 import './theme.css'; // 메인테마 커스터 마이징
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React from "react";
+<<<<<<< HEAD
 import Layout from "./Layout";
 import Lee from "./leeComps/Lee";
 import Main from "./simComps/main/Main";
@@ -11,6 +12,16 @@ import ChallengeList from "./leeComps/chanllengeList/ChallengeList";
 import ToyRegis from "./parkComps/toyProject/ToyRegis";
 import ToyDetail from "./parkComps/toyProject/ToyDetail";
 import ToyListBoard from "./parkComps/toyProject/ToyListBoard";
+=======
+import Layout from "./simComps/layout/Layout";
+import Lee from "./Lee";
+import Main from "./simComps/main/Main";
+import UserAuth from "./simComps/login&signup/UserAuth";
+import MyPage from "./simComps/myPage/MyPage";
+import Park from "./parkComps/Park";
+import Admin from "./simComps/admin/Admin";
+
+>>>>>>> origin/usBranch1
 
 function App(props) {
     return (
@@ -21,10 +32,16 @@ function App(props) {
                         {/* 헤더, 푸터 필요한 컴포넌트들*/}
                         <Route path={'sim'} element={<Main/>}></Route>
                         <Route path={'myPage'} element={<MyPage/>}></Route>
+<<<<<<< HEAD
                         <Route path={'toyDetail'} element={<ToyDetail/>}></Route>
                         <Route path={'ToyRegis'} element={<ToyRegis/>}></Route>
                         <Route path={'toyListBoard'} element={<ToyListBoard/>}></Route>
                         <Route path={'challengeList'} element={<ChallengeList/>}></Route>
+=======
+                        <Route path={'admin'} element={<Admin/>}></Route>
+                        <Route path={'park'} element={<Park/>}></Route>
+                        <Route path={'lee'} element={<Lee/>}></Route>
+>>>>>>> origin/usBranch1
                     </Route>
                     {/* 그 외 개별 컴포넌트들 */}
                     <Route path={'/userAuth/:into'} element={<UserAuth/>}></Route>

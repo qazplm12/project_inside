@@ -36,6 +36,9 @@ public class PersonEntity implements UserDetails {
     @Column
     private int personTotalScore;
 
+//    @Column
+//    private String personImgPath;
+
     @Builder
     public PersonEntity(String personId, String personPassword, String auth) {
         this.personId = personId;

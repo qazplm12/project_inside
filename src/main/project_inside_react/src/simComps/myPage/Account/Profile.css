@@ -1,0 +1,9 @@
+.circle-background {
+    background-size: 10rem 13rem;
+    background-repeat: no-repeat;
+    border: 1px lightgray solid;
+    border-radius: 50%;
+    width: 10rem;
+    height: 10rem;
+
+}
