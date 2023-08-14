@@ -44,7 +44,7 @@ public class LeeServiceImpl implements LeeService {
                 challengeList.remove(challenge);
             }
         }
-        
+
         return challengeList;
     }
 
@@ -76,6 +76,11 @@ public class LeeServiceImpl implements LeeService {
             }
         }
         return challengeList;
+    }
+
+    @Override
+    public List<Integer> selectChallengeState(String userId) throws Exception {
+        return solvedRepository.selectSolvedState(userId);
     }
 
     @Override

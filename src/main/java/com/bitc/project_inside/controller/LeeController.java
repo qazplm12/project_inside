@@ -2,6 +2,7 @@ package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.DTO.ChallengeRequest;
 import com.bitc.project_inside.data.entity.ChallengeEntity;
+import com.bitc.project_inside.data.entity.SolvedEntity;
 import com.bitc.project_inside.service.LeeService;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.*;
@@ -28,13 +29,7 @@ public class LeeController {
     private final LeeService leeService;
 
     @RequestMapping(value="/challengeList", method = RequestMethod.GET)
-    public Object selectChallengeList() throws Exception {
-        List<ChallengeEntity> challenge = leeService.selectChallengeList();
-        return challenge;
-    }
-
-    @RequestMapping(value="/challengeListClass", method = RequestMethod.GET)
-    public Object selectChallengeListClass(
+    public Object selectChallengeList(
             @RequestParam(value = "userId") String userId,
             @RequestParam(value = "challengeClass") int challengeClass,
             @RequestParam(value = "solvedState") int solvedState
@@ -57,7 +52,11 @@ public class LeeController {
         return challenge;
     }
 
-
+    @RequestMapping(value = "/challengeListState", method = RequestMethod.GET)
+    public Object selectChallengeListState(@RequestParam(value = "userId") String userId) throws Exception {
+        List<Integer> solved = leeService.selectChallengeState(userId);
+        return solved;
+    }
 
 
 

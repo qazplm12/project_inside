@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
+import ChallengeListTableTd from "./ChallengeListTableTd";
 
 function ChallengeListTable(props) {
-    const [challengeList, setChallengeList] = useState([]);
+    // const [challengeList, setChallengeList] = useState([]);
 
     const getChallengeList = props.sendChallengeList;
+    const getSearch = props.sendSearch;
     // setChallengeList(getChallengeList); // 얘가 무한 랜더링
-    console.log(getChallengeList);
+    // console.log(getChallengeList);
 
     // useEffect(() => {
     //     axios.get("http://localhost:8080/server/challengeList")
@@ -23,12 +25,6 @@ function ChallengeListTable(props) {
 
     return (
         <div>
-            {/*<div>*/}
-            {/*    <button className={'theme-outline-btn'}  onClick={() => {*/}
-            {/*        setIsLoggedIn(!isLoggedIn);*/}
-            {/*    }}> 로그인 / 로그아웃 전환(UI 확인용)</button>*/}
-            {/*</div>*/}
-
             <table className={'table table-borderless table-hover border'}>
                 <thead className={'border'}>
                 <tr>
@@ -42,18 +38,28 @@ function ChallengeListTable(props) {
                 <tbody>
                 {
                     getChallengeList.map((item, index) => {
-                        // if (challengeListClass == null && challengeListState == null) {
+                        if (getSearch == null) {
                             return (
                                 <tr key={index}>
-                                    <td>{item.challengeState}</td>
+                                    <ChallengeListTableTd challengeIdx={item.challengeIdx}></ChallengeListTableTd>
                                     <td><Link to={`http://localhost:3000/lee?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link></td>
                                     <td>{item.challengeClass}</td>
                                     <td>{item.challengeCompletePerson}</td>
                                     <td>{item.challengeCorrectPercent}</td>
                                 </tr>
                             );
-                        // }
-
+                        }
+                        else if (item.challengeTitle.includes(getSearch)) { // includes : 제목에 검색어가 포함되면 true
+                            return (
+                                <tr key={index}>
+                                    <ChallengeListTableTd challengeIdx={item.challengeIdx}></ChallengeListTableTd>
+                                    <td><Link to={`http://localhost:3000/lee?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link></td>
+                                    <td>{item.challengeClass}</td>
+                                    <td>{item.challengeCompletePerson}</td>
+                                    <td>{item.challengeCorrectPercent}</td>
+                                </tr>
+                            );
+                        }
                     })
                 }
                 </tbody>
