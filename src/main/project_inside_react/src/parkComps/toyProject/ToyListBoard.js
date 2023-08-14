@@ -1,10 +1,23 @@
-import React from "react";
-import {Button, ButtonGroup, Col, Container, Row} from "react-bootstrap";
+import {Button,  Col, Container, Row} from "react-bootstrap";
 import Thumbnail from "./Thumbnail";
 import theme from "../../theme.css";
 import TypeSearchProject from "./TypeSearchProject";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 function ToyListBoard(props) {
+
+    const [toyProject, setToyProject] = useState([]);
+
+    useEffect(() => {
+        axios.get("pi/toyProject/ToyListBoard")
+            .then((e) =>{
+                setToyProject(e.data);
+            })
+            .catch((error) =>{
+                console.log('전송실패'+error);
+            })
+    }, []);
 
     return (
         <Container>
@@ -21,7 +34,7 @@ function ToyListBoard(props) {
             </Row>
             <Row>
                 {/*  3개 씩 리스트 뿌려 주기  이건 컴포 넌트 를 통해서 만들기*/}
-                    <Thumbnail />
+                    <Thumbnail  />
             </Row>
         </Container>
     )

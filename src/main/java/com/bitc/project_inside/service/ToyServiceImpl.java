@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,12 @@ public class ToyServiceImpl implements  ToyService{
     @Override
     public ProjectEntity selectBoard(int projectIdx) throws Exception {
         return (ProjectEntity) projectRepository.findAllById(Collections.singleton(projectIdx));
+    }
+
+
+    @Override
+    public List<ProjectEntity> selectListProject() throws Exception {
+        return projectRepository.findByProjectIdxBetween(1,3);
     }
 
 

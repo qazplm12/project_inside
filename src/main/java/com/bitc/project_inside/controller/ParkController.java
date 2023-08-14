@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RequiredArgsConstructor
@@ -64,10 +65,12 @@ public class ParkController {
 
     // 프로젝트 리스트
     @RequestMapping(value = "toyProject/ToyListBoard", method = RequestMethod.GET)
-    public ModelAndView toyListBoardGet() throws Exception{
-        ModelAndView mv = new ModelAndView("toyProject/ToyListBoard");
+    public List<ProjectEntity> toyListBoardGet() throws Exception{
 
-        return mv;
+        List<ProjectEntity> projectEntity = toyService.selectListProject();
+
+
+        return projectEntity;
     }
 
     // 상세 보기 페이지
@@ -107,8 +110,6 @@ public class ParkController {
     }
 
     private String generateRandomFileName() {
-        // 랜덤한 파일 이름을 생성하는 로직을 구현합니다.
-        // 예시로 현재 시간과 랜덤 숫자를 조합하여 파일 이름을 생성하는 로직을 가정합니다.
         return System.currentTimeMillis() + "_" + Math.random();
     }
 
