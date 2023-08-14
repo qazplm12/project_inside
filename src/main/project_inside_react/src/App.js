@@ -7,15 +7,10 @@ import Lee from "./leeComps/Lee";
 import Main from "./simComps/main/Main";
 import UserAuth from "./simComps/login&signup/UserAuth";
 import MyPage from "./simComps/myPage/MyPage";
-<<<<<<< HEAD
-import Park from "./parkComps/Park";
 import ChallengeList from "./leeComps/chanllengeList/ChallengeList";
-=======
 import ToyRegis from "./parkComps/toyProject/ToyRegis";
 import ToyDetail from "./parkComps/toyProject/ToyDetail";
 import ToyListBoard from "./parkComps/toyProject/ToyListBoard";
->>>>>>> origin/yutibranch
-
 
 function App(props) {
     return (
@@ -26,15 +21,10 @@ function App(props) {
                         {/* 헤더, 푸터 필요한 컴포넌트들*/}
                         <Route path={'sim'} element={<Main/>}></Route>
                         <Route path={'myPage'} element={<MyPage/>}></Route>
-<<<<<<< HEAD
-                        <Route path={'park'} element={<Park/>}></Route>
-                        <Route path={'challengeList'} element={<ChallengeList/>}></Route>
-=======
                         <Route path={'toyDetail'} element={<ToyDetail/>}></Route>
                         <Route path={'ToyRegis'} element={<ToyRegis/>}></Route>
                         <Route path={'toyListBoard'} element={<ToyListBoard/>}></Route>
-                        <Route path={'lee'} element={<Lee/>}></Route>
->>>>>>> origin/yutibranch
+                        <Route path={'challengeList'} element={<ChallengeList/>}></Route>
                     </Route>
                     {/* 그 외 개별 컴포넌트들 */}
                     <Route path={'/userAuth/:into'} element={<UserAuth/>}></Route>
