@@ -19,12 +19,12 @@ public interface SolvedRepository extends JpaRepository<SolvedEntity, Integer> {
 //            "WHERE S.solvedChallengeIdx = :state AND S.solvedId = :id" +
 //            "")
 
-// 큰 따옴표 끝에 꼭 띄어쓰기 ....
+// 큰 따옴표 끝에 꼭 띄어쓰기 ...., 쿼리 메소드에선 group by, having 사용 불가
     @Query(value = "" +
             "SELECT solvedChallengeIdx " +
             "FROM SolvedEntity " +
-            "WHERE solvedId = :id " +
+            "WHERE solvedId = :userId " +
             "GROUP BY solvedChallengeIdx " +
             "")
-    List<Integer> selectSolvedState(@Param("id") String id) throws Exception;
+    List<Integer> selectSolvedState(@Param("userId") String userId) throws Exception;
 }

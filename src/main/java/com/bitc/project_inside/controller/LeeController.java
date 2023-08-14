@@ -35,20 +35,20 @@ public class LeeController {
 
     @RequestMapping(value="/challengeListClass", method = RequestMethod.GET)
     public Object selectChallengeListClass(
-            @RequestParam(value = "id") String id,
+            @RequestParam(value = "userId") String userId,
             @RequestParam(value = "challengeClass") int challengeClass,
             @RequestParam(value = "solvedState") int solvedState
     ) throws Exception { // 9는 아무런 값 없는것임
         List<ChallengeEntity> challenge = null;
 
         if (challengeClass == 9 && solvedState != 9) {
-            challenge = leeService.selectChallengeListSolvedState(id, solvedState);
+            challenge = leeService.selectChallengeListSolvedState(userId, solvedState);
         }
         else if (challengeClass != 9 && solvedState == 9) {
             challenge = leeService.selectChallengeListClass(challengeClass);
         }
         else if (challengeClass != 9 && solvedState != 9) {
-            challenge = leeService.selectChallengeListClassSolvedState(challengeClass, solvedState);
+            challenge = leeService.selectChallengeListClassSolvedState(userId, challengeClass, solvedState);
         }
         else {
             challenge = leeService.selectChallengeList();

@@ -26,8 +26,8 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public List<ChallengeEntity> selectChallengeListSolvedState(String id, int solvedState) throws Exception {
-        List<Integer> solvedStateList = solvedRepository.selectSolvedState(id);   // 쿼리 메소드에선 group by, having 사용 불가
+    public List<ChallengeEntity> selectChallengeListSolvedState(String userId, int solvedState) throws Exception {
+        List<Integer> solvedStateList = solvedRepository.selectSolvedState(userId);   // 쿼리 메소드에선 group by, having 사용 불가
 
         List<ChallengeEntity> challengeList = new ArrayList<>();
 
@@ -54,8 +54,28 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public List<ChallengeEntity> selectChallengeListClassSolvedState(int challengeClass, int solvedState) {
-        return null;
+    public List<ChallengeEntity> selectChallengeListClassSolvedState(String userId, int challengeClass, int solvedState) throws Exception {
+        List<Integer> solvedStateList = solvedRepository.selectSolvedState(userId); // 푼 문제 리스트
+        List<ChallengeEntity> challengeList = new ArrayList<>();    // 해당 난이도 리스트 출력
+
+        if (solvedState == 1) { // 해결 한 문제인 경우
+            for (int i : solvedStateList) {
+//                ChallengeEntity challenge = challengeRepository.findByChallengeIdx(i);
+                ChallengeEntity challenge = challengeRepository.findByChallengeIdxAndChallengeClass(i, challengeClass);
+                if (challenge == null) {
+                    break;
+                }
+                challengeList.add(challenge);
+            }
+        }
+        else {  // 해결 못한 문제인 경우
+            challengeList = challengeRepository.findAllByChallengeClassOrderByChallengeIdx(challengeClass);    // 해당 난이도 리스트 출력
+            for (int i : solvedStateList) {
+                ChallengeEntity challenge = challengeRepository.findByChallengeIdx(i);
+                challengeList.remove(challenge);
+            }
+        }
+        return challengeList;
     }
 
     @Override

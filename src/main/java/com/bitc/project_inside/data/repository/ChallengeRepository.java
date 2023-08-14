@@ -14,5 +14,5 @@ public interface ChallengeRepository extends JpaRepository<ChallengeEntity, Inte
 
     ChallengeEntity findByChallengeIdx(int idx) throws Exception;
 
-
+    ChallengeEntity findByChallengeIdxAndChallengeClass(int i, int challengeClass);
 }

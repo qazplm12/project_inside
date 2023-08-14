@@ -6,20 +6,20 @@ function ChallengeListTable(props) {
     const [challengeList, setChallengeList] = useState([]);
 
     const getChallengeList = props.sendChallengeList;
-    // setChallengeList(getChallengeList);
+    // setChallengeList(getChallengeList); // 얘가 무한 랜더링
     console.log(getChallengeList);
 
-    useEffect(() => {
-        axios.get("http://localhost:8080/server/challengeList")
-            .then(res => {
-                // console.log("통신 성공 : " + res.data);
-
-                setChallengeList(res.data);
-            })
-            .catch(err => {
-                console.log("통신 에러 : " + err);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios.get("http://localhost:8080/server/challengeList")
+    //         .then(res => {
+    //             console.log("통신 성공 : " + res.data);
+    //
+    //             setChallengeList(res.data);
+    //         })
+    //         .catch(err => {
+    //             console.log("통신 에러 : " + err);
+    //         });
+    // }, []);
 
     return (
         <div>
@@ -41,7 +41,7 @@ function ChallengeListTable(props) {
                 </thead>
                 <tbody>
                 {
-                    challengeList.map((item, index) => {
+                    getChallengeList.map((item, index) => {
                         // if (challengeListClass == null && challengeListState == null) {
                             return (
                                 <tr key={index}>
@@ -56,13 +56,6 @@ function ChallengeListTable(props) {
 
                     })
                 }
-                {/*<tr>*/}
-                {/*    <td>1</td>*/}
-                {/*    <td>1</td>*/}
-                {/*    <td>1</td>*/}
-                {/*    <td>1</td>*/}
-                {/*    <td>1</td>*/}
-                {/*</tr>*/}
                 </tbody>
             </table>
         </div>
