@@ -32,6 +32,7 @@ public class SimController {
             System.out.println("personProfileImg : " + personProfileImg);
             // 프로필 사진 변경일때
 
+
             // 로그인 정보 받아와서 personEntity 객체 생성
 
             // 매개변수(파일 경로정보)를 personEntity 에 추가

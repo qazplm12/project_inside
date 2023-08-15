@@ -9,6 +9,7 @@ import MyInquiry from "./MyInquiry";
 
 function MyPage(props) {
 
+
     return (
         <Tab.Container defaultActiveKey="#profile">
             <Row>
