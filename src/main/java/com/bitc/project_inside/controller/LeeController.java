@@ -60,7 +60,7 @@ public class LeeController {
 
 
 
-
+    // 문제 정보 호출
     @RequestMapping(value = "/challenge", method = RequestMethod.GET)
     public Object selectChallenge(@RequestParam(value = "idx") int idx) throws Exception {
         ChallengeEntity challenge = leeService.selectChallenge(idx);    // DTO 말고 Entity 사용할 것

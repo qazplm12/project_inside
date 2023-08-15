@@ -1,13 +1,31 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CodeRunner from "./CodeRunner";
 import axios from "axios";
 import CodeChallenge from "./CodeChallenge";
+import {useSearchParams} from "react-router-dom";
 
 function Lee(props) {
     const [language, setLanguage] = useState('JavaScript');
-    const [code, setCode] = useState(`var message = "Hello JavaScript";
-console.log(message)`);
+    const [code, setCode] = useState('');
     const [result, setResult] = useState('');
+    const [sendChallenge, setSendChallenge] = useState([]);
+
+    const [params, setParams] = useSearchParams();
+    const idx = params.get('idx');
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/server/challenge?idx=${idx}`)  // 문제 정보 호출
+            .then(res => {
+                // alert('통신 성공')
+                console.log(res.data);
+
+                setSendChallenge(res.data);
+            })
+            .catch(err => {
+                alert('통신 실패')
+                console.log(err);
+            });
+    }, []);
 
     const handleSelect = (e) => {
         setLanguage(e.target.value);
@@ -41,7 +59,7 @@ console.log(message)`);
     }
 
     const handleSubmit = (e) => {
-        
+        // axois.post('')
     }
 
     return (
@@ -63,10 +81,10 @@ console.log(message)`);
             </div>
             <div className={'row'}>
                 <div className={'col-sm-5 border border-1 border-end-0 p-0'}>
-                    <CodeChallenge/>
+                    <CodeChallenge sendChallenge={sendChallenge}/>
                 </div>
                 <div className={'col-sm-7 p-0'}>
-                    <CodeRunner id={'code-runner'} style={{width: '100%', height: '25em'}} getCode={getCode} sendResult={result}/>
+                    <CodeRunner id={'code-runner'} style={{width: '100%', height: '25em'}} getCode={getCode} sendResult={result} sendChallenge={sendChallenge}/>
                 </div>
             </div>
             <div className={'row'}>

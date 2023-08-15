@@ -1,20 +1,21 @@
 import React, {useEffect, useState} from 'react';
 
 function CodeRunner(props) {
-    const [code, setCode] = useState(`var message = "Hello JavaScript";
-console.log(message)`);
-    const [result, setResult] = useState('');
+    const getChallenge = props.sendChallenge;
+    const getResult = props.sendResult;
+
+    const [code, setCode] = useState(getChallenge.challengeTemplateJava);  // 문자열은 유지 되는데 왜 db에서 불러오는건 안되는지 모르겠엄
 
     useEffect(() => {
-        setResult(props.sendResult);
-    }); // []가 없기 때문에, 상시로 어떤 값이든 바뀔때 마다 실행됨
+        setCode(getChallenge.challengeTemplateJava);
+    }, [getChallenge]);
 
     useEffect(() => {   // 입력 값이 밀릴때 방법
         setCode(code)
         props.getCode(code);
 
         console.log(code)
-    }, [code]);
+    }, [code, props.getCode]);
 
     return (
         <div className={'container-sm'}>
@@ -28,12 +29,6 @@ console.log(message)`);
             <div className={'row'}>
                 <div className={'col-sm border border-1 border-top-0'} style={{height: '36vh'}} >
                     <textarea name="" id="" cols="30" rows="10" value={code} onChange={(e) => setCode(e.target.value)}></textarea>
-                    {/*<div className={'code-idx'}>*/}
-                    {/*    <div>1</div>*/}
-                    {/*</div>*/}
-                    {/*<div className={'code-text'}>*/}
-                    {/*    <div>Hello World!</div>*/}
-                    {/*</div>*/}
                 </div>
             </div>
             <div className={'row'}>
@@ -47,7 +42,7 @@ console.log(message)`);
             <div className={'row'}>
 
                 <div className={'col-sm border border-1 border-top-0'} style={{height: '36vh'}}>
-                    <textarea name="" id="" cols="30" rows="10" value={result}>실행 결과 확인</textarea>
+                    <textarea name="" id="" cols="30" rows="10" value={getResult}>실행 결과 확인</textarea>
                 </div>
             </div>
         </div>

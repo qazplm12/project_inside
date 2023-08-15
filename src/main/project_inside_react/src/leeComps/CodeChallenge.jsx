@@ -3,24 +3,7 @@ import axios from "axios";
 import {useSearchParams} from "react-router-dom";
 
 function CodeChallenge(props) {
-    const [challenge, setChallenge] = useState([]);
-
-    const [params, setParams] = useSearchParams();
-    const idx = params.get('idx');
-
-    useEffect(() => {
-        axios.get(`http://localhost:8080/server/challenge?idx=${idx}`)
-            .then(res => {
-                // alert('통신 성공')
-                console.log(res.data);
-
-                setChallenge(res.data);
-            })
-            .catch(err => {
-                alert('통신 실패')
-                console.log(err);
-            });
-    }, []);
+    const challenge = props.sendChallenge;
 
     return (
         <div className={'container-sm'} style={{height: '100%'}}>
