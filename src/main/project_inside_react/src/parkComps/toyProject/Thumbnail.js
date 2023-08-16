@@ -1,23 +1,40 @@
-import {Button, Card} from "react-bootstrap";
+import {Button, Card, Col, Row} from "react-bootstrap";
 
-function thumbnail(props){
+function Thumbnail(props) {
+    const { projectTitle,projectThumbnail, projectIdx } = props.toyProject;
 
-    return(
-        // 썸내일 이지미 및 관련 텍스트 3개씩 뿌려주는 컴포넌트
-        <Card style={{ width: '18rem' }}>
+    // 3줄씩 만들기 위한 함수
+    const thumbnailCard = (e) => (
+        <Card style={{ width: '18rem' }} className={"ms-3"} key={projectIdx}>
             <Card.Header>
-                <Card.Img variant="top" src="holder.js/100px180" />
+                <Card.Img variant="top" src={"/images/thumbnail/"+projectThumbnail} />
             </Card.Header>
             <Card.Body>
-                <Card.Title><p>프로젝트내용</p></Card.Title>
-                <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
-                </Card.Text>
-                <Button variant="primary">Go somewhere</Button>
+                <Card.Title>{projectTitle}</Card.Title>
             </Card.Body>
         </Card>
     )
+
+    const thumbnailSize = 3;
+    const chunksThumbnail = [];
+
+    for (let i = 0; i < ; i += thumbnailSize) {
+        chunksThumbnail.push(props.toyProject.slice(i, i + thumbnailSize));
+    }
+
+    return (
+        <div>
+            {chunksThumbnail.map((chunk, index) => (
+                <Row key={index} className="mb-3">
+                    {chunk.map((project, projectIndex) => (
+                        <Col key={projectIndex} className="d-flex justify-content-center">
+                            {thumbnailCard(project)}
+                        </Col>
+                    ))}
+                </Row>
+            ))}
+        </div>
+    );
 }
 
-export default thumbnail;
+export default Thumbnail;

@@ -5,6 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import TypeAheadProject from "./TypeAheadProject";
 import theme from '../../theme.css'
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -20,6 +21,8 @@ function Park(props) {
     const [projectThumbnail, setProjectThumbnail] = useState(null);
     const [levels, setLevels] = useState("1");
 
+    const locationMove = useNavigate();
+
     const handleTagSelectionInParent = (selectedTags) => {
         setProjectCode(selectedTags);
     };
@@ -32,10 +35,6 @@ function Park(props) {
 
     const toyRegistered = e =>{
         e.preventDefault();
-
-        const thumbNailChange = (e) =>{
-
-        }
 
         console.log('project thumbnil', projectThumbnail)
 
@@ -56,6 +55,7 @@ function Park(props) {
             }
         })
         .then(function(data){
+            locationMove("/pi/toyListBoard")
             console.log('확인'+data)
         })
         .catch(function(err){

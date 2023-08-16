@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -67,10 +67,7 @@ public class ParkController {
     @RequestMapping(value = "toyProject/ToyListBoard", method = RequestMethod.GET)
     public List<ProjectEntity> toyListBoardGet() throws Exception{
 
-        List<ProjectEntity> projectEntity = toyService.selectListProject();
-
-
-        return projectEntity;
+        return toyService.selectListProject();
     }
 
     // 상세 보기 페이지
@@ -97,10 +94,12 @@ public class ParkController {
         String savedImagePath = uploadDir + File.separator + fileName;
 
         try {
-            byte[] imageData = toyThumbnailFile.getBytes();
+            byte[] imageData = image.getBytes();;
             File imageFile = new File(savedImagePath);
 
-            FileCopyUtils.copy(imageData, imageFile);
+            try(FileOutputStream fos = new FileOutputStream(imageFile)){
+                fos.write(imageData);
+            }
 
             return fileName;
         } catch (IOException e) {

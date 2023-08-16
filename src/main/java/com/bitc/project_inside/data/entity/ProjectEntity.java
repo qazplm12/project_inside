@@ -28,7 +28,7 @@ public class ProjectEntity {
     @Column
     private String projectLeaderId; //
 
-    @Column(length = 500)
+    @Column(length = 5000)
     private String projectThumbnail; //
 
     @Column
@@ -46,7 +46,7 @@ public class ProjectEntity {
     @Column
     private String projectLanguage; //
 
-    @Column(length = 5000)
+    @Column(length = 500000)
     private String projectContent; //
 
     @Column(nullable = false)

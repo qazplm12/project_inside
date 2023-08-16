@@ -29,8 +29,6 @@ public class ToyServiceImpl implements  ToyService{
 
     @Override
     public List<ProjectEntity> selectListProject() throws Exception {
-        return projectRepository.findByProjectIdxBetween(1,3);
+        return projectRepository.findAll();
     }
-
-
 }
