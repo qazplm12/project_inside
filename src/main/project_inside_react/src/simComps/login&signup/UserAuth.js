@@ -23,16 +23,18 @@ function UserAuth(props) {
 
     return (
         <div className={'theme-bg py-5'} style={{height:'100vh'}}>
-            {/* 이동하는 gif */}
+            {/* 누르면 사라지는 이동하는 gif */}
             <div className={'position-absolute top-50 start-50 '}>
+                <HappyCat />
                 <HappyCat />
             </div>
             <div className={'container'}>
                 <div className={'row'}>
                     <div className={'col-8 text-start py-5'}>
                         <LogoNoBg/>
-                        <h1 className={'pt-5 mt-5 display-4 ms-5'}>Project Inside</h1>
-                        <p className={'ms-5'}>쏼라쏼라</p>
+                        <h1 className={'pt-5 mt-5 mb-3 ms-5 display-4'}><strong>Project Inside</strong></h1>
+                        <p className={'ms-5 ps-1'}><strong className={'text-white'}>알고리즘 문제</strong>와 <strong className={'text-white'}>프로젝트 협업</strong> 두 마리 고양이를 모두 잡을 수 있는 플랫폼을 소개합니다.</p>
+                        <p className={'ms-5 ps-1'}>문제 해결력과 협업 능력을 함께 키워가며, 멤버들과 함께 성장해나가세요.</p>
                     </div>
                     <div className={'col-4 my-5 bg-white pt-0 rounded-3 shadow-lg'} style={{border:"1px solid gray"}}>
                         <Tabs

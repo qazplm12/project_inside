@@ -97,8 +97,9 @@ function InquiryList(props) {
     const [answer, setAnswer] = useState("");
 
     const sendAnswer = () => {
-        axios.post('http://localhost:8080/simServer/sendAnswer', null, {
+        axios.post('http://localhost:8080/simServer/sendInquiryAnswer', null, {
             params: {
+                inquiryTitle : target.title,
                 inquiryIdx: target.idx,
                 inquiryAnswer: answer,
                 inquiryPersonNick: target.nick,

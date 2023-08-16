@@ -17,7 +17,7 @@ public class SimController {
 
     private final SimService simService;
 
-    // 계정 정보 변경
+    // 계정 관련
     @RequestMapping(value = "/updatePersonInfo", method = RequestMethod.POST)
     public void updatePersonInfo(
             @RequestParam(value = "personProfileImg", required = false) MultipartFile personProfileImg,
@@ -32,7 +32,6 @@ public class SimController {
             System.out.println("personProfileImg : " + personProfileImg);
             // 프로필 사진 변경일때
 
-
             // 로그인 정보 받아와서 personEntity 객체 생성
 
             // 매개변수(파일 경로정보)를 personEntity 에 추가
@@ -45,7 +44,6 @@ public class SimController {
             // 닉네임 변경일때
 
         }
-
 
         if (personPassword != null) {
             System.out.println("personPassword : " + personPassword);
@@ -68,7 +66,20 @@ public class SimController {
 
     }
 
-    @RequestMapping(value="/getAlarmList", method = RequestMethod.POST)
+    @RequestMapping(value = "/banningPerson", method = RequestMethod.POST)
+    public void banningPerson(
+            String personNickName,
+            String personBannedMsg
+    ) throws Exception {
+        System.out.println("---- /banningPerson 서버 ---- ");
+
+        System.out.println("personNickName : " + personNickName);
+        System.out.println("personBannedMsg: " + personBannedMsg);
+
+    }
+
+    // 알림 관련
+    @RequestMapping(value = "/getAlarmList", method = RequestMethod.POST)
     public List<AlarmEntity> getAlarmList(
             @RequestParam(value = "alarmToPerson") String alarmToPerson
     ) throws Exception {
@@ -78,7 +89,30 @@ public class SimController {
         return simService.getAlarmList(alarmToPerson);
     }
 
-    @RequestMapping(value="/sendInquiry", method = RequestMethod.POST)
+    @RequestMapping(value = "/readAlarm", method = RequestMethod.POST)
+    public void readAlarm(
+            @RequestParam(value = "alarmIdx") int alarmIdx
+    ) throws Exception {
+        System.out.println("--------- /readAlarm 서버 --------");
+        System.out.println("alarmToPerson : " + alarmIdx);
+
+        simService.readAlarm(alarmIdx);
+    }
+
+    @RequestMapping(value = "/readAlarmList", method = RequestMethod.POST)
+    public void readAlarmList(
+            @RequestParam(value = "alarmToPerson") String alarmToPerson
+    ) throws Exception {
+        System.out.println("--------- /readAlarmList 서버 --------");
+        System.out.println("alarmToPerson : " + alarmToPerson);
+
+        simService.readAlarmList(alarmToPerson);
+    }
+
+    
+    // 문의사항 관련
+    
+    @RequestMapping(value = "/sendInquiry", method = RequestMethod.POST)
     public void sendInquiry(
             @RequestParam(value = "inquiryTitle") String title,
             @RequestParam(value = "inquiryCategory") String category,
@@ -91,7 +125,8 @@ public class SimController {
         System.out.println("inquiryContent : " + content);
 
     }
-    @RequestMapping(value="/updateInquiry", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/updateInquiry", method = RequestMethod.POST)
     public void updateInquiry(
             @RequestParam(value = "inquiryIdx") int idx,
             @RequestParam(value = "inquiryContent") String content
@@ -104,28 +139,22 @@ public class SimController {
     }
 
 
-    @RequestMapping(value="/sendAnswer", method = RequestMethod.POST)
-    public void sendAnswer(
+    @RequestMapping(value = "/sendInquiryAnswer", method = RequestMethod.POST)
+    public void sendInquiryAnswer(
+            @RequestParam(value = "inquiryTitle") String inquiryTitle,
             @RequestParam(value = "inquiryIdx") int inquiryIdx,
-            @RequestParam(value = "inquiryAnswer") String answer,
+            @RequestParam(value = "inquiryAnswer") String inquiryAnswer,
             @RequestParam(value = "inquiryPersonNick") String alarmToPerson
     ) throws Exception {
-//        System.out.println("/sendAnswer 서버 : " + answer);
-//        simService.makeAlarm(alarmToPerson, "admin", "inquiry");
+        System.out.println("/sendInquiryAnswer 서버 : " + inquiryAnswer);
+
+        // 답장
+        simService.inquiryAnswer(inquiryIdx, inquiryAnswer);
+
+        // 알림
+        simService.makeAlarm(alarmToPerson, inquiryTitle,"admin", "inquiry");
 
     }
-
-    @RequestMapping(value="/banningPerson", method = RequestMethod.POST)
-    public void banningPerson(
-            String personNickName,
-            String personBannedMsg
-    ) throws Exception {
-        System.out.println("---- /banningPerson 서버 ---- ");
-
-        System.out.println("personNickName : " + personNickName);
-        System.out.println("personBannedMsg: " + personBannedMsg);
-
-    }
-
+    
 
 }

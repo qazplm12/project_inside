@@ -38,6 +38,14 @@ public class PersonEntity implements UserDetails {
 
     @Column
     private String personImgPath;
+    
+    // 찜기능을 위한 컬럼도 필요해보임
+
+    //
+//    @Column
+//    private String personBannedMsg;
+
+
 
     @Builder
     public PersonEntity(String personId, String personPassword, String auth) {

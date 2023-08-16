@@ -65,8 +65,9 @@ function MyInquiry(props) {
             <Table style={{fontSize: "12px"}}>
                 <colgroup>
                     <col width={"8%"}/>
-                    <col width={"18%"}/>
-                    <col width={"20%"}/>
+                    <col/>
+                    <col/>
+                    <col/>
                     <col/>
                     <col/>
                     {/*<col width={'9%'}/>*/}

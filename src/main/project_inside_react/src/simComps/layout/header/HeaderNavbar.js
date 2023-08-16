@@ -12,6 +12,10 @@ function HeaderNavbar(props) {
         setShow(false);
     };
 
+    const needLogin = () => {
+        alert('로그인이 필요합니다.')
+    };
+
     return (
         <nav className={"navbar navbar-expand-lg"}>
             <div className={"container"}>
@@ -43,7 +47,11 @@ function HeaderNavbar(props) {
                         </li>
                         <li className={"nav-item"}>
                             {/* 부모 컴포넌트 영역에서 모달 on시키고, 자식 컴포넌트 영역에서 부모 컴포넌트의 함수를 실행시켜서 모달을 off 시킴 */}
-                            <a onClick={() => {setShow(true)}} className={"theme-link-white mx-3"}>문의</a>
+                            <a onClick={
+                                props.isLoggedIn
+                                    ? () => {setShow(true)}
+                                    : needLogin
+                            } className={"theme-link-white mx-3"}>문의</a>
                             <Inquiry showHandler={showHandler} show={show} />
                         </li>
                     </ul>

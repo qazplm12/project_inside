@@ -35,7 +35,12 @@ public class AlarmEntity {
     //
     @Column
     private String alarmContent; // 문의 - 문의제목 / 문제 - 문제 제목 / 프로젝트 - 프로젝트 명
-    
+
+//    //
+//    @Column
+//    private String alarmContentIdx; // 주소를 찍어주기 위한
+
+
     // N - 한번도 읽지 않음 / A - 알림 펼쳐봤지만 확인하지 않음 / Y - 확인함
     // N은 뱃지로 개수 카운트 / 알림에 new 배지 표현
     // icon 누르고 리스트 확인시 A로 값 변경

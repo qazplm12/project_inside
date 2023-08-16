@@ -7,8 +7,10 @@ function getRandomNumber(min, max) {
 
 function HappyCat(props) {
 
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [direction, setDirection] = useState({ x: 1, y: 1 });
+    const [position, setPosition] = useState({x: 0, y: 0});
+    const [direction, setDirection] = useState({x: 1, y: 1});
+
+    const [hidden, setHidden] = useState();
 
     useEffect(() => {
         const moveGif = () => {
@@ -42,12 +44,16 @@ function HappyCat(props) {
 
 
     return (
-        <div className="happy-cat" style={{
-            transform: `translate(${position.x}px, ${position.y}px)`,
-            position: 'absolute',
-            zIndex: 1,
-            transition: 'transform 1s ease-in-out'
-        }}>
+        <div className="happy-cat"
+             onClick={() => setHidden('hidden')}
+             hidden={hidden}
+             style={{
+                 transform: `translate(${position.x}px, ${position.y}px)`,
+                 position: 'absolute',
+                 zIndex: 1,
+                 transition: 'transform 1s ease-in-out',
+                 cursor: 'pointer'
+             }}>
             <img src={happyCat} alt="HappyHappyHappy"/>
         </div>
     );

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-// import TypeAhead from "./TypeAhead";
+import TypeAhead from "./TypeAhead";
 import MyLanguage from "./MyLanguage";
 
 function MyStack(props) {
@@ -9,9 +9,9 @@ function MyStack(props) {
     return (
         <>
             {
-                // mode
-                // ? <MyLanguage changeMode={setMode} />
-                // : <TypeAhead changeMode={setMode} />
+                mode
+                ? <MyLanguage changeMode={setMode} />
+                : <TypeAhead changeMode={setMode} />
             }
 
         </>
