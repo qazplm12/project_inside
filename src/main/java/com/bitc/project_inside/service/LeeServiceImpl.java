@@ -1,6 +1,7 @@
 package com.bitc.project_inside.service;
 
 import com.bitc.project_inside.data.entity.ChallengeEntity;
+import com.bitc.project_inside.data.entity.ScoringEntity;
 import com.bitc.project_inside.data.entity.SolutionEntity;
 import com.bitc.project_inside.data.entity.SolvedEntity;
 import com.bitc.project_inside.data.repository.*;
@@ -86,5 +87,10 @@ public class LeeServiceImpl implements LeeService {
     @Override
     public ChallengeEntity selectChallenge(int idx) throws Exception {
         return challengeRepository.findByChallengeIdx(idx);
+    }
+
+    @Override
+    public List<ScoringEntity> selectScoring(int idx) throws Exception {
+        return scoringRepository.findAllByScoringChallengeIdx(idx);
     }
 }

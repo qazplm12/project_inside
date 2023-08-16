@@ -1,6 +1,7 @@
 package com.bitc.project_inside.service;
 
 import com.bitc.project_inside.data.entity.ChallengeEntity;
+import com.bitc.project_inside.data.entity.ScoringEntity;
 import com.bitc.project_inside.data.entity.SolvedEntity;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface LeeService {
     List<Integer> selectChallengeState(String userId) throws Exception;
 
     ChallengeEntity selectChallenge(int idx) throws Exception;
+
+    List<ScoringEntity> selectScoring(int idx) throws Exception;
 }

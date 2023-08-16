@@ -2,6 +2,7 @@ package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.DTO.ChallengeRequest;
 import com.bitc.project_inside.data.entity.ChallengeEntity;
+import com.bitc.project_inside.data.entity.ScoringEntity;
 import com.bitc.project_inside.data.entity.SolvedEntity;
 import com.bitc.project_inside.service.LeeService;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,18 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.bind.annotation.*;
 
+import javax.tools.*;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -28,6 +38,7 @@ public class LeeController {
 
     private final LeeService leeService;
 
+    // 문제 리스트
     @RequestMapping(value="/challengeList", method = RequestMethod.GET)
     public Object selectChallengeList(
             @RequestParam(value = "userId") String userId,
@@ -52,13 +63,12 @@ public class LeeController {
         return challenge;
     }
 
+    // 문제 푼 상태
     @RequestMapping(value = "/challengeListState", method = RequestMethod.GET)
     public Object selectChallengeListState(@RequestParam(value = "userId") String userId) throws Exception {
         List<Integer> solved = leeService.selectChallengeState(userId);
         return solved;
     }
-
-
 
     // 문제 정보 호출
     @RequestMapping(value = "/challenge", method = RequestMethod.GET)
@@ -67,6 +77,7 @@ public class LeeController {
         return challenge;
     }
 
+    // 크롤링
     @RequestMapping(value = "/challenge", method = RequestMethod.POST)
     public String codeRunner(@RequestBody Map<String, String> requestData) {
         System.out.println("================크롤링 시작================");
@@ -186,5 +197,12 @@ public class LeeController {
             driver.quit();
         }
         return result;
+    }
+
+    // 문제 제출(채점)
+    @RequestMapping(value = "/challengeScoring", method = RequestMethod.GET)
+    public Object scoring(@RequestParam(value = "idx") int idx) throws Exception {
+        List<ScoringEntity> scoring = leeService.selectScoring(idx);
+        return scoring;
     }
 }

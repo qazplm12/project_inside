@@ -14,7 +14,7 @@ function CodeRunner(props) {
         setCode(code)
         props.getCode(code);
 
-        console.log(code)
+        // console.log(code)
     }, [code, props.getCode]);
 
     return (
@@ -40,7 +40,6 @@ function CodeRunner(props) {
                 </div>
             </div>
             <div className={'row'}>
-
                 <div className={'col-sm border border-1 border-top-0'} style={{height: '36vh'}}>
                     <textarea name="" id="" cols="30" rows="10" value={getResult}>실행 결과 확인</textarea>
                 </div>

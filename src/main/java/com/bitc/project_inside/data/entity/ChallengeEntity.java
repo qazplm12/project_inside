@@ -40,7 +40,7 @@ public class ChallengeEntity {
     @Column(length = 3000)
     private String challengeTemplateJavaScript;
 
-//    @Column(length = 3000)
+//    @Column(length = 3000)    // 이거만 만들면 오류나서 잠시 주석
 //    private String challengeTemplatePython;
 
     @Column
@@ -55,18 +55,6 @@ public class ChallengeEntity {
 
     @Column
     private int challengeScore;
-
-    @Column
-    private String argu1;
-
-    @Column
-    private String argu2;
-
-    @Column
-    private String argu3;
-
-    @Column
-    private String expectedValue;
 
     // 생성자는 Impl을 사용할 때 필수
 //    @Builder    // 매개변수 없는 @Builder를(생성자를) 만들어 주는것이 @NoArgsConstructor

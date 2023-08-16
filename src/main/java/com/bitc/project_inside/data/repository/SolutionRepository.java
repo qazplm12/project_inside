@@ -1,6 +1,5 @@
 package com.bitc.project_inside.data.repository;
 
-import com.bitc.project_inside.data.entity.ScoringEntity;
 import com.bitc.project_inside.data.entity.SolutionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

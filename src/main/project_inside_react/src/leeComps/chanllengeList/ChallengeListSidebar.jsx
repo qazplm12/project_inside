@@ -5,9 +5,9 @@ function ChallengeListSidebar(props) {
     return (
         <div>
             <ul className={'list-group'}>
-                <li className={'list-group-item px-2'}>
+                <li className={'list-group-item p-2 pt-4'}>
                     <img src={'/images/sakura.jpg'} alt="" className={'circle-background w-100'} style={{maxWidth: "10em"}}/>
-                    <p>userNick</p>
+                    <p className={'pt-3'}>userNick</p>
                     <div className={'row d-flex justify-content-center'}>
                         <div className={'col-sm-5'}>
                             <p className={'text-start'}>내 랭킹 : 1</p>
