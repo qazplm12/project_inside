@@ -71,18 +71,7 @@ public class ParkController {
     }
 
     // 상세 보기 페이지
-    @RequestMapping(value="toyProject/ToyDetail/{projectIdx}", method = RequestMethod.GET)
-    public ModelAndView toyDetailGet(@PathVariable("projectIdx") int projectIdx ) throws Exception{
 
-        ModelAndView mv = new ModelAndView("pi/toyDetail");
-
-       ProjectEntity projectBoard = toyService.selectBoard(projectIdx);
-        mv.addObject("projectBoard",projectBoard);
-
-
-
-        return mv;
-    }
 
 
     // 프로젝트 이미지를 저장하는 메서드

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import theme from '../../theme.css';
 import toyStyles from './toyStyles.css';
 import {Col, Container, Row} from "react-bootstrap";
-import axios from "axios";
 
 function toyDetail(props) {
 
