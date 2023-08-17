@@ -67,4 +67,9 @@ public class SimServiceImpl implements SimService{
         inquiryRepository.inquiryAnswer(inquiryIdx, inquiryAnswer);
     }
 
+    @Override
+    public List<PersonEntity> getPersonList() throws Exception {
+        return personRepository.findAllPerson();
+    }
+
 }

@@ -23,11 +23,11 @@ function DashBoard(props) {
                                  <div className={'m-o p-0'}>
                                      <p className={'mb-1 border-bottom'}>회원</p>
                                      {/* 총 회원 수 데이터 */}
-                                     <h2 className={'mb-0 d-inline'}>123</h2><small>명</small>
+                                     <h2 className={'mb-0 d-inline'}>{props.userList.length}</h2><small>명</small>
                                  </div>
                              }>
                             {/* 차트 자리 */}
-                            <MyPieChart1/>
+                            <MyPieChart1 userList={props.userList}/>
                         </Tab>
                         <Tab eventKey="challenge"
                             // 탭 버튼(타이틀)
@@ -39,12 +39,12 @@ function DashBoard(props) {
                                  </div>
                              }>
                             {/* 차트 자리 */}
-                            <MyPieChart2 />
+                            <MyPieChart2 userList={props.userList} />
                         </Tab>
                     </Tabs>
                 </Col>
                 <Col sm={7}>
-                    <LanguageRank />
+                    <LanguageRank userList={props.userList}/>
                 </Col>
             </div>
             <>

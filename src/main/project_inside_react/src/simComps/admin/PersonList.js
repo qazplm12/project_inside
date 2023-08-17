@@ -1,21 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {Table, Pagination, Modal, Form} from 'react-bootstrap';
-import dummyPersonList from "../commons/DummyPersonList";
 import DisabledButton from "../commons/DisabledButton";
 import axios from "axios";
-import person from "../commons/Person";
 
-const usersPerPage = 3; // 한 페이지에 표시할 유저 수
+const usersPerPage = 5; // 한 페이지에 표시할 유저 수
 
 
-const PersonList = () => {
+const PersonList = (props) => {
     // 페이징 용 state
     const [currentPage, setCurrentPage] = useState(1);
 
     // 현재 페이지에 해당하는 유저 리스트 계산
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = dummyPersonList.slice(indexOfFirstUser, indexOfLastUser);
+    const currentUsers = props.userList.slice(indexOfFirstUser, indexOfLastUser);
 
     // 유저 차단용 state
     const [target, setTarget] = useState(null);
@@ -97,11 +95,12 @@ const PersonList = () => {
                 <tbody>
                 {currentUsers.map((user, index, array) => (
                     <tr key={index}>
-                        <td><img src={user.imgSrc} alt="" className={'circle-background'}
+                        <td><img src={user.personImgPath} alt="" className={'circle-background'}
                                  style={{width: '3vw', height: '6vh'}}/></td>
-                        <td>{user.nickName}({user.email})</td>
-                        <td>{user.level}</td>
-                        <td>{user.language}</td>
+                        <td>{user.personNickName}({user.personId})</td>
+                        <td>{user.personLevel}</td>
+                        <td>{user.personLanguage}</td>
+                        {/* 토탈 스코어도 넣어줘야함*/}
                         <td>{user.jointDt}</td>
                         <td>
                             <button type={'button'} className={'btn btn-danger'}
@@ -146,7 +145,7 @@ const PersonList = () => {
                         ? () => handlePageChange(currentPage - 1)
                         : () => handlePageChange(1)
                 }/>
-                {Array.from({length: Math.ceil(dummyPersonList.length / usersPerPage)}, (_, index) => {
+                {Array.from({length: Math.ceil(props.userList.length / usersPerPage)}, (_, index) => {
                     const pageNumber = index + 1;
                     return (
                         <Pagination.Item
@@ -159,11 +158,11 @@ const PersonList = () => {
                     );
                 })}
                 <Pagination.Next onClick={
-                    currentPage + 1 < Math.ceil(dummyPersonList.length / usersPerPage)
+                    currentPage + 1 < Math.ceil(props.userList.length / usersPerPage)
                         ? () => handlePageChange(currentPage + 1)
-                        : () => handlePageChange(Math.ceil(dummyPersonList.length / usersPerPage))
+                        : () => handlePageChange(Math.ceil(props.userList.length / usersPerPage))
                 }/>
-                <Pagination.Last onClick={() => handlePageChange(Math.ceil(dummyPersonList.length / usersPerPage))}/>
+                <Pagination.Last onClick={() => handlePageChange(Math.ceil(props.userList.length / usersPerPage))}/>
             </Pagination>
         </div>
     );

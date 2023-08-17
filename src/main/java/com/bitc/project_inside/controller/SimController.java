@@ -1,6 +1,7 @@
 package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.entity.AlarmEntity;
+import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.service.SimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -133,7 +134,7 @@ public class SimController {
     ) throws Exception {
         System.out.println("------ /updateInquiry 서버 ------");
 
-        System.out.println("inquiryidx : " + idx);
+        System.out.println("inquiryIdx : " + idx);
         System.out.println("inquiryContent : " + content);
 
     }
@@ -155,6 +156,15 @@ public class SimController {
         simService.makeAlarm(alarmToPerson, inquiryTitle,"admin", "inquiry");
 
     }
-    
+
+
+    // 관리자 페이지 관련
+    @RequestMapping(value = "/getPersonList", method = RequestMethod.POST)
+    public List<PersonEntity> getPersonList() throws Exception {
+        System.out.println("--------- /getPersonList 서버 --------");
+
+        return simService.getPersonList();
+    }
+
 
 }

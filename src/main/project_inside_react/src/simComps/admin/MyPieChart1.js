@@ -1,18 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
 
-// 실제 데이터 가져오기
-const data = [
-    {name: 'Lv.0', value: 24},
-    {name: 'Lv.1', value: 12},
-    {name: 'Lv.2', value: 27},
-    {name: 'Lv.3', value: 12},
-    {name: 'Lv.4', value: 11},
-    {name: 'Lv.5', value: 6},
-];
-
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF4756', '#42FF48'];
-
 const RADIAN = Math.PI / 180;
 
 const CustomizedLabel = ({cx, cy, midAngle, innerRadius, outerRadius, percent, value, name, index}) => {
@@ -52,7 +41,21 @@ const ValueTable = ({data}) => {
     );
 };
 
-const MyPieChart1 = () => {
+const MyPieChart1 = (props) => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+
+        const levelCounts = {};
+        for (let level = 0; level <= 5; level++) {
+            levelCounts[`Lv.${level}`] = props.userList.filter(item => item.personLevel === level).length;
+        }
+
+        const newData = Object.entries(levelCounts).map(([name, value]) => ({ name, value }));
+        setData(newData);
+
+    }, [props.userList]);
+
     return (
         <div className="d-flex ms-2">
             <ValueTable data={data}/>

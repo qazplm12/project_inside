@@ -8,12 +8,9 @@ function Layout(props) {
     return (
         <div>
             <Header/>
-            <div className={'d-flex justify-content-around'}>
-                <Link to={'/pi/sim'}>sim</Link>
-                <Link to={'/pi/park'}>park</Link>
-                <Link to={'/pi/lee'}>lee</Link>
-            </div>
             <Outlet/>
+            {/* 푸터 아래에 위치시키기 위함 */}
+            <div style={{height: "calc(30vh - 30px)"}}></div>
             <Footer/>
         </div>
     )

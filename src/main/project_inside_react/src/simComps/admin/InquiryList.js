@@ -186,8 +186,9 @@ function InquiryList(props) {
                         {target ? target.content : ""}
                         <div className={'text-muted me-3 position-absolute'} style={{top: "0px", right: "0px"}}>
                             <small>
-                                <p className={'text-end  mb-0'}>{target ? target.inquiryDt : ""}</p>
-                                <p className={'text-end'}>{target ? target.nick : ""}</p>
+                                <p className={'text-end mb-0'}>{target ? target.inquiryDt : ""} (문의 종류 : <span className={'text-end'}>{target ? target.category : ""})</span></p>
+                                <p className={'text-end mb-0'}>{target ? target.nick : ""}</p>
+
                             </small>
                         </div>
                     </Modal.Body>
