@@ -1,31 +1,16 @@
 package com.bitc.project_inside.controller;
 
-import com.bitc.project_inside.data.DTO.ChallengeRequest;
 import com.bitc.project_inside.data.entity.ChallengeEntity;
 import com.bitc.project_inside.data.entity.ScoringEntity;
-import com.bitc.project_inside.data.entity.SolvedEntity;
 import com.bitc.project_inside.service.LeeService;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.bind.annotation.*;
 
-import javax.tools.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -204,5 +189,32 @@ public class LeeController {
     public Object scoring(@RequestParam(value = "idx") int idx) throws Exception {
         List<ScoringEntity> scoring = leeService.selectScoring(idx);
         return scoring;
+    }
+
+    // 문제 오답일때(중복 정보 입력 가능)
+    @RequestMapping(value = "/challengeWrong", method = RequestMethod.POST)
+    public void wrong(@RequestParam(value = "userId") String userId, @RequestParam(value = "idx") int idx) throws Exception {
+        leeService.saveScoringLogWrong(userId, idx);
+    }
+
+    // 문제 정답일때(최초 정보 입력 가능)
+    @RequestMapping(value = "/challengeCorrect", method = RequestMethod.POST)
+    public void correct(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "idx") int idx,
+            @RequestParam(value = "language") String language,
+            @RequestParam(value = "code") String code
+    ) throws Exception {
+        // 같은 사람이 같은 문제를 같은 언어로 풀면 save, update 안됨
+        boolean solved = leeService.selectSolvedChallenge(userId, idx, language);
+        System.out.println(solved);
+        if (solved) {
+
+        }
+        else {
+            leeService.saveSolved(userId, idx, language, code);
+            leeService.saveScoringLogCorrect(userId, idx);
+            leeService.updateChallenge(idx);
+        }
     }
 }

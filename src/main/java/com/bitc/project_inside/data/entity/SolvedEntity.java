@@ -26,6 +26,8 @@ public class SolvedEntity {
 
     private String solvedContent;
 
+    private String solvedLanguage;
+
     @CreatedDate
     private LocalDate solvedDate;
 
@@ -35,11 +37,12 @@ public class SolvedEntity {
 //    private SolutionEntity solutionEntity;
 
     @Builder
-    public SolvedEntity (int solvedIdx, int solvedChallengeIdx, String solvedId, String solvedContent, LocalDate solvedDate) {
+    public SolvedEntity (int solvedIdx, int solvedChallengeIdx, String solvedId, String solvedContent, String solvedLanguage, LocalDate solvedDate) {
         this.solvedIdx = solvedIdx;
         this.solvedChallengeIdx = solvedChallengeIdx;
         this.solvedId = solvedId;
         this.solvedContent = solvedContent;
+        this.solvedLanguage = solvedLanguage;
         this.solvedDate = solvedDate;
     }
 }

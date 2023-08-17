@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import {useSearchParams} from "react-router-dom";
 
 function CodeChallenge(props) {
     const challenge = props.sendChallenge;

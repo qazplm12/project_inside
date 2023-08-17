@@ -20,23 +20,8 @@ public class ScoringLogEntity {
     @Column
     private int scoringLogChallengeIdx;    // 문제테이블 idx
 
-//    @Column
-//    private String props1;
-//    @Column
-//    private String props2;
-//    @Column
-//    private String props3;
-//
-//    @Column
-//    private String case1;
-//    @Column
-//    private String case2;
-//    @Column
-//    private String case3;
-//    @Column
-//    private String case4;
-//    @Column
-//    private String case5;
+    @Column
+    private String scoringLogId;
 
     @Column
     private String correct;  // 정답 여부
@@ -44,27 +29,13 @@ public class ScoringLogEntity {
     @Builder
     public ScoringLogEntity(
             int scoringLogIdx,
-//            String props1,
-//            String props2,
-//            String props3,
-//            String case1,
-//            String case2,
-//            String case3,
-//            String case4,
-//            String case5,
             int scoringLogChallengeIdx,
+            String scoringLogId,
             String correct
     ) {
         this.scoringLogIdx = scoringLogIdx;
-//        this.props1 = props1;
-//        this.props2 = props2;
-//        this.props3 = props3;
-//        this.case1 = case1;
-//        this.case2 = case2;
-//        this.case3 = case3;
-//        this.case4 = case4;
-//        this.case5 = case5;
         this.scoringLogChallengeIdx = scoringLogChallengeIdx;
+        this.scoringLogId = scoringLogId;
         this.correct = correct;
     }
 }

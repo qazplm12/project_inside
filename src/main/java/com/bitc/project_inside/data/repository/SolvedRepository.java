@@ -1,7 +1,5 @@
 package com.bitc.project_inside.data.repository;
 
-import com.bitc.project_inside.data.entity.ChallengeEntity;
-import com.bitc.project_inside.data.entity.SolutionEntity;
 import com.bitc.project_inside.data.entity.SolvedEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +25,8 @@ public interface SolvedRepository extends JpaRepository<SolvedEntity, Integer> {
             "GROUP BY solvedChallengeIdx " +
             "")
     List<Integer> selectSolvedState(@Param("userId") String userId) throws Exception;
+
+    SolvedEntity findBySolvedIdAndSolvedChallengeIdxAndSolvedLanguage(String userId, int idx, String language) throws Exception;
+
+    int countBySolvedChallengeIdx(int idx) throws Exception;
 }

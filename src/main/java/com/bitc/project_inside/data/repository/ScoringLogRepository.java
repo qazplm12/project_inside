@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ScoringLogRepository extends JpaRepository<ScoringLogEntity, Integer> {
 
+    int countByScoringLogChallengeIdx(int idx) throws Exception;
 }
