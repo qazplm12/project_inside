@@ -70,6 +70,20 @@ public class ParkController {
         return toyService.selectListProject();
     }
 
+    // 프로젝트 최신 순 버튼 클릭시
+    @ResponseBody
+    @RequestMapping(value="toyProject/Latest", method = RequestMethod.POST)
+    public List<ProjectEntity> latestPost() throws Exception{
+        return toyService.latestProject();
+    }
+
+    // 프로젝트 최신 순 버튼 클리시 반대
+    @ResponseBody
+    @RequestMapping(value="toyProject/ReLatest", method = RequestMethod.POST)
+    public List<ProjectEntity> ReLatestPost() throws Exception{
+        return toyService.reLatestPost();
+    }
+
     // 상세 보기 페이지
 
 

@@ -10,4 +10,8 @@ public interface ToyService {
     ProjectEntity selectBoard(int projectIdx) throws Exception;
 
     List<ProjectEntity> selectListProject() throws Exception;
+
+    List<ProjectEntity> latestProject() throws Exception;
+
+    List<ProjectEntity> reLatestPost() throws Exception;
 }

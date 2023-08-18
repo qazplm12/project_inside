@@ -13,6 +13,9 @@ function ToyListBoard(props) {
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
 
+    // 최신 순 클릭시
+    const [latest, setLatest] = useState(true);
+
     // 3칸씩 뿌려주기 위한 필드
     const thumbnailSize = 3;
     const chunksThumbnail = [];
@@ -29,7 +32,7 @@ function ToyListBoard(props) {
             .then(response => {
                 // setToyProjects(prevProjects => [...prevProjects, ...response.data]);
                 setToyProjects((e) => [...response.data]);
-                setIsLoading(true);
+                setIsLoading(false);
                 setPage(prevPage => prevPage + 1);
             })
             .catch(error => {
@@ -40,7 +43,7 @@ function ToyListBoard(props) {
 
     useEffect(() => {
         loadMoreItems();
-    }, []); // 초기 로딩 시에만 실행
+    }, []);
 
     // useEffect(() => {
     //     axios.get("http://localhost:8080/pi/toyProject/ToyListBoard")
@@ -56,12 +59,33 @@ function ToyListBoard(props) {
         chunksThumbnail.push(toyProjects.slice(i, i+thumbnailSize))
     }
 
+    // 최신 순 클릭 시
+    const LatestCheck = () => {
+        setLatest(true);
+
+        axios.post("http://localhost:8080/pi/toyProject/Latest")
+            .then(response => {
+                setToyProjects((e) => [...response.data]);
+                setLatest(false);
+            })
+            .catch(error => {
+                console.log('최신화 실패')
+            });
+    }
+
     return (
         <Container>
             <Row >
                 <Col className={"mt-3 d-inline d-flex justify-content-end"}></Col>
                 <Col className={"mt-3 mb-3 d-inline  d-flex justify-content-end"}>
-                    <Button className={"theme-outline-btn"}>최신 순</Button>
+                    <Button className={"theme-outline-btn"} onClick={LatestCheck}>
+                        {latest ?
+                                <span >최신 순<i className={"bi bi-caret-up-fill"}></i></span>
+                            :
+                                <span >최신 순<i className={"bi bi-caret-down-fill"}></i></span>
+                        }
+
+                    </Button>
                     <Button className={"theme-btn ms-3"}>좋아요 순</Button>
                 </Col>
                 <Col sm className=" pb-3"><TypeSearchProject /></Col>
@@ -86,7 +110,7 @@ function ToyListBoard(props) {
                     threshold={0}
                     rootMargin="1px">
                     <div>
-                        {isLoading ? <img src={"/images/loding.gif"}/> : <p>더 많은 프로젝트 로드</p>}
+                        {isLoading ? <img src={"/images/loding.gif"}/> : null}
                     </div>
                 </InView>
             </div>

@@ -1,6 +1,5 @@
 package com.bitc.project_inside.service;
 
-import com.bitc.project_inside.data.DTO.ProjectRequest;
 import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.data.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +28,18 @@ public class ToyServiceImpl implements  ToyService{
 
     @Override
     public List<ProjectEntity> selectListProject() throws Exception {
+//        return
         return projectRepository.findAll();
     }
+
+    @Override
+    public List<ProjectEntity> latestProject() throws Exception {
+        return projectRepository.findAllByOrderByProjectDateDesc();
+    }
+
+    @Override
+    public List<ProjectEntity> reLatestPost() throws Exception {
+        return projectRepository.findAllByOrderByProjectDateAsc();
+    }
+
 }
