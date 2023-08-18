@@ -163,6 +163,7 @@ public class SimController {
     public List<PersonEntity> getPersonList() throws Exception {
         System.out.println("--------- /getPersonList 서버 --------");
 
+
         return simService.getPersonList();
     }
 
