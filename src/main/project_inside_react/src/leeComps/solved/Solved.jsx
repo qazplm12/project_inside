@@ -4,7 +4,7 @@ function Solved(props) {
 
     return (
         <div>
-
+            test
         </div>
     )
 }
