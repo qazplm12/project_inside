@@ -188,19 +188,20 @@ function CodeChallenge(props) {
     }
 
     function correct() {
-        axios.post(`http://localhost:8080/server/challengeCorrect`, null, {
-            params: {
-                userId: userId,
-                idx: idx,
-                language: language,
-                code: code
-            }
-        })
+        const requestData = {   // 코드를 JSON 형식으로 변환(자바언어가 textarea로 입력이 안되는 인코딩 이슈 발생)
+            userId: userId,
+            idx: idx,
+            language: language,
+            code: code
+        };
+
+        axios.post(`http://localhost:8080/server/challengeCorrect`, requestData)
             .then(res => {
                 // alert("저장성공 : " + res.data);
             })
             .catch(err => {
                 alert("통신 실패 : " + err);
+                console.log("통신 실패 : " + err);
             });
     }
 
@@ -216,6 +217,7 @@ function CodeChallenge(props) {
             })
             .catch(err => {
                 alert("통신 실패 : " + err);
+                console.log("통신 실패 : " + err);
             });
     }
 

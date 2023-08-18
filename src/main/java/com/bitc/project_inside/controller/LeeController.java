@@ -199,12 +199,11 @@ public class LeeController {
 
     // 문제 정답일때(최초 정보 입력 가능)
     @RequestMapping(value = "/challengeCorrect", method = RequestMethod.POST)
-    public void correct(
-            @RequestParam(value = "userId") String userId,
-            @RequestParam(value = "idx") int idx,
-            @RequestParam(value = "language") String language,
-            @RequestParam(value = "code") String code
-    ) throws Exception {
+    public void correct(@RequestBody Map<String, String> requestData) throws Exception {
+        String userId = requestData.get("userId");
+        int idx = Integer.parseInt(requestData.get("idx"));
+        String language = requestData.get("language");
+        String code = requestData.get("code");
         // 같은 사람이 같은 문제를 같은 언어로 풀면 save, update 안됨
         boolean solved = leeService.selectSolvedChallenge(userId, idx, language);
 //        System.out.println(solved);
