@@ -5,29 +5,43 @@ import MyCard from "./MyCard";
 import MyStack from "./Account/MyStack";
 import ChangePassword from "./Account/ChangePassword";
 import MyInquiry from "./MyInquiry";
+import {useParams} from "react-router-dom";
 
 
 function MyPage(props) {
+    const {mode} = useParams();
+
+    const [activeTab, setActiveTab] = useState();
+
+    useEffect(() => {
+        setActiveTab(`#${mode}`);
+    }, []);
+
+    const activateTab = (tabKey) => {
+        setActiveTab(tabKey);
+    }
+
+
 
     return (
-        <Tab.Container defaultActiveKey="#profile">
+        <Tab.Container defaultActiveKey={mode} activeKey={activeTab}>
             <Row>
                 <Col sm={1}></Col>
                 <Col sm={2} className={'my-5 text-start'}>
                     <ListGroup id={'list-group-myPage'}>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#profile">
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#profile"  onClick={() => activateTab('#profile')}>
                             계정 관리
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#project">
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#project" onClick={() => activateTab('#project')}>
                             프로젝트
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#solution">
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#solution" onClick={() => activateTab('#solution')}>
                             문제 풀이
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#question">
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#question" onClick={() => activateTab('#question')}>
                             질문 / 답변
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#inquiry">
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#inquiry" onClick={() => activateTab('#inquiry')}>
                             문의사항
                         </ListGroup.Item>
                     </ListGroup>
@@ -44,9 +58,6 @@ function MyPage(props) {
                             </MyCard>
                             <MyCard title={'주요기술 / 선호하는 언어'}>
                                 <MyStack/>
-                            </MyCard>
-                            <MyCard title={'알림 설정'}>
-
                             </MyCard>
                         </Tab.Pane>
                         <Tab.Pane eventKey="#project">

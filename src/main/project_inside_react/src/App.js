@@ -21,8 +21,8 @@ function App(props) {
                 <Routes>
                     <Route path={'/pi'} element={<Layout/>}>
                         {/* 헤더, 푸터 필요한 컴포넌트들*/}
-                        <Route path={'sim'} element={<Main/>}></Route>
-                        <Route path={'myPage'} element={<MyPage/>}></Route>
+                        <Route path={'main'} element={<Main/>}></Route>
+                        <Route path={'myPage/:mode'} element={<MyPage/>}></Route>
                         <Route path={'toyDetail'} element={<ToyDetail/>}></Route>
                         <Route path={'ToyRegis'} element={<ToyRegis/>}></Route>
                         <Route path={'toyListBoard'} element={<ToyListBoard/>}></Route>
