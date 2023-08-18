@@ -40,7 +40,7 @@ function ChallengeList(props) {
                         <div className={'col-3'}>
                             <select name="" id="" className={'form-select me-2'} value={solvedState} onChange={(e) => setSolvedState(e.target.value)}>
                                 {/*<option value="9" hidden={true}>상태</option>*/}
-                                <option value="9" selected={true}>전체 문제</option>
+                                <option value="9" selected={true}>전체 문제</option>    {/* 비 로그인시 비활성화 */}
                                 <option value="1">해결한 문제</option>
                                 <option value="0">해결 못 한 문제</option>
                             </select>

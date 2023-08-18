@@ -42,7 +42,7 @@ function ChallengeListTable(props) {
                             return (
                                 <tr key={index}>
                                     <ChallengeListTableTd challengeIdx={item.challengeIdx}></ChallengeListTableTd>
-                                    <td><Link to={`http://localhost:3000/lee?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link></td>
+                                    <td><Link to={`http://localhost:3000/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link></td>
                                     <td>{item.challengeClass}</td>
                                     <td>{item.challengeCompletePerson}</td>
                                     <td>{item.challengeCorrectPercent}%</td>
@@ -53,7 +53,7 @@ function ChallengeListTable(props) {
                             return (
                                 <tr key={index}>
                                     <ChallengeListTableTd challengeIdx={item.challengeIdx}></ChallengeListTableTd>
-                                    <td><Link to={`http://localhost:3000/lee?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link></td>
+                                    <td><Link to={`http://localhost:3000/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link></td>
                                     <td>{item.challengeClass}</td>
                                     <td>{item.challengeCompletePerson}</td>
                                     <td>{item.challengeCorrectPercent}%</td>

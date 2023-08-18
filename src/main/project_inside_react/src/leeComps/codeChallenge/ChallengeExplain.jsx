@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-function CodeChallenge(props) {
+function ChallengeExplain(props) {
     const challenge = props.sendChallenge;
 
     return (
@@ -25,4 +25,4 @@ function CodeChallenge(props) {
     )
 }
 
-export default CodeChallenge;
+export default ChallengeExplain;

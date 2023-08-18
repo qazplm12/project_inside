@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import CodeRunner from "./CodeRunner";
 import axios from "axios";
-import CodeChallenge from "./CodeChallenge";
+import ChallengeExplain from "./ChallengeExplain";
 import {useSearchParams} from "react-router-dom";
 
-function Lee(props) {
+function CodeChallenge(props) {
     const [language, setLanguage] = useState('JavaScript');
     const [code, setCode] = useState('');
     const [result, setResult] = useState('실행 결과가 여기에 표시됩니다.');
@@ -238,7 +238,7 @@ function Lee(props) {
             </div>
             <div className={'row'}>
                 <div className={'col-sm-5 border border-1 border-end-0 p-0'}>
-                    <CodeChallenge sendChallenge={sendChallenge}/>
+                    <ChallengeExplain sendChallenge={sendChallenge}/>
                 </div>
                 <div className={'col-sm-7 p-0'}>
                     <CodeRunner id={'code-runner'} style={{width: '100%', height: '25em'}} getCode={getCode} sendLanguage={language} sendReset={code} sendResult={result}/>
@@ -258,4 +258,4 @@ function Lee(props) {
     )
 }
 
-export default Lee;
+export default CodeChallenge;
