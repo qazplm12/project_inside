@@ -1,19 +1,15 @@
 package com.bitc.project_inside.controller;
 
-import com.bitc.project_inside.data.DTO.ChallengeRequest;
 import com.bitc.project_inside.data.entity.ChallengeEntity;
+import com.bitc.project_inside.data.entity.ScoringEntity;
 import com.bitc.project_inside.service.LeeService;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.net.HttpURLConnection;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +23,9 @@ public class LeeController {
 
     private final LeeService leeService;
 
+    // 문제 리스트
     @RequestMapping(value="/challengeList", method = RequestMethod.GET)
-    public Object selectChallengeList() throws Exception {
-        List<ChallengeEntity> challenge = leeService.selectChallengeList();
-        return challenge;
-    }
-
-    @RequestMapping(value="/challengeListClass", method = RequestMethod.GET)
-    public Object selectChallengeListClass(
+    public Object selectChallengeList(
             @RequestParam(value = "userId") String userId,
             @RequestParam(value = "challengeClass") int challengeClass,
             @RequestParam(value = "solvedState") int solvedState
@@ -57,17 +48,21 @@ public class LeeController {
         return challenge;
     }
 
+    // 문제 푼 상태
+    @RequestMapping(value = "/challengeListState", method = RequestMethod.GET)
+    public Object selectChallengeListState(@RequestParam(value = "userId") String userId) throws Exception {
+        List<Integer> solved = leeService.selectChallengeState(userId);
+        return solved;
+    }
 
-
-
-
-
+    // 문제 정보 호출
     @RequestMapping(value = "/challenge", method = RequestMethod.GET)
     public Object selectChallenge(@RequestParam(value = "idx") int idx) throws Exception {
         ChallengeEntity challenge = leeService.selectChallenge(idx);    // DTO 말고 Entity 사용할 것
         return challenge;
     }
 
+    // 크롤링
     @RequestMapping(value = "/challenge", method = RequestMethod.POST)
     public String codeRunner(@RequestBody Map<String, String> requestData) {
         System.out.println("================크롤링 시작================");
@@ -187,5 +182,39 @@ public class LeeController {
             driver.quit();
         }
         return result;
+    }
+
+    // 문제 제출(채점)
+    @RequestMapping(value = "/challengeScoring", method = RequestMethod.GET)
+    public Object scoring(@RequestParam(value = "idx") int idx) throws Exception {
+        List<ScoringEntity> scoring = leeService.selectScoring(idx);
+        return scoring;
+    }
+
+    // 문제 오답일때(중복 정보 입력 가능)
+    @RequestMapping(value = "/challengeWrong", method = RequestMethod.POST)
+    public void wrong(@RequestParam(value = "userId") String userId, @RequestParam(value = "idx") int idx) throws Exception {
+        leeService.saveScoringLogWrong(userId, idx);
+    }
+
+    // 문제 정답일때(최초 정보 입력 가능)
+    @RequestMapping(value = "/challengeCorrect", method = RequestMethod.POST)
+    public void correct(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "idx") int idx,
+            @RequestParam(value = "language") String language,
+            @RequestParam(value = "code") String code
+    ) throws Exception {
+        // 같은 사람이 같은 문제를 같은 언어로 풀면 save, update 안됨
+        boolean solved = leeService.selectSolvedChallenge(userId, idx, language);
+//        System.out.println(solved);
+        if (solved) {
+
+        }
+        else {
+            leeService.saveSolved(userId, idx, language, code);
+            leeService.saveScoringLogCorrect(userId, idx);
+            leeService.updateChallenge(idx);
+        }
     }
 }

@@ -1,9 +1,8 @@
 package com.bitc.project_inside.service;
 
-import com.bitc.project_inside.data.entity.ChallengeEntity;
-import com.bitc.project_inside.data.entity.SolutionEntity;
-import com.bitc.project_inside.data.entity.SolvedEntity;
+import com.bitc.project_inside.data.entity.*;
 import com.bitc.project_inside.data.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +18,7 @@ public class LeeServiceImpl implements LeeService {
     private final SolvedRepository solvedRepository;
     private final SolutionRepository solutionRepository;
     private final ScoringRepository scoringRepository;
+    private final ScoringLogRepository scoringLogRepository;
 
     @Override
     public List<ChallengeEntity> selectChallengeList() throws Exception {
@@ -44,7 +44,7 @@ public class LeeServiceImpl implements LeeService {
                 challengeList.remove(challenge);
             }
         }
-        
+
         return challengeList;
     }
 
@@ -79,7 +79,67 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
+    public List<Integer> selectChallengeState(String userId) throws Exception {
+        return solvedRepository.selectSolvedState(userId);
+    }
+
+    @Override
     public ChallengeEntity selectChallenge(int idx) throws Exception {
         return challengeRepository.findByChallengeIdx(idx);
+    }
+
+    @Override
+    public List<ScoringEntity> selectScoring(int idx) throws Exception {
+        return scoringRepository.findAllByScoringChallengeIdx(idx);
+    }
+
+    @Override
+    public ScoringLogEntity saveScoringLogWrong(String userId, int idx) throws Exception {
+        return scoringLogRepository.save(ScoringLogEntity.builder()
+                        .scoringLogId(userId)
+                        .scoringLogChallengeIdx(idx)
+                        .correct("N")
+                .build());
+    }
+
+    @Override
+    public boolean selectSolvedChallenge(String userId, int idx, String language) throws Exception {
+        SolvedEntity solved = solvedRepository.findBySolvedIdAndSolvedChallengeIdxAndSolvedLanguage(userId, idx, language);
+        if (solved != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public SolvedEntity saveSolved(String userId, int idx, String language, String code) throws Exception {
+        return solvedRepository.save(SolvedEntity.builder()
+                        .solvedId(userId)
+                        .solvedChallengeIdx(idx)
+                        .solvedLanguage(language)
+                        .solvedContent(code)
+                .build());
+    }
+
+    @Override
+    public ScoringLogEntity saveScoringLogCorrect(String userId, int idx) throws Exception {
+        return scoringLogRepository.save(ScoringLogEntity.builder()
+                .scoringLogId(userId)
+                .scoringLogChallengeIdx(idx)
+                .correct("Y")
+                .build());
+    }
+
+    @Override
+    @Transactional
+    public void updateChallenge(int idx) throws Exception {
+        int solvedCount = solvedRepository.countBySolvedChallengeIdx(idx);
+        int scoringLogCount = scoringLogRepository.countByScoringLogChallengeIdx(idx);
+        int correctPercent = solvedCount * 100 / scoringLogCount;
+
+        challengeRepository.updateCompletePerson(idx);
+        challengeRepository.updateCorrectPercent(idx, correctPercent);
     }
 }
