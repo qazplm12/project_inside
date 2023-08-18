@@ -26,8 +26,8 @@ function HeaderNavbar(props) {
                 </button>
                 <div className={"collapse navbar-collapse"} id="navbarSupportedContent">
                     <ul className={"navbar-nav me-auto ms-4 mb-2 mb-lg-0"}>
-                        <NavItem name={'알고리즘 문제'} to={'/pi/challenge'}/>
-                        <NavItem name={'프로젝트 모집'} to={'/pi/project'}/>
+                        <NavItem name={'알고리즘 문제'} to={'/pi/challengeList'}/>
+                        <NavItem name={'프로젝트 모집'} to={'/pi/toyListBoard'}/>
                         <li className={"nav-item"}>
                             <OverlayTrigger
                                 trigger="click"
