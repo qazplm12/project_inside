@@ -207,7 +207,7 @@ public class LeeController {
     ) throws Exception {
         // 같은 사람이 같은 문제를 같은 언어로 풀면 save, update 안됨
         boolean solved = leeService.selectSolvedChallenge(userId, idx, language);
-        System.out.println(solved);
+//        System.out.println(solved);
         if (solved) {
 
         }

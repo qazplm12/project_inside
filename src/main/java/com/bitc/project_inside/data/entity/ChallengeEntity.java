@@ -40,8 +40,8 @@ public class ChallengeEntity {
     @Column(length = 3000)
     private String challengeTemplateJavaScript;
 
-//    @Column(length = 3000)    // 이거만 만들면 오류나서 잠시 주석
-//    private String challengeTemplatePython;
+    @Column(length = 3000)    // 이거만 만들면 오류나서 잠시 주석 => 테이블에 총 용량이 있기 때문에 생성이 안됐던것 var 길이를 줄이고 없앤 다음 만들면 됨
+    private String challengeTemplatePython;
 
     @Column
     private int challengeClass;

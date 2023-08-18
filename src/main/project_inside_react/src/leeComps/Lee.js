@@ -7,7 +7,7 @@ import {useSearchParams} from "react-router-dom";
 function Lee(props) {
     const [language, setLanguage] = useState('JavaScript');
     const [code, setCode] = useState('');
-    const [result, setResult] = useState('');
+    const [result, setResult] = useState('실행 결과가 여기에 표시됩니다.');
     const [sendChallenge, setSendChallenge] = useState([]);
     const [userId, setUserId] = useState('test');
 
@@ -32,8 +32,12 @@ function Lee(props) {
         setLanguage(e.target.value);
     }
 
-    const getCode = (code) => {
-        setCode(code);
+    const getCode = (code) => { // 자식 컴포넌트로 부터 코드 접수
+        setCode(code);  // 크롤링과 api에 전달하기 위해 코드 세팅 -- 이까지는 정상(템플릿 안됨)
+    }
+
+    const handleReset = (e) => {
+        setCode("");
     }
 
     const handleRun = (e) => {
@@ -193,7 +197,7 @@ function Lee(props) {
             }
         })
             .then(res => {
-                alert("저장성공 : " + res.data);
+                // alert("저장성공 : " + res.data);
             })
             .catch(err => {
                 alert("통신 실패 : " + err);
@@ -237,7 +241,7 @@ function Lee(props) {
                     <CodeChallenge sendChallenge={sendChallenge}/>
                 </div>
                 <div className={'col-sm-7 p-0'}>
-                    <CodeRunner id={'code-runner'} style={{width: '100%', height: '25em'}} getCode={getCode} sendResult={result} sendChallenge={sendChallenge}/>
+                    <CodeRunner id={'code-runner'} style={{width: '100%', height: '25em'}} getCode={getCode} sendLanguage={language} sendReset={code} sendResult={result}/>
                 </div>
             </div>
             <div className={'row'}>
@@ -245,7 +249,7 @@ function Lee(props) {
                     <button className={'theme-btn ms-2'}>질문하기</button>
                     <button className={'theme-btn ms-2 me-auto'}>테스트 케이스 추가하기</button>
                     <button className={'theme-btn me-2'}>다른 사람의 풀이</button>
-                    <button className={'theme-btn me-2'}>초기화</button>
+                    <button className={'theme-btn me-2'} onClick={handleReset}>초기화</button>
                     <button className={'theme-btn me-2'} onClick={handleRun}>코드 실행</button>
                     <button className={'theme-btn me-2'} onClick={handleSubmit}>제출 후 채점하기</button>
                 </div>
