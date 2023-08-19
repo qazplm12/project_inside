@@ -4,6 +4,7 @@ package com.bitc.project_inside.service;
 import com.bitc.project_inside.data.entity.AlarmEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,4 +34,6 @@ public interface SimService {
     List<PersonEntity> getPersonList() throws Exception;
 
     List<ProjectEntity> getProjectList() throws Exception;
+
+    String personProfileImg(MultipartFile personProfileImg) throws Exception;
 }

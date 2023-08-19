@@ -33,9 +33,6 @@ function Section2(props) {
                         }
                     })
                 }
-                {/*<ProjectCard toyProject={data}/>*/}
-                {/*<ProjectCard/>*/}
-                {/*<ProjectCard/>*/}
             </div>
         </section>
     );

@@ -101,7 +101,7 @@ const PersonList = (props) => {
                         <td>{user.personLevel}</td>
                         <td>{user.personLanguage}</td>
                         {/* 토탈 스코어도 넣어줘야함*/}
-                        <td>{user.jointDt}</td>
+                        <td>{user.personJoinDt}</td>
                         <td>
                             <button type={'button'} className={'btn btn-danger'}
                                     onClick={() => setTarget(array[index])}>차단

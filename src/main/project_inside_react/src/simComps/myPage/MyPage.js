@@ -6,6 +6,9 @@ import MyStack from "./Account/MyStack";
 import ChangePassword from "./Account/ChangePassword";
 import MyInquiry from "./MyInquiry";
 import {useParams} from "react-router-dom";
+import MyProjectCard from "./MyProjectCard";
+import axios from "axios";
+import MyJoinProjectCard from "./MyJoinProjectCard";
 
 
 function MyPage(props) {
@@ -13,14 +16,27 @@ function MyPage(props) {
 
     const [activeTab, setActiveTab] = useState();
 
+    const [data, setData] = useState([]);
+
     useEffect(() => {
         setActiveTab(`#${mode}`);
+
+        axios.post("http://localhost:8080/simServer/getProjectList", null)
+            .then((res) => {
+                // 로그인 된 계정의 닉네임과 비교
+                // setData(res.data.filter(item => item.projectLeaderId === ))
+                setData(res.data[0])
+            })
+            .catch((error) => {
+
+            });
+
+
     }, []);
 
     const activateTab = (tabKey) => {
         setActiveTab(tabKey);
     }
-
 
 
     return (
@@ -29,19 +45,24 @@ function MyPage(props) {
                 <Col sm={1}></Col>
                 <Col sm={2} className={'my-5 text-start'}>
                     <ListGroup id={'list-group-myPage'}>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#profile"  onClick={() => activateTab('#profile')}>
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#profile"
+                                        onClick={() => activateTab('#profile')}>
                             계정 관리
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#project" onClick={() => activateTab('#project')}>
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#project"
+                                        onClick={() => activateTab('#project')}>
                             프로젝트
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#solution" onClick={() => activateTab('#solution')}>
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#solution"
+                                        onClick={() => activateTab('#solution')}>
                             문제 풀이
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#question" onClick={() => activateTab('#question')}>
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#question"
+                                        onClick={() => activateTab('#question')}>
                             질문 / 답변
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#inquiry" onClick={() => activateTab('#inquiry')}>
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#inquiry"
+                                        onClick={() => activateTab('#inquiry')}>
                             문의사항
                         </ListGroup.Item>
                     </ListGroup>
@@ -63,10 +84,13 @@ function MyPage(props) {
                         <Tab.Pane eventKey="#project">
                             <h2 className={'text-start ms-5 mt-5'}>프로젝트</h2>
                             <MyCard title={'내가 생성한 프로젝트'}>
-
+                                <MyProjectCard toyProject={data}/>
                             </MyCard>
                             <MyCard title={'내가 참여한 프로젝트'}>
-
+                                <div className={'row'}>
+                                    <MyJoinProjectCard toyProject={data}/>
+                                    <MyJoinProjectCard toyProject={data}/>
+                                </div>
                             </MyCard>
                         </Tab.Pane>
                         <Tab.Pane eventKey="#solution">
@@ -83,11 +107,11 @@ function MyPage(props) {
                             <MyCard title={'내가 작성한 답변'}>
 
                             </MyCard>
-                        </Tab.Pane> 
+                        </Tab.Pane>
                         <Tab.Pane eventKey="#inquiry">
                             <h2 className={'text-start ms-5 mt-5'}>문의사항</h2>
                             <MyCard title={'내가 작성한 문의'}>
-                                <MyInquiry />
+                                <MyInquiry/>
                             </MyCard>
                         </Tab.Pane>
                     </Tab.Content>

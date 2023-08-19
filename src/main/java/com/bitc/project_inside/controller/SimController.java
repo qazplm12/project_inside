@@ -37,8 +37,10 @@ public class SimController {
             // 로그인 정보 받아와서 personEntity 객체 생성
 
             // 매개변수(파일 경로정보)를 personEntity 에 추가
-
             // public/image 폴더에 실제 파일 저장하는 과정
+            String profileImgPath = simService.personProfileImg(personProfileImg);
+
+            System.out.println(profileImgPath);
 
         }
         if (personNickName != null) {
