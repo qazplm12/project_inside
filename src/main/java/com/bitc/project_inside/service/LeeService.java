@@ -29,4 +29,6 @@ public interface LeeService {
     ScoringLogEntity saveScoringLogCorrect(String userId, int idx) throws Exception;
 
     void updateChallenge(int idx) throws Exception;
+
+    List<SolvedEntity> selectSolvedList(int idx) throws Exception;
 }

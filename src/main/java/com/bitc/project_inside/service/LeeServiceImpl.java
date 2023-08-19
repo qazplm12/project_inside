@@ -142,4 +142,9 @@ public class LeeServiceImpl implements LeeService {
         challengeRepository.updateCompletePerson(idx);
         challengeRepository.updateCorrectPercent(idx, correctPercent);
     }
+
+    @Override
+    public List<SolvedEntity> selectSolvedList(int idx) throws Exception {
+        return solvedRepository.findAllBySolvedChallengeIdx(idx);
+    }
 }

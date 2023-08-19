@@ -13,6 +13,7 @@ import UserAuth from "./simComps/login&signup/UserAuth";
 import MyPage from "./simComps/myPage/MyPage";
 import Admin from "./simComps/admin/Admin";
 import Solved from "./leeComps/solved/Solved";
+import QnA from "./leeComps/qna/QnA";
 
 function App(props) {
     return (
@@ -29,6 +30,7 @@ function App(props) {
                         <Route path={'challengeList'} element={<ChallengeList/>}></Route>
                         <Route path={'admin'} element={<Admin/>}></Route>
                         <Route path={'solved'} element={<Solved/>}></Route>
+                        <Route path={'QnA'} element={<QnA/>}></Route>
                     </Route>
                     {/* 그 외 개별 컴포넌트들 */}
                     <Route path={'/userAuth/:into'} element={<UserAuth/>}></Route>

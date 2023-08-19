@@ -38,6 +38,10 @@ function CodeChallenge(props) {
         setCode(code);  // 크롤링과 api에 전달하기 위해 코드 세팅 -- 이까지는 정상(템플릿 안됨)
     }
 
+    const handleQnA = (e) => {
+        navigate(`/pi/QnA?idx=${idx}`);
+    }
+
     const handleSolved = (e) => {
         navigate(`/pi/solved?idx=${idx}`);
     }
@@ -254,7 +258,7 @@ function CodeChallenge(props) {
             </div>
             <div className={'row'}>
                 <div className={'d-flex py-2'}>
-                    <button className={'theme-btn ms-2'}>질문하기</button>
+                    <button className={'theme-btn ms-2'} onClick={handleQnA}>질문하기</button>
                     <button className={'theme-btn ms-2 me-auto'}>테스트 케이스 추가하기</button>
                     <button className={'theme-btn me-2'} onClick={handleSolved}>다른 사람의 풀이</button>
                     <button className={'theme-btn me-2'} onClick={handleReset}>초기화</button>

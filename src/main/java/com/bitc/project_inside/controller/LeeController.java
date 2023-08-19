@@ -2,6 +2,7 @@ package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.entity.ChallengeEntity;
 import com.bitc.project_inside.data.entity.ScoringEntity;
+import com.bitc.project_inside.data.entity.SolvedEntity;
 import com.bitc.project_inside.service.LeeService;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.*;
@@ -215,5 +216,11 @@ public class LeeController {
             leeService.saveScoringLogCorrect(userId, idx);
             leeService.updateChallenge(idx);
         }
+    }
+
+    // 풀이법 리스트 가져오기
+    @RequestMapping(value = "/solvedList", method = RequestMethod.GET)
+    public List<SolvedEntity> solvedList(@RequestParam(value = "idx") int idx) throws Exception {
+        return leeService.selectSolvedList(idx);
     }
 }
