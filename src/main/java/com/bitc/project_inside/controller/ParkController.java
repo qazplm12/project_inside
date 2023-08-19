@@ -2,6 +2,7 @@ package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.service.ToyService;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -70,19 +71,38 @@ public class ParkController {
         return toyService.selectListProject();
     }
 
-    // 프로젝트 최신 순 버튼 클릭시
+    // 프로젝트 최신 순 버튼 클릭시 내림차순
     @ResponseBody
     @RequestMapping(value="toyProject/Latest", method = RequestMethod.POST)
     public List<ProjectEntity> latestPost() throws Exception{
         return toyService.latestProject();
     }
 
-    // 프로젝트 최신 순 버튼 클리시 반대
+    // 프로젝트 최신 순 버튼 클리시 올림차순
     @ResponseBody
     @RequestMapping(value="toyProject/ReLatest", method = RequestMethod.POST)
     public List<ProjectEntity> ReLatestPost() throws Exception{
         return toyService.reLatestPost();
     }
+
+    // 프로젝트 좋아요 클릭시 숫자 변환
+    @ResponseBody
+
+    @RequestMapping(value="toyProject/likePlusProjectCheck", method=RequestMethod.POST)
+    public void likePost(@RequestBody ProjectEntity projectEntity) throws Exception{
+        int projectIdx = projectEntity.getProjectIdx();
+        System.out.println("+1 타나");
+        toyService.likePlusProjectLike( projectIdx);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="toyProject/likeMinProjectCheck", method = RequestMethod.POST)
+    public void minLikePost( @RequestBody ProjectEntity projectEntity) throws Exception{
+        int projectIdx = projectEntity.getProjectIdx();
+        System.out.println("-1 타나");
+        toyService.likeMinProjectLike(projectIdx);
+    }
+
 
     // 상세 보기 페이지
 

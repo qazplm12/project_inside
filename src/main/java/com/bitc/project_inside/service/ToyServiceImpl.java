@@ -29,7 +29,7 @@ public class ToyServiceImpl implements  ToyService{
     @Override
     public List<ProjectEntity> selectListProject() throws Exception {
 //        return
-        return projectRepository.findAll();
+        return projectRepository.findAllByOrderByProjectDateDesc();
     }
 
     @Override
@@ -42,4 +42,25 @@ public class ToyServiceImpl implements  ToyService{
         return projectRepository.findAllByOrderByProjectDateAsc();
     }
 
+    @Override
+    public void likePlusProjectLike(int projectIdx) throws Exception {
+        try{
+            projectRepository.likePlusProjectLike(projectIdx);
+        }
+        catch (Exception e){
+            System.out.println("플러스 에러 사유"+e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void likeMinProjectLike(int projectIdx) throws Exception {
+        try{
+            projectRepository.likeMinProjectLike(projectIdx);
+        }
+        catch (Exception e){
+            System.out.println("마이너스 에러 사유"+e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

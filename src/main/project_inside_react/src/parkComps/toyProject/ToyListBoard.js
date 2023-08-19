@@ -45,32 +45,35 @@ function ToyListBoard(props) {
         loadMoreItems();
     }, []);
 
-    // useEffect(() => {
-    //     axios.get("http://localhost:8080/pi/toyProject/ToyListBoard")
-    //         .then(response => {
-    //             setToyProjects(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.log('전송실패'+error);
-    //         });
-    // }, [inView]);
-
     for (let i = 0; i < toyProjects.length; i += thumbnailSize) {
         chunksThumbnail.push(toyProjects.slice(i, i+thumbnailSize))
     }
 
     // 최신 순 클릭 시
     const LatestCheck = () => {
-        setLatest(true);
 
-        axios.post("http://localhost:8080/pi/toyProject/Latest")
-            .then(response => {
-                setToyProjects((e) => [...response.data]);
-                setLatest(false);
-            })
-            .catch(error => {
-                console.log('최신화 실패')
-            });
+        setLatest(true);
+        if (latest) {
+            axios.post("http://localhost:8080/pi/toyProject/ReLatest")
+                .then(response => {
+                    setToyProjects(response.data);
+                    setLatest(false);
+                })
+                .catch(error => {
+                    console.log('최신화 실패');
+                    setLatest(false);
+                });
+        } else {
+            axios.post("http://localhost:8080/pi/toyProject/Latest")
+                .then(response => {
+                    setToyProjects(response.data);
+                    setLatest(true);
+                })
+                .catch(error => {
+                    console.log('최신화 실패');
+                    setLatest(true);
+                });
+        }
     }
 
     return (
@@ -80,9 +83,9 @@ function ToyListBoard(props) {
                 <Col className={"mt-3 mb-3 d-inline  d-flex justify-content-end"}>
                     <Button className={"theme-outline-btn"} onClick={LatestCheck}>
                         {latest ?
-                                <span >최신 순<i className={"bi bi-caret-up-fill"}></i></span>
+                                <span >최신 순<i className={"bi bi-caret-down-fill ms-2"}></i></span>
                             :
-                                <span >최신 순<i className={"bi bi-caret-down-fill"}></i></span>
+                                <span >최신 순<i className={"bi bi-caret-up-fill ms-2"}></i></span>
                         }
 
                     </Button>
@@ -90,9 +93,7 @@ function ToyListBoard(props) {
                 </Col>
                 <Col sm className=" pb-3"><TypeSearchProject /></Col>
             </Row>
-            {/*{toyProjects.map(toyProject => (*/}
-            {/*    <Thumbnail toyProject={toyProject} />*/}
-            {/*))}*/}
+
             <div>
                 <div>
                     {chunksThumbnail.map((toyProjects) => (

@@ -2,6 +2,7 @@ package com.bitc.project_inside.data.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -58,4 +59,10 @@ public class ProjectEntity {
 
     @Column
     private String projectFinish;
+
+    @ColumnDefault("true") // 1
+    private int likePlusProjectCheck;
+
+    @ColumnDefault("false") // 0
+    private int likeMinProjectCheck;
 }

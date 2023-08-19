@@ -14,4 +14,8 @@ public interface ToyService {
     List<ProjectEntity> latestProject() throws Exception;
 
     List<ProjectEntity> reLatestPost() throws Exception;
+
+    public void likePlusProjectLike(int projectIdx) throws Exception;
+
+    public void likeMinProjectLike(int projectIdx) throws Exception;
 }
