@@ -2,6 +2,7 @@ package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.entity.AlarmEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
+import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.service.SimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -167,5 +168,14 @@ public class SimController {
         return simService.getPersonList();
     }
 
+
+    // 메인 페이지 관련
+    @RequestMapping(value = "/getProjectList", method = RequestMethod.POST)
+    public List<ProjectEntity> getProjectList() throws Exception {
+        System.out.println("--------- /getProjectList 서버 --------");
+
+
+        return simService.getProjectList();
+    }
 
 }

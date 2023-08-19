@@ -3,9 +3,11 @@ package com.bitc.project_inside.service;
 
 import com.bitc.project_inside.data.entity.AlarmEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
+import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.data.repository.AlarmRepository;
 import com.bitc.project_inside.data.repository.InquiryRepository;
 import com.bitc.project_inside.data.repository.PersonRepository;
+import com.bitc.project_inside.data.repository.ProjectRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class SimServiceImpl implements SimService{
     private final PersonRepository personRepository;
     private final AlarmRepository alarmRepository;
     private final InquiryRepository inquiryRepository;
+    private final ProjectRepository projectRepository;
 
     @Override
     public int isUser(String email) throws Exception {
@@ -70,6 +73,11 @@ public class SimServiceImpl implements SimService{
     @Override
     public List<PersonEntity> getPersonList() throws Exception {
         return personRepository.findAllPerson();
+    }
+
+    @Override
+    public List<ProjectEntity> getProjectList() throws Exception {
+        return projectRepository.findAllByOrderByProjectDateDesc();
     }
 
 }
