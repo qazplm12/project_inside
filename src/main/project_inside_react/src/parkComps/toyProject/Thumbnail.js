@@ -1,13 +1,21 @@
-import {Card, Col} from "react-bootstrap";
+import {Card, Col, Row} from "react-bootstrap";
 import React, {useState} from "react";
+import axios from "axios";
 
 function Thumbnail(props) {
-    const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember} = props.toyProject;
+    const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike} = props.toyProject;
     const [iconCheck, setIconCheck] = useState(false);
-    const [recruitMent, setRecruitMent] = useState(false);
+    const [recruitMent, setRecruitMent] = useState(true);
 
     const likeProject = (e) => {
         setIconCheck(!iconCheck);
+        axios.post('http://localhost:8080/pi/toyProject/projectLike')
+            .then(response =>{
+
+            })
+            .catch((error) =>{
+
+            });
     }
 
     const recruitMentChange = (e) =>{
@@ -22,41 +30,51 @@ function Thumbnail(props) {
             </Card.Header>
             <Card.Body>
                 <Card.Title>
-                    <Col sm={6} className={"float-start"}>
-                        <div className={"fw-bold text-start"}>
-                            <span className={"theme-font"}>
-                                {projectTitle}
+                    <Row>
+                        <Col sm={8} className={"float-start"}>
+                            <div className={"fw-bold text-start"}>
+                                <span className={"theme-font"}>
+                                    {projectTitle}
+                                </span>
+                            </div>
+                        </Col>
+                            <Col sm={2} >
+                                <div className={"float-end "}>
+                                    <span onClick={likeProject}>
+                                        {
+                                            iconCheck ? (
+                                                <i className="bi bi-heart theme-font fs-2 ms-2"></i>
+                                            ) : (
+                                                <i className="bi bi-heart-fill text-danger theme-font fs-2  ms-2"></i>
+                                            )
+                                        }
+                                    </span>
+                                </div>
+                            </Col>
+                            <Col sm={2} >
+                                <div className={"float-start mt-2"}>
+                                    <span>{projectLike}</span>
+                                </div>
+                            </Col>
+                    </Row>
+                </Card.Title>
+                <Row>
+                    <Col sm={6}>
+                        <div className={"mb-5"}>
+                            <span className={"text-start d-block theme-font"}>참여 인원 / 총 인원<br/>(0/{projectMember})</span>
+                        </div>
+                        <div className={"d-flex"}>
+                            <span className={"text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
+                        </div>
+                    </Col>
+                    <Col sm={6}>
+                        <div className={"mt-5 pt-5 ms-5"}>
+                            <span className={"text-success-emphasis "} onChange={recruitMentChange} >
+                                {recruitMent ? ("모집 완료") : ("모집 중")}
                             </span>
                         </div>
                     </Col>
-                    <Col sm={6} className={"float-end"}>
-                        <div className={"text-center mb-5 pb-3"}>
-                                <span onClick={likeProject}>
-                                {iconCheck ? (
-                                    <i className="bi bi-heart theme-font fs-2 ms-2"></i>
-
-                                ) : (
-                                    <i className="bi bi-heart-fill text-danger theme-font fs-2  ms-2"></i>
-                                )}
-                                </span>
-                        </div>
-                    </Col>
-                </Card.Title>
-                <Col sm={6} className={"float-start"}>
-                    <div className={"mb-5"}>
-                        <span className={"text-start d-block theme-font"}>참여 인원 / 총 인원<br/>(0/{projectMember})</span>
-                    </div>
-                    <div className={"d-flex"}>
-                        <span className={"text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
-                    </div>
-                </Col>
-                <Col sm={6} className={"float-end"}>
-                    <div className={"mt-3"}>
-                        <span className={"text-success-emphasis "} onChange={recruitMentChange} >
-                            {recruitMent ? ("모집 완료") : ("모집 중")}
-                        </span>
-                    </div>
-                </Col>
+                </Row>
             </Card.Body>
         </Card>
         </div>

@@ -28,8 +28,7 @@ public class ToyServiceImpl implements  ToyService{
 
     @Override
     public List<ProjectEntity> selectListProject() throws Exception {
-//        return
-        return projectRepository.findAll();
+        return projectRepository.findAllByOrderByProjectDateDesc();
     }
 
     @Override
