@@ -1,24 +1,14 @@
 import {Card, Col, Row} from "react-bootstrap";
-<<<<<<< HEAD
 import React, {useEffect, useState} from "react";
-=======
-import React, {useState} from "react";
->>>>>>> ab53a6df173ae683b783bfcb6ee66216ed57de67
 import axios from "axios";
 
 function Thumbnail(props) {
     const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike} = props.toyProject;
-<<<<<<< HEAD
     const [iconCheck, setIconCheck] = useState(true);
-=======
-    const [iconCheck, setIconCheck] = useState(false);
->>>>>>> ab53a6df173ae683b783bfcb6ee66216ed57de67
     const [recruitMent, setRecruitMent] = useState(true);
 
     const likeProject = (e, projectIdx) => {
         setIconCheck(!iconCheck);
-<<<<<<< HEAD
-
         if (iconCheck) {
             console.log('거짓');
             axios.post('http://localhost:8080/pi/toyProject/likeMinProjectCheck', {
@@ -55,16 +45,6 @@ function Thumbnail(props) {
     useEffect((e, projectIdx) => {
         likeProject(e, projectIdx)
     }, []);
-=======
-        axios.post('http://localhost:8080/pi/toyProject/projectLike')
-            .then(response =>{
-
-            })
-            .catch((error) =>{
-
-            });
-    }
->>>>>>> ab53a6df173ae683b783bfcb6ee66216ed57de67
 
     const recruitMentChange = (e) =>{
         setRecruitMent(!recruitMent);
@@ -88,7 +68,6 @@ function Thumbnail(props) {
                         </Col>
                             <Col sm={2} >
                                 <div className={"float-end "}>
-<<<<<<< HEAD
                                 <span onClick={likeProject}>
                                     {iconCheck ? (
                                         <i className="bi bi-heart-fill text-danger theme-font fs-2 ms-2"></i>
@@ -96,17 +75,6 @@ function Thumbnail(props) {
                                         <i className="bi bi-heart theme-font fs-2 ms-2"></i>
                                     )}
                                 </span>
-=======
-                                    <span onClick={likeProject}>
-                                        {
-                                            iconCheck ? (
-                                                <i className="bi bi-heart theme-font fs-2 ms-2"></i>
-                                            ) : (
-                                                <i className="bi bi-heart-fill text-danger theme-font fs-2  ms-2"></i>
-                                            )
-                                        }
-                                    </span>
->>>>>>> ab53a6df173ae683b783bfcb6ee66216ed57de67
                                 </div>
                             </Col>
                             <Col sm={2} >
