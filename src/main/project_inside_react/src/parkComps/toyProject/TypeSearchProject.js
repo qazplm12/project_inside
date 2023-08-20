@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Typeahead} from "react-bootstrap-typeahead";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import "../../simComps/myPage/Account/Token.css";
@@ -88,46 +88,69 @@ function TypeSearchProject(props) {
         props.onTagClick(tag);
     };
 
+    const [tagLayerWidth, setTagLayerWidth] = useState(300);
+    const tagLayerRef = useRef(null);
+
+    const handleTagSelections = (tags) => {
+        setSelectedTags(tags);
+    };
+
+    useEffect(() => {
+        if (tagLayerRef.current) {
+            // 태그 레이어의 너비를 선택된 태그의 길이에 따라 동적으로 조정
+            const newWidth = tagLayerRef.current.scrollWidth + 20; // 여분의 여백 추가
+            setTagLayerWidth(newWidth);
+        }
+    }, [selectedTags]);
+
     return (
         <div>
 
             <div className={'d-flex'}>
-                <p className={'my-auto mx-2 pt-2 ms-5 theme-font' }>스택 검색 :</p>
+                <p className={'my-auto mx-2 pt-2 ms-5 theme-font'}>스택 검색 :</p>
                 <Typeahead
                     id="search-bar"
                     labelKey="name"
-                    className={'m-1 mt-3 d-inline-block'} style={{width : "40%"}}
+                    className={'m-1 mt-3 d-inline-block'} style={{ width: "65%" }}
                     placeholder={'기술명으로 검색'}
                     multiple
                     renderToken={(option, props, index) => (
-                        <span style={{display: 'none'}} key={index}></span>
+                        <span style={{ display: 'none' }} key={index}></span>
                     )}
                     selected={selectedTags}
-                    onChange={handleTagSelection}
+                    onChange={handleTagSelections}
                     options={searchResults}
                     onInputChange={handleSearch}
                     minLength={1}
                 />
-
-                {/* 토큰 리스트 */}
-                {/*<p className={'my-auto ms-3 pt-2 theme-font'}>내가 선택한 기술 스택 :</p>*/}
-                {/*<div className="text-end mt-3 ms-2">*/}
-                {/*    {selectedTags.map((tag, index) => (*/}
-                {/*        // 토큰(태그)*/}
-                {/*        <div key={index} className="custom-token theme-bg">*/}
-                {/*            <div className={'d-flex'}>*/}
-                {/*                <span>{tag}</span>*/}
-                {/*                <button*/}
-                {/*                    className="btn-close align-self-center d-block ms-1"*/}
-                {/*                    style={{width: "3px", height: "3px"}}*/}
-                {/*                    onClick={() => handleTagRemoval(tag)}*/}
-                {/*                >*/}
-                {/*                </button>*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    ))}*/}
-                {/*</div>*/}
-
+            </div>
+            {/* 선택된 태그 레이어 */}
+            <div
+                ref={tagLayerRef}
+                style={{
+                    position: 'absolute',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    padding: '10px',
+                    background: 'white',
+                    border: '1px solid #ccc',
+                    borderRadius: '5px',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                    overflow: 'auto',
+                    marginTop: '-50px',
+                    marginLeft: '280px',
+                    width: '250px', // 선택된 태그 레이어 고정 너비
+                    left: '50%', // 왼쪽으로 중앙 정렬
+                    transform: 'translateX(150%)', // 중앙 정렬을 위한 트랜스폼
+                }}
+            >
+                {selectedTags.map((tag, index) => (
+                    <div key={index} className="custom-token theme-bg">
+                        <div className={'d-flex'}>
+                            <span>{tag}</span>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

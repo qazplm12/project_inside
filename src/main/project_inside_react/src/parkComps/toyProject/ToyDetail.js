@@ -1,34 +1,38 @@
 import React, {useEffect, useState} from 'react';
-import theme from '../../theme.css';
-import toyStyles from './toyStyles.css';
 import {Col, Container, Row} from "react-bootstrap";
+import axios from "axios";
+import {useParams} from "react-router-dom";
+import ReactQuill from "react-quill";
 
-function toyDetail(props) {
+function ToyDetail(props) {
 
-    // const [projectBoard, setProjectBoard] = useState([]);
+    const {projectIdx} = useParams();
+    const [toyProject, setToyProject] = useState([])
 
-    // useEffect(() => {
-    //     axios.get('http://localhost:8080/pi/toyProject/ToyDetail/16')
-    //         .then(response => {
-    //             setProjectBoard(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error(error);
-    //         });
-    // }, []);
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/pi/toyProject/toyDetail/${projectIdx}`)
+            .then(response  => {
+                setToyProject(response.data);
+                console.log('성공')
+            })
+            .catch((error) => {
+                console.log("에로 로그"+error)
+            })
+    }, [projectIdx]);
 
     return (
         <Container>
             {/* 썸내일 */}
             <Row className={"my-5"}>
                 <Col sm={8} className={"mx-auto d-block"}>
-                    <img src={"https://cdn.jsdelivr.net/gh/Th3Wall/assets-cdn/Fakeflix/Fakeflix_readme.png"} className={"w-100 h-100"}/>
+                    <img src={"/images/thumbnail/" + toyProject.projectThumbnail} className={"w-100 h-100"}/>
                 </Col>
             </Row>
             {/* 프로젝트 기본 정보및 개설자 정보 */}
             <Row className={"my-5"}>
                 <Col sm className={"pe-5 me-5"}>
-                    <span className={"theme-font"}>프로젝트명 : </span>
+                    <span className={"theme-font"}>프로젝트명 : {toyProject.projectTitle}   </span>
                     {/* {projectBoard.map(item =>(
                         <span key={item.id}>{item.projectTitle}</span>
                     ))} */}
@@ -42,19 +46,19 @@ function toyDetail(props) {
             {/*총 모집 인원 / 참여가능레벨 / 날짜 */}
             <Row className={"my-5"}>
                 <Col sm>
-                    <span className={"theme-font"}>총 모집 인원 : </span>
+                    <span className={"theme-font"}>총 모집 인원 : {toyProject.projectMember}</span>
                 </Col>
                 <Col sm>
-                    <span className={"theme-font"}>참여 가능 레벨 : </span>
+                    <span className={"theme-font"}>참여 가능 레벨 : {toyProject.projectLevel}</span>
                 </Col>
                 <Col sm>
-                    <span className={"theme-font"}>날짜 : </span>
+                    <span className={"theme-font"}>날짜 : {toyProject.projectDate}</span>
                 </Col>
             </Row>
             {/* 기술스택 */}
             <Row>
                 <Col sm className={"ps-3"}>
-                    <p className={"theme-font "}>기술 스택 :</p>
+                    <p className={"theme-font "}>기술 스택 : {toyProject.projectLanguage}</p>
 
                 </Col>
             </Row>
@@ -71,10 +75,13 @@ function toyDetail(props) {
             <Row>
                 <Col>
                     <span className={"theme-font fs-3 fw-bold"}>프로젝트 내용</span>
+                    <div>
+                        <ReactQuill value={toyProject.projectContent} readOnly={true} />
+                    </div>
                 </Col>
             </Row>
         </Container>
     )
 }
 
-export default toyDetail;
+export default ToyDetail;

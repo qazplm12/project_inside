@@ -27,4 +27,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     @Transactional
     @Query("UPDATE ProjectEntity p SET p.projectLike = p.projectLike - 1 WHERE p.projectIdx = :projectIdx")
     void likeMinProjectLike(@Param("projectIdx")int projectIdx);
+
+    List<ProjectEntity> findAllByOrderByProjectLikeDesc();
+
+    List<ProjectEntity> findAllByOrderByProjectLikeAsc();
 }

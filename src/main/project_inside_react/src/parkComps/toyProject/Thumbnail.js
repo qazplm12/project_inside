@@ -1,6 +1,7 @@
 import {Card, Col, Row} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 function Thumbnail(props) {
     const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike} = props.toyProject;
@@ -8,15 +9,19 @@ function Thumbnail(props) {
     const [recruitMent, setRecruitMent] = useState(true);
 
     const likeProject = (e, projectIdx) => {
-        setIconCheck(!iconCheck);
+        // 좋아요 취소 버튼 클릭 시
         if (iconCheck) {
             console.log('거짓');
-            axios.post('http://localhost:8080/pi/toyProject/likeMinProjectCheck', {
-                projectIdx
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }})
+            axios.post(
+                'http://localhost:8080/pi/toyProject/likeMinProjectCheck',
+                {
+                    projectIdx
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
                 .then(response => {
                     console.log('좋아요 -1 전송을 위한 플래그');
                     setIconCheck(!iconCheck);
@@ -24,17 +29,21 @@ function Thumbnail(props) {
                 .catch((error) => {
                     console.log('좋아요 -1 전송을 위한 플래그 실패');
                 });
-        } else if(!iconCheck) {
+        }
+        // 좋아요 선택 버튼 클릭 시
+        else if(!iconCheck) {
             console.log('진실');
-            axios.post('http://localhost:8080/pi/toyProject/likePlusProjectCheck', {
-                projectIdx
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }})
+            axios.post('http://localhost:8080/pi/toyProject/likePlusProjectCheck',
+                {
+                    projectIdx
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
                 .then(response => {
                     console.log('좋아요 +1 전송을 위한 플래그');
-                    setIconCheck(iconCheck)
+                    setIconCheck(!iconCheck)
                 })
                 .catch((error) => {
                     console.log('좋아요 전송을 위한 플래그 실패');
@@ -51,7 +60,7 @@ function Thumbnail(props) {
     }
 
     return (
-        <div>
+        <Link to={`/pi/toyDetail/${projectIdx}`}>
         <Card className={"ms-3"} key={projectIdx}>
             <Card.Header className={"p-0"}>
                 <Card.Img variant="top" src={"/images/thumbnail/" + projectThumbnail} className={"cardImg "}/>
@@ -103,7 +112,7 @@ function Thumbnail(props) {
                 </Row>
             </Card.Body>
         </Card>
-        </div>
+        </Link>
     );
 }
 export default Thumbnail;

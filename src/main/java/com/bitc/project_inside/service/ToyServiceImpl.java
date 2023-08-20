@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -61,5 +62,20 @@ public class ToyServiceImpl implements  ToyService{
             System.out.println("마이너스 에러 사유"+e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<ProjectEntity> likeUpToy() throws Exception {
+        return projectRepository.findAllByOrderByProjectLikeDesc();
+    }
+
+    @Override
+    public List<ProjectEntity> likeDownToy() throws Exception {
+        return projectRepository.findAllByOrderByProjectLikeAsc();
+    }
+
+    @Override
+    public Optional<ProjectEntity> toyProjectSelect(int projectIdx) throws Exception {
+        return projectRepository.findById(projectIdx);
     }
 }

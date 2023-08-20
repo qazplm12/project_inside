@@ -2,18 +2,18 @@ package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.service.ToyService;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RequiredArgsConstructor
@@ -87,7 +87,6 @@ public class ParkController {
 
     // 프로젝트 좋아요 클릭시 숫자 변환
     @ResponseBody
-
     @RequestMapping(value="toyProject/likePlusProjectCheck", method=RequestMethod.POST)
     public void likePost(@RequestBody ProjectEntity projectEntity) throws Exception{
         int projectIdx = projectEntity.getProjectIdx();
@@ -103,9 +102,30 @@ public class ParkController {
         toyService.likeMinProjectLike(projectIdx);
     }
 
+    // 찜 순 클릭시
+    @ResponseBody
+    @RequestMapping(value="toyProject/likeUpCheck", method = RequestMethod.POST)
+    public List<ProjectEntity> likeUpPost()throws Exception{
+        return toyService.likeUpToy();
+    }
 
-    // 상세 보기 페이지
+    @ResponseBody
+    @RequestMapping(value="toyProject/likeDownCheck", method = RequestMethod.POST)
+    public List<ProjectEntity> likeDownPost() throws Exception{
+        return toyService.likeDownToy();
+    }
 
+
+    // 좋아요 오름차순
+
+    // 상세 보기 페이지 http://localhost:3000/pi/toyDetail/12
+    @RequestMapping(value="toyProject/toyDetail/{projectIdx}", method = RequestMethod.GET)
+    public Optional<ProjectEntity> toyDetailGet(@PathVariable int projectIdx) throws Exception{
+
+        System.out.println("프로젝트 뿌리기");
+
+        return toyService.toyProjectSelect(projectIdx);
+    }
 
 
     // 프로젝트 이미지를 저장하는 메서드

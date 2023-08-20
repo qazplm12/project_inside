@@ -4,10 +4,11 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import TypeSearchProject from "./TypeSearchProject";
 import {InView, useInView} from "react-intersection-observer";
+import {Link} from "react-router-dom";
 
 
 function ToyListBoard(props) {
-
+    const [projectCode, setProjectCode] = useState([]); // 선택한 기술 스택을 담을 상태
     const [toyProjects, setToyProjects] = useState([]);
 
     const [isLoading, setIsLoading] = useState(false);
@@ -15,6 +16,9 @@ function ToyListBoard(props) {
 
     // 최신 순 클릭시
     const [latest, setLatest] = useState(true);
+
+    // 좋아요 순 클릭시
+    const [likeList, setLikeList] = useState(true);
 
     // 3칸씩 뿌려주기 위한 필드
     const thumbnailSize = 3;
@@ -39,6 +43,10 @@ function ToyListBoard(props) {
                 console.log('전송실패' + error);
                 setIsLoading(true);
             });
+    };
+
+    const handleTagSelectionInParent = (selectedTags) => {
+        setProjectCode(selectedTags);
     };
 
     useEffect(() => {
@@ -76,22 +84,56 @@ function ToyListBoard(props) {
         }
     }
 
+    // 찜많은 순 클릭시
+    const likeListCheck = () =>{
+        setLikeList(true);
+        if (likeList) {
+            axios.post("http://localhost:8080/pi/toyProject/ReLatest")
+                .then(response => {
+                    setToyProjects(response.data);
+                    setLikeList(false);
+                })
+                .catch(error => {
+                    console.log('최신화 실패');
+                    setLikeList(false);
+                });
+        } else {
+            axios.post("http://localhost:8080/pi/toyProject/Latest")
+                .then(response => {
+                    setToyProjects(response.data);
+                    setLikeList(true);
+                })
+                .catch(error => {
+                    console.log('최신화 실패');
+                    setLikeList(true);
+                });
+        }
+    }
+
     return (
         <Container>
             <Row >
-                <Col className={"mt-3 d-inline d-flex justify-content-end"}></Col>
-                <Col className={"mt-3 mb-3 d-inline  d-flex justify-content-end"}>
+                <Col sm={4} className={"mt-3 d-inline d-flex justify-content-end"}></Col>
+                <Col sm={4} className={"mt-3 mb-3 d-inline  d-flex justify-content-end"}>
                     <Button className={"theme-outline-btn"} onClick={LatestCheck}>
                         {latest ?
                                 <span >최신 순<i className={"bi bi-caret-down-fill ms-2"}></i></span>
                             :
                                 <span >최신 순<i className={"bi bi-caret-up-fill ms-2"}></i></span>
                         }
-
                     </Button>
-                    <Button className={"theme-btn ms-3"}>좋아요 순</Button>
+
+                    <Button className={"theme-btn ms-3"} onClick={likeListCheck}>
+                        {likeList ?
+                            // 찜 많은순??
+                            <span>좋아요 순<i className={"bi bi-caret-up-fill ms-2"}></i></span>
+                        :
+                            <span>좋아요 순<i className={"bi bi-caret-down-fill ms-2"}></i></span>
+                        }
+                    </Button>
                 </Col>
-                <Col sm className=" pb-3"><TypeSearchProject /></Col>
+                {/* 검색 실행후 바로 검색 되게 만드는 부분 */}
+                <Col sm={4} className=" pb-3"><TypeSearchProject onTagSelection={handleTagSelectionInParent}/></Col>
             </Row>
 
             <div>
