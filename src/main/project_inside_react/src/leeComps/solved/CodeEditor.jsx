@@ -1,26 +1,61 @@
-import React, {useState} from 'react';
-import CodeEditorJavaScript from "./CodeEditorJavaScript";
-import CodeEditorJava from "./CodeEditorJava";
-import CodeEditorPython from "./CodeEditorPython";
+import React from 'react';
+import {javascript} from "@codemirror/lang-javascript";
+import {java} from "@codemirror/lang-java";
+import {python} from "@codemirror/lang-python";
+import CodeMirror from "@uiw/react-codemirror";
+import {darcula} from "@uiw/codemirror-theme-darcula";
 
 function CodeEditor(props) {
-    const getSolvedLanguage = props.sendSolvedLanguage;
-    const getSolvedContent = props.sendSolvedContent;
+    const language = props.language;
+    const code = props.code;
+    const readOnly = props.readOnly;
 
-    if (getSolvedLanguage == 'JavaScript') {
-        return (
-            <CodeEditorJavaScript sendSolvedContent={getSolvedContent}/>
-        )
+    const value = `${code}
+    `
+    let extensions = [];
+    if (language == 'JavaScript') {
+        extensions = [javascript({ jsx: true })];
     }
-    else if (getSolvedLanguage == 'Java') {
-        return (
-            <CodeEditorJava sendSolvedContent={getSolvedContent}/>
-        )
+    else if (language == 'Java') {
+        extensions = [java()];
     }
-    else if (getSolvedLanguage == 'Python') {
+    else if (language == 'Python') {
+        extensions = [python()];
+    }
+
+    const onChange = React.useCallback((value, viewUpdate) => {
+        console.log('value:', value);
+        props.setCode(value);
+    }, []);
+
+    if (readOnly) {
         return (
-            <CodeEditorPython sendSolvedContent={getSolvedContent}/>
-        )
+            <div className={'form-control mt-3 p-3 bg-secondary'}>
+                <CodeMirror
+                    value={value}
+                    // height="200px"
+                    theme={darcula}
+                    extensions={extensions}
+                    className={'text-start'}
+                    onChange={onChange}
+                    readOnly={true}
+                />
+            </div>
+        );
+    }
+    else {
+        return (
+            <div className={'form-control mt-3 p-3 bg-secondary'}>
+                <CodeMirror
+                    value={value}
+                    // height="200px"
+                    theme={darcula}
+                    extensions={extensions}
+                    className={'text-start'}
+                    onChange={onChange}
+                />
+            </div>
+        );
     }
 }
 

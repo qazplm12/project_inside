@@ -1,8 +1,6 @@
 package com.bitc.project_inside.controller;
 
-import com.bitc.project_inside.data.entity.ChallengeEntity;
-import com.bitc.project_inside.data.entity.ScoringEntity;
-import com.bitc.project_inside.data.entity.SolvedEntity;
+import com.bitc.project_inside.data.entity.*;
 import com.bitc.project_inside.service.LeeService;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.*;
@@ -222,5 +220,38 @@ public class LeeController {
     @RequestMapping(value = "/solvedList", method = RequestMethod.GET)
     public List<SolvedEntity> solvedList(@RequestParam(value = "idx") int idx) throws Exception {
         return leeService.selectSolvedList(idx);
+    }
+
+    @RequestMapping(value = "/QnAList", method = RequestMethod.GET)
+    public List<QuestionEntity> selectQnAList(@RequestParam(value = "idx") int idx) throws Exception {
+        return leeService.selectQnAList(idx);
+    }
+
+    @RequestMapping(value = "/QnAItems", method = RequestMethod.GET)
+    public List<AnswerEntity> selectQnAItems(@RequestParam(value = "idx") int idx) throws Exception {
+        return leeService.selectQnAItems(idx);
+    }
+
+    @RequestMapping(value = "/Question", method = RequestMethod.POST)
+    public void qnaQuestion(@RequestBody Map<String, String> requestData) throws Exception {
+        int idx = Integer.parseInt(requestData.get("idx"));
+        String userNick = requestData.get("userNick");
+        String language = requestData.get("language");
+        String code = requestData.get("code");
+        String title = requestData.get("title");
+        String content = requestData.get("content");
+
+        leeService.saveQuestion(idx, userNick, language, code, title, content);
+    }
+
+    @RequestMapping(value = "/Answer", method = RequestMethod.POST)
+    public void qnaAnswer(@RequestBody Map<String, String> requestData) throws Exception {
+        int idx = Integer.parseInt(requestData.get("idx")); // 문제 번호가 아니라 질문 번호를 받아와야 함
+        String userNick = requestData.get("userNick");
+        String language = requestData.get("language");
+        String code = requestData.get("code");
+        String content = requestData.get("content");
+
+        leeService.saveAnswer(idx, userNick, language, code, content);
     }
 }

@@ -4,6 +4,9 @@ import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.data.entity.QuestionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface QuestionRepository extends JpaRepository<QuestionEntity, Integer> {
 
+    List<QuestionEntity> findAllByQuestionChallengeIdx(int idx) throws Exception;
 }

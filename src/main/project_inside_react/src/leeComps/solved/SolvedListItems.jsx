@@ -3,6 +3,7 @@ import CodeEditor from "./CodeEditor";
 
 function SolvedListItems(props) {
     const getItem = props.sendItem;
+    const readOnly = props.readOnly;
 
     return (
         <div className={'form-control mb-5 p-3'}>
@@ -15,7 +16,7 @@ function SolvedListItems(props) {
                     <p className={'mb-0'}>{getItem.solvedLanguage}</p>
                 </div>
             </div>
-            <CodeEditor sendSolvedLanguage={getItem.solvedLanguage} sendSolvedContent={getItem.solvedContent}/>
+            <CodeEditor language={getItem.solvedLanguage} code={getItem.solvedContent} readOnly={readOnly}/>
         </div>
     )
 }

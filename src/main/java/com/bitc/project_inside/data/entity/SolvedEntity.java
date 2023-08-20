@@ -22,7 +22,7 @@ public class SolvedEntity {
 
     private int solvedChallengeIdx;
 
-    private String solvedId;
+    private String solvedId;    // 나중에 nick으로 변경
 
     private String solvedContent;
 

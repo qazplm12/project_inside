@@ -24,13 +24,16 @@ public class QuestionEntity {
     private int questionChallengeIdx;
 
     @Column
-    private String questionId;
-
-    @Column
-    private String questionTitle;
+    private String questionNick;
 
     @Column
     private String questionLanguage;
+
+    @Column(length = 2000)
+    private String questionCode;
+
+    @Column
+    private String questionTitle;
 
     @Column(length = 2000)
     private String questionContent;
@@ -42,9 +45,11 @@ public class QuestionEntity {
 
 
     @Builder
-    public QuestionEntity (int questionIdx, int questionChallengeIdx, String questionId, String questionTitle, String questionContent, LocalDate questionDate) {
+    public QuestionEntity (int questionIdx, int questionChallengeIdx, String questionNick, String questionLanguage, String questionCode, String questionTitle, String questionContent, LocalDate questionDate) {
         this.questionIdx = questionIdx;
-        this.questionId = questionId;
+        this.questionNick = questionNick;
+        this.questionLanguage = questionLanguage;
+        this.questionCode = questionCode;
         this.questionChallengeIdx = questionChallengeIdx;
         this.questionTitle = questionTitle;
         this.questionContent = questionContent;

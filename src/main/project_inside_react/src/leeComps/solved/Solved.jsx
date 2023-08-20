@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import CodeEditorJavaScript from "./CodeEditorJavaScript";
-import CodeEditorJava from "./CodeEditorJava";
-import CodeEditorPython from "./CodeEditorPython";
 import axios from "axios";
 import {useSearchParams} from "react-router-dom";
-import CodeEditor from "./CodeEditor";
 import SolvedListItems from "./SolvedListItems";
 
 function Solved(props) {
@@ -58,12 +54,12 @@ function Solved(props) {
                         solvedList.map((item, index) => {
                             if (language == '전체 언어') {
                                 return (
-                                    <SolvedListItems sendItem={item}/>
+                                    <SolvedListItems sendItem={item} readOnly={true}/>
                                 )
                             }
                             else if (language == item.solvedLanguage) {
                                 return (
-                                    <SolvedListItems sendItem={item}/>
+                                    <SolvedListItems sendItem={item} readOnly={true}/>
                                 )
                             }
                         })
@@ -74,12 +70,12 @@ function Solved(props) {
                         solvedList.map((item, index) => {
                             if (userId == item.solvedId && language == '전체 언어') {
                                 return (
-                                    <SolvedListItems sendItem={item}/>
+                                    <SolvedListItems sendItem={item} readOnly={true}/>
                                 )
                             }
                             else if (userId == item.solvedId && language == item.solvedLanguage) {
                                 return (
-                                    <SolvedListItems sendItem={item}/>
+                                    <SolvedListItems sendItem={item} readOnly={true}/>
                                 )
                             }
                         })
