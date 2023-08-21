@@ -1,5 +1,6 @@
 package com.bitc.project_inside.controller;
 
+import com.bitc.project_inside.data.entity.MatchingEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.service.ToyService;
 import lombok.RequiredArgsConstructor;
@@ -115,9 +116,6 @@ public class ParkController {
         return toyService.likeDownToy();
     }
 
-
-    // 좋아요 오름차순
-
     // 상세 보기 페이지 http://localhost:3000/pi/toyDetail/12
     @RequestMapping(value="toyProject/toyDetail/{projectIdx}", method = RequestMethod.GET)
     public Optional<ProjectEntity> toyDetailGet(@PathVariable int projectIdx) throws Exception{
@@ -126,6 +124,23 @@ public class ParkController {
 
         return toyService.toyProjectSelect(projectIdx);
     }
+
+    // 참여 신청
+    @ResponseBody
+    @RequestMapping(value="toyProject/projectApplication", method = RequestMethod.POST)
+    public Optional<MatchingEntity> applicationPost() throws Exception{
+        return null;
+    }
+
+    // 참여 거절
+    @ResponseBody
+    @RequestMapping(value="toyProject/projectCancel", method = RequestMethod.POST)
+    public Optional<MatchingEntity> canselPost() throws Exception{
+        return null;
+    }
+
+
+
 
 
     // 프로젝트 이미지를 저장하는 메서드

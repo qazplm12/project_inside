@@ -41,7 +41,7 @@ function Park(props) {
         const formData = new FormData();
         formData.append("projectTitle",projectTitle)
         formData.append("totalPerson",totalPerson)
-        formData.append("projectCode",projectCode.join(','))
+        formData.append("projectCode",projectCode.join(', '))
         formData.append("levels",levels)
         formData.append("content",content)
         formData.append("projectThumbnail",projectThumbnail)

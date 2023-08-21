@@ -2,6 +2,7 @@ import {Card, Col, Row} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import toyStyles from "./toyStyles.css";
 
 function Thumbnail(props) {
     const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike} = props.toyProject;
@@ -9,7 +10,6 @@ function Thumbnail(props) {
     const [recruitMent, setRecruitMent] = useState(true);
 
     const likeProject = (e, projectIdx) => {
-        // 좋아요 취소 버튼 클릭 시
         if (iconCheck) {
             console.log('거짓');
             axios.post(
@@ -30,7 +30,6 @@ function Thumbnail(props) {
                     console.log('좋아요 -1 전송을 위한 플래그 실패');
                 });
         }
-        // 좋아요 선택 버튼 클릭 시
         else if(!iconCheck) {
             console.log('진실');
             axios.post('http://localhost:8080/pi/toyProject/likePlusProjectCheck',
@@ -51,6 +50,7 @@ function Thumbnail(props) {
         }
     };
 
+
     useEffect((e, projectIdx) => {
         likeProject(e, projectIdx)
     }, []);
@@ -60,11 +60,12 @@ function Thumbnail(props) {
     }
 
     return (
-        <Link to={`/pi/toyDetail/${projectIdx}`}>
         <Card className={"ms-3"} key={projectIdx}>
+        <Link to={`/pi/toyDetail/${projectIdx}`}>
             <Card.Header className={"p-0"}>
-                <Card.Img variant="top" src={"/images/thumbnail/" + projectThumbnail} className={"cardImg "}/>
+                <Card.Img variant="top" src={"/images/thumbnail/" + projectThumbnail} className={"cardImg"}/>
             </Card.Header>
+        </Link>
             <Card.Body>
                 <Card.Title>
                     <Row>
@@ -112,7 +113,6 @@ function Thumbnail(props) {
                 </Row>
             </Card.Body>
         </Card>
-        </Link>
     );
 }
 export default Thumbnail;
