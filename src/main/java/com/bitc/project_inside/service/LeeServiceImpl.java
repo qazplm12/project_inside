@@ -185,4 +185,10 @@ public class LeeServiceImpl implements LeeService {
                         .answerDate(LocalDate.now())
                 .build());
     }
+
+    @Override
+    @Transactional
+    public void updateAnswerCount(int idx) throws Exception {
+        questionRepository.updateAnswerCount(idx);
+    }
 }

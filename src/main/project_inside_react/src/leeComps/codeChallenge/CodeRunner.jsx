@@ -1,6 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {useSearchParams} from "react-router-dom";
+import CodeEditor from "../solved/CodeEditor";
+import {darcula} from "@uiw/codemirror-theme-darcula";
+import CodeMirror from "@uiw/react-codemirror";
+import {javascript} from "@codemirror/lang-javascript";
+import {java} from "@codemirror/lang-java";
+import {python} from "@codemirror/lang-python";
 
 function CodeRunner(props) {
     const getResult = props.sendResult;
@@ -13,6 +19,29 @@ function CodeRunner(props) {
 
     const [params, setParams] = useSearchParams();
     const idx = params.get('idx');
+
+    const value = `${code}`
+    const value2 = `${result}`
+
+    let extensions = [];
+    if (getLanguage == 'JavaScript') {
+        extensions = [javascript({ jsx: true })];
+    }
+    else if (getLanguage == 'Java') {
+        extensions = [java()];
+    }
+    else if (getLanguage == 'Python') {
+        extensions = [python()];
+    }
+
+    const onChange = React.useCallback((value, viewUpdate) => {
+        console.log('value:', value);
+        setCode(value);
+    }, []);
+
+    const onChangeResult = React.useCallback((value2, viewUpdate) => {
+        console.log('value2:', value2);
+    }, []);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/server/challenge?idx=${idx}`)  // 문제 정보 호출
@@ -62,8 +91,18 @@ function CodeRunner(props) {
                 </div>
             </div>
             <div className={'row'}>
-                <div className={'col-sm border border-1 border-top-0'} style={{height: '36vh'}} >
-                    <textarea name="" id="" cols="30" rows="10" value={code} onChange={(e) => setCode(e.target.value)}></textarea>
+                <div className={'col-sm border border-1 border-top-0 ps-0'} style={{height: '36vh'}} >
+                    {/*<CodeEditor setCode={setCode} code={code} />*/}
+                    <CodeMirror
+                        value={value}
+                        width="100%"
+                        height="36vh"
+                        theme={darcula}
+                        extensions={extensions}
+                        className={'text-start'}
+                        onChange={onChange}
+                    />
+                    {/*<textarea name="" id="" cols="30" rows="10" value={code} onChange={(e) => setCode(e.target.value)}></textarea>*/}
                 </div>
             </div>
             <div className={'row'}>
@@ -75,8 +114,17 @@ function CodeRunner(props) {
                 </div>
             </div>
             <div className={'row'}>
-                <div className={'col-sm border border-1 border-top-0'} style={{height: '36vh'}}>
-                    <textarea name="" id="" cols="30" rows="10" value={result}></textarea>
+                <div className={'col-sm border border-1 border-top-0 ps-0'} style={{height: '36vh'}}>
+                    <CodeMirror
+                        value={value2}
+                        width="100%"
+                        height="36vh"
+                        theme={darcula}
+                        extensions={extensions}
+                        className={'text-start'}
+                        onChange={onChangeResult}
+                    />
+                    {/*<textarea name="" id="" cols="30" rows="10" value={result}></textarea>*/}
                 </div>
             </div>
         </div>

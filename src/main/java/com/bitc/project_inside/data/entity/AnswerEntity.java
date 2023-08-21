@@ -21,9 +21,6 @@ public class AnswerEntity {
     private int answerIdx;
 
     @Column
-    private int answerChallengeIdx;
-
-    @Column
     private int answerQuestionIdx;
 
     @Column
@@ -43,9 +40,8 @@ public class AnswerEntity {
     private LocalDate answerDate;
 
     @Builder
-    public AnswerEntity (int answerIdx, int answerChallengeIdx, int answerQuestionIdx, String answerNick, String answerLanguage, String answerContent, String answerCode, LocalDate answerDate) {
+    public AnswerEntity (int answerIdx, int answerQuestionIdx, String answerNick, String answerLanguage, String answerContent, String answerCode, LocalDate answerDate) {
         this.answerIdx = answerIdx;
-        this.answerChallengeIdx = answerChallengeIdx;
         this.answerQuestionIdx = answerQuestionIdx;
         this.answerNick = answerNick;
         this.answerLanguage = answerLanguage;

@@ -1,16 +1,26 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import CodeEditor from "../solved/CodeEditor";
 import axios from "axios";
 
 function QuestionModal(props) {
+    const [show, setShow] = useState(false);
     const [language, setLanguage] = useState('JavaScript');
     const [code, setCode] = useState('');
     const [title, setTitle] = useState('');
     const [questionContent, setQuestionContent] = useState('');
 
     const idx = props.idx;
+
+    useEffect(() => {
+        setShow(props.questionModalShow);
+    }, [props.questionModalShow]);
+
+    const handleClose = () => {
+        setShow(false);
+        props.setQuestionModalShow(false);
+    };
 
     const handleSelect = (e) => {
         setLanguage(e.target.value);
@@ -30,16 +40,19 @@ function QuestionModal(props) {
             .then(res => {
                 // alert('통신 성공 : ' + res);
                 // console.log('통신 성공 : ' + res);
+                setShow(false); // 비동기 통신이기 때문에 axios 밖에 있으면 제대로 업뎃이 되지 않음.(아니면 async await 써야함)
+                props.setQuestionModalShow(false);
             })
             .then(err => {
-                alert('통신 실패 : ' + err);
-                console.log('통신 실패 : ' + err);
+                // alert('통신 실패 : ' + err);
+                // console.log('통신 실패 : ' + err);   // 코드 에디터의 useCallback 때문에 통신이 한번만 돼서 처음꺼만 들어가지고 두번째꺼는 안들어가지는듯
             })
     }
 
     return (
         <Modal
-            {...props}
+            show={show}
+            onHide={handleClose}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -61,7 +74,7 @@ function QuestionModal(props) {
                         <option value={'Python'}>Python</option>
                     </select>
                 </div>
-                <CodeEditor setCode={setCode} sendSolvedContent={`코드를 입력하세요`}/>
+                <CodeEditor setCode={setCode} code={`코드를 입력하세요`}/>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={props.onHide}>취소</Button>

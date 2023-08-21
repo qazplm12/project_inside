@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/static/css/main.613ebd53.css",
-    "main.js": "/static/js/main.847909f4.js",
+    "main.js": "/static/js/main.97034fb4.js",
     "static/js/787.4cdb8e87.chunk.js": "/static/js/787.4cdb8e87.chunk.js",
     "static/media/happycat.gif": "/static/media/happycat.d2313d2650209b4eb080.gif",
     "static/media/logo_nobg.png": "/static/media/logo_nobg.1743584a228526e06048.png",
     "static/media/logo_pi.jpg": "/static/media/logo_pi.371eebd9846845f6cd1d.jpg",
     "index.html": "/index.html",
     "main.613ebd53.css.map": "/static/css/main.613ebd53.css.map",
-    "main.847909f4.js.map": "/static/js/main.847909f4.js.map",
+    "main.97034fb4.js.map": "/static/js/main.97034fb4.js.map",
     "787.4cdb8e87.chunk.js.map": "/static/js/787.4cdb8e87.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.613ebd53.css",
-    "static/js/main.847909f4.js"
+    "static/js/main.97034fb4.js"
   ]
 }

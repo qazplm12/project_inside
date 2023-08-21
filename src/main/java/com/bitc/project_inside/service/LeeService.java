@@ -39,4 +39,6 @@ public interface LeeService {
     QuestionEntity saveQuestion(int idx, String userNick, String language, String code, String title, String content) throws Exception;
 
     AnswerEntity saveAnswer(int idx, String userNick, String language, String code, String content) throws Exception;
+
+    void updateAnswerCount(int idx) throws Exception;
 }

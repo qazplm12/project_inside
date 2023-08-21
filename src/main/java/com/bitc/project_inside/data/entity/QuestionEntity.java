@@ -42,10 +42,13 @@ public class QuestionEntity {
     @CreatedDate
     private LocalDate questionDate;
 
+    @Column
+    private int questionCount;
+
 
 
     @Builder
-    public QuestionEntity (int questionIdx, int questionChallengeIdx, String questionNick, String questionLanguage, String questionCode, String questionTitle, String questionContent, LocalDate questionDate) {
+    public QuestionEntity (int questionIdx, int questionChallengeIdx, String questionNick, String questionLanguage, String questionCode, String questionTitle, String questionContent, LocalDate questionDate, int questionCount) {
         this.questionIdx = questionIdx;
         this.questionNick = questionNick;
         this.questionLanguage = questionLanguage;
@@ -54,5 +57,6 @@ public class QuestionEntity {
         this.questionTitle = questionTitle;
         this.questionContent = questionContent;
         this.questionDate = questionDate;
+        this.questionCount = questionCount;
     }
 }

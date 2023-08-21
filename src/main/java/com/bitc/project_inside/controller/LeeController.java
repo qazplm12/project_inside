@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -194,6 +195,7 @@ public class LeeController {
     @RequestMapping(value = "/challengeWrong", method = RequestMethod.POST)
     public void wrong(@RequestParam(value = "userId") String userId, @RequestParam(value = "idx") int idx) throws Exception {
         leeService.saveScoringLogWrong(userId, idx);
+        leeService.updateChallenge(idx);
     }
 
     // 문제 정답일때(최초 정보 입력 가능)
@@ -253,5 +255,6 @@ public class LeeController {
         String content = requestData.get("content");
 
         leeService.saveAnswer(idx, userNick, language, code, content);
+        leeService.updateAnswerCount(idx);
     }
 }

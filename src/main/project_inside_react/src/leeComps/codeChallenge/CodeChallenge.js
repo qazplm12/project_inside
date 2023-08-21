@@ -173,6 +173,8 @@ function CodeChallenge(props) {
                                 testCount++;
                                 wrongCount++;
                                 console.log("테스트" + testCount + " 실패!!");
+                                str = str.concat(`테스트 ${testCount} 실패.. 입력값 : ${argu1}, ${argu2} 기댓값 : ${expectedValue} \n`);
+                                setResult(str);
                                 if (wrongCount == listLength) {
                                     alert("오답입니다");
                                     // scoringLog 테이블 오답내역 넣기
