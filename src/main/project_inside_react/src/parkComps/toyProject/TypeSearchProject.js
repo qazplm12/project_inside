@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Typeahead} from "react-bootstrap-typeahead";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import "../../simComps/myPage/Account/Token.css";
+import {useSelector} from "react-redux";
 
 // 기존 컴포넌트를 참고하여 input 텍스트 안에 기술스택 넣기
 function TypeSearchProject(props) {
@@ -97,11 +98,23 @@ function TypeSearchProject(props) {
 
     useEffect(() => {
         if (tagLayerRef.current) {
-            // 태그 레이어의 너비를 선택된 태그의 길이에 따라 동적으로 조정
-            const newWidth = tagLayerRef.current.scrollWidth + 20; // 여분의 여백 추가
+            const newWidth = tagLayerRef.current.scrollWidth + 20;
             setTagLayerWidth(newWidth);
         }
     }, [selectedTags]);
+
+    const [tag, setTag] = useState('');
+
+    const handleTagChange = (e) => {
+        const newTag = e.target.value;
+        setTag(newTag);
+        props.onTagChangeInParent(newTag);
+    };
+
+
+    const sendTagToParent = () => {
+        props.onTagReceived(tag); // 콜백 함수 호출하여 데이터 전달
+    };
 
     return (
         <div>
@@ -147,6 +160,7 @@ function TypeSearchProject(props) {
                 {selectedTags.map((tag, index) => (
                     <div key={index} className="custom-token theme-bg">
                         <div className={'d-flex'}>
+                            <input type={"hidden"} value={tag} onChange={handleTagChange}/>
                             <span>{tag}</span>
                         </div>
                     </div>

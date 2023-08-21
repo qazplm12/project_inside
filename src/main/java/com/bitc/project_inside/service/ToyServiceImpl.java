@@ -82,7 +82,7 @@ public class ToyServiceImpl implements  ToyService{
     }
 
     @Override
-    public Optional<ProjectEntity> toyProjectSearch(String keyword) throws Exception {
-        return projectRepository.findProjectsByProjectLanguage(keyword);
+    public List<ProjectEntity> toyProjectSearch(String keyword) throws Exception {
+        return projectRepository.findProjectsByProjectLanguageContaining(keyword);
     }
 }

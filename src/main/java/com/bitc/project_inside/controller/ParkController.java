@@ -120,7 +120,8 @@ public class ParkController {
     // 검색기능
     @ResponseBody
     @RequestMapping(value="toyProject/codeSearch", method = RequestMethod.POST)
-    public Optional<ProjectEntity> searchPost(@RequestParam String keyword) throws Exception{
+    public List<ProjectEntity> searchPost(@RequestParam String keyword) throws Exception{
+        System.out.println("검색어 전송 ::" + keyword);
         return toyService.toyProjectSearch(keyword);
     }
 
