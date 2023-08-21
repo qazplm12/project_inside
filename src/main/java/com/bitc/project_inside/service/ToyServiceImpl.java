@@ -78,4 +78,9 @@ public class ToyServiceImpl implements  ToyService{
     public Optional<ProjectEntity> toyProjectSelect(int projectIdx) throws Exception {
         return projectRepository.findById(projectIdx);
     }
+
+    @Override
+    public Optional<ProjectEntity> toyProjectSearch(String keyword) throws Exception {
+        return projectRepository.findProjectsByProjectLanguage(keyword);
+    }
 }

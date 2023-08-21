@@ -25,4 +25,6 @@ public interface ToyService {
     List<ProjectEntity> likeDownToy() throws Exception;
 
     Optional<ProjectEntity> toyProjectSelect(int projectIdx) throws Exception;
+
+    Optional<ProjectEntity> toyProjectSearch(String keyword) throws Exception;
 }

@@ -29,10 +29,10 @@ function ToyListBoard(props) {
             threshold : 0,
         })
 
+
     const loadMoreItems = () => {
         setIsLoading(true);
-        axios
-            .get(`http://localhost:8080/pi/toyProject/ToyListBoard?page=${page}`)
+        axios.get(`http://localhost:8080/pi/toyProject/ToyListBoard?page=${page}`)
             .then(response => {
                 // setToyProjects(prevProjects => [...prevProjects, ...response.data]);
                 setToyProjects((e) => [...response.data]);
@@ -49,6 +49,23 @@ function ToyListBoard(props) {
         setProjectCode(selectedTags);
     };
 
+    // useEffect(() => {
+    //     if (projectCode.length > 0) {
+    //         axios.post(`http://localhost:8080/toyProject/codeSearch?keyword=${projectCode}`)
+    //             .then(response => {
+    //                 setToyProjects(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.log('검색 실패: ' + error);
+    //             });
+    //     }
+    // }, [projectCode]);
+
+    useEffect(() => {
+        // selectedTags가 업데이트될 때마다 원하는 작업 수행
+        console.log('Selected tags from child:', projectCode);
+    }, [projectCode]);
+
     useEffect(() => {
         loadMoreItems();
     }, []);
@@ -59,7 +76,6 @@ function ToyListBoard(props) {
 
     // 최신 순 클릭 시
     const LatestCheck = () => {
-
         setLatest(true);
         if (latest) {
             axios.post("http://localhost:8080/pi/toyProject/ReLatest")

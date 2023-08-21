@@ -116,6 +116,13 @@ public class ParkController {
         return toyService.likeDownToy();
     }
 
+    // 검색기능
+    @ResponseBody
+    @RequestMapping(value="toyProject/codeSearch", method = RequestMethod.POST)
+    public Optional<ProjectEntity> searchPost(@RequestParam String keyword) throws Exception{
+        return toyService.toyProjectSearch(keyword);
+    }
+
     // 상세 보기 페이지 http://localhost:3000/pi/toyDetail/12
     @RequestMapping(value="toyProject/toyDetail/{projectIdx}", method = RequestMethod.GET)
     public Optional<ProjectEntity> toyDetailGet(@PathVariable int projectIdx) throws Exception{

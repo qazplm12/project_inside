@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import toyStyles from "./toyStyles.css";
 
 function Thumbnail(props) {
-    const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike} = props.toyProject;
+    const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike,projectLevel} = props.toyProject;
     const [iconCheck, setIconCheck] = useState(true);
     const [recruitMent, setRecruitMent] = useState(true);
 
@@ -97,16 +97,23 @@ function Thumbnail(props) {
                 <Row>
                     <Col sm={6}>
                         <div className={"mb-5"}>
-                            <span className={"text-start d-block theme-font"}>참여 인원 / 총 인원<br/>(0/{projectMember})</span>
+                            <span className={"text-start d-block theme-font"}>참여 인원 0명 /<br/> 총 인원 {projectMember}명<br/></span>
                         </div>
                         <div className={"d-flex"}>
                             <span className={"text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
                         </div>
                     </Col>
                     <Col sm={6}>
-                        <div className={"mt-5 pt-5 ms-5"}>
-                            <span className={"text-success-emphasis "} onChange={recruitMentChange} >
-                                {recruitMent ? ("모집 완료") : ("모집 중")}
+                        <div className={"mt-1 ms-5"}>
+                            <span className={"theme-font fw-bold"}>참여가능 레벨</span><br/>
+                            <span className={"theme-font"}>Lv{projectLevel}</span>
+                        </div>
+                        <div className={"mt-5 ms-5"}>
+                            <span className={"text-success-emphasis"} onChange={recruitMentChange} >
+                                {recruitMent ?
+                                    <span className={"theme-font"}>모집 완료</span>
+                                    :
+                                    <span className={"theme-font"}>모집 중</span>}
                             </span>
                         </div>
                     </Col>
