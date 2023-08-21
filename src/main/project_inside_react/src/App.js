@@ -13,7 +13,7 @@ import UserAuth from "./simComps/login&signup/UserAuth";
 import MyPage from "./simComps/myPage/MyPage";
 import Admin from "./simComps/admin/Admin";
 import Solved from "./leeComps/solved/Solved";
-import ProjectBoard from "./parkComps/projectBoard/ProjectBoard";
+import ProjectBoard from "./simComps/projectBoard/ProjectBoard";
 
 function App(props) {
     return (

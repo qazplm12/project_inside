@@ -4,10 +4,8 @@ package com.bitc.project_inside.service;
 import com.bitc.project_inside.data.entity.AlarmEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
-import com.bitc.project_inside.data.repository.AlarmRepository;
-import com.bitc.project_inside.data.repository.InquiryRepository;
-import com.bitc.project_inside.data.repository.PersonRepository;
-import com.bitc.project_inside.data.repository.ProjectRepository;
+import com.bitc.project_inside.data.entity.TodoEntity;
+import com.bitc.project_inside.data.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +26,7 @@ public class SimServiceImpl implements SimService{
     private final AlarmRepository alarmRepository;
     private final InquiryRepository inquiryRepository;
     private final ProjectRepository projectRepository;
+    private final TodoRepository todoRepository;
 
     @Value("${app.upload-profile-dir}")
     private String uploadDir;
@@ -110,6 +109,21 @@ public class SimServiceImpl implements SimService{
         }
 
 
+    }
+
+    @Override
+    public List<TodoEntity> getTodoList(int todoMatchingIdx) throws Exception {
+        return todoRepository.findByTodoMatchingIdx(todoMatchingIdx);
+    }
+
+    @Override
+    public void addTodoItem(TodoEntity todoEntity) throws Exception {
+        todoRepository.save(todoEntity);
+    }
+
+    @Override
+    public void editTodoItem(TodoEntity todoEntity) throws Exception {
+        todoRepository.save(todoEntity);
     }
 
 }
