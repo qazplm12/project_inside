@@ -34,7 +34,6 @@ function ToyListBoard(props) {
         setIsLoading(true);
         axios.get(`http://localhost:8080/pi/toyProject/ToyListBoard?page=${page}`)
             .then(response => {
-                // setToyProjects(prevProjects => [...prevProjects, ...response.data]);
                 setToyProjects((e) => [...response.data]);
                 setIsLoading(false);
                 setPage(prevPage => prevPage + 1);
@@ -46,20 +45,27 @@ function ToyListBoard(props) {
     };
 
     const handleTagSelectionInParent = (selectedTags) => {
-        setProjectCode(selectedTags);
-    };
+        //     if (selectedTags.includes(selectedTags)) {
+        //         setSelectedTags(selectedTags.filter(t => t !== selectedTags));
+        //     } else {
+        //         setSelectedTags([...selectedTags, selectedTags]);
+        //     }
+        };
 
     // useEffect(() => {
-    //     if (projectCode.length > 0) {
+    //     if (selectedTags.length > 0) {
     //         axios.post(`http://localhost:8080/toyProject/codeSearch?keyword=${projectCode}`)
     //             .then(response => {
-    //                 setToyProjects(response.data);
+    //                 console.log('아프다')
+    //                 setProjectCode(response.data);
     //             })
     //             .catch(error => {
     //                 console.log('검색 실패: ' + error);
     //             });
+    //     } else {
+    //         setProjectCode([]); // 선택한 태그가 없을 경우 결과 초기화
     //     }
-    // }, [projectCode]);
+    // }, );
 
     useEffect(() => {
         // selectedTags가 업데이트될 때마다 원하는 작업 수행
@@ -149,7 +155,10 @@ function ToyListBoard(props) {
                     </Button>
                 </Col>
                 {/* 검색 실행후 바로 검색 되게 만드는 부분 */}
-                <Col sm={4} className=" pb-3"><TypeSearchProject onTagSelection={handleTagSelectionInParent}/></Col>
+                <Col sm={4} className=" pb-3">
+                    {/*<input onClick />*/}
+                    <TypeSearchProject onTagSelection={handleTagSelectionInParent}/>
+                </Col>
             </Row>
 
             <div>

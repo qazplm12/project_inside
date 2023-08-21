@@ -44,6 +44,7 @@ public class ToyServiceImpl implements  ToyService{
 
     @Override
     public void likePlusProjectLike(int projectIdx) throws Exception {
+        System.out.println("Plus idx값 확인"+projectIdx);
         try{
             projectRepository.likePlusProjectLike(projectIdx);
         }
@@ -55,6 +56,7 @@ public class ToyServiceImpl implements  ToyService{
 
     @Override
     public void likeMinProjectLike(int projectIdx) throws Exception {
+        System.out.println("Min idx값 확인"+projectIdx);
         try{
             projectRepository.likeMinProjectLike(projectIdx);
         }

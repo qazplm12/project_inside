@@ -98,6 +98,7 @@ public class ParkController {
     @ResponseBody
     @RequestMapping(value="toyProject/likeMinProjectCheck", method = RequestMethod.POST)
     public void minLikePost( @RequestBody ProjectEntity projectEntity) throws Exception{
+        System.out.println("123::"+projectEntity.getProjectIdx());
         int projectIdx = projectEntity.getProjectIdx();
         System.out.println("-1 타나");
         toyService.likeMinProjectLike(projectIdx);
@@ -145,10 +146,6 @@ public class ParkController {
     public Optional<MatchingEntity> canselPost() throws Exception{
         return null;
     }
-
-
-
-
 
     // 프로젝트 이미지를 저장하는 메서드
     private String saveProjectImage(MultipartFile image) {
