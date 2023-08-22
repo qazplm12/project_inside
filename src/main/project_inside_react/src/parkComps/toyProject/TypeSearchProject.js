@@ -11,7 +11,6 @@ function TypeSearchProject(props) {
     const [selectedTags, setSelectedTags] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [tokenValues, setTokenValues] = useState([]);
-    const [newTag, setNewTag] =useState([]);
 
     // 기술 스택 종류
     const options = ["Python",
@@ -95,6 +94,7 @@ function TypeSearchProject(props) {
 
     const handleTagSelections = (tags) => {
         setSelectedTags(tags);
+        props.handleTagChange(tags);
     };
 
     useEffect(() => {
@@ -106,16 +106,15 @@ function TypeSearchProject(props) {
 
     const [tag, setTag] = useState('');
 
-    const handleTagChange = (e) => {
-        setNewTag(e.target.value) ;
-        console.log(newTag)
-        // setTag(newTag);
-        // props.onTagChangeInParent(newTag);
-    };
+
 
 
     const sendTagToParent = () => {
         props.onTagReceived(tag); // 콜백 함수 호출하여 데이터 전달
+    };
+
+    const handleTagChange = (tag) => {
+        props.handleTagChange(tag)
     };
 
     return (
@@ -163,7 +162,6 @@ function TypeSearchProject(props) {
                 {selectedTags.map((tag, index) => (
                     <div key={index} className="custom-token theme-bg">
                         <div className={'d-flex'}>
-                            <input type={"hidden"} value={tag} onChange={handleTagChange}/>
                             <span>{tag}</span>
                         </div>
                     </div>

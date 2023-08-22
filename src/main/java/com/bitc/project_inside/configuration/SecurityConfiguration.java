@@ -65,7 +65,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/login", "/signup", "/user", "/pi", "/**").permitAll() // 비회원이 이용 가능한 페이지
                         .anyRequest().authenticated())
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
-                        .loginPage("/login")
+//                        .loginPage("/login")
 //            .loginProcessingUrl("/login_process")
                         .usernameParameter("personId")
                         .passwordParameter("personPassword")

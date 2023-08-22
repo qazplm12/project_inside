@@ -3,6 +3,7 @@ package com.bitc.project_inside.controller;
 import com.bitc.project_inside.data.entity.MatchingEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.service.ToyService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -120,7 +121,7 @@ public class ParkController {
     // 검색기능
     @ResponseBody
     @RequestMapping(value="toyProject/codeSearch", method = RequestMethod.POST)
-    public List<ProjectEntity> searchPost(@RequestParam String keyword) throws Exception{
+    public List<ProjectEntity> searchPost(@RequestParam("keyword") String keyword) throws Exception{
         System.out.println("검색어 전송 ::" + keyword);
         return toyService.toyProjectSearch(keyword);
     }
