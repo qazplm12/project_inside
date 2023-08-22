@@ -49,7 +49,7 @@ function ToyListBoard(props) {
         setProjectCode(tag);
             axios.post(`http://localhost:8080/pi/toyProject/codeSearch?keyword=${projectCode}`)
                 .then(response => {
-                    console.log('아프다')
+                    console.log('아프다!')
                     setProjectCode(response.data);
                 })
                 .catch(error => {
