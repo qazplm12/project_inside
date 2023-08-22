@@ -1,1 +1,6 @@
-{}
+{
+  "dependencies": {
+    "frappe-gantt-react": "^0.2.2",
+    "styled-components": "^6.0.7"
+  }
+}

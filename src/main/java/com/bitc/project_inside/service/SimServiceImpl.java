@@ -3,13 +3,18 @@ package com.bitc.project_inside.service;
 
 import com.bitc.project_inside.data.entity.AlarmEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
-import com.bitc.project_inside.data.repository.AlarmRepository;
-import com.bitc.project_inside.data.repository.InquiryRepository;
-import com.bitc.project_inside.data.repository.PersonRepository;
+import com.bitc.project_inside.data.entity.ProjectEntity;
+import com.bitc.project_inside.data.entity.TodoEntity;
+import com.bitc.project_inside.data.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +25,11 @@ public class SimServiceImpl implements SimService{
     private final PersonRepository personRepository;
     private final AlarmRepository alarmRepository;
     private final InquiryRepository inquiryRepository;
+    private final ProjectRepository projectRepository;
+    private final TodoRepository todoRepository;
 
+    @Value("${app.upload-profile-dir}")
+    private String uploadDir;
     @Override
     public int isUser(String email) throws Exception {
 
@@ -70,6 +79,51 @@ public class SimServiceImpl implements SimService{
     @Override
     public List<PersonEntity> getPersonList() throws Exception {
         return personRepository.findAllPerson();
+    }
+
+    @Override
+    public List<ProjectEntity> getProjectList() throws Exception {
+        return projectRepository.findAllByOrderByProjectDateDesc();
+    }
+
+    @Override
+    public String personProfileImg(MultipartFile personProfileImg) throws Exception {
+
+        String profileImgName = personProfileImg.getOriginalFilename();
+        String fileExtension = profileImgName.substring(profileImgName.lastIndexOf(".")+1);
+        String fileName = System.currentTimeMillis() + "_" + Math.random() + "." + fileExtension;
+        String savedImagePath = uploadDir + File.separator + fileName;
+
+        try {
+            byte[] imageData = personProfileImg.getBytes();;
+            File imageFile = new File(savedImagePath);
+
+            try(FileOutputStream fos = new FileOutputStream(imageFile)){
+                fos.write(imageData);
+            }
+
+            return fileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
+    @Override
+    public List<TodoEntity> getTodoList(int todoMatchingIdx) throws Exception {
+        return todoRepository.findByTodoMatchingIdx(todoMatchingIdx);
+    }
+
+    @Override
+    public void addTodoItem(TodoEntity todoEntity) throws Exception {
+        todoRepository.save(todoEntity);
+    }
+
+    @Override
+    public void editTodoItem(TodoEntity todoEntity) throws Exception {
+        todoRepository.save(todoEntity);
     }
 
 }

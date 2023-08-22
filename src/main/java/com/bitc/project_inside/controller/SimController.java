@@ -2,11 +2,14 @@ package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.entity.AlarmEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
+import com.bitc.project_inside.data.entity.ProjectEntity;
+import com.bitc.project_inside.data.entity.TodoEntity;
 import com.bitc.project_inside.service.SimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +39,10 @@ public class SimController {
             // 로그인 정보 받아와서 personEntity 객체 생성
 
             // 매개변수(파일 경로정보)를 personEntity 에 추가
-
             // public/image 폴더에 실제 파일 저장하는 과정
+            String profileImgPath = simService.personProfileImg(personProfileImg);
+
+            System.out.println(profileImgPath);
 
         }
         if (personNickName != null) {
@@ -163,8 +168,88 @@ public class SimController {
     public List<PersonEntity> getPersonList() throws Exception {
         System.out.println("--------- /getPersonList 서버 --------");
 
+
         return simService.getPersonList();
     }
 
+
+    // 메인 페이지 관련
+    @RequestMapping(value = "/getProjectList", method = RequestMethod.POST)
+    public List<ProjectEntity> getProjectList() throws Exception {
+        System.out.println("--------- /getProjectList 서버 --------");
+
+
+        return simService.getProjectList();
+    }
+
+    // 프로젝트 보드 관련
+    @RequestMapping(value = "/getTodoList", method = RequestMethod.POST)
+    public List<TodoEntity> getTodoList(@RequestParam(value = "todoMatchingIdx") int todoMatchingIdx) throws Exception {
+        System.out.println("--------- /getTodoList 서버 --------");
+
+
+        return simService.getTodoList(todoMatchingIdx);
+    }
+
+    @RequestMapping(value = "/addTodoItem", method = RequestMethod.POST)
+    public List<TodoEntity> addTodoItem(
+            @RequestParam int todoMatchingIdx,
+            @RequestParam String todoNickName,
+            @RequestParam String todoTitle,
+            @RequestParam String todoStatus,
+            @RequestParam String todoContent,
+            @RequestParam LocalDate todoStartDay,
+            @RequestParam LocalDate todoEndDay
+    ) throws Exception {
+        System.out.println("--------- /addTodoItem 서버 --------");
+        TodoEntity todoEntity = new TodoEntity();
+        todoEntity.setTodoMatchingIdx(todoMatchingIdx);
+        todoEntity.setTodoMemberNick(todoNickName);
+        todoEntity.setTodoTitle(todoTitle);
+        todoEntity.setTodoStatus(todoStatus);
+        todoEntity.setTodoContent(todoContent);
+        todoEntity.setTodoStartDate(todoStartDay);
+        todoEntity.setTodoEndDate(todoEndDay);
+
+        System.out.println(todoEntity);
+
+        simService.addTodoItem(todoEntity);
+
+        return simService.getTodoList(todoMatchingIdx);
+    }
+
+    @RequestMapping(value = "/editTodoItem", method = RequestMethod.POST)
+    public List<TodoEntity> editTodoItem(
+
+            @RequestParam int todoIdx,
+            @RequestParam int todoMatchingIdx,
+            @RequestParam String todoNickName,
+            @RequestParam String todoStatus,
+            @RequestParam String todoTitle,
+            @RequestParam String todoContent,
+            @RequestParam LocalDate todoStartDay,
+            @RequestParam LocalDate todoEndDay,
+            @RequestParam int todoProgress
+    ) throws Exception {
+        System.out.println("--------- /editTodoItem 서버 --------");
+        TodoEntity todoEntity = new TodoEntity();
+
+        todoEntity.setTodoIdx(todoIdx);
+        todoEntity.setTodoMatchingIdx(todoMatchingIdx);
+        todoEntity.setTodoMemberNick(todoNickName);
+        todoEntity.setTodoTitle(todoTitle);
+        todoEntity.setTodoStatus(todoStatus);
+        todoEntity.setTodoContent(todoContent);
+        todoEntity.setTodoStartDate(todoStartDay);
+        todoEntity.setTodoEndDate(todoEndDay);
+        todoEntity.setTodoProgress(todoProgress);
+
+        System.out.println(todoIdx);
+        System.out.println(todoEntity);
+
+        simService.editTodoItem(todoEntity);
+
+        return simService.getTodoList(todoMatchingIdx);
+    }
 
 }

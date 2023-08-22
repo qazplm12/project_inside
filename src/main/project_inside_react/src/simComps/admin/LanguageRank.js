@@ -56,7 +56,7 @@ function LanguageRank(props) {
                 <tr>
                     {
                         data.map((item, index, array) => (
-                            <td key={index} className={'py-4'}>{item.count}명 선호({Math.round(Number(item.count) / totalCount * 100)}%)</td>
+                            <td key={index} className={'py-4'}>{item.count}명 선호({Math.round(Number(item.count) / props.userList.length * 100)}%)</td>
                         ))
 
                     }

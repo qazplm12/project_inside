@@ -13,6 +13,7 @@
     "cheerio": "^1.0.0-rc.12",
     "dompurify": "^3.0.5",
     "frappe-gantt": "^0.6.1",
+    "frappe-gantt-react": "^0.2.2",
     "iconv-lite": "^0.6.3",
     "intersection-observer": "^0.12.2",
     "react": "^18.2.0",
@@ -51,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sass": "^1.66.1"
   }
 }

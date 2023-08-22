@@ -6,6 +6,35 @@ import LanguageTab from "./LanguageTab";
 
 function HeaderNavbar(props) {
 
+    // 검색 연동용
+    const [mode, setMode] = useState(1);
+    const [searchKeyword, setSearchKeyword] = useState("");
+
+    useEffect(() => {
+        console.log(mode)
+        console.log(searchKeyword)
+    }, [searchKeyword, mode]);
+
+    const doSearch = () => {
+
+        if (searchKeyword) {
+            switch (mode) {
+                case 1 :
+                    return window.location.href = `challengeList?keyword=${searchKeyword}`;
+
+                case 2 :
+                    return window.location.href = `toyListBoard?keyword=${searchKeyword}`;
+            }
+        } else {
+            alert('검색어를 입력해주세요');
+            document.getElementById('searchBox').focus();
+        }
+
+
+
+    };
+
+
     const [show, setShow] = useState(false);
 
     const showHandler = () => {
@@ -56,13 +85,19 @@ function HeaderNavbar(props) {
                         </li>
                     </ul>
                     <form className={"d-flex"} role="search">
-                        <select className="form-select w-50 me-2" aria-label="Default select example">
-                            <option value="1" defaultChecked={true}>문제</option>
-                            <option value="2">프로젝트</option>
+                        <select className="form-select w-50 me-2" aria-label="Default select example"
+                                onChange={e => setMode(Number(e.target.value))}
+                        >
+                            <option value={1} defaultChecked={true}>문제</option>
+                            <option value={2}>프로젝트</option>
                         </select>
                         <input className={"form-control me-2"} type="search" placeholder="Search"
+                               id={'searchBox'}
+                               onChange={e => setSearchKeyword(e.target.value)}
                                aria-label="Search"/>
-                        <button className={"btn btn-outline-light"} type="submit"><i className="bi bi-search"></i>
+                        <button className={"btn btn-outline-light"} type="button"
+                                onClick={doSearch}
+                        ><i className="bi bi-search"></i>
                         </button>
                     </form>
                 </div>

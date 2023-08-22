@@ -1,23 +1,32 @@
 package com.bitc.project_inside.configuration;
 
+import com.bitc.project_inside.security.JwtAuthenticationFilter;
 import com.bitc.project_inside.service.PersonDetailService;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
+@EnableWebSecurity
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration {
 
     private final PersonDetailService personDetailService;
+    final private JwtAuthenticationFilter jwtAuthenticationFilter;
+
 
 
     //  스프링 시큐리티에서는 무조건 암호화된 비밀번호를 사용해야 함
@@ -78,6 +87,8 @@ public class SecurityConfiguration {
                         .clearAuthentication(true))
                 .build();
     }
+
+
 
     //  사용 권한 인증 관리자 설정
 //        @Bean

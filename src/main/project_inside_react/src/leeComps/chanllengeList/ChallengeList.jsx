@@ -28,6 +28,18 @@ function ChallengeList(props) {
 
     }, [solvedState,challengeClass, search]);
 
+    useEffect(() => {
+        //  검색어 연동
+        const params = window.location.search;
+        const keyword = decodeURI(params.substring(9))
+        if (params) {
+            setSearch(keyword)
+            setSendSearch(keyword)
+        }
+
+    }, []);
+
+
     const handleSearch = (e) => {
         setSendSearch(search);  // 전달 이벤트
     }

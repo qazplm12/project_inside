@@ -52,6 +52,22 @@ dependencies {
     // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
     implementation 'commons-fileupload:commons-fileupload:1.5'
 
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+//  implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+//  testImplementation 'org.springframework.security:spring-security-test'
+
+
+//  JJWT를 최신 버전으로 변경함
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-gson
+    implementation 'io.jsonwebtoken:jjwt-gson:0.11.5'
+
 
 }
 

@@ -38,8 +38,17 @@ public class TodoEntity {
     private String todoMemberNick;
 
     @Column
-    @CreatedDate
-    private LocalDate todoDate;
+    private LocalDate todoStartDate;
+
+    @Column
+    private LocalDate todoEndDate;
+
+
+    // 진행률
+    @Column
+    private int todoProgress;
+
+
 
     @Column
     private String todoFilePath; // 라이브러리 사용 가능 확인 / 오프캔버스 때만 보이기, 상세내용 작성 시
