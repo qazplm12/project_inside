@@ -29,4 +29,6 @@ public interface SolvedRepository extends JpaRepository<SolvedEntity, Integer> {
     SolvedEntity findBySolvedIdAndSolvedChallengeIdxAndSolvedLanguage(String userId, int idx, String language) throws Exception;
 
     int countBySolvedChallengeIdx(int idx) throws Exception;
+
+    List<SolvedEntity> findAllBySolvedChallengeIdx(int idx) throws Exception;
 }

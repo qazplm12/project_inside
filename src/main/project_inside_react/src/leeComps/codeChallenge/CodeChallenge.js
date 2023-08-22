@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import CodeRunner from "./CodeRunner";
 import axios from "axios";
 import ChallengeExplain from "./ChallengeExplain";
-import {useSearchParams} from "react-router-dom";
+import {useSearchParams, useNavigate} from "react-router-dom";
 
 function CodeChallenge(props) {
     const [language, setLanguage] = useState('JavaScript');
@@ -13,6 +13,8 @@ function CodeChallenge(props) {
 
     const [params, setParams] = useSearchParams();
     const idx = params.get('idx');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`http://localhost:8080/server/challenge?idx=${idx}`)  // 문제 정보 호출
@@ -34,6 +36,14 @@ function CodeChallenge(props) {
 
     const getCode = (code) => { // 자식 컴포넌트로 부터 코드 접수
         setCode(code);  // 크롤링과 api에 전달하기 위해 코드 세팅 -- 이까지는 정상(템플릿 안됨)
+    }
+
+    const handleQnA = (e) => {
+        navigate(`/pi/QnA?idx=${idx}`);
+    }
+
+    const handleSolved = (e) => {
+        navigate(`/pi/solved?idx=${idx}`);
     }
 
     const handleReset = (e) => {
@@ -163,6 +173,8 @@ function CodeChallenge(props) {
                                 testCount++;
                                 wrongCount++;
                                 console.log("테스트" + testCount + " 실패!!");
+                                str = str.concat(`테스트 ${testCount} 실패.. 입력값 : ${argu1}, ${argu2} 기댓값 : ${expectedValue} \n`);
+                                setResult(str);
                                 if (wrongCount == listLength) {
                                     alert("오답입니다");
                                     // scoringLog 테이블 오답내역 넣기
@@ -188,19 +200,20 @@ function CodeChallenge(props) {
     }
 
     function correct() {
-        axios.post(`http://localhost:8080/server/challengeCorrect`, null, {
-            params: {
-                userId: userId,
-                idx: idx,
-                language: language,
-                code: code
-            }
-        })
+        const requestData = {   // 코드를 JSON 형식으로 변환(자바언어가 textarea로 입력이 안되는 인코딩 이슈 발생)
+            userId: userId,
+            idx: idx,
+            language: language,
+            code: code
+        };
+
+        axios.post(`http://localhost:8080/server/challengeCorrect`, requestData)
             .then(res => {
                 // alert("저장성공 : " + res.data);
             })
             .catch(err => {
                 alert("통신 실패 : " + err);
+                console.log("통신 실패 : " + err);
             });
     }
 
@@ -216,6 +229,7 @@ function CodeChallenge(props) {
             })
             .catch(err => {
                 alert("통신 실패 : " + err);
+                console.log("통신 실패 : " + err);
             });
     }
 
@@ -246,9 +260,9 @@ function CodeChallenge(props) {
             </div>
             <div className={'row'}>
                 <div className={'d-flex py-2'}>
-                    <button className={'theme-btn ms-2'}>질문하기</button>
+                    <button className={'theme-btn ms-2'} onClick={handleQnA}>질문하기</button>
                     <button className={'theme-btn ms-2 me-auto'}>테스트 케이스 추가하기</button>
-                    <button className={'theme-btn me-2'}>다른 사람의 풀이</button>
+                    <button className={'theme-btn me-2'} onClick={handleSolved}>다른 사람의 풀이</button>
                     <button className={'theme-btn me-2'} onClick={handleReset}>초기화</button>
                     <button className={'theme-btn me-2'} onClick={handleRun}>코드 실행</button>
                     <button className={'theme-btn me-2'} onClick={handleSubmit}>제출 후 채점하기</button>

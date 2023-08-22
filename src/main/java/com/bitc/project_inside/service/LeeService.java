@@ -29,4 +29,16 @@ public interface LeeService {
     ScoringLogEntity saveScoringLogCorrect(String userId, int idx) throws Exception;
 
     void updateChallenge(int idx) throws Exception;
+
+    List<SolvedEntity> selectSolvedList(int idx) throws Exception;
+
+    List<QuestionEntity> selectQnAList(int idx) throws Exception;
+
+    List<AnswerEntity> selectQnAItems(int idx) throws Exception;
+
+    QuestionEntity saveQuestion(int idx, String userNick, String language, String code, String title, String content) throws Exception;
+
+    AnswerEntity saveAnswer(int idx, String userNick, String language, String code, String content) throws Exception;
+
+    void updateAnswerCount(int idx) throws Exception;
 }

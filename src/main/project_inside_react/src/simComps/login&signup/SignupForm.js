@@ -2,6 +2,7 @@ import React, {useEffect, useState,} from 'react';
 import {Form, InputGroup} from "react-bootstrap";
 import DisabledButton from "../commons/DisabledButton";
 import axios from "axios";
+import {signUp} from "../../service/Service";
 
 function SignupForm(props) {
 
@@ -119,19 +120,27 @@ function SignupForm(props) {
     }, [nick]);
 
     const insertPerson = () => {
-        axios.post("http://localhost:8080/insertPerson", null, {
-            params: {
-                personId: mailVal,
-                personNickName: nick,
-                personPassword: password2,
-            }
-        })
-            .then((resp) => {
-                // 회원가입 완료시 토큰 발급, 메인화면 or 로그인 탭으로 이동
-            })
-            .catch((err) => {
-                alert(err);
-            });
+
+        signUp({
+            personId: mailVal,
+            personNickName: nick,
+            personPassword: password2,
+        });
+
+
+        // axios.post("http://localhost:8080/signup", null, {
+        //     params: {
+        //         personId: mailVal,
+        //         personNickName: nick,
+        //         personPassword: password2,
+        //     }
+        // })
+        //     .then((resp) => {
+        //         // 회원가입 완료시 토큰 발급, 메인화면 or 로그인 탭으로 이동
+        //     })
+        //     .catch((err) => {
+        //         alert(err);
+        //     });
     };
 
     useEffect(() => {

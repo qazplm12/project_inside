@@ -18,19 +18,22 @@ public class QuestionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int questionIdx;
+    private Integer questionIdx;
 
     @Column
     private int questionChallengeIdx;
 
     @Column
-    private String questionId;
-
-    @Column
-    private String questionTitle;
+    private String questionNick;
 
     @Column
     private String questionLanguage;
+
+    @Column(length = 2000)
+    private String questionCode;
+
+    @Column
+    private String questionTitle;
 
     @Column(length = 2000)
     private String questionContent;
@@ -39,15 +42,21 @@ public class QuestionEntity {
     @CreatedDate
     private LocalDate questionDate;
 
+    @Column
+    private int questionCount;
+
 
 
     @Builder
-    public QuestionEntity (int questionIdx, int questionChallengeIdx, String questionId, String questionTitle, String questionContent, LocalDate questionDate) {
+    public QuestionEntity (int questionIdx, int questionChallengeIdx, String questionNick, String questionLanguage, String questionCode, String questionTitle, String questionContent, LocalDate questionDate, int questionCount) {
         this.questionIdx = questionIdx;
-        this.questionId = questionId;
+        this.questionNick = questionNick;
+        this.questionLanguage = questionLanguage;
+        this.questionCode = questionCode;
         this.questionChallengeIdx = questionChallengeIdx;
         this.questionTitle = questionTitle;
         this.questionContent = questionContent;
         this.questionDate = questionDate;
+        this.questionCount = questionCount;
     }
 }

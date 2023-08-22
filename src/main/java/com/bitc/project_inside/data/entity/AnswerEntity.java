@@ -24,21 +24,29 @@ public class AnswerEntity {
     private int answerQuestionIdx;
 
     @Column
-    private String answerChallengeId;
+    private String answerNick;
 
     @Column(length = 2000)
     private String answerContent;
+
+    @Column
+    private String answerLanguage;
+
+    @Column(length = 2000)
+    private String answerCode;
 
     @Column
     @CreatedDate
     private LocalDate answerDate;
 
     @Builder
-    public AnswerEntity (int answerIdx, int answerQuestionIdx, String answerChallengeId, String answerContent, LocalDate answerDate) {
+    public AnswerEntity (int answerIdx, int answerQuestionIdx, String answerNick, String answerLanguage, String answerContent, String answerCode, LocalDate answerDate) {
         this.answerIdx = answerIdx;
-        this.answerChallengeId = answerChallengeId;
         this.answerQuestionIdx = answerQuestionIdx;
+        this.answerNick = answerNick;
+        this.answerLanguage = answerLanguage;
         this.answerContent = answerContent;
+        this.answerCode = answerCode;
         this.answerDate = answerDate;
     }
 }

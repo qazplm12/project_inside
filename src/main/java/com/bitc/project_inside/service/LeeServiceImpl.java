@@ -4,11 +4,14 @@ import com.bitc.project_inside.data.entity.*;
 import com.bitc.project_inside.data.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LeeServiceImpl implements LeeService {
@@ -19,6 +22,8 @@ public class LeeServiceImpl implements LeeService {
     private final SolutionRepository solutionRepository;
     private final ScoringRepository scoringRepository;
     private final ScoringLogRepository scoringLogRepository;
+    private final AnswerRepository answerRepository;
+    private final QuestionRepository questionRepository;
 
     @Override
     public List<ChallengeEntity> selectChallengeList() throws Exception {
@@ -126,9 +131,9 @@ public class LeeServiceImpl implements LeeService {
     @Override
     public ScoringLogEntity saveScoringLogCorrect(String userId, int idx) throws Exception {
         return scoringLogRepository.save(ScoringLogEntity.builder()
-                .scoringLogId(userId)
-                .scoringLogChallengeIdx(idx)
-                .correct("Y")
+                        .scoringLogId(userId)
+                        .scoringLogChallengeIdx(idx)
+                        .correct("Y")
                 .build());
     }
 
@@ -142,4 +147,54 @@ public class LeeServiceImpl implements LeeService {
         challengeRepository.updateCompletePerson(idx);
         challengeRepository.updateCorrectPercent(idx, correctPercent);
     }
+
+    @Override
+    public List<SolvedEntity> selectSolvedList(int idx) throws Exception {
+        return solvedRepository.findAllBySolvedChallengeIdx(idx);
+    }
+
+    @Override
+    public List<QuestionEntity> selectQnAList(int idx) throws Exception {
+        return questionRepository.findAllByQuestionChallengeIdx(idx);
+    }
+
+    @Override
+    public List<AnswerEntity> selectQnAItems(int idx) throws Exception {
+        return answerRepository.findAllByAnswerQuestionIdx(idx);
+    }
+
+    @Override
+    public QuestionEntity saveQuestion(int idx, String userNick, String language, String code, String title, String content) throws Exception {
+        return questionRepository.save(QuestionEntity.builder()
+                .questionChallengeIdx(idx)
+                .questionNick(userNick)
+                .questionLanguage(language)
+                .questionCode(code)
+                .questionTitle(title)
+                .questionContent(content)
+                .questionDate(LocalDate.now())
+                .build());
+    }
+
+    @Override
+    public AnswerEntity saveAnswer(int idx, String userNick, String language, String code, String content) throws Exception {
+        return answerRepository.save(AnswerEntity.builder()
+                        .answerQuestionIdx(idx)
+                        .answerNick(userNick)
+                        .answerLanguage(language)
+                        .answerCode(code)
+                        .answerContent(content)
+                        .answerDate(LocalDate.now())
+                .build());
+    }
+
+    @Override
+    @Transactional
+    public void updateAnswerCount(int idx) throws Exception {
+        questionRepository.updateAnswerCount(idx);
+    }
+
+
+
+
 }

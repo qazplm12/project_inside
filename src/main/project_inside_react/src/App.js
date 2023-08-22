@@ -13,7 +13,12 @@ import UserAuth from "./simComps/login&signup/UserAuth";
 import MyPage from "./simComps/myPage/MyPage";
 import Admin from "./simComps/admin/Admin";
 import Solved from "./leeComps/solved/Solved";
+<<<<<<< HEAD
 import ProjectBoard from "./simComps/projectBoard/ProjectBoard";
+=======
+import QnA from "./leeComps/qna/QnA";
+import SignupTest from "./simComps/login&signup/SignupTest";
+>>>>>>> ezbranch
 
 function App(props) {
     return (
@@ -30,11 +35,16 @@ function App(props) {
                         <Route path={'challengeList'} element={<ChallengeList/>}></Route>
                         <Route path={'admin'} element={<Admin/>}></Route>
                         <Route path={'solved'} element={<Solved/>}></Route>
+<<<<<<< HEAD
                         <Route path={'projectBoard'} element={<ProjectBoard />}></Route>
+=======
+                        <Route path={'QnA'} element={<QnA/>}></Route>
+>>>>>>> ezbranch
                     </Route>
                     {/* 그 외 개별 컴포넌트들 */}
                     <Route path={'/userAuth/:into'} element={<UserAuth/>}></Route>
                     <Route path={'/codeChallenge'} element={<CodeChallenge/>}></Route>
+                    <Route path={'/signupTest'} element={<SignupTest/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
