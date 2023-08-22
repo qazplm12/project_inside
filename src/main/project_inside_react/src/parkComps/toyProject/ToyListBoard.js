@@ -44,7 +44,8 @@ function ToyListBoard(props) {
             });
     };
 
-    const handleTagSelectionInParent = (tag) => {
+    const handleTagChange = (tag) => {
+        console.log('확인')
         setProjectCode(tag);
             axios.post(`http://localhost:8080/pi/toyProject/codeSearch?keyword=${projectCode}`)
                 .then(response => {
@@ -119,7 +120,7 @@ function ToyListBoard(props) {
     return (
         <Container>
             <Row >
-                <Col sm={4} className={"mt-3 d-inline d-flex justify-content-end"}></Col>
+                <Col sm={2} className={"mt-3 d-inline d-flex justify-content-end"}></Col>
                 <Col sm={4} className={"mt-3 mb-3 d-inline  d-flex justify-content-end"}>
                     <Button className={"theme-outline-btn"} onClick={LatestCheck}>
                         {latest ?
@@ -139,9 +140,9 @@ function ToyListBoard(props) {
                     </Button>
                 </Col>
                 {/* 검색 실행후 바로 검색 되게 만드는 부분 */}
-                <Col sm={4} className=" pb-3">
+                <Col sm className="pb-3">
                     {/*<input onClick />*/}
-                    <TypeSearchProject onTagChangeInParent={handleTagSelectionInParent}/>
+                    <TypeSearchProject onTagChangeInParent={handleTagChange}/>
                 </Col>
             </Row>
 

@@ -11,6 +11,7 @@ function TypeSearchProject(props) {
     const [selectedTags, setSelectedTags] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [tokenValues, setTokenValues] = useState([]);
+    const [newTag, setNewTag] =useState([]);
 
     // 기술 스택 종류
     const options = ["Python",
@@ -106,9 +107,10 @@ function TypeSearchProject(props) {
     const [tag, setTag] = useState('');
 
     const handleTagChange = (e) => {
-        const newTag = e.target.value;
-        setTag(newTag);
-        props.onTagChangeInParent(newTag);
+        setNewTag(e.target.value) ;
+        console.log(newTag)
+        // setTag(newTag);
+        // props.onTagChangeInParent(newTag);
     };
 
 
@@ -124,7 +126,7 @@ function TypeSearchProject(props) {
                 <Typeahead
                     id="search-bar"
                     labelKey="name"
-                    className={'m-1 mt-3 d-inline-block'} style={{ width: "65%" }}
+                    className={'m-1 mt-3 d-inline-block '} style={{ width: "75%" }}
                     placeholder={'기술명으로 검색'}
                     multiple
                     renderToken={(option, props, index) => (
@@ -141,7 +143,7 @@ function TypeSearchProject(props) {
             <div
                 ref={tagLayerRef}
                 style={{
-                    position: 'absolute',
+                    position: 'inherit',
                     display: 'flex',
                     flexWrap: 'wrap',
                     padding: '10px',
@@ -150,9 +152,10 @@ function TypeSearchProject(props) {
                     borderRadius: '5px',
                     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                     overflow: 'auto',
-                    marginTop: '-50px',
-                    marginLeft: '280px',
-                    width: '250px', // 선택된 태그 레이어 고정 너비
+                    marginTop: '-42px',
+                    marginLeft: '-200px',
+                    height : '40px',
+                    width: '330px', // 선택된 태그 레이어 고정 너비
                     left: '50%', // 왼쪽으로 중앙 정렬
                     transform: 'translateX(150%)', // 중앙 정렬을 위한 트랜스폼
                 }}
