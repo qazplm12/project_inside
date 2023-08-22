@@ -2,10 +2,13 @@ package com.bitc.project_inside.data.DTO;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonRequest {
 
+    private String token;
     private int personIdx;
 
     private String personId; // email
@@ -18,5 +21,13 @@ public class PersonRequest {
 
     private int personLevel;
 
-    private int personTotalScore;
+
+
+//    @Builder
+//    public PersonRequest(int personIdx, String personId, String personPassword) {
+//        this.personIdx = personIdx;
+//        this.personId = personId;
+//        this.personPassword = personPassword;
+//
+//    }
 }

@@ -14,6 +14,7 @@ import MyPage from "./simComps/myPage/MyPage";
 import Admin from "./simComps/admin/Admin";
 import Solved from "./leeComps/solved/Solved";
 import QnA from "./leeComps/qna/QnA";
+import SignupTest from "./simComps/login&signup/SignupTest";
 
 function App(props) {
     return (
@@ -35,6 +36,7 @@ function App(props) {
                     {/* 그 외 개별 컴포넌트들 */}
                     <Route path={'/userAuth/:into'} element={<UserAuth/>}></Route>
                     <Route path={'/codeChallenge'} element={<CodeChallenge/>}></Route>
+                    <Route path={'/signupTest'} element={<SignupTest/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>

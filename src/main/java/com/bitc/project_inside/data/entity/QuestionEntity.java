@@ -18,7 +18,7 @@ public class QuestionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int questionIdx;
+    private Integer questionIdx;
 
     @Column
     private int questionChallengeIdx;

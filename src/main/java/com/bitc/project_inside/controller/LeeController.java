@@ -1,16 +1,22 @@
 package com.bitc.project_inside.controller;
 
+import com.bitc.project_inside.data.DTO.PersonRequest;
+import com.bitc.project_inside.data.DTO.ResponseDTO;
 import com.bitc.project_inside.data.entity.*;
+import com.bitc.project_inside.security.TokenProvider;
 import com.bitc.project_inside.service.LeeService;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +28,11 @@ import java.util.concurrent.TimeUnit;
 public class LeeController {
 
     private final LeeService leeService;
+
+    // 암호 생성 객체
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    
+    private final TokenProvider tokenProvider;
 
     // 문제 리스트
     @RequestMapping(value="/challengeList", method = RequestMethod.GET)
@@ -235,6 +246,10 @@ public class LeeController {
     }
 
     @RequestMapping(value = "/Question", method = RequestMethod.POST)
+//    public ResponseEntity<?> qnaQuestion(
+//            @AuthenticationPrincipal String personId,
+//            @RequestBody Map<String, String> requestData
+//    ) throws Exception {
     public void qnaQuestion(@RequestBody Map<String, String> requestData) throws Exception {
         int idx = Integer.parseInt(requestData.get("idx"));
         String userNick = requestData.get("userNick");
@@ -242,6 +257,17 @@ public class LeeController {
         String code = requestData.get("code");
         String title = requestData.get("title");
         String content = requestData.get("content");
+//        QuestionEntity entity = null;
+//
+//        entity.setQuestionChallengeIdx(Integer.parseInt(requestData.get("idx")));
+//        entity.setQuestionNick(requestData.get("userNick"));
+//        entity.setQuestionLanguage(requestData.get("language"));
+//        entity.setQuestionCode(requestData.get("code"));
+//        entity.setQuestionTitle(requestData.get("title"));
+//        entity.setQuestionContent(requestData.get("content"));
+//
+//        entity.setQuestionIdx(null);
+//        entity.setPersonId(personId);
 
         leeService.saveQuestion(idx, userNick, language, code, title, content);
     }
@@ -257,4 +283,6 @@ public class LeeController {
         leeService.saveAnswer(idx, userNick, language, code, content);
         leeService.updateAnswerCount(idx);
     }
+
+
 }

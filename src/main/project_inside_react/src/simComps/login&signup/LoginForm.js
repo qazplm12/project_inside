@@ -1,7 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Form, InputGroup} from "react-bootstrap";
+import {login} from "../../service/Service";
 
 function LoginForm(props) {
+    const [userId, setUserId] = useState("");
+    const [userPw, setUserPw] = useState("");
+    const doLogin = () => {
+
+        login(userId, userPw);
+    };
+
+    useEffect(() => {
+        console.log(userId, userPw)
+    }, [userId, userPw]);
 
     return (
         <Form action="">
@@ -11,6 +22,7 @@ function LoginForm(props) {
                 <Form.Control
                     type={'email'}
                     placeholder="이메일을 입력해주세요"
+                    onChange={e => setUserId(e.target.value)}
                     aria-describedby="basic-addon1"
                     name={'personId'}
                 />
@@ -22,12 +34,13 @@ function LoginForm(props) {
                 <Form.Control
                     type={'password'}
                     placeholder="비밀번호를 입력해주세요"
+                    onChange={e => setUserPw(e.target.value)}
                     aria-describedby="basic-addon2"
                     name={'personPassword'}
                 />
             </InputGroup>
             <div className={'d-grid my-5'}>
-            <button type={'submit'} className={'theme-btn py-2'}>로그인</button>
+            <button type={'button'} onClick={doLogin} className={'theme-btn py-2'}>로그인</button>
             </div>
         </Form>
     )

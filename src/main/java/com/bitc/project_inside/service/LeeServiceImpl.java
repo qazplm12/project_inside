@@ -4,12 +4,14 @@ import com.bitc.project_inside.data.entity.*;
 import com.bitc.project_inside.data.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LeeServiceImpl implements LeeService {
@@ -191,4 +193,8 @@ public class LeeServiceImpl implements LeeService {
     public void updateAnswerCount(int idx) throws Exception {
         questionRepository.updateAnswerCount(idx);
     }
+
+
+
+
 }

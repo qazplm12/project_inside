@@ -14,7 +14,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PersonEntity implements UserDetails {
+public class PersonEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,44 +53,10 @@ public class PersonEntity implements UserDetails {
 
 
     @Builder
-    public PersonEntity(String personId, String personPassword, String auth) {
+    public PersonEntity(String personId, String personPassword, String personNickName, String auth) {
         this.personId = personId;
         this.personPassword = personPassword;
+        this.personNickName = personNickName;
     }
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return personPassword;
-    }
-
-    @Override
-    public String getUsername() {
-        return personId;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
