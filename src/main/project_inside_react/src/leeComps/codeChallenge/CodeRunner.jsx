@@ -123,6 +123,7 @@ function CodeRunner(props) {
                         extensions={extensions}
                         className={'text-start'}
                         onChange={onChangeResult}
+                        readOnly={true}
                     />
                     {/*<textarea name="" id="" cols="30" rows="10" value={result}></textarea>*/}
                 </div>
