@@ -78,8 +78,9 @@ function HeaderNavbar(props) {
                             {/* 부모 컴포넌트 영역에서 모달 on시키고, 자식 컴포넌트 영역에서 부모 컴포넌트의 함수를 실행시켜서 모달을 off 시킴 */}
                             <a onClick={
                                 props.isLoggedIn
-                                    ? () => {setShow(true)}
-                                    : needLogin
+                                    ? needLogin
+                                    :
+                                    () => {setShow(true)}
                             } className={"theme-link-white mx-3"}>문의</a>
                             <Inquiry showHandler={showHandler} show={show} />
                         </li>
