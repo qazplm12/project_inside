@@ -3,7 +3,7 @@ import axios from "axios";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import TypeAheadProject from "./TypeAheadProject";
+import TypeAheadProject from "../toyboard/boardcomponent/TypeAheadProject";
 import {useNavigate} from "react-router-dom";
 import {Button} from "react-bootstrap";
 

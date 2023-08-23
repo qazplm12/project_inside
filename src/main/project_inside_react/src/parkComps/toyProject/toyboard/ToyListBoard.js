@@ -1,10 +1,10 @@
 import {Button,  Col, Container, Row} from "react-bootstrap";
-import Thumbnail from "./component/Thumbnail";
+import Thumbnail from "./boardcomponent/Thumbnail";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import TypeSearchProject from "./component/TypeSearchProject";
+import TypeSearchProject from "./boardcomponent/TypeSearchProject";
 import {InView, useInView} from "react-intersection-observer";
-import ProjectSide from "./component/ProjectSide";
+import ProjectSide from "./boardcomponent/ProjectSide";
 
 
 function ToyListBoard(props) {
@@ -25,9 +25,11 @@ function ToyListBoard(props) {
     const [chunksThumbnail, setChunksThumbnail] = useState([]);
 
     // 무한스크롤 필드
-        const { ref, inView, entry} = useInView({
-            threshold : 0,
-        })
+    const { ref, inView, entry} = useInView({
+        threshold : 0,
+    })
+
+
 
 
     // ...toyProjects,
@@ -45,25 +47,25 @@ function ToyListBoard(props) {
             });
     };
 
-        const tagSearchChange = () =>{
+    const tagSearchChange = () =>{
 
     }
 
     // 검색 axios
-        const handleTagSelections = (tag) => {
-            console.log(tag+ "아프다 ")
-                setProjectCode(tag);
-            axios.post(`http://localhost:8080/pi/toyProject/codeSearch?keyword=${tag}`)
-                .then(response => {
-                    console.log('아프다')
-                    setProjectCode(response.data);
+    const handleTagSelections = (tag) => {
+        console.log(tag+ "아프다 ")
+        setProjectCode(tag);
+        axios.post(`http://localhost:8080/pi/toyProject/codeSearch?keyword=${tag}`)
+            .then(response => {
+                console.log('아프다')
+                setProjectCode(response.data);
 
-                    setToyProjects(response.data)
-                })
-                .catch(error => {
-                    console.log('검색 실패: ' + error);
-                });
-        };
+                setToyProjects(response.data)
+            })
+            .catch(error => {
+                console.log('검색 실패: ' + error);
+            });
+    };
 
     // useEffect(() => {
     //     handleTagSelections(tag);

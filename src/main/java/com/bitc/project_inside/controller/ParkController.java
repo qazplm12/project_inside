@@ -1,7 +1,9 @@
 package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.entity.MatchingEntity;
+import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
+import com.bitc.project_inside.service.SimService;
 import com.bitc.project_inside.service.ToyService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -124,6 +126,21 @@ public class ParkController {
     public List<ProjectEntity> searchPost(@RequestParam("keyword") String keyword) throws Exception{
         System.out.println("검색어 전송 ::" + keyword);
         return toyService.toyProjectSearch(keyword);
+    }
+
+    // side profile(사이드 프로필)
+    @ResponseBody
+    @RequestMapping(value="toyProject/sideProfile",method = RequestMethod.GET)
+    public int sideProfileGet(@RequestParam(value = "personId") String personId) throws Exception{
+        System.out.println("com in value email??"+personId);
+        try{
+            return toyService.sideProfile(personId);
+        }
+        catch (Exception e){
+            System.out.println("이메일 정보가 없습니다."+e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     // 상세 보기 페이지 http://localhost:3000/pi/toyDetail/12

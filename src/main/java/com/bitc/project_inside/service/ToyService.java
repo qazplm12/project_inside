@@ -27,4 +27,6 @@ public interface ToyService {
     Optional<ProjectEntity> toyProjectSelect(int projectIdx) throws Exception;
 
     List<ProjectEntity> toyProjectSearch(String keyword) throws Exception;
+
+    int sideProfile(String personId) throws Exception;
 }

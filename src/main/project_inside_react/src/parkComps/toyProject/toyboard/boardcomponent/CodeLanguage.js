@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import options from './LanguageData';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import '../../toyStyles.css';
+import '../../layout/toyStyles.css';
 
 function codeLanguage(option, state) {
   if (state.selected.length) {

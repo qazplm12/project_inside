@@ -2,7 +2,7 @@ import {Card, Col, Row} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import toyStyles from "../../toyStyles.css";
+import toyStyles from "../../layout/toyStyles.css";
 
 function Thumbnail(props) {
     const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike,projectLevel} = props.toyProject;
@@ -102,7 +102,7 @@ function Thumbnail(props) {
                             <Col sm={2} >
                                 <div className={"float-start mt-2"}>
                                     <span>
-                                        {iconCheck ? (projectLike + 1) : (projectLike - 1)}
+                                        {iconCheck }
                                        </span>
                                 </div>
                             </Col>

@@ -3,7 +3,7 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import ReactQuill from "react-quill";
-import ProjectDate from "./ProjectDate";
+import ProjectDate from "./detailcomponent/ProjectDate";
 
 function ToyDetail(props) {
 

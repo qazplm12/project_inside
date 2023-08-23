@@ -24,6 +24,7 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 
     boolean existsByPersonId(String personId);
 
+
     // 아이디 중복 검사
 
 }
