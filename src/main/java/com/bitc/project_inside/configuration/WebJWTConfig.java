@@ -20,6 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebJWTConfig {
     final private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
