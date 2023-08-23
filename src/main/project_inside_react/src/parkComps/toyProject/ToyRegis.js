@@ -4,8 +4,8 @@ import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import TypeAheadProject from "./TypeAheadProject";
-import theme from '../../theme.css'
 import {useNavigate} from "react-router-dom";
+import {Button} from "react-bootstrap";
 
 
 
@@ -22,6 +22,8 @@ function Park(props) {
     const [levels, setLevels] = useState("1");
 
     const locationMove = useNavigate();
+
+    const navigate = useNavigate();
 
     const handleTagSelectionInParent = (selectedTags) => {
         setProjectCode(selectedTags);
@@ -74,7 +76,7 @@ function Park(props) {
                     ["blockquote"],
                     [{ list: "ordered" }, { list: "bullet" }],
                     [{ color: [] }, { background: [] }],
-                    [{ align: [] }, "link", "image"],
+                    [{ align: [] }, "video", "image"],
                 ],
             },
         }
@@ -156,8 +158,9 @@ function Park(props) {
             </div>
             <div className={"row mt-5"}>
                 <div className={"col-sm-12"}>
-                    <div className={"d-grid justify-content-md-end"}>
-                        <button type={"submit"} className={"btn btn-primary theme-btn"}>등록</button>
+                    <div className={"d-block text-end mt-3"}>
+                        <Button type={"submit"} className={"btn  btn-lg btn-primary theme-btn"}>등록</Button>
+                        <Button type={"button"} className={"btn btn-lg  btn-danger theme-btn ms-3"} onClick={() => navigate(-1)}>취소</Button>
                     </div>
                 </div>
             </div>

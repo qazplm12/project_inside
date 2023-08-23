@@ -26,7 +26,7 @@ function ToyDetail(props) {
     const projectLike  = (e) =>{
         setLikeProject(likeProject => !likeProject);
 
-        if (!likeProject) {
+        if (likeProject) {
             alert('참여 신청을 하였습니다.');
             // axios.post(`http://localhost:8080/pi/toyProject/projectApplication`)
             //     .then(response=>{
@@ -47,36 +47,33 @@ function ToyDetail(props) {
         }
     }
 
+        const modules = {
+            toolbar: false
+        };
+
     return (
         <Container>
             {/* 썸내일 */}
             <Row className={"my-3"}>
                 <Col sm={8} className={"mx-auto d-block"}>
                     <div className={"p-2 "}>
-                        <img src={"/images/thumbnail/" + toyProject.projectThumbnail} className={"w-100 h-75  rounded-5"}/>
+                        <img src={"/images/thumbnail/" + toyProject.projectThumbnail} className={"rounded-5"}  style={{ width: "850px", height: "630px" }} />
                     </div>
                 </Col>
             </Row>
             {/* 프로젝트 기본 정보및 개설자 정보 */}
             <Row className={"py-3 mt-2"}>
                 <Col sm={8}>
-                    <div className={'mx-auto ps-5'}>
-                        <span className={"ps-3 fs-1 text-secondary fw-bold"}> {toyProject.projectTitle}</span>
-                        <span className={"fs-1 ps-5"} onClick={projectLike}>
-                        {likeProject ? (
-                            <i className="bi bi-heart-fill text-danger text-danger me-5 pe-5"></i>
-                        ) : (
-                            <i className="bi bi-heart text-danger me-5 pe-5"></i>
-                        )}
-                        </span>
+                    <div className={'me-5 pe-5'}>
+                        <span className={"fs-1 text-secondary fw-bold"}> {toyProject.projectTitle}</span>
                     </div>
                 </Col>
             </Row>
             {/* 등록자 프로필 */}
             <Row className={"py-5 border-top mx-auto rounded-1 mt-2"}>
-                <Col sm={6} className={"ps-5"}>
-                    <div>
-                        <img src={"/images/profile.jpg"} className={"rounded-circle h-75"}/>
+                <Col sm={6}>
+                    <div className={'box mx-auto'}>
+                        <img src={"/images/profile.jpg"} className={"rounded-circle profile"}/>
                     </div>
                     <div className={"mt-5"}>
                         <span className={"text-secondary fs-5"}>프로젝트 관리자 프로필 <br/>
@@ -101,7 +98,12 @@ function ToyDetail(props) {
                 </Col>
             </Row>
             {/*총 모집 인원 / 참여가능레벨 / 날짜 */}
-            <Row className={"py-5 border-top border-bottom mx-auto rounded-1 mt-2"}>
+            <Row className={"py-5 border-top mx-auto rounded-1 mt-2"}>
+                <div>
+                    <span className={"fw-bold fs-3 text-secondary"}>[프로젝트 상세]</span>
+                </div>
+            </Row>
+            <Row>
                 <Col sm={6}>
                     <div>
                         <span><i className="text-danger-emphasis fs-3 bi bi-people-fill"></i></span>
@@ -130,8 +132,22 @@ function ToyDetail(props) {
                         <span className={"text-secondary fs-3 fw-bold"}>프로젝트 내용</span>
                     </div>
                     <div>
-                        <ReactQuill value={toyProject.projectContent} readOnly={true} />
+                        <ReactQuill value={toyProject.projectContent} readOnly={true} modules={modules}/>
                     </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col sm={12} >
+                    <div className={'py-4 d-flex justify-content-end'}>
+                        <span onClick={projectLike} className={""}>
+                            {likeProject ? (
+                                <Button type={'button'} className={'btn btn-lg btn-secondary fw-bold'}>프로젝트 참여</Button>
+                            ) : (
+                                <Button type={'button'} className={'btn btn-lg btn-secondary fw-bold'}>프로젝트 취소</Button>
+                                )}
+                        </span>
+                    </div>
+
                 </Col>
             </Row>
         </Container>

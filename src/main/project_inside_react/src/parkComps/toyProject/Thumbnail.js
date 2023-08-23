@@ -8,9 +8,17 @@ function Thumbnail(props) {
     const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike,projectLevel} = props.toyProject;
     const [iconCheck, setIconCheck] = useState(true);
     const [recruitMent, setRecruitMent] = useState(true);
+    const [likeCount, setLikeCount] = useState(projectLike);
     const [toyIdx, setToyIdx] =useState('')
+    const updatedLikeCount = iconCheck ? likeCount - 1 : likeCount + 1;
+
+    useEffect(() => {
+        likeProject(projectIdx);
+    }, [projectIdx]);
 
     const likeProject = (projectIdx) => {
+        const updatedLikeCount = iconCheck ? (likeCount - 1) : (likeCount + 1);
+
         if (iconCheck) {
             console.log(`projectIdx:: projectIdx`);
             axios.post(
@@ -25,13 +33,14 @@ function Thumbnail(props) {
                 })
                 .then(response => {
                     console.log('좋아요 -1 전송을 위한 플래그');
+                    setLikeCount(updatedLikeCount);
                     setIconCheck(!iconCheck);
                 })
                 .catch((error) => {
                     console.log('좋아요 -1 전송을 위한 플래그 실패');
                 });
         }
-        else if(!iconCheck) {
+        else {
             console.log('진실');
             axios.post('http://localhost:8080/pi/toyProject/likePlusProjectCheck',
                 {
@@ -43,7 +52,8 @@ function Thumbnail(props) {
                 })
                 .then(response => {
                     console.log('좋아요 +1 전송을 위한 플래그');
-                    setIconCheck(!iconCheck)
+                    setLikeCount(updatedLikeCount);
+                    setIconCheck(!iconCheck);
                 })
                 .catch((error) => {
                     console.log('좋아요 전송을 위한 플래그 실패');
@@ -52,13 +62,14 @@ function Thumbnail(props) {
     };
 
 
-    useEffect((e, projectIdx) => {
-        likeProject(e, projectIdx)
-    }, []);
+
 
     const recruitMentChange = (e) =>{
         setRecruitMent(!recruitMent);
     }
+
+
+
 
     return (
         <Card className={"ms-3"} key={projectIdx}>
@@ -90,7 +101,9 @@ function Thumbnail(props) {
                             </Col>
                             <Col sm={2} >
                                 <div className={"float-start mt-2"}>
-                                    <span>{projectLike}</span>
+                                    <span>
+                                        {iconCheck ? (projectLike + 1) : (projectLike - 1)}
+                                       </span>
                                 </div>
                             </Col>
                     </Row>
@@ -101,13 +114,13 @@ function Thumbnail(props) {
                             <span className={"text-start d-block theme-font"}>인원 : 0명 / {projectMember}명<br/></span>
                         </div>
                         <div className={"d-flex"}>
-                            <span className={"text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
+                            <span className={"mt-4 text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
                         </div>
                     </Col>
                     <Col sm={6}>
                         <div className={"mt-1 ms-5"}>
                             <span className={"theme-font fw-bold"}>참여가능 레벨</span><br/>
-                            <span className={"theme-font"}>Lv{projectLevel}</span>
+                            <span className={"theme-font"}>Lv.{projectLevel}</span>
                         </div>
                         <div className={"mt-5 ms-5"}>
                             <span className={"text-success-emphasis"} onChange={recruitMentChange} >
