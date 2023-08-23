@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import TypeSearchProject from "./TypeSearchProject";
 import {InView, useInView} from "react-intersection-observer";
+import ProjectSide from "./ProjectSide";
 
 
 function ToyListBoard(props) {
@@ -134,7 +135,7 @@ function ToyListBoard(props) {
     }
 
     return (
-        <Container>
+        <Container fluid>
             <Row>
                 <Col sm={6} className={"my-3  justify-content-start"}>
                     <Button className={"theme-outline-btn"} onClick={LatestCheck}>
@@ -161,19 +162,30 @@ function ToyListBoard(props) {
                 </Col>
             </Row>
 
-            <div>
-                <div>
-                    {chunksThumbnail.map((toyProjects, index) => (
-                        <Row
-                            key={index}
-                            className={"mb-3 d-flex"}>
-                            {toyProjects.map((toyProject) => (
-                                <Col sm className={"b-inline"}>
-                                    <Thumbnail toyProject={toyProject}/>
-                                </Col>
-                            ))}
-                        </Row>))}
-                </div>
+            <Row>
+                <Col sm={2}>
+
+                </Col>
+                <Col sm={8}>
+                    <div>
+                        {chunksThumbnail.map((toyProjects, index) => (
+                            <Row
+                                key={index}
+                                className={"mb-3 d-flex"}>
+                                {toyProjects.map((toyProject) => (
+                                    <Col sm className={"b-inline"}>
+                                        <Thumbnail toyProject={toyProject}/>
+                                    </Col>
+                                ))}
+                            </Row>))}
+                    </div>
+                </Col>
+                <Col>
+                    <aside>
+                        <ProjectSide/>
+                    </aside>
+                </Col>
+
                 {/*<InView*/}
                 {/*    as="div"*/}
                 {/*    onChange={loadMoreItems}*/}
@@ -183,7 +195,7 @@ function ToyListBoard(props) {
                 {/*        {isLoading ? <img src={"/images/loding.gif"}/> : null}*/}
                 {/*    </div>*/}
                 {/*</InView>*/}
-            </div>
+            </Row>
         </Container>
     );
 }
