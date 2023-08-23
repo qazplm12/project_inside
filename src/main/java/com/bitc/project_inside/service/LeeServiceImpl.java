@@ -5,6 +5,7 @@ import com.bitc.project_inside.data.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -164,10 +165,10 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public QuestionEntity saveQuestion(int idx, String userNick, String language, String code, String title, String content) throws Exception {
+    public QuestionEntity saveQuestion(int idx, String userNick, String language, String code, String title, String content, String username) throws Exception {
         return questionRepository.save(QuestionEntity.builder()
                 .questionChallengeIdx(idx)
-                .questionNick(userNick)
+                .questionNick(username)
                 .questionLanguage(language)
                 .questionCode(code)
                 .questionTitle(title)
@@ -193,8 +194,6 @@ public class LeeServiceImpl implements LeeService {
     public void updateAnswerCount(int idx) throws Exception {
         questionRepository.updateAnswerCount(idx);
     }
-
-
 
 
 }

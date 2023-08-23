@@ -1,7 +1,5 @@
 package com.bitc.project_inside.data.repository;
 
-
-
 import com.bitc.project_inside.data.entity.PersonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +9,11 @@ import java.util.Optional;
 
 public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 
-    PersonEntity findByPersonId(String username);
+//    Optional<PersonEntity> findByPersonId(String personId
+////            , boolean b
+//    );
+
+    Optional<PersonEntity> findByPersonId(String personId);
 
     int countByPersonId(String email);
 
@@ -21,9 +23,5 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
     List<PersonEntity> findAllPerson();
 
     // 아이디 중복 검사
-
-    // ========================================
-    // 사용자 ID 존재 여부 확인
-    boolean existsByPersonId(String personId);
 
 }

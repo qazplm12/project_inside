@@ -120,27 +120,27 @@ function SignupForm(props) {
     }, [nick]);
 
     const insertPerson = () => {
-
-        signUp({
-            personId: mailVal,
-            personNickName: nick,
-            personPassword: password2,
-        });
-
-
-        // axios.post("http://localhost:8080/signup", null, {
-        //     params: {
-        //         personId: mailVal,
-        //         personNickName: nick,
-        //         personPassword: password2,
-        //     }
-        // })
-        //     .then((resp) => {
-        //         // 회원가입 완료시 토큰 발급, 메인화면 or 로그인 탭으로 이동
-        //     })
-        //     .catch((err) => {
-        //         alert(err);
-        //     });
+        // const requestData = {
+        //     personId: mailVal,
+        //     personNickName: nick,
+        //     personPassword: password2,
+        // }
+        //
+        // axios.post("http://localhost:8080/signup", requestData)
+        axios.post("http://localhost:8080/signup", null, {
+            params: {
+                personId: mailVal,
+                personNickName: nick,
+                personPassword: password2,
+            }
+        })
+            .then((resp) => {
+                // 회원가입 완료시 토큰 발급, 메인화면 or 로그인 탭으로 이동
+            })
+            .catch((err) => {
+                alert(err);
+                console.log(mailVal);
+            });
     };
 
     useEffect(() => {

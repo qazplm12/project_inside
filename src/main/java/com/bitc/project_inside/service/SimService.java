@@ -1,6 +1,7 @@
 package com.bitc.project_inside.service;
 
 
+import com.bitc.project_inside.data.DTO.PersonRequest;
 import com.bitc.project_inside.data.entity.AlarmEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
@@ -43,4 +44,6 @@ public interface SimService {
     void addTodoItem(TodoEntity todoEntity) throws Exception;
 
     void editTodoItem(TodoEntity todoEntity) throws Exception;
+
+    Integer save(PersonEntity person);
 }

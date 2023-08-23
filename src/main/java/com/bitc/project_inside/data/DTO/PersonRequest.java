@@ -1,14 +1,20 @@
 package com.bitc.project_inside.data.DTO;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
-@Builder
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class PersonRequest {
+import java.util.Collection;
 
-    private String token;
+//@Builder
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+public class PersonRequest extends User {
+
     private int personIdx;
 
     private String personId; // email
@@ -22,6 +28,13 @@ public class PersonRequest {
     private int personLevel;
 
 
+    public PersonRequest(String username, String password, Collection<? extends GrantedAuthority> authorities){
+        //User 클래스의 생성자를 호출한다.
+        super(username, password, authorities);
+
+        this.personId = username;
+        this.personPassword = password;
+    }
 
 //    @Builder
 //    public PersonRequest(int personIdx, String personId, String personPassword) {
