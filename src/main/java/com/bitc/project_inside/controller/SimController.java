@@ -6,6 +6,8 @@ import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.data.entity.TodoEntity;
 import com.bitc.project_inside.service.SimService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,10 +22,12 @@ import java.util.Optional;
 public class SimController {
 
     private final SimService simService;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // 계정 관련
     @RequestMapping(value = "/updatePersonInfo", method = RequestMethod.POST)
     public void updatePersonInfo(
+            @RequestParam(value = "personId") String personId,
             @RequestParam(value = "personProfileImg", required = false) MultipartFile personProfileImg,
             @RequestParam(value = "personNickName", required = false) String personNickName,
             @RequestParam(value = "personPassword", required = false) String personPassword,
@@ -31,45 +35,40 @@ public class SimController {
     ) throws Exception {
         System.out.println("/updatePersonInfo 서버");
 
+        PersonEntity person = simService.getUserInfo(personId);
 
         if (personProfileImg != null) {
             System.out.println("personProfileImg : " + personProfileImg);
             // 프로필 사진 변경일때
 
-            // 로그인 정보 받아와서 personEntity 객체 생성
-
             // 매개변수(파일 경로정보)를 personEntity 에 추가
             // public/image 폴더에 실제 파일 저장하는 과정
-            String profileImgPath = simService.personProfileImg(personProfileImg);
-
-            System.out.println(profileImgPath);
+            person.setPersonImgPath(simService.personProfileImg(personProfileImg));
 
         }
         if (personNickName != null) {
             System.out.println("personNickName : " + personNickName);
+            person.setPersonNickName(personNickName);
             // 닉네임 변경일때
-
         }
 
         if (personPassword != null) {
             System.out.println("personPassword : " + personPassword);
             // 비밀번호 변경일때
 
-            // 로그인 정보 받아와서 personEntity 객체 생성
-
             // 매개변수를 personEntity 에 추가
+            person.setPersonPassword(passwordEncoder.encode(personPassword));
 
         }
 
         if (personLanguage != null) {
             System.out.println("personLanguage : " + personLanguage);
             // 사용언어 변경일때
-
+            person.setPersonLanguage(personLanguage);
         }
 
-        // entity를 repository 통해서 save하기
 
-
+        simService.updatePerson(person);
     }
 
     @RequestMapping(value = "/banningPerson", method = RequestMethod.POST)

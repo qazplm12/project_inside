@@ -4,13 +4,17 @@ import DisabledButton from "../../commons/DisabledButton";
 import axios from "axios";
 
 import person from "../../commons/Person";
+import {update} from "../../../service/Service";
 
 function ChangePassword(props) {
+
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     const [mode, setMode] = useState(true);
 
     // 기존 비밀번호
     const [myPassword, setMyPassword] = useState("");
+    const [myPasswordEl, setMyPasswordEl] = useState(0);
 
     const [newPassword1, setNewPassword1] = useState("");
     const [newPassword2, setNewPassword2] = useState("");
@@ -18,7 +22,7 @@ function ChangePassword(props) {
 
     // 각 항목이 변경될때마다 충족 조건을 벗어나면 버튼에 disabled 걸어줌
     useEffect(() => {
-        if (myPassword === person.password && newPassword1 === newPassword2) {
+        if (myPasswordEl === 1 && newPassword1 === newPassword2) {
             setDisabled(false);
         } else {
             setDisabled(true);
@@ -26,8 +30,32 @@ function ChangePassword(props) {
     }, [newPassword1, newPassword2, myPassword]);
 
     useEffect(() => {
-
-    }, [])
+        if (myPassword === "") {
+            setMyPassword("");
+        } else {
+            axios.post('http://localhost:8080/checkPassword', null, {
+                params: {
+                    personId: userInfo.personId,
+                    personPassword: myPassword,
+                }
+            })
+                .then((resp) => {
+                    console.log(resp.data);
+                    // 존재하는 닉네임 일때
+                    if (resp.data === 1) {
+                        setMyPasswordEl(1);
+                        // 버튼 disabled
+                        setDisabled(false)
+                    } else {setMyPasswordEl(2)
+                        // 버튼 disabled 해제
+                        setDisabled(true)
+                    }
+                })
+                .catch((err) => {
+                    alert(err);
+                });
+        }
+    }, [myPassword]);
 
     const updatePersonInfo = () => {
 
@@ -41,11 +69,12 @@ function ChangePassword(props) {
 
         axios.post("http://localhost:8080/simServer/updatePersonInfo", null, {
             params: {
+                personId : userInfo.personId,
                 personPassword: newPassword2
             }
         })
             .then((resp) => {
-                alert("비밀번호 변경 성공");
+                update(userInfo.personId, userInfo.personPassword);
                 // 필요한 업데이트 로직 추가
                 setMode(true);
             })
@@ -53,6 +82,9 @@ function ChangePassword(props) {
                 alert("비밀번호 변경 실패");
                 console.error(error);
             });
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
     };
 
 
@@ -88,13 +120,13 @@ function ChangePassword(props) {
                                     />
                                 </InputGroup>
                                 {
-                                    myPassword !== ""
+                                    myPasswordEl !== 0
                                         // 공백이 아니면서
-                                        ? (myPassword !== person.password
+                                        ? myPasswordEl === 2
                                             // 비밀번호가 일치하지 않을때
                                             ? <p className={'text-danger text-start'}>기존 비밀번호와 일치하지 않습니다.</p>
                                             // 일치할때
-                                            : "")
+                                            : ""
                                         // 공백일때
                                         : ""
 

@@ -16,6 +16,8 @@ function UserUI(props) {
     const [alarmCount, setAlarmCount] = useState(0);
 
     const [target, setTarget] = useState({});
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
 
     // 눌렀을때 A -> Y
     useEffect(() => {
@@ -35,7 +37,7 @@ function UserUI(props) {
     useEffect(() => {
         axios.post('http://localhost:8080/simServer/getAlarmList', null, {
             params: {
-                alarmToPerson: person.nickName,
+                alarmToPerson: userInfo.personNickName,
             }
         })
             .then((res) => {
@@ -52,7 +54,7 @@ function UserUI(props) {
     const readAlarmList = () => {
         axios.post('http://localhost:8080/simServer/readAlarmList', null, {
             params: {
-                alarmToPerson: person.nickName,
+                alarmToPerson: userInfo.personNickName,
             }
         })
             .then((res) => {
@@ -79,10 +81,10 @@ function UserUI(props) {
                             </Popover.Body>
                             <Popover.Header className={'theme-bg border-top rounded-0'}>
                                 <div className={'p-5 py-2'}>
-                                    <img src={person.imgSrc} alt="" className={'circle-background w-100'}/>
-                                    <p className={'text-center m-0'}><strong>{person.email}</strong></p>
+                                    <img src={userInfo.personImgPath === null ? "/images/ProfileImg.png" : userInfo.personImgPath} alt="" className={'circle-background w-100'}/>
+                                    <p className={'text-center m-0'}><strong>{userInfo.personId}</strong></p>
                                     <p className={'text-center text-muted'}>
-                                        <small><strong>{person.nickName}</strong>(Lv.{person.level})</small></p>
+                                        <small><strong>{userInfo.personNickName}</strong>(Lv.{userInfo.personLevel})</small></p>
                                 </div>
                             </Popover.Header>
                             <Popover.Body className={'text-center'}>
@@ -93,7 +95,7 @@ function UserUI(props) {
                         </Popover>
                     }
                 >
-                    <a className={'theme-link fs-5'}>{person.email}</a>
+                    <a className={'theme-link fs-5'}>{userInfo.personId}</a>
                 </OverlayTrigger>
 
                 <OverlayTrigger

@@ -6,6 +6,7 @@ import com.bitc.project_inside.data.entity.AlarmEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
 import com.bitc.project_inside.data.entity.TodoEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -44,6 +45,12 @@ public interface SimService {
     void addTodoItem(TodoEntity todoEntity) throws Exception;
 
     void editTodoItem(TodoEntity todoEntity) throws Exception;
+
+    PersonEntity getUserInfo(String personId) throws Exception;
+
+    void updatePerson(PersonEntity person)throws Exception;
+
+    int isPassword(String originalPassword, String plainPassword, PasswordEncoder passwordEncoder);
 
 //    Integer save(PersonEntity person);
 }
