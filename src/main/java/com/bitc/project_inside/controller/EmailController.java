@@ -102,6 +102,14 @@ public class EmailController {
             final PersonRequest responseUserDTO = PersonRequest.builder()
                     .personId(person.getPersonId())
                     .personIdx(person.getPersonIdx())
+                    .personPassword(person.getPersonPassword())
+                    .personNickName(person.getPersonNickName())
+                    .personLanguage(person.getPersonLanguage())
+                    .personJoinDt(person.getPersonJoinDt())
+                    .personLevel(person.getPersonLevel())
+                    .personTotalScore(person.getPersonTotalScore())
+                    .personImgPath(person.getPersonImgPath())
+                    .personBannedMsg(person.getPersonBannedMsg())
                     .token(token)
                     .build();
 

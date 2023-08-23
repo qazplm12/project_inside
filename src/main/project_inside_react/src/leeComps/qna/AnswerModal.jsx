@@ -8,6 +8,7 @@ function AnswerModal(props) {
     const [show, setShow] = useState(false);
     const [answerContent, setAnswerContent] = useState('');
     const [code, setCode] = useState('');
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     const idx = props.idx;
     const language = props.language;
@@ -24,7 +25,7 @@ function AnswerModal(props) {
     const handleSubmit = (e) => {
         const requestData = {
             idx: idx,
-            userNick: 'testNick',
+            userNick: userInfo.personNickName,
             language: language,
             code: code,
             content: answerContent,

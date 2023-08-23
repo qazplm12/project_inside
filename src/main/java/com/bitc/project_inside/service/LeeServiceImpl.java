@@ -165,10 +165,10 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public QuestionEntity saveQuestion(int idx, String userNick, String language, String code, String title, String content, String username) throws Exception {
+    public QuestionEntity saveQuestion(int idx, String userNick, String language, String code, String title, String content) throws Exception {
         return questionRepository.save(QuestionEntity.builder()
                 .questionChallengeIdx(idx)
-                .questionNick(username)
+                .questionNick(userNick)
                 .questionLanguage(language)
                 .questionCode(code)
                 .questionTitle(title)

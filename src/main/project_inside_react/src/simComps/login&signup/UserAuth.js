@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import LogoNoBg from "../commons/LogoNoBg";
 import LoginForm from "./LoginForm";
 import {Tab, Tabs} from "react-bootstrap";
@@ -8,10 +8,16 @@ import HappyCat from "../commons/HappyCat";
 
 function UserAuth(props) {
 
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
     // 로그인 누르면 로그인 탭, 회원가입 누르면 회원가입 탭이 먼저 나오게해주기 위함
     let {into} = useParams()
 
     useEffect(() => {
+        if(userInfo){
+            alert('잘못된 접근입니다.');
+            window.location.href = "/pi/main";
+        }
         // 컴포넌트 마운트 시 스크롤 방지
         document.body.style.overflow = 'hidden';
 

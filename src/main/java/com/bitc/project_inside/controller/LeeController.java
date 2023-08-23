@@ -247,17 +247,9 @@ public class LeeController {
 //            @AuthenticationPrincipal String personId,
 //            @RequestBody Map<String, String> requestData
 //    ) throws Exception {
-    public ResponseEntity<?> qnaQuestion(
+    public void qnaQuestion(
             @RequestBody Map<String, String> requestData
-//            @AuthenticationPrincipal UserDetails personEntity
     ) throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        String username = authentication.getName();
-
-        System.out.println("어센티케이션 : " + authentication);
-        System.out.println("유저네ㅐ임 : " + username);
-
 
         int idx = Integer.parseInt(requestData.get("idx"));
         String userNick = requestData.get("userNick");
@@ -280,9 +272,7 @@ public class LeeController {
 //        entity.setQuestionIdx(null);
 //        entity.setPersonId(personId);
 
-        leeService.saveQuestion(idx, userNick, language, code, title, content, username);
-
-        return ResponseEntity.ok().build();
+        leeService.saveQuestion(idx, userNick, language, code, title, content);
     }
 
     // 답변하기

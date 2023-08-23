@@ -48,7 +48,7 @@ public class TokenProvider {
         .signWith(SignatureAlgorithm.HS512, SECRET_KEY) // signature // 현재 토큰의 암호화 방식 / 비밀키
         // payload에 들어갈 내용
         .setSubject(personEntity.getPersonId()) // sub // 현재 토큰의 주인, 사용자 ID와 같은 유일한 식별자
-        .setIssuer("demo app") // iss // 현재 토큰을 발행한 주체
+        .setIssuer(personEntity.getPersonNickName() == "admin" ? "admin" : "user") // iss // 현재 토큰을 발행한 주체 이지만 role 대신 사용하기 위해 user와 admin 구분
         .setIssuedAt(new Date()) // iat // 현재 토큰이 발행된 시간
         .setExpiration(expiryDate) // exp // 현재 토큰을 사용할 수 있는 제한 시간
         .compact();

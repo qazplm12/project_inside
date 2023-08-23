@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 @Builder
@@ -27,7 +28,15 @@ public class PersonRequest {
 
     private String personLanguage;
 
+    private int personTotalScore;
+
+    private String personImgPath;
+
+    private String personBannedMsg;
+
     private int personLevel;
+
+    private LocalDate personJoinDt;
 
 
 //    public PersonRequest(String username, String password, Collection<? extends GrantedAuthority> authorities){

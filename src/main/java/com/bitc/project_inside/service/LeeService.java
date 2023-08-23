@@ -37,7 +37,7 @@ public interface LeeService {
 
     List<AnswerEntity> selectQnAItems(int idx) throws Exception;
 
-    QuestionEntity saveQuestion(int idx, String userNick, String language, String code, String title, String content, String username) throws Exception;
+    QuestionEntity saveQuestion(int idx, String userNick, String language, String code, String title, String content) throws Exception;
 
     AnswerEntity saveAnswer(int idx, String userNick, String language, String code, String content) throws Exception;
 

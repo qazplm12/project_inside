@@ -7,6 +7,7 @@ import {ListGroup, OverlayTrigger, Popover} from "react-bootstrap";
 // 가상 유저 정보
 import person from "../../commons/Person";
 import axios from "axios";
+import {logout} from "../../../service/Service";
 
 
 function UserUI(props) {
@@ -63,13 +64,9 @@ function UserUI(props) {
     }
 
 
-    // 로그인 시 보여줄 UI
-    if (props.isLoggedIn)
-
         return (
             <div className={'d-flex align-items-center me-5'}>
                 {/* 관리자 페이지 / 조건부 렌더링 걸어줘야 함*/}
-                <Link to={'admin'} className={'theme-link me-4'}>관리자 페이지</Link>
                 <OverlayTrigger
                     trigger="click"
                     key={'ui1'}
@@ -91,7 +88,7 @@ function UserUI(props) {
                             <Popover.Body className={'text-center'}>
                                 <Link to={'/pi/myPage/profile'} className={'theme-link'}>마이 페이지</Link>
                                 <hr/>
-                                <Link to={'/pi/logout'} className={'theme-link'}>로그아웃</Link>
+                                <a type={'button'} onClick={logout} className={'theme-link'}>로그아웃</a>
                             </Popover.Body>
                         </Popover>
                     }
@@ -280,15 +277,6 @@ function UserUI(props) {
             </div>
         );
     // 비로그인 시 보여줄 UI
-    return <div className={'d-flex justify-content-around align-items-center me-5'}>
-        <h5>
-            <Link to={'/userAuth/login'} className={'theme-link px-2 m-0'}>로그인</Link>
-        </h5>
-        <h5>
-            <Link to={'/userAuth/signup'} className={'theme-link px-2 m-0'}>회원가입</Link>
-        </h5>
-    </div>
-
 }
 
 export default UserUI;
