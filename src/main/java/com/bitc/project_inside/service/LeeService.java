@@ -1,6 +1,7 @@
 package com.bitc.project_inside.service;
 
 import com.bitc.project_inside.data.entity.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.List;
 

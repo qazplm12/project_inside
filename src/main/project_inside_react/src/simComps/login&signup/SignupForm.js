@@ -120,7 +120,6 @@ function SignupForm(props) {
     }, [nick]);
 
     const insertPerson = () => {
-
         signUp({
             personId: mailVal,
             personNickName: nick,

@@ -1,17 +1,19 @@
 package com.bitc.project_inside.controller;
 
-import com.bitc.project_inside.data.DTO.PersonRequest;
-import com.bitc.project_inside.data.DTO.ResponseDTO;
 import com.bitc.project_inside.data.entity.*;
-import com.bitc.project_inside.security.TokenProvider;
 import com.bitc.project_inside.service.LeeService;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -31,11 +33,9 @@ public class LeeController {
 
     // 암호 생성 객체
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    
-    private final TokenProvider tokenProvider;
 
     // 문제 리스트
-    @RequestMapping(value="/challengeList", method = RequestMethod.GET)
+    @RequestMapping(value = "/challengeList", method = RequestMethod.GET)
     public Object selectChallengeList(
             @RequestParam(value = "userId") String userId,
             @RequestParam(value = "challengeClass") int challengeClass,
@@ -45,14 +45,11 @@ public class LeeController {
 
         if (challengeClass == 9 && solvedState != 9) {
             challenge = leeService.selectChallengeListSolvedState(userId, solvedState);
-        }
-        else if (challengeClass != 9 && solvedState == 9) {
+        } else if (challengeClass != 9 && solvedState == 9) {
             challenge = leeService.selectChallengeListClass(challengeClass);
-        }
-        else if (challengeClass != 9 && solvedState != 9) {
+        } else if (challengeClass != 9 && solvedState != 9) {
             challenge = leeService.selectChallengeListClassSolvedState(userId, challengeClass, solvedState);
-        }
-        else {
+        } else {
             challenge = leeService.selectChallengeList();
         }
 
@@ -166,7 +163,6 @@ public class LeeController {
 ////                driver.navigate().refresh();
 
 
-
             // 완드박스
             List<WebElement> btnLang = driver.findElements(By.className("list-group-item"));
             WebElement cm = driver.findElement(By.className("cm-activeLine"));
@@ -188,8 +184,7 @@ public class LeeController {
                     break;
                 }
             }
-        }
-        finally {
+        } finally {
             driver.quit();
         }
         return result;
@@ -221,8 +216,7 @@ public class LeeController {
 //        System.out.println(solved);
         if (solved) {
 
-        }
-        else {
+        } else {
             leeService.saveSolved(userId, idx, language, code);
             leeService.saveScoringLogCorrect(userId, idx);
             leeService.updateChallenge(idx);
@@ -235,28 +229,37 @@ public class LeeController {
         return leeService.selectSolvedList(idx);
     }
 
+    // 질문 리스트 가져오기
     @RequestMapping(value = "/QnAList", method = RequestMethod.GET)
     public List<QuestionEntity> selectQnAList(@RequestParam(value = "idx") int idx) throws Exception {
         return leeService.selectQnAList(idx);
     }
 
+    // 답변 리스트 가져오기
     @RequestMapping(value = "/QnAItems", method = RequestMethod.GET)
     public List<AnswerEntity> selectQnAItems(@RequestParam(value = "idx") int idx) throws Exception {
         return leeService.selectQnAItems(idx);
     }
 
+    // 질문하기
     @RequestMapping(value = "/Question", method = RequestMethod.POST)
 //    public ResponseEntity<?> qnaQuestion(
 //            @AuthenticationPrincipal String personId,
 //            @RequestBody Map<String, String> requestData
 //    ) throws Exception {
-    public void qnaQuestion(@RequestBody Map<String, String> requestData) throws Exception {
+    public void qnaQuestion(
+            @RequestBody Map<String, String> requestData
+    ) throws Exception {
+
         int idx = Integer.parseInt(requestData.get("idx"));
         String userNick = requestData.get("userNick");
         String language = requestData.get("language");
         String code = requestData.get("code");
         String title = requestData.get("title");
         String content = requestData.get("content");
+
+//        System.out.println(personEntity.getUsername());
+//        System.out.println(userId);
 //        QuestionEntity entity = null;
 //
 //        entity.setQuestionChallengeIdx(Integer.parseInt(requestData.get("idx")));
@@ -272,6 +275,7 @@ public class LeeController {
         leeService.saveQuestion(idx, userNick, language, code, title, content);
     }
 
+    // 답변하기
     @RequestMapping(value = "/Answer", method = RequestMethod.POST)
     public void qnaAnswer(@RequestBody Map<String, String> requestData) throws Exception {
         int idx = Integer.parseInt(requestData.get("idx")); // 문제 번호가 아니라 질문 번호를 받아와야 함
@@ -283,6 +287,5 @@ public class LeeController {
         leeService.saveAnswer(idx, userNick, language, code, content);
         leeService.updateAnswerCount(idx);
     }
-
 
 }

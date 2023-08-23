@@ -1,6 +1,7 @@
 package com.bitc.project_inside.service;
 
 
+import com.bitc.project_inside.data.DTO.PersonRequest;
 import com.bitc.project_inside.data.entity.AlarmEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
@@ -9,6 +10,9 @@ import com.bitc.project_inside.data.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +24,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class SimServiceImpl implements SimService{
+public class SimServiceImpl implements SimService {
 
     private final PersonRepository personRepository;
     private final AlarmRepository alarmRepository;
@@ -30,6 +34,8 @@ public class SimServiceImpl implements SimService{
 
     @Value("${app.upload-profile-dir}")
     private String uploadDir;
+
+
     @Override
     public int isUser(String email) throws Exception {
 
@@ -90,15 +96,16 @@ public class SimServiceImpl implements SimService{
     public String personProfileImg(MultipartFile personProfileImg) throws Exception {
 
         String profileImgName = personProfileImg.getOriginalFilename();
-        String fileExtension = profileImgName.substring(profileImgName.lastIndexOf(".")+1);
+        String fileExtension = profileImgName.substring(profileImgName.lastIndexOf(".") + 1);
         String fileName = System.currentTimeMillis() + "_" + Math.random() + "." + fileExtension;
         String savedImagePath = uploadDir + File.separator + fileName;
 
         try {
-            byte[] imageData = personProfileImg.getBytes();;
+            byte[] imageData = personProfileImg.getBytes();
+            ;
             File imageFile = new File(savedImagePath);
 
-            try(FileOutputStream fos = new FileOutputStream(imageFile)){
+            try (FileOutputStream fos = new FileOutputStream(imageFile)) {
                 fos.write(imageData);
             }
 
@@ -125,5 +132,34 @@ public class SimServiceImpl implements SimService{
     public void editTodoItem(TodoEntity todoEntity) throws Exception {
         todoRepository.save(todoEntity);
     }
+
+    @Override
+    public PersonEntity getUserInfo(String personId) throws Exception {
+        return personRepository.findByPersonId(personId);
+    }
+
+    @Override
+    public void updatePerson(PersonEntity person) throws Exception {
+        personRepository.save(person);
+    }
+
+    @Override
+    public int isPassword(String originalPassword, String plainPassword, PasswordEncoder passwordEncoder) {
+
+        if (passwordEncoder.matches(plainPassword, originalPassword)) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+//    @Override
+//    public Integer save(PersonEntity person) {
+//        return personRepository.save(PersonEntity.builder()
+//                .personId(person.getPersonId())
+//                .personNickName(person.getPersonNickName())
+//                .personPassword(bCryptPasswordEncoder.encode(person.getPersonPassword()))
+//                .build()).getPersonIdx();   // idx 리턴
+//    }
 
 }

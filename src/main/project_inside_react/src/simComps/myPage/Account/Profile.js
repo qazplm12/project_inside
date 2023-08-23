@@ -6,24 +6,28 @@ import DisabledButton from "../../commons/DisabledButton";
 
 // 가상유저 정보
 import person from "../../commons/Person";
+import {update} from "../../../service/Service";
 
 
 
 function Profile(props) {
+
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
     const [mode, setMode] = useState(true);
 
     // 닉네임 관련
     // 출력용
-    const [nickName, setNickName] = useState(person.nickName);
+    const [nickName, setNickName] = useState(userInfo.personNickName);
     // 수정용
     const [nickText, setNickText] = useState(0);
 
     // 이메일 출력용
-    const [email, setEmail] = useState(person.email);
+    const [email, setEmail] = useState(userInfo.personId);
 
     // 프로필 사진 관련
     // 출력용
-    const [image, setImage] = useState(person.imgSrc);
+    const [image, setImage] = useState(`/images/profileImg/${userInfo.personImgPath}`);
     // 수정용
     const [updateImg, setUpdateImg] = useState(null);
 
@@ -31,13 +35,12 @@ function Profile(props) {
     const selectFile = useRef(null);
 
     // 버튼 스위치
-    const [disabled, setDisabled] = useState(false);
-
+    const [disabled, setDisabled] = useState(false)
 
     // 닉네임 중복 검사
     useEffect(() => {
         // nickName이 공백이거나 같을때 clear해주기
-        if (nickName === "" || person.nickName === nickName) {
+        if (nickName === "" || userInfo.personNickName === nickName) {
             setNickText(0);
         } else {
             axios.post('http://localhost:8080/checkNick', null, {
@@ -67,6 +70,7 @@ function Profile(props) {
 
     const updatePersonInfo = () => {
         const formData = new FormData();
+        formData.append("personId", userInfo.personId);
         formData.append("personNickName", nickName);
 
         // 이미지가 선택되었을 때만 업로드
@@ -76,7 +80,7 @@ function Profile(props) {
 
         axios.post("http://localhost:8080/simServer/updatePersonInfo", formData)
             .then((resp) => {
-                alert("프로필 업데이트 성공");
+                update(userInfo.personId, userInfo.personPassword);
                 // 필요한 업데이트 로직 추가
             })
             .catch((error) => {
@@ -84,6 +88,9 @@ function Profile(props) {
                 console.error(error);
             });
         setMode(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
     };
 
 
@@ -97,11 +104,11 @@ function Profile(props) {
                     <div className={'row'}>
                         <div className={'mx-auto my-4'}>
                             {/* 이미지 소스는 로그인 유저 정보에서 가져오기 */}
-                            <img src={image} alt="" className={'circle-background'}/>
+                            <img src={image === null ? "/images/ProfileImg.png" : image} alt="" className={'circle-background'}/>
                         </div>
                         <div className={'mt-4'}>
                             {/* 닉네임(레벨) */}
-                            <h2 className={'text-center'}>{nickName}<small>{` (Lv.${person.level})`}</small></h2>
+                            <h2 className={'text-center'}>{nickName}<small>{` (Lv.${userInfo.personLevel})`}</small></h2>
                             {/* 이메일 */}
                             <h4>{email}<small className={'fs-5 ms-3 text-success'}><strong>인증완료</strong><i
                                 className="bi bi-check2-circle"></i></small></h4>
@@ -126,7 +133,7 @@ function Profile(props) {
                                 }}
                                 />
                                 <div className={'d-inline-block position-relative'}>
-                                    <img src={image} alt="" className={'circle-background'}/>
+                                    <img src={image === null ? "/images/ProfileImg.png" : image} alt="" className={'circle-background'}/>
                                     <button className={'theme-btn'}
                                             type={'button'}
                                             style={{position: 'absolute', bottom: '0px', right: '5%'}}

@@ -20,8 +20,8 @@ function CodeRunner(props) {
     const [params, setParams] = useSearchParams();
     const idx = params.get('idx');
 
-    const value = `${code}`
-    const value2 = `${result}`
+    const value = `${code}`;
+    const value2 = `${result}`;
 
     let extensions = [];
     if (getLanguage == 'JavaScript') {

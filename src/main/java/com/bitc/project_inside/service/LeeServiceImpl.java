@@ -5,6 +5,7 @@ import com.bitc.project_inside.data.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -193,8 +194,6 @@ public class LeeServiceImpl implements LeeService {
     public void updateAnswerCount(int idx) throws Exception {
         questionRepository.updateAnswerCount(idx);
     }
-
-
 
 
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Typeahead} from "react-bootstrap-typeahead";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import "./Token.css";
@@ -6,13 +6,22 @@ import axios from "axios";
 
 // 가상 유저
 import person from "../../commons/Person";
+import {update} from "../../../service/Service";
 
 function TypeAhead(props) {
 
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
     // 수정시 컴포넌트를 사용할때 매개변수를 부여, 서버에서 personLanguage를 불러와서 사용, 스트링 > 배열로 파싱해야함
-    const [selectedTags, setSelectedTags] = useState(person.language.split(', ') || []);
+    const [selectedTags, setSelectedTags] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [tokenValues, setTokenValues] = useState([]);
+
+    useEffect(() =>{
+        if(userInfo.personLanguage){
+            setSelectedTags(userInfo.personLanguage.split(', '));
+        }
+    }, [])
 
     // 기술 스택 종류
     const options = ["Python",
@@ -93,17 +102,21 @@ function TypeAhead(props) {
         console.log(param);
         axios.post('http://localhost:8080/simServer/updatePersonInfo', null, {
             params: {
+                personId : userInfo.personId,
                 personLanguage: param
             }
         })
             .then((resp) => {
                 props.changeMode(true);
-                alert("프로필 업데이트 성공");
+                update(userInfo.personId, userInfo.personPassword);
             })
             .catch((error) => {
                 alert("프로필 업데이트 실패");
                 console.error(error);
             });
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
     };
 
     return (

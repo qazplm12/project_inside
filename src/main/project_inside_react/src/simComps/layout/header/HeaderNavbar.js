@@ -9,11 +9,22 @@ function HeaderNavbar(props) {
     // 검색 연동용
     const [mode, setMode] = useState(1);
     const [searchKeyword, setSearchKeyword] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
 
     useEffect(() => {
         console.log(mode)
         console.log(searchKeyword)
     }, [searchKeyword, mode]);
+
+
+    useEffect(() => {
+        if(userInfo){
+            setIsLoggedIn(false);
+        }
+    }, [])
 
     const doSearch = () => {
 
@@ -77,7 +88,7 @@ function HeaderNavbar(props) {
                         <li className={"nav-item"}>
                             {/* 부모 컴포넌트 영역에서 모달 on시키고, 자식 컴포넌트 영역에서 부모 컴포넌트의 함수를 실행시켜서 모달을 off 시킴 */}
                             <a onClick={
-                                props.isLoggedIn
+                                isLoggedIn
                                     ? needLogin
                                     :
                                     () => {setShow(true)}

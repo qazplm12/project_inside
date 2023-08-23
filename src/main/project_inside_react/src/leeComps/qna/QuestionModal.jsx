@@ -10,6 +10,7 @@ function QuestionModal(props) {
     const [code, setCode] = useState('');
     const [title, setTitle] = useState('');
     const [questionContent, setQuestionContent] = useState('');
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     const idx = props.idx;
 
@@ -29,7 +30,7 @@ function QuestionModal(props) {
     const handleSubmit = (e) => {
         const requestData = {
             idx: idx,
-            userNick: 'testNick',
+            userNick: userInfo.personNickName,
             language: language,
             code: code,
             title: title,

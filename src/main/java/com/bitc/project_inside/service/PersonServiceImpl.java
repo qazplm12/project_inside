@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class PersonServiceImpl implements PersonService{
+public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
 //    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-//
+
 //    @Override
 //    public int save(PersonRequest dto) {
 //        return personRepository.save(PersonEntity.builder()
@@ -26,10 +26,9 @@ public class PersonServiceImpl implements PersonService{
 //                .build()).getPersonIdx();
 //    }
 
-    //  사용자 생성
     @Override
-    public PersonEntity create(final PersonEntity personEntity) {
-//    필수 사용자 정보가 있는지 확인
+    public PersonEntity create(final PersonEntity personEntity) throws Exception {
+        //    필수 사용자 정보가 있는지 확인
         if(personEntity == null || personEntity.getPersonId() == null ) {
             throw new RuntimeException("Invalid arguments");
         }
@@ -56,16 +55,4 @@ public class PersonServiceImpl implements PersonService{
         }
         return null;
     }
-
-    //  사용자 ID/PW 가져오기
-//    public PersonEntity getByCredentials(final String username, final String password, final PasswordEncoder encoder) {
-////    사용자 ID를 통해서 DB에 저장된 정보 가져오기
-//        final PersonEntity originalUser = personRepository.findByPersonId(username);
-//
-//        // DB에서 가져온 정보가 존재하고, matches 메서드를 이용해 패스워드가 같은지 확인
-//        if(originalUser != null && encoder.matches(password, originalUser.getPersonPassword())) {
-//            return originalUser;
-//        }
-//        return null;
-//    }
 }
