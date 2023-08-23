@@ -31,7 +31,7 @@ public class SimServiceImpl implements SimService{
     private final ProjectRepository projectRepository;
     private final TodoRepository todoRepository;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${app.upload-profile-dir}")
     private String uploadDir;
@@ -131,13 +131,13 @@ public class SimServiceImpl implements SimService{
         todoRepository.save(todoEntity);
     }
 
-    @Override
-    public Integer save(PersonEntity person) {
-        return personRepository.save(PersonEntity.builder()
-                .personId(person.getPersonId())
-                .personNickName(person.getPersonNickName())
-                .personPassword(bCryptPasswordEncoder.encode(person.getPersonPassword()))
-                .build()).getPersonIdx();   // idx 리턴
-    }
+//    @Override
+//    public Integer save(PersonEntity person) {
+//        return personRepository.save(PersonEntity.builder()
+//                .personId(person.getPersonId())
+//                .personNickName(person.getPersonNickName())
+//                .personPassword(bCryptPasswordEncoder.encode(person.getPersonPassword()))
+//                .build()).getPersonIdx();   // idx 리턴
+//    }
 
 }

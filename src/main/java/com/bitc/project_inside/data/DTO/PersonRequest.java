@@ -6,14 +6,16 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
-//@Builder
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
-@Getter
-@Setter
-@ToString
-public class PersonRequest extends User {
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+//@Getter
+//@Setter
+//@ToString
+public class PersonRequest {
+
+    private String token;
 
     private int personIdx;
 
@@ -28,13 +30,13 @@ public class PersonRequest extends User {
     private int personLevel;
 
 
-    public PersonRequest(String username, String password, Collection<? extends GrantedAuthority> authorities){
-        //User 클래스의 생성자를 호출한다.
-        super(username, password, authorities);
-
-        this.personId = username;
-        this.personPassword = password;
-    }
+//    public PersonRequest(String username, String password, Collection<? extends GrantedAuthority> authorities){
+//        //User 클래스의 생성자를 호출한다.
+//        super(username, password, authorities);
+//
+//        this.personId = username;
+//        this.personPassword = password;
+//    }
 
 //    @Builder
 //    public PersonRequest(int personIdx, String personId, String personPassword) {

@@ -13,7 +13,7 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 ////            , boolean b
 //    );
 
-    Optional<PersonEntity> findByPersonId(String personId);
+    PersonEntity findByPersonId(String personId);
 
     int countByPersonId(String email);
 
@@ -21,6 +21,8 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 
     @Query(value = "SELECT p FROM PersonEntity p")
     List<PersonEntity> findAllPerson();
+
+    boolean existsByPersonId(String personId);
 
     // 아이디 중복 검사
 

@@ -45,5 +45,5 @@ public interface SimService {
 
     void editTodoItem(TodoEntity todoEntity) throws Exception;
 
-    Integer save(PersonEntity person);
+//    Integer save(PersonEntity person);
 }
