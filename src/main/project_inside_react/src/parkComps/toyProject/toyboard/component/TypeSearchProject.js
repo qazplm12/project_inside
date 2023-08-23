@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Typeahead} from "react-bootstrap-typeahead";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import "../../simComps/myPage/Account/Token.css";
+import "../../../../simComps/myPage/Account/Token.css";
 
 // 기존 컴포넌트를 참고하여 input 텍스트 안에 기술스택 넣기
 function TypeSearchProject(props) {

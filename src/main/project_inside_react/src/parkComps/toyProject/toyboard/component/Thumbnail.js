@@ -2,7 +2,7 @@ import {Card, Col, Row} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import toyStyles from "./toyStyles.css";
+import toyStyles from "../../toyStyles.css";
 
 function Thumbnail(props) {
     const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike,projectLevel} = props.toyProject;

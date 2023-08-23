@@ -6,7 +6,7 @@ import CodeChallenge from "./leeComps/codeChallenge/CodeChallenge";
 import ChallengeList from "./leeComps/chanllengeList/ChallengeList";
 import ToyRegis from "./parkComps/toyProject/ToyRegis";
 import ToyDetail from "./parkComps/toyProject/ToyDetail";
-import ToyListBoard from "./parkComps/toyProject/ToyListBoard";
+import ToyListBoard from "./parkComps/toyProject/toyboard/ToyListBoard";
 import Layout from "./simComps/layout/Layout";
 import Main from "./simComps/main/Main";
 import UserAuth from "./simComps/login&signup/UserAuth";
