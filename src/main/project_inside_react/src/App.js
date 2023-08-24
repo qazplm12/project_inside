@@ -4,9 +4,9 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React from "react";
 import CodeChallenge from "./leeComps/codeChallenge/CodeChallenge";
 import ChallengeList from "./leeComps/chanllengeList/ChallengeList";
-import ToyRegis from "./parkComps/toyProject/ToyRegis";
-import ToyDetail from "./parkComps/toyProject/ToyDetail";
-import ToyListBoard from "./parkComps/toyProject/ToyListBoard";
+import ToyRegis from "./parkComps/toyProject/regis/ToyRegis";
+import ToyDetail from "./parkComps/toyProject/detail/ToyDetail";
+import ToyListBoard from "./parkComps/toyProject/toyboard/ToyListBoard";
 import Layout from "./simComps/layout/Layout";
 import Main from "./simComps/main/Main";
 import UserAuth from "./simComps/login&signup/UserAuth";
@@ -27,7 +27,7 @@ function App(props) {
                         <Route path={'main'} element={<Main/>}></Route>
                         <Route path={'myPage/:mode/:linkIdx'} element={<MyPage/>}></Route>
                         <Route path={'toyDetail/:projectIdx'} element={<ToyDetail/>}></Route>
-                        <Route path={'ToyRegis'} element={<ToyRegis/>}></Route>
+                        <Route path={'ToyRegis/:projectIdx'} element={<ToyRegis/>}></Route>
                         <Route path={'toyListBoard'} element={<ToyListBoard/>}></Route>
                         <Route path={'challengeList'} element={<ChallengeList/>}></Route>
                         <Route path={'admin'} element={<Admin/>}></Route>

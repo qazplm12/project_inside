@@ -1,9 +1,10 @@
 import {Button,  Col, Container, Row} from "react-bootstrap";
-import Thumbnail from "./Thumbnail";
+import Thumbnail from "./boardcomponent/Thumbnail";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import TypeSearchProject from "./TypeSearchProject";
+import TypeSearchProject from "./boardcomponent/TypeSearchProject";
 import {InView, useInView} from "react-intersection-observer";
+import ProjectSide from "./boardcomponent/ProjectSide";
 
 
 function ToyListBoard(props) {
@@ -24,9 +25,11 @@ function ToyListBoard(props) {
     const [chunksThumbnail, setChunksThumbnail] = useState([]);
 
     // 무한스크롤 필드
-        const { ref, inView, entry} = useInView({
-            threshold : 0,
-        })
+    const { ref, inView, entry} = useInView({
+        threshold : 0,
+    })
+
+
 
 
     // ...toyProjects,
@@ -44,25 +47,25 @@ function ToyListBoard(props) {
             });
     };
 
-        const tagSearchChange = () =>{
+    const tagSearchChange = () =>{
 
     }
 
     // 검색 axios
-        const handleTagSelections = (tag) => {
-            console.log(tag+ "아프다 ")
-                setProjectCode(tag);
-            axios.post(`http://localhost:8080/pi/toyProject/codeSearch?keyword=${tag}`)
-                .then(response => {
-                    console.log('아프다')
-                    setProjectCode(response.data);
+    const handleTagSelections = (tag) => {
+        console.log(tag+ "아프다 ")
+        setProjectCode(tag);
+        axios.post(`http://localhost:8080/pi/toyProject/codeSearch?keyword=${tag}`)
+            .then(response => {
+                console.log('아프다')
+                setProjectCode(response.data);
 
-                    setToyProjects(response.data)
-                })
-                .catch(error => {
-                    console.log('검색 실패: ' + error);
-                });
-        };
+                setToyProjects(response.data)
+            })
+            .catch(error => {
+                console.log('검색 실패: ' + error);
+            });
+    };
 
     // useEffect(() => {
     //     handleTagSelections(tag);
@@ -134,21 +137,21 @@ function ToyListBoard(props) {
     }
 
     return (
-        <Container>
+        <Container fluid>
             <Row>
                 <Col sm={6} className={"my-3  justify-content-start"}>
                     <Button className={"theme-outline-btn"} onClick={LatestCheck}>
                         {latest ?
-                                <span >최신 순<i className={"bi bi-caret-down-fill"}></i></span>
+                            <span >최신 순<i className={"bi bi-caret-down-fill"}></i></span>
                             :
-                                <span >최신 순<i className={"bi bi-caret-up-fill"}></i></span>
+                            <span >최신 순<i className={"bi bi-caret-up-fill"}></i></span>
                         }
                     </Button>
                     <Button className={"theme-btn ms-3"} onClick={likeListCheck}>
                         {likeList ?
                             // 찜 많은순??
                             <span>좋아요 순<i className={"bi bi-caret-up-fill "}></i></span>
-                        :
+                            :
                             <span>좋아요 순<i className={"bi bi-caret-down-fill "}></i></span>
                         }
                     </Button>
@@ -161,19 +164,30 @@ function ToyListBoard(props) {
                 </Col>
             </Row>
 
-            <div>
-                <div>
-                    {chunksThumbnail.map((toyProjects, index) => (
-                        <Row
-                            key={index}
-                            className={"mb-3 d-flex"}>
-                            {toyProjects.map((toyProject) => (
-                                <Col sm className={"b-inline"}>
-                                    <Thumbnail toyProject={toyProject}/>
-                                </Col>
-                            ))}
-                        </Row>))}
-                </div>
+            <Row>
+                <Col sm={2}>
+
+                </Col>
+                <Col sm={8}>
+                    <div>
+                        {chunksThumbnail.map((toyProjects, index) => (
+                            <Row
+                                key={index}
+                                className={"mb-3 d-flex"}>
+                                {toyProjects.map((toyProject) => (
+                                    <Col sm className={"b-inline"}>
+                                        <Thumbnail toyProject={toyProject}/>
+                                    </Col>
+                                ))}
+                            </Row>))}
+                    </div>
+                </Col>
+                <Col>
+                    <aside>
+                        <ProjectSide/>
+                    </aside>
+                </Col>
+
                 {/*<InView*/}
                 {/*    as="div"*/}
                 {/*    onChange={loadMoreItems}*/}
@@ -183,7 +197,7 @@ function ToyListBoard(props) {
                 {/*        {isLoading ? <img src={"/images/loding.gif"}/> : null}*/}
                 {/*    </div>*/}
                 {/*</InView>*/}
-            </div>
+            </Row>
         </Container>
     );
 }

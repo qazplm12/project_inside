@@ -31,5 +31,9 @@ public class MatchingEntity {
 
     @Column
     private String matchingMemberAccept;
+    // 1 신청
+    // 2 취소
+    // 3 수락
+    // 4 거부
 
 }
