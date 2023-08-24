@@ -81,7 +81,7 @@ function UserUI(props) {
                             </Popover.Body>
                             <Popover.Header className={'theme-bg border-top rounded-0'}>
                                 <div className={'p-5 py-2'}>
-                                    <img src={userInfo.personImgPath === null ? "/images/ProfileImg.png" : userInfo.personImgPath} alt="" className={'circle-background w-100'}/>
+                                    <img src={userInfo.personImgPath === null ? "/images/ProfileImg.png" : `/images/profileImg/${userInfo.personImgPath}`} alt="" className={'circle-background w-100'}/>
                                     <p className={'text-center m-0'}><strong>{userInfo.personId}</strong></p>
                                     <p className={'text-center text-muted'}>
                                         <small><strong>{userInfo.personNickName}</strong>(Lv.{userInfo.personLevel})</small></p>
