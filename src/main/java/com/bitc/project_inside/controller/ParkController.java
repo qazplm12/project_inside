@@ -175,7 +175,7 @@ public class ParkController {
         return null;
     }
 
-    // 프로젝트 이미지를 저장하는 메서드
+    // 프로젝트 이미지를 저장하는 메서드1
     private String saveProjectImage(MultipartFile image) {
 
         String toyThumbnailFile = image.getOriginalFilename();
