@@ -57,6 +57,16 @@ function ToyDetail(props) {
         formData.append("matchingMemberNick",userNames.personNickName);
 
         if (likeProject) {
+            alert('참여 신청을 취소하셨습니다.');
+            axios.post(`http://localhost:8080/pi/toyProject/projectCancel`)
+                .then(response=>{
+
+                })
+                .catch((error) =>{
+
+                })
+
+        } else {
             alert('참여 신청을 하였습니다.');
             axios({
                 method : 'POST',
@@ -69,15 +79,6 @@ function ToyDetail(props) {
                 .catch(function(err){
                     console.log('실패')
                     console.log(err)
-                })
-        } else {
-            alert('참여 신청을 취소하셨습니다.');
-            axios.post(`http://localhost:8080/pi/toyProject/projectCancel`)
-                .then(response=>{
-
-                })
-                .catch((error) =>{
-
                 })
         }
     }
@@ -178,9 +179,9 @@ function ToyDetail(props) {
                     <div className={'py-4 d-flex justify-content-end'}>
                         <span onClick={projectLike} className={"mx-auto"}>
                             {likeProject ? (
-                                <button type={'submit'} className={'theme-btn fw-bold'}><h1 className={'m-2'}>프로젝트 참여 신청</h1></button>
-                            ) : (
                                 <Button type={'submit'} className={'btn btn-secondary fw-bold'}><h1 className={'m-2'}>참여 신청 취소</h1></Button>
+                            ) : (
+                                <button type={'submit'} className={'theme-btn fw-bold'}><h1 className={'m-2'}>프로젝트 참여 신청</h1></button>
                                 )}
                         </span>
                     </div>

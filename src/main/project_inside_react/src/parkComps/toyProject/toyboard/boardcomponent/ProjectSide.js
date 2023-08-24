@@ -20,6 +20,7 @@ function ProjectSide(props){
             })
             .then(response => {
                 console.log('성공')
+                console.log('test'+userInfo.personImgPath)
                 console.log('response.data 정체 ::'+response.data)
                 setUserNames(response.data)
             })
@@ -34,7 +35,7 @@ function ProjectSide(props){
             <div className={"me-5 pe-2"}>
                 <ul className={'list-group theme-border'}>
                     <li className={'list-group-item p-2 pt-4'}>
-                        <img src={'/images/sakura.jpg'} alt="" className={'circle-background w-100'} style={{maxWidth: "10em"}}/>
+                        <img src={userInfo.personImgPath  === null ? "/images/noImg/ProfileImg.jpg" : `/images/profileImg/${userInfo.personImgPath}`} alt="" className={'circle-background w-100'} style={{maxWidth: "10em"}}/>
                         <h4 className={'text-center theme-font'}><strong>{userNames.personNickName}</strong><span className={'fs-5 ms-1'}>(Lv.{userNames.personLevel})</span></h4>
                         <div className={'m-3 ms-5 ps-2 col-sm-8 mx-auto'}>
                                 <p className={'text-start mb-2'}>내 랭킹 : <span className={'mx-4'}></span> {userNames.personLevel} </p>

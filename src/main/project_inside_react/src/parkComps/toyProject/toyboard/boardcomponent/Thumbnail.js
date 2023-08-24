@@ -28,14 +28,11 @@ function Thumbnail(props) {
     const handleShow = () => setShow(true);
 
 
-    // 5. 내가 찜한 거는 아이콘에 불이 들어 있어야 한다.
-    //  --> 찜한 거만 볼려 클릭시 idx(프로젝트 번호) 에 저장이 되어야 하고
-    //      이 저장된 값을 boardList 화면에 들어 오면 클릭된 idx 를 뿌려야 한다.
 
-    // (1) 새로 entity 을 만든다 아니면 테이블을 추가 시켜준다. -> 그리고 내 이메일 주소와 클릭한 idx 값을 저장을 시켜 준다.
+    // (2-1) 새로 entity 을 만든다 아니면 테이블을 추가 시켜준다. -> 그리고 내 이메일 주소와 클릭한 idx 값을 저장을 시켜 준다.
     //      단, 반대로 아이콘의 불을 끄면 즉 취소하면 삭제 시켜 줘야 한다.
 
-    // (2) 화면에 썸내일 뿌려 줄때 는 쿼리문을 바꿔야 한다. -> 이부분을 컴포넌트로 뺴면 조인문을 안써도 되고 괜찮은 생각인거 같다.
+    // (2-2) 화면에 썸내일 뿌려 줄때 는 쿼리문을 바꿔야 한다. -> 이부분을 컴포넌트로 뺴면 조인문을 안써도 되고 괜찮은 생각인거 같다.
 
     const likeProject = (projectIdx) =>{
     // 좋아요 클릭 로직
@@ -46,8 +43,10 @@ function Thumbnail(props) {
     // 3. 회원이 클릭시 마이페이지에 내가 찜한 목록을 보여 주도록 한다. (미정)
 
     // 4. 회원이 클릭시 [1-1] +1 -1 이 실시간으로 동작이 되어야 한다. 그리고 [1-2] db 와 연동이 되어야 한다.
+
     if(userInfo != null){
         const updatedLikeCount = iconCheck ? (likeCount - 1) : (likeCount + 1);
+
         if(iconCheck){
         //[1-1] +1 -1 이 실시간으로 동작이 되어야 한다.
             setLikeCount(updatedLikeCount);
@@ -69,6 +68,23 @@ function Thumbnail(props) {
                 .catch((error) => {
                     console.log('좋아요 -1 전송을 위한 플래그 실패');
                 });
+
+            // 5. 내가 찜한 거는 아이콘에 불이 들어 있어야 한다.
+            //  --> 찜한 거만 볼려 클릭시 idx(프로젝트 번호) 에 저장이 되어야 하고
+            //      이 저장된 값을 boardList 화면에 들어 오면 클릭된 idx 를 뿌려야 한다
+
+            const formData = new FormData();
+            formData.append("projectIdx", projectIdx)
+            formData.append("personId",userInfo.personId)
+
+            axios.post(
+                'http://localhost:8080/pi/toyProject/likeMinView',formData)
+                .then(response =>{
+                    console.log('성공')
+                })
+                .catch((error) =>{
+                    console.log("error min value :::"+error)
+                })
         }
         else {
         //[1-1] +1 -1 이 실시간으로 동작이 되어야 한다.
@@ -90,26 +106,74 @@ function Thumbnail(props) {
                 .catch((error) => {
                     console.log('좋아요 전송을 위한 플래그 실패');
                 });
+
+            // 5. 내가 찜한 거는 아이콘에 불이 들어 있어야 한다.
+            //  --> 찜한 거만 볼려 클릭시 idx(프로젝트 번호) 에 저장이 되어야 하고
+            //      이 저장된 값을 boardList 화면에 들어 오면 클릭된 idx 를 뿌려야 한다
+            const formData = new FormData();
+            formData.append("projectIdx", projectIdx)
+            formData.append("personId",userInfo.personId)
+
+            axios.post(
+                'http://localhost:8080/pi/toyProject/likePlus',formData)
+                .then(response =>{
+                    console.log('성공')
+                })
+                .catch((error) =>{
+                    console.log("error value :::"+error)
+                })
+            }
         }
     }
 
-    }
-
-
-
     /////////////////////////////////////////////////////////////////////////////////
 
+    useEffect(() => {
+        const formData = new FormData();
+        formData.append("personId",userInfo.personId)
+        // 이제 화면에 뿌려주는 부분
+        axios.post('http://localhost:8080/pi/toyProject/likePlusView', formData)
+            .then(response =>{
+                const likeDataArray = response.data;
 
+                const projectIdxArray = likeDataArray
+                    .filter(item => item.memberId === userInfo.personId && item.likeCheck === 1)
+                    .map(item => item.projectIdx);
 
+                const projectIdxSet = new Set(projectIdxArray);
+                const uniqueProjectIdxArray = Array.from(projectIdxSet);
 
+                if (uniqueProjectIdxArray.includes(projectIdx)) {
+                    setIconCheck(!iconCheck);
+                }
+            })
+            .catch((error) =>{
+                console.log("plus view error message :::"+error)
+            })
 
+        axios.post('http://localhost:8080/pi/toyProject/likeMinView', formData)
+            .then(response =>{
+                const likeDataArray = response.data;
+
+                const projectIdxArray = likeDataArray
+                    .filter(item => item.memberId === userInfo.personId && item.likeCheck === 0)
+                    .map(item => item.projectIdx);
+
+                const projectIdxSet = new Set(projectIdxArray);
+                const uniqueProjectIdxArray = Array.from(projectIdxSet);
+
+                if (uniqueProjectIdxArray.includes(projectIdx)) {
+                    setIconCheck(iconCheck);
+                }
+            })
+            .catch((error) =>{
+                console.log("plus view error message :::"+error)
+            })
+    }, []);
 
     const recruitMentChange = (e) =>{
         setRecruitMent(!recruitMent);
     }
-
-
-
 
     return (
         <Card className={"ms-3"} key={projectIdx}>

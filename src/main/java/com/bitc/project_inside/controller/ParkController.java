@@ -1,14 +1,12 @@
 package com.bitc.project_inside.controller;
 
+import com.bitc.project_inside.data.entity.LikeCheckEntity;
 import com.bitc.project_inside.data.entity.MatchingEntity;
 import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
-import com.bitc.project_inside.service.SimService;
 import com.bitc.project_inside.service.ToyService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -16,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.plaf.PanelUI;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,36 +38,38 @@ public class ParkController {
         return "success";
     }
 
-    @RequestMapping(value = "/toyProject/ToyRegis/{projectIdx}", method = RequestMethod.POST)
+    @RequestMapping(value = "/toyProject/ToyRegis", method = RequestMethod.POST)
     public ResponseEntity<String> toyProjectPost(
-            @PathVariable int projectIdx,
             @RequestParam(value = "projectTitle", required = false) String projectTitle,
             @RequestParam(value="projectThumbnail", required = false) MultipartFile projectThumbnail,
             @RequestParam(value = "totalPerson") int totalPerson,
             @RequestParam(value = "levels") int levels,
             @RequestParam(value = "content", required = false) String content,
-            @RequestParam(value="projectCode", required = false) String projectCode
+            @RequestParam(value="projectCode", required = false) String projectCode,
+            @RequestParam(value="personId", required = false) String personId,
+            @RequestParam(value="personNickName", required = false) String personNickName
     ) {
 
-            try{
+        try{
             ProjectEntity projectEntity = new ProjectEntity();
 
-//            projectEntity.set
             projectEntity.setProjectTitle(projectTitle); // 프로젝트명
             projectEntity.setProjectMember(totalPerson); // 인원수
             projectEntity.setProjectLevel(levels); // 레벨
             projectEntity.setProjectContent(content); // 상세 보깁
             projectEntity.setProjectLanguage(projectCode); // 기술 스택
+            projectEntity.setProjectLeaderId(personId);
+            projectEntity.setPersonNickName(personNickName);
 
             MultipartFile ProjectThumbnail = projectThumbnail;
             String projectImagePath = saveProjectImage(ProjectThumbnail);
             projectEntity.setProjectThumbnail(projectImagePath);
 
-                toyService.insertToyProject(projectEntity);
+            toyService.insertToyProject(projectEntity);
 
             return ResponseEntity.status(HttpStatus.OK).body("프로젝트 등록 성공");
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로젝트 등록 실패");
         }
     }
@@ -173,6 +174,42 @@ public class ParkController {
     @RequestMapping(value="toyProject/projectCancel", method = RequestMethod.POST)
     public Optional<MatchingEntity> canselPost() throws Exception{
         return null;
+    }
+
+    // 좋아요 유지 설정
+    @ResponseBody
+    @RequestMapping(value="toyProject/likePlus", method = RequestMethod.POST)
+    public LikeCheckEntity likeCheckPost(
+            @RequestParam(value="projectIdx") int projectIdx,
+            @RequestParam(value="personId") String personId
+            ) throws Exception{
+        return toyService.likeCheck(projectIdx, personId);
+    }
+
+    // 클릭시 해재 설정
+    @ResponseBody
+    @RequestMapping(value="toyProject/likeMin", method = RequestMethod.POST)
+    public List<LikeCheckEntity> minCheckPost(
+            @RequestParam(value="projectIdx") int projectIdx,
+            @RequestParam(value="personId") String personId
+    ) throws Exception{
+
+        return toyService.minCheck(projectIdx, personId);
+    }
+
+    // 좋아요 유지 화면에 보여주기
+    @ResponseBody
+    @RequestMapping(value="toyProject/likePlusView", method = RequestMethod.POST)
+    public List<LikeCheckEntity>  plusViewPost(@RequestParam(value="personId") String personId) throws Exception{
+        return toyService.plusView(personId, 1);
+    }
+
+    // 좋아요 해지 설정
+    @ResponseBody
+    @RequestMapping(value="toyProject/likeMinView", method = RequestMethod.POST)
+    public List<LikeCheckEntity> minViewPost(@RequestParam(value="personId") String personId) throws Exception{
+
+        return toyService.minView(personId, 0);
     }
 
     // 프로젝트 이미지를 저장하는 메서드1
