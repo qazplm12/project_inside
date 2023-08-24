@@ -290,27 +290,57 @@ public class LeeController {
         leeService.updateAnswerCount(idx);
     }
 
-    String uploadDir = "src/main/project_inside_react/public/images/challengeImg";  // 업로드 할 위치
-    // 문제 입력
     @RequestMapping(value = "/challengeWrite", method = RequestMethod.POST)
-    public ResponseEntity<Object> saveChallenge (MultipartFile[] multipartFiles) {
-        try {
-            MultipartFile file = multipartFiles[0];
+    public void saveChallenge (@RequestBody Map<String, String> requestData) throws Exception {
+        String title = requestData.get("title");
+        String explain = requestData.get("explain");
+        String limit = requestData.get("limit");
+        String paramExample = requestData.get("paramExample");
+        String solutionExample = requestData.get("solutionExample");
+        String javaCode = requestData.get("javaCode");
+        String javaScriptCode = requestData.get("javaScriptCode");
+        String pythonCode = requestData.get("pythonCode");
+        int challengeClass = Integer.parseInt(requestData.get("challengeClass"));
 
-            String fileId = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
-            String originName = file.getOriginalFilename();
-            String fileExtension = originName.substring(originName.lastIndexOf(".") + 1);
-            originName = originName.substring(0, originName.lastIndexOf("."));
-            long fileSize = file.getSize();
+        leeService.saveChallenge(title, explain, limit, paramExample, solutionExample, javaCode, javaScriptCode, pythonCode, challengeClass);
+    }
 
-            File fileSave = new File(uploadDir + fileId + "." + fileExtension);
-            if (!fileSave.exists()) {
-                fileSave.mkdirs();
-            }
-            file.transferTo(fileSave);
-            return new ResponseEntity<Object>("http://localhost:8080/getImage/" + fileId + "/" + fileExtension, HttpStatus.OK);
-    } catch (IOException e) {
-            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
-        }
+//    String uploadDir = "src/main/project_inside_react/public/images/challengeImg";  // 업로드 할 위치
+//    // 문제 입력
+//    @RequestMapping(value = "/challengeWrite", method = RequestMethod.POST)
+//    public ResponseEntity<Object> saveChallenge (MultipartFile[] multipartFiles) {
+//        try {
+//            MultipartFile file = multipartFiles[0];
+//
+//            String fileId = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
+//            String originName = file.getOriginalFilename();
+//            String fileExtension = originName.substring(originName.lastIndexOf(".") + 1);
+//            originName = originName.substring(0, originName.lastIndexOf("."));
+//            long fileSize = file.getSize();
+//
+//            File fileSave = new File(uploadDir + fileId + "." + fileExtension);
+//            if (!fileSave.exists()) {
+//                fileSave.mkdirs();
+//            }
+//            file.transferTo(fileSave);
+//            return new ResponseEntity<Object>("http://localhost:8080/getImage/" + fileId + "/" + fileExtension, HttpStatus.OK);
+//    } catch (IOException e) {
+//            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
+//        }
+//    }
+
+    @RequestMapping(value = "/totalChallenge", method = RequestMethod.GET)
+    public int totalChallenge(@RequestParam(value = "userId") String userId) throws Exception {
+        return leeService.countTotalChallenge(userId);
+    }
+
+    @RequestMapping(value = "/userRank", method = RequestMethod.GET)
+    public int userRank(@RequestParam(value = "userId") String userId) throws Exception {
+        return leeService.userRank(userId);
+    }
+
+    @RequestMapping(value = "/toyAnnony", method = RequestMethod.GET)
+    public ProjectEntity toyAnnony() throws Exception {
+        return leeService.selecttoyAnnony();
     }
 }

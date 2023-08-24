@@ -82,50 +82,54 @@ function CodeRunner(props) {
     }, [getReset]);
 
     return (
-        <div className={'container-sm'}>
-            <div className={'row'}>
-                <div className={'col-sm border border-1'}>
-                    <div className={'p-2'}>
-                        <h5 className={'text-start m-0 py-1'}><b>SOLUTION</b></h5>
+        <div className={'container-sm'} style={{height: '100%'}}>
+            <div style={{height: '50%'}}>
+                <div className={'row'}>
+                    <div className={'col-sm border border-1'}>
+                        <div className={'p-2'}>
+                            <h5 className={'text-start m-0 py-1'}><b>SOLUTION</b></h5>
+                        </div>
+                    </div>
+                </div>
+                <div className={'row'}>
+                    <div className={'col-sm border border-1 border-top-0 ps-0'} style={{height: '38vh'}} >
+                        {/*<CodeEditor setCode={setCode} code={code} />*/}
+                        <CodeMirror
+                            value={value}
+                            width="100%"
+                            height="38vh"
+                            theme={darcula}
+                            extensions={extensions}
+                            className={'text-start'}
+                            onChange={onChange}
+                        />
+                        {/*<textarea name="" id="" cols="30" rows="10" value={code} onChange={(e) => setCode(e.target.value)}></textarea>*/}
                     </div>
                 </div>
             </div>
-            <div className={'row'}>
-                <div className={'col-sm border border-1 border-top-0 ps-0'} style={{height: '36vh'}} >
-                    {/*<CodeEditor setCode={setCode} code={code} />*/}
-                    <CodeMirror
-                        value={value}
-                        width="100%"
-                        height="36vh"
-                        theme={darcula}
-                        extensions={extensions}
-                        className={'text-start'}
-                        onChange={onChange}
-                    />
-                    {/*<textarea name="" id="" cols="30" rows="10" value={code} onChange={(e) => setCode(e.target.value)}></textarea>*/}
-                </div>
-            </div>
-            <div className={'row'}>
 
-                <div className={'col-sm border border-1 border-top-0'}>
-                    <div className={'p-2'}>
-                        <h5 className={'text-start m-0 py-1'}><b>RESULT</b></h5>
+            <div style={{height: '50%'}}>
+                <div className={'row'}>
+                    <div className={'col-sm border border-1'}>
+                        <div className={'p-2'}>
+                            <h5 className={'text-start m-0 py-1'}><b>RESULT</b></h5>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className={'row'}>
-                <div className={'col-sm border border-1 border-top-0 ps-0'} style={{height: '36vh'}}>
-                    <CodeMirror
-                        value={value2}
-                        width="100%"
-                        height="36vh"
-                        theme={darcula}
-                        extensions={extensions}
-                        className={'text-start'}
-                        onChange={onChangeResult}
-                        readOnly={true}
-                    />
-                    {/*<textarea name="" id="" cols="30" rows="10" value={result}></textarea>*/}
+                <div className={'row'}>
+                    <div className={'col-sm border border-1 border-top-0 ps-0'} style={{height: '38vh'}}>
+                        <CodeMirror
+                            value={value2}
+                            width="100%"
+                            height="38vh"
+                            theme={darcula}
+                            extensions={extensions}
+                            className={'text-start'}
+                            onChange={onChangeResult}
+                            readOnly={true}
+                        />
+                        {/*<textarea name="" id="" cols="30" rows="10" value={result}></textarea>*/}
+                    </div>
                 </div>
             </div>
         </div>

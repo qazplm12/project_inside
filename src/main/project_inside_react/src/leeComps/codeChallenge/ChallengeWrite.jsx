@@ -8,6 +8,7 @@ import {python} from "@codemirror/lang-python";
 import axios from "axios";
 
 function ChallengeWrite(props) {
+    const [title, setTitle] = useState('');
     const [explain, setExplain] = useState('');
     const [limit, setLimit] = useState('');
     const [paramExample, setParamExample] = useState('');
@@ -15,52 +16,53 @@ function ChallengeWrite(props) {
     const [javaCode, setJavaCode] = useState('');
     const [javaScriptCode, setJavaScriptCode] = useState('');
     const [pythonCode, setPythonCode] = useState('');
+    const [challengeClass, setChallengeClass] = useState('');
 
 
-    const [editorHtml, setEditorHtml] = useState('');
-    const quillRef = React.useRef<ReactQuill>(null);
-    const imageHandler = () => {
-        const input = document.createElement("input");
-
-        input.setAttribute("type", "file");
-        input.setAttribute("accept", "image/*");
-        input.click();
-
-        input.onchange = async() => {
-            if (input.files) {
-                const file = input.files[0];
-                const formData = new FormData();
-
-                formData.append("multipartFiles", file[0]);
-
-                const res = await axios.post(`http://localhost:8080/uploadImage`, formData);
-                if (quillRef.current) {
-                    const index = (quillRef.current.getEditor().getSelection() as RangeStatic).index;
-                }
-
-                const fileName = file.name;
-
-                console.log("파일데이터" + formData);
-                console.log("파일이름" + fileName);
-
-                const imageUrl = response.data.imageUrl;
-                const newEditorHtml = `${editorHtml}<img src="${imageUrl}" alt="Uploaded Image" />`;
-                setEditorHtml(newEditorHtml);
-            }
-        }
-
-        axios.post(`http://localhost:8080/server/challengeWrite`, fd, {
-            headers: {
-                "Content-Type": `multipart/form-data; `,
-            }
-        })
-            .then(res => {
-                console.log("업로드 통신 성공 : " + res.data);
-            })
-            .catch(err => {
-                console.log("업로드 통신 에러 : " + err);
-            })
-    }
+    // const [editorHtml, setEditorHtml] = useState('');
+    // const quillRef = React.useRef<ReactQuill>(null);
+    // const imageHandler = () => {
+    //     const input = document.createElement("input");
+    //
+    //     input.setAttribute("type", "file");
+    //     input.setAttribute("accept", "image/*");
+    //     input.click();
+    //
+    //     input.onchange = async() => {
+    //         if (input.files) {
+    //             const file = input.files[0];
+    //             const formData = new FormData();
+    //
+    //             formData.append("multipartFiles", file[0]);
+    //
+    //             const res = await axios.post(`http://localhost:8080/uploadImage`, formData);
+    //             if (quillRef.current) {
+    //                 const index = (quillRef.current.getEditor().getSelection() as RangeStatic).index;
+    //             }
+    //
+    //             const fileName = file.name;
+    //
+    //             console.log("파일데이터" + formData);
+    //             console.log("파일이름" + fileName);
+    //
+    //             const imageUrl = response.data.imageUrl;
+    //             const newEditorHtml = `${editorHtml}<img src="${imageUrl}" alt="Uploaded Image" />`;
+    //             setEditorHtml(newEditorHtml);
+    //         }
+    //     }
+    //
+    //     axios.post(`http://localhost:8080/server/challengeWrite`, fd, {
+    //         headers: {
+    //             "Content-Type": `multipart/form-data; `,
+    //         }
+    //     })
+    //         .then(res => {
+    //             console.log("업로드 통신 성공 : " + res.data);
+    //         })
+    //         .catch(err => {
+    //             console.log("업로드 통신 에러 : " + err);
+    //         })
+    // }
 
     // const handleImageUpload = async (file) => {
     //     const formData = new FormData();
@@ -102,7 +104,7 @@ function ChallengeWrite(props) {
                 //     };
                 //     input.click();
                 // }
-                image: imageHandler
+                // image: imageHandler
             }
         },
     };
@@ -126,30 +128,33 @@ function ChallengeWrite(props) {
         setPythonCode(value3);
     }, []);
 
-    // const handleSubmit = (e) => {
-    //     const fd = new FormData();  // new FromData()로 새로운 객체 생성
-    //     // 파일 데이터 저장
-    //     Object.values(explain).forEach((explain) => fd.append("explain", explain));
-    //
-    //     const requestData = {
-    //         explain: explain
-    //     }
-    //
-    //     axios.post(`http://localhost:8080/server/challengeWrite`, fd, {
-    //         headers: {
-    //             "Content-Type": `multipart/form-data; `,
-    //         }
-    //     })
-    //         .then(res => {
-    //             console.log("업로드 통신 성공 : " + res.data);
-    //         })
-    //         .catch(err => {
-    //             console.log("업로드 통신 에러 : " + err);
-    //         })
-    // }
+    const handleSubmit = (e) => {
+        const requestData = {
+            title: title,
+            explain: explain,
+            limit: limit,
+            paramExample: paramExample,
+            solutionExample: solutionExample,
+            javaCode: javaCode,
+            javaScriptCode: javaScriptCode,
+            pythonCode: pythonCode,
+            challengeClass: challengeClass
+        }
+
+        axios.post(`http://localhost:8080/server/challengeWrite`, requestData)
+            .then(res => {
+                console.log("업로드 통신 성공 : " + res.data);
+            })
+            .catch(err => {
+                console.log("업로드 통신 에러 : " + err);
+            })
+    }
 
     return (
         <div className={'container-sm'}>
+            <h5 className={'my-5'}>문제 제목</h5>
+            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
+
             <h5 className={'my-5'}>문제 설명</h5>
             <ReactQuill
                 value={explain}
@@ -215,14 +220,17 @@ function ChallengeWrite(props) {
                 onChange={onChange3}
             />
 
-            <h5 className={'my-5'}>사진 업로드 테스트</h5>
-            <ReactQuill
-                value={editorHtml}
-                style={{ height: "300px" }}
-                modules={modules}
-                onChange={setEditorHtml}
-            />
-            {/*<button className={'btn btn-primary my-5'} onClick={handleSubmit}>작성 완료</button>*/}
+            <h5 className={'my-5'}>난이도</h5>
+            <input type="text" value={challengeClass} onChange={(e) => setChallengeClass(e.target.value)}/>
+
+            {/*<h5 className={'my-5'}>사진 업로드 테스트</h5>*/}
+            {/*<ReactQuill*/}
+            {/*    value={editorHtml}*/}
+            {/*    style={{ height: "300px" }}*/}
+            {/*    modules={modules}*/}
+            {/*    onChange={setEditorHtml}*/}
+            {/*/>*/}
+            <button className={'btn btn-primary my-5'} onClick={handleSubmit}>작성 완료</button>
         </div>
     )
 }

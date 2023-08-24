@@ -42,4 +42,12 @@ public interface LeeService {
     AnswerEntity saveAnswer(int idx, String userNick, String language, String code, String content) throws Exception;
 
     void updateAnswerCount(int idx) throws Exception;
+
+    ChallengeEntity saveChallenge(String title, String explain, String limit, String paramExample, String solutionExample, String javaCode, String javaScriptCode, String pythonCode, int challengeClass) throws Exception;
+
+    int countTotalChallenge(String userId) throws Exception;
+
+    int userRank(String userId) throws Exception;
+
+    ProjectEntity selecttoyAnnony() throws Exception;
 }

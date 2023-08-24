@@ -34,4 +34,6 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     List<ProjectEntity> findAllByOrderByProjectLikeAsc();
 
     List<ProjectEntity> findProjectsByProjectLanguageContaining(String keyword);
+
+    ProjectEntity findFirstByOrderByProjectIdxDesc();
 }

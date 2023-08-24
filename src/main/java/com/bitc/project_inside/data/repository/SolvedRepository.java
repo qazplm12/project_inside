@@ -31,4 +31,6 @@ public interface SolvedRepository extends JpaRepository<SolvedEntity, Integer> {
     int countBySolvedChallengeIdx(int idx) throws Exception;
 
     List<SolvedEntity> findAllBySolvedChallengeIdx(int idx) throws Exception;
+
+    int countBySolvedId(String userId) throws Exception;
 }
