@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import ReactQuill from "react-quill";
@@ -11,6 +11,32 @@ function ToyDetail(props) {
     const [toyProject, setToyProject] = useState([]);
     const [likeProject, setLikeProject] =useState(false);
 
+    // 참여 신청
+    const [matchingMemberAccept, setMatchingMemberAccept] = useState(0)
+
+    // 회원 유무 체크
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
+    useEffect(() => {
+        console.log("userIn?::"+userInfo);
+    }, [userInfo]);
+
+    // 회원 정보 가져 오기
+    const [userNames, setUserNames] = useState([]);
+
+    useEffect(() => {
+        axios.post("http://localhost:8080/pi/toyProject/sideProfile", {
+            userInfo: userInfo
+        })
+            .then(response => {
+                console.log('성공')
+                console.log('response.data 정체 ::'+response.data)
+                setUserNames(response.data)
+            })
+            .catch((error) =>{
+                console.log("userInfo side value:::"+error)
+            });
+    }, []);
     useEffect(() => {
         axios.get(`http://localhost:8080/pi/toyProject/toyDetail/${projectIdx}`)
             .then(response  => {
@@ -22,28 +48,37 @@ function ToyDetail(props) {
             })
     }, [projectIdx]);
 
-
     const projectLike  = (e) =>{
         setLikeProject(likeProject => !likeProject);
 
+        const formData = new FormData()
+        formData.append("projectIdx",projectIdx);
+        formData.append("matchingLeaderNick", userNames.personId)
+        formData.append("matchingMemberNick",userNames.personNickName);
+
         if (likeProject) {
             alert('참여 신청을 하였습니다.');
-            // axios.post(`http://localhost:8080/pi/toyProject/projectApplication`)
-            //     .then(response=>{
-            //
-            //     })
-            //     .catch((error) =>{
-            //
-            //     })
+            axios({
+                method : 'POST',
+                url : 'http://localhost:8080/pi/toyProject/projectApplication',
+                data : formData
+            })
+                .then(function(data){
+                    console.log('확인'+data)
+                })
+                .catch(function(err){
+                    console.log('실패')
+                    console.log(err)
+                })
         } else {
             alert('참여 신청을 취소하셨습니다.');
-            // axios.post(`http://localhost:8080/pi/toyProject/projectCancel`)
-            //     .then(response=>{
-            //
-            //     })
-            //     .catch((error) =>{
-            //
-            //     })
+            axios.post(`http://localhost:8080/pi/toyProject/projectCancel`)
+                .then(response=>{
+
+                })
+                .catch((error) =>{
+
+                })
         }
     }
 
@@ -53,9 +88,11 @@ function ToyDetail(props) {
 
     return (
         <Container>
+                <form onSubmit={projectLike}>
             {/* 썸내일 */}
             <Row className={"my-3"}>
                 <Col sm={8} className={"mx-auto d-block"}>
+                    <input type={"hidden"} name={projectIdx} value={projectIdx}/>
                     <div className={"p-2 "}>
                         <img src={"/images/thumbnail/" + toyProject.projectThumbnail} className={"rounded-5"}  style={{ width: "850px", height: "630px" }} />
                     </div>
@@ -78,22 +115,22 @@ function ToyDetail(props) {
                     <div className={"mt-5"}>
                         <span className={"text-secondary fs-5"}>프로젝트 관리자 프로필 <br/>
                                 <i className="bi bi-envelope-open-heart"></i>
-                        <span className={"fw-bold ms-3"}>bitc@naver.com</span></span>
+                        <span className={"fw-bold ms-3"}>{userNames.personId}</span></span>
                     </div>
                 </Col>
                 <Col sm={6}>
                 {/*  관리자 닉네임, 레벨, 기술스팩   */}
                     <div>
                         <span><i className="bi bi-person-bounding-box text-danger-emphasis fs-1 fw-bold"></i></span>
-                        <span className={"ms-3 text-secondary fs-5"}>tester5</span>
+                        <span className={"ms-3 text-secondary fs-5"}> {userNames.personNickName}</span>
                     </div>
                     <div className={"mt-5"}>
                         <span><i className="bi bi-star-fill text-danger-emphasis fs-1 fw-bold me-5"></i></span>
-                        <span className={"text-secondary text-start"}>Lv. 10</span>
+                        <span className={"text-secondary text-start"}>Lv. {userNames.personLevel}</span>
                     </div>
                     <div className={"mt-5"}>
                             <span><i className="bi bi-gear-wide-connected text-danger-emphasis fs-1 fw-bold ms-5 ps-5"></i></span>
-                        <span className={"ms-3 text-secondary text-center"}>java, react, springboot</span>
+                        <span className={"ms-3 text-secondary text-center"}>{userNames.personLanguage}</span>
                     </div>
                 </Col>
             </Row>
@@ -139,17 +176,17 @@ function ToyDetail(props) {
             <Row>
                 <Col sm={12} >
                     <div className={'py-4 d-flex justify-content-end'}>
-                        <span onClick={projectLike} className={""}>
+                        <span onClick={projectLike} className={"mx-auto"}>
                             {likeProject ? (
-                                <Button type={'button'} className={'btn btn-lg btn-secondary fw-bold'}>프로젝트 참여</Button>
+                                <button type={'submit'} className={'theme-btn fw-bold'}><h1 className={'m-2'}>프로젝트 참여 신청</h1></button>
                             ) : (
-                                <Button type={'button'} className={'btn btn-lg btn-secondary fw-bold'}>프로젝트 취소</Button>
+                                <Button type={'submit'} className={'btn btn-secondary fw-bold'}><h1 className={'m-2'}>참여 신청 취소</h1></Button>
                                 )}
                         </span>
                     </div>
-
                 </Col>
             </Row>
+                </form>
         </Container>
     )
 }

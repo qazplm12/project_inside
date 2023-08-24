@@ -24,6 +24,11 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 
     boolean existsByPersonId(String personId);
 
+    PersonEntity findAllByPersonId(String personId);
+
+
+//    int findAllByPersonId(String personId);
+
 
     // 아이디 중복 검사
 

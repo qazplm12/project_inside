@@ -1,4 +1,4 @@
-import React, {useMemo,useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import axios from "axios";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -28,7 +28,15 @@ function Park(props) {
     const handleTagSelectionInParent = (selectedTags) => {
         setProjectCode(selectedTags);
     };
-    
+
+    // 회원 유무 체크
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
+    useEffect(() => {
+        console.log("userIn?::"+userInfo);
+    }, [userInfo]);
+
+
 
     // quill 부분
     const quillRef = useRef()

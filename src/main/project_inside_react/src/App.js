@@ -27,7 +27,7 @@ function App(props) {
                         <Route path={'main'} element={<Main/>}></Route>
                         <Route path={'myPage/:mode'} element={<MyPage/>}></Route>
                         <Route path={'toyDetail/:projectIdx'} element={<ToyDetail/>}></Route>
-                        <Route path={'ToyRegis'} element={<ToyRegis/>}></Route>
+                        <Route path={'ToyRegis/:projectIdx'} element={<ToyRegis/>}></Route>
                         <Route path={'toyListBoard'} element={<ToyListBoard/>}></Route>
                         <Route path={'challengeList'} element={<ChallengeList/>}></Route>
                         <Route path={'admin'} element={<Admin/>}></Route>

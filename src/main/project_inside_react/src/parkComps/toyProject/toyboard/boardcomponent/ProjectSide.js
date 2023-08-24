@@ -13,40 +13,42 @@ function ProjectSide(props){
 
     // 회원 정보 가져 오기
     const [userNames, setUserNames] = useState([]);
+
     useEffect(() => {
-        axios.get("http://localhost:8080/pi/toyProject/codeSearch")
+            axios.post("http://localhost:8080/pi/toyProject/sideProfile", {
+                userInfo: userInfo
+            })
             .then(response => {
+                console.log('성공')
+                console.log('response.data 정체 ::'+response.data)
                 setUserNames(response.data)
             })
             .catch((error) =>{
-               console.log("userInfo side value:::"+error)
+                console.log("userInfo side value:::"+error)
             });
     }, []);
 
     if(userInfo != null){
-
         return(
             <>
-        {userNames.map(item => (
             <div className={"me-5 pe-2"}>
                 <ul className={'list-group theme-border'}>
                     <li className={'list-group-item p-2 pt-4'}>
                         <img src={'/images/sakura.jpg'} alt="" className={'circle-background w-100'} style={{maxWidth: "10em"}}/>
-                        <p className={'pt-3'}>userNick</p>
-                        <div className={'row d-flex justify-content-center'}>
+                        <div className={'row d-flex justify-content-center mt-5'}>
                             <div className={'col-sm-5'}>
-                                <p className={'text-start'}>내 랭킹 : {item.personId}</p>
+                                <p className={'text-start'}>닉네임 : {userNames.personNickName} </p>
                             </div>
                             <div className={'col-sm-5 pe-0 ps-3'}>
-                                <p className={'text-start'}>내 점수 : 100</p>
+                                <p className={'text-start'}>내 랭킹 : {userNames.personLevel} </p>
                             </div>
                         </div>
                         <div className={'row d-flex justify-content-center'}>
                             <div className={'col-sm-5'}>
-                                <p className={'text-start'}>내 레벨 : 3</p>
+                                <p className={'text-start'}>내 점수 :{userNames.personTotalScore} </p>
                             </div>
                             <div className={'col-sm-5 pe-0 ps-3'}>
-                                <p className={'text-start'}>내 문제 : 10</p>
+                                <p className={'text-start'}>내 레벨 : LV. {userNames.personLevel}</p>
                             </div>
                         </div>
                     </li>
@@ -59,7 +61,6 @@ function ProjectSide(props){
                     </div>
                 </ul>
             </div>
-        ))};
             </>
         )}
     else if(userInfo == null){
@@ -69,7 +70,11 @@ function ProjectSide(props){
                     <img src={"/static/media/logo_pi.371eebd9846845f6cd1d.jpg"} className={"sideImg"}/>
                 </div>
                 <div className={"mt-5"}>
-                    <Button type={"button"} className={"theme-btn"}>회원 가입</Button>
+                    <Button type={"button"} className={"theme-btn"}
+                        onClick={() => {
+                            window.location.href='http://localhost:3000/userAuth/login';
+                        }}
+                    >회원 가입</Button>
                 </div>
             </div>
         )

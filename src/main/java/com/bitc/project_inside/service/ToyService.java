@@ -1,5 +1,7 @@
 package com.bitc.project_inside.service;
 
+import com.bitc.project_inside.data.entity.MatchingEntity;
+import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
 
 import java.util.List;
@@ -28,5 +30,7 @@ public interface ToyService {
 
     List<ProjectEntity> toyProjectSearch(String keyword) throws Exception;
 
-    int sideProfile(String personId) throws Exception;
+    PersonEntity sideProfile(String personId) throws Exception;
+
+    MatchingEntity matchingPart(int projectIdx, String matchingMemberNick, String matchingLeaderNick) throws Exception;
 }
