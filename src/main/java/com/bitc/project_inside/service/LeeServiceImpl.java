@@ -25,6 +25,7 @@ public class LeeServiceImpl implements LeeService {
     private final ScoringLogRepository scoringLogRepository;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
+    private final ProjectRepository projectRepository;
 
     @Override
     public List<ChallengeEntity> selectChallengeList() throws Exception {
@@ -102,7 +103,7 @@ public class LeeServiceImpl implements LeeService {
     @Override
     public ScoringLogEntity saveScoringLogWrong(String userId, int idx) throws Exception {
         return scoringLogRepository.save(ScoringLogEntity.builder()
-                        .scoringLogId(userId)
+                        .scoringLogNick(userId)
                         .scoringLogChallengeIdx(idx)
                         .correct("N")
                 .build());
@@ -132,7 +133,7 @@ public class LeeServiceImpl implements LeeService {
     @Override
     public ScoringLogEntity saveScoringLogCorrect(String userId, int idx) throws Exception {
         return scoringLogRepository.save(ScoringLogEntity.builder()
-                        .scoringLogId(userId)
+                        .scoringLogNick(userId)
                         .scoringLogChallengeIdx(idx)
                         .correct("Y")
                 .build());
@@ -193,6 +194,36 @@ public class LeeServiceImpl implements LeeService {
     @Transactional
     public void updateAnswerCount(int idx) throws Exception {
         questionRepository.updateAnswerCount(idx);
+    }
+
+    @Override
+    public ChallengeEntity saveChallenge(String title, String explain, String limit, String paramExample, String solutionExample, String javaCode, String javaScriptCode, String pythonCode, int challengeClass) throws Exception {
+        return challengeRepository.save(ChallengeEntity.builder()
+                        .challengeTitle(title)
+                        .challengeExplain(explain)
+                        .challengeLimit(limit)
+                        .challengeParamExample(paramExample)
+                        .challengeSolutionExample(solutionExample)
+                        .challengeTemplateJava(javaCode)
+                        .challengeTemplateJavaScript(javaScriptCode)
+                        .challengeTemplatePython(pythonCode)
+                        .challengeClass(challengeClass)
+                .build());
+    }
+
+    @Override
+    public int countTotalChallenge(String userId) throws Exception {
+        return solvedRepository.countBySolvedId(userId);
+    }
+
+    @Override
+    public int userRank(String userId) throws Exception {
+        return personRepository.userRank(userId);
+    }
+
+    @Override
+    public ProjectEntity selecttoyAnnony() throws Exception {
+        return projectRepository.findFirstByOrderByProjectIdxDesc();
     }
 
 

@@ -3,6 +3,7 @@ package com.bitc.project_inside.data.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@DynamicInsert // 디폴트 값 줄때
 @EntityListeners(AuditingEntityListener.class)
 public class ProjectEntity {
 
@@ -51,7 +53,6 @@ public class ProjectEntity {
     private String projectContent; //
 
     @Column(nullable = false)
-    @CreatedDate
     private LocalDateTime projectDate = LocalDateTime.now(); //
 
     @Column

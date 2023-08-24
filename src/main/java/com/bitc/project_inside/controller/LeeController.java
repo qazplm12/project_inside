@@ -7,18 +7,19 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class LeeController {
 
     private final LeeService leeService;
+    private final ResourceLoader resourceLoader;
 
     // 암호 생성 객체
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -288,4 +290,57 @@ public class LeeController {
         leeService.updateAnswerCount(idx);
     }
 
+    @RequestMapping(value = "/challengeWrite", method = RequestMethod.POST)
+    public void saveChallenge (@RequestBody Map<String, String> requestData) throws Exception {
+        String title = requestData.get("title");
+        String explain = requestData.get("explain");
+        String limit = requestData.get("limit");
+        String paramExample = requestData.get("paramExample");
+        String solutionExample = requestData.get("solutionExample");
+        String javaCode = requestData.get("javaCode");
+        String javaScriptCode = requestData.get("javaScriptCode");
+        String pythonCode = requestData.get("pythonCode");
+        int challengeClass = Integer.parseInt(requestData.get("challengeClass"));
+
+        leeService.saveChallenge(title, explain, limit, paramExample, solutionExample, javaCode, javaScriptCode, pythonCode, challengeClass);
+    }
+
+//    String uploadDir = "src/main/project_inside_react/public/images/challengeImg";  // 업로드 할 위치
+//    // 문제 입력
+//    @RequestMapping(value = "/challengeWrite", method = RequestMethod.POST)
+//    public ResponseEntity<Object> saveChallenge (MultipartFile[] multipartFiles) {
+//        try {
+//            MultipartFile file = multipartFiles[0];
+//
+//            String fileId = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
+//            String originName = file.getOriginalFilename();
+//            String fileExtension = originName.substring(originName.lastIndexOf(".") + 1);
+//            originName = originName.substring(0, originName.lastIndexOf("."));
+//            long fileSize = file.getSize();
+//
+//            File fileSave = new File(uploadDir + fileId + "." + fileExtension);
+//            if (!fileSave.exists()) {
+//                fileSave.mkdirs();
+//            }
+//            file.transferTo(fileSave);
+//            return new ResponseEntity<Object>("http://localhost:8080/getImage/" + fileId + "/" + fileExtension, HttpStatus.OK);
+//    } catch (IOException e) {
+//            return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
+//        }
+//    }
+
+    @RequestMapping(value = "/totalChallenge", method = RequestMethod.GET)
+    public int totalChallenge(@RequestParam(value = "userId") String userId) throws Exception {
+        return leeService.countTotalChallenge(userId);
+    }
+
+    @RequestMapping(value = "/userRank", method = RequestMethod.GET)
+    public int userRank(@RequestParam(value = "userId") String userId) throws Exception {
+        return leeService.userRank(userId);
+    }
+
+    @RequestMapping(value = "/toyAnnony", method = RequestMethod.GET)
+    public ProjectEntity toyAnnony() throws Exception {
+        return leeService.selecttoyAnnony();
+    }
 }

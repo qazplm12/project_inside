@@ -22,7 +22,7 @@ public class ChallengeEntity {
     @Column
     private String challengeTitle;
 
-    @Column(length = 3000)
+    @Column(length = 2000)
     private String challengeExplain;
 
     @Column
@@ -31,16 +31,16 @@ public class ChallengeEntity {
     @Column
     private String challengeParamExample;
 
-    @Column
+    @Column(length = 2000)
     private String challengeSolutionExample;
 
-    @Column(length = 3000)
+    @Column(length = 2000)
     private String challengeTemplateJava;
 
-    @Column(length = 3000)
+    @Column(length = 2000)
     private String challengeTemplateJavaScript;
 
-    @Column(length = 3000)    // 이거만 만들면 오류나서 잠시 주석 => 테이블에 총 용량이 있기 때문에 생성이 안됐던것 var 길이를 줄이고 없앤 다음 만들면 됨
+    @Column(length = 2000)    // 이거만 만들면 오류나서 잠시 주석 => 테이블에 총 용량이 있기 때문에 생성이 안됐던것 var 길이를 줄이고 없앤 다음 만들면 됨
     private String challengeTemplatePython;
 
     @Column
@@ -60,16 +60,31 @@ public class ChallengeEntity {
 //    @Builder    // 매개변수 없는 @Builder를(생성자를) 만들어 주는것이 @NoArgsConstructor
 //    public AlgoEntity () {}
 
-//    @Builder    // 매개변수 있는 @Builder를(생성자를) 만들어 주는것이 @AllArgsConstructor
-//    public ChallengeEntity(int challengeIdx, String challengeTitle, String challengeExplain, String challengeLimit, String challengeParamExample, String challengeSolutionExample, int challengeClass, int challengeScore) {
-//        this.challengeIdx = challengeIdx;
-//        this.challengeTitle = challengeTitle;
-//        this.challengeExplain = challengeExplain;
-//        this.challengeLimit = challengeLimit;
-//        this.challengeParamExample = challengeParamExample;
-//        this.challengeSolutionExample = challengeSolutionExample;
-//        this.challengeClass = challengeClass;
-//        this.challengeScore = challengeScore;
-//    }
+    @Builder    // 매개변수 있는 @Builder를(생성자를) 만들어 주는것이 @AllArgsConstructor
+    public ChallengeEntity(int challengeIdx,
+                           String challengeTitle,
+                           String challengeExplain,
+                           String challengeLimit,
+                           String challengeParamExample,
+                           String challengeSolutionExample,
+                           String challengeTemplateJava,
+                           String challengeTemplateJavaScript,
+                           String challengeTemplatePython,
+                           int challengeClass,
+                           int challengeCompletePerson,
+                           int challengeScore) {
+        this.challengeIdx = challengeIdx;
+        this.challengeTitle = challengeTitle;
+        this.challengeExplain = challengeExplain;
+        this.challengeLimit = challengeLimit;
+        this.challengeParamExample = challengeParamExample;
+        this.challengeSolutionExample = challengeSolutionExample;
+        this.challengeTemplateJava = challengeTemplateJava;
+        this.challengeTemplateJavaScript = challengeTemplateJavaScript;
+        this.challengeTemplatePython = challengeTemplatePython;
+        this.challengeClass = challengeClass;
+        this.challengeCompletePerson = challengeCompletePerson;
+        this.challengeScore = challengeScore;
+    }
 
 }

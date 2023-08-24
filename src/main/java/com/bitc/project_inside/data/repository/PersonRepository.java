@@ -1,6 +1,7 @@
 package com.bitc.project_inside.data.repository;
 
 import com.bitc.project_inside.data.entity.PersonEntity;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -26,9 +27,15 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 
     PersonEntity findAllByPersonId(String personId);
 
-
 //    int findAllByPersonId(String personId);
 
+    @Query(value = "" +
+            "SELECT " +
+            "    RANK() OVER(ORDER BY personTotalScore DESC) AS p_rank " +
+            "FROM PersonEntity " +
+            "WHERE personId = :userId" +
+            "")
+    int userRank(@Param("userId") String userId);
 
     // 아이디 중복 검사
 

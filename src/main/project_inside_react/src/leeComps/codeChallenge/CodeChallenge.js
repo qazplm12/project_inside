@@ -2,14 +2,15 @@ import React, {useEffect, useState} from 'react';
 import CodeRunner from "./CodeRunner";
 import axios from "axios";
 import ChallengeExplain from "./ChallengeExplain";
-import {useSearchParams, useNavigate} from "react-router-dom";
+import {useSearchParams, useNavigate, Link} from "react-router-dom";
+import logoNoBg from "../../images/logo_nobg.png";
 
 function CodeChallenge(props) {
     const [language, setLanguage] = useState('JavaScript');
     const [code, setCode] = useState('');
     const [result, setResult] = useState('실행 결과가 여기에 표시됩니다.');
     const [sendChallenge, setSendChallenge] = useState([]);
-    const [userId, setUserId] = useState('test');
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     const [params, setParams] = useSearchParams();
     const idx = params.get('idx');
@@ -201,7 +202,7 @@ function CodeChallenge(props) {
 
     function correct() {
         const requestData = {   // 코드를 JSON 형식으로 변환(자바언어가 textarea로 입력이 안되는 인코딩 이슈 발생)
-            userId: userId,
+            userId: userInfo.personNickName,
             idx: idx,
             language: language,
             code: code
@@ -220,7 +221,7 @@ function CodeChallenge(props) {
     function wrong() {
         axios.post(`http://localhost:8080/server/challengeWrong`, null, {
             params: { // params 하면 쿼리스트링으로 데이터 전달, data는 바디에 포함되어 데이터 전달.. data 사용하면 서버에서 못받음
-                userId: userId,
+                userId: userInfo.personNickName,
                 idx: idx
             }
         })
@@ -236,9 +237,30 @@ function CodeChallenge(props) {
     return (
         <div className={'container-sm-fluid theme-bg'} style={{height: '100%'}}>
             <div className={'row'}>
-                <div className={'py-2'}>
-                    <h3><b>LOGO 각종 링크</b></h3>
-                </div>
+                <nav className={'navbar navbar-expand py-0'}>
+                    <Link className={'navbar-brand'} to={`/pi/main`}>
+                        <img src={logoNoBg} alt="" className={'ms-3'} style={{width: '6rem'}}/>
+                    </Link>
+                    <div className={'collapse navbar-collapse'}>
+                        <ul className={'navbar-nav'}>
+                            <li className={'nav-item'}>
+                                <Link className={'nav-link'} to={`/pi/challengeList`}>알고리즘 문제</Link>
+                            </li>
+                            <li className={'nav-item'}>
+                                <a className={'nav-link'} disabled={true}><i className="bi bi-caret-right-fill"></i></a>
+                            </li>
+                            <li className={'nav-item'}>
+                                <Link className={'nav-link'} to={`/pi/challengeList?&dif=${sendChallenge.challengeClass}`}>난이도 Lv.{sendChallenge.challengeClass}</Link>
+                            </li>
+                            <li className={'nav-item'}>
+                                <a className={'nav-link'} disabled={true}><i className="bi bi-caret-right-fill"></i></a>
+                            </li>
+                            <li className={'nav-item'}>
+                                <a className={'nav-link'} disabled={true}>{sendChallenge.challengeTitle}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
             <div className={'row'}>
                 <div className={'d-flex border border-1 border-bottom-0 py-2'}>
@@ -251,15 +273,15 @@ function CodeChallenge(props) {
                 </div>
             </div>
             <div className={'row'}>
-                <div className={'col-sm-5 border border-1 border-end-0 p-0'}>
+                <div className={'col-sm-5 border border-1 border-end-0 border-bottom-0 p-0'}>
                     <ChallengeExplain sendChallenge={sendChallenge}/>
                 </div>
                 <div className={'col-sm-7 p-0'}>
-                    <CodeRunner id={'code-runner'} style={{width: '100%', height: '25em'}} getCode={getCode} sendLanguage={language} sendReset={code} sendResult={result}/>
+                    <CodeRunner id={'code-runner'} getCode={getCode} sendLanguage={language} sendReset={code} sendResult={result}/>
                 </div>
             </div>
             <div className={'row'}>
-                <div className={'d-flex py-2'}>
+                <div className={'d-flex py-2 border border-top'}>
                     <button className={'theme-btn ms-2 me-auto'} onClick={handleQnA}>질문하기</button>
                     <button className={'theme-btn me-2'} onClick={handleSolved}>다른 사람의 풀이</button>
                     <button className={'theme-btn me-2'} onClick={handleReset}>초기화</button>

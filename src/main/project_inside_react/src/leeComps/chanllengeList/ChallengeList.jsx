@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import ChallengeListTable from "./ChallengeListTable";
 import ChallengeListSidebar from "./ChallengeListSidebar";
+import {useSearchParams} from "react-router-dom";
 
 function ChallengeList(props) {
     const [solvedState, setSolvedState] = useState('9');
@@ -10,13 +11,17 @@ function ChallengeList(props) {
     const [search, setSearch] = useState('');
     const [sendChallengeList, setSendChallengeList] = useState([]);
     const [sendSearch, setSendSearch] = useState('');
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
+    const [params, setParams] = useSearchParams();  // 문제 푸는 페이지에서 받아오는 난이도 변수
+    const dif = params.get('dif');
 
     useEffect(() => {
         setSolvedState(solvedState);
         setChallengeClass(challengeClass);
         setSearch(search);
 
-        axios.get(`http://localhost:8080/server/challengeList?userId=${userId}&challengeClass=${challengeClass}&solvedState=${solvedState}`)    // 로그인 정보 넣기, ChallengeListTableTd에도 로그인 정보 넣기(아마 루터에서 넣어줘야 할듯?)
+        axios.get(`http://localhost:8080/server/challengeList?userId=${userInfo?.personNickName}&challengeClass=${challengeClass}&solvedState=${solvedState}`)    // ChallengeListTableTd에도 로그인 정보 넣기(아마 루터에서 넣어줘야 할듯?)
             .then(res => {
                 // console.log("통신 성공 : " + res)
 
@@ -25,8 +30,7 @@ function ChallengeList(props) {
             .catch(err => {
                 console.log("통신 에러 : " + err)
             });
-
-    }, [solvedState,challengeClass, search]);
+    }, [solvedState, challengeClass, search]);
 
     useEffect(() => {
         //  검색어 연동
@@ -36,8 +40,9 @@ function ChallengeList(props) {
             setSearch(keyword)
             setSendSearch(keyword)
         }
-
+        let timer = setTimeout(()=>{ setChallengeClass(dif) }, 100);
     }, []);
+
 
 
     const handleSearch = (e) => {
@@ -50,12 +55,23 @@ function ChallengeList(props) {
                 <div className={'col-sm-9'}>
                     <div className={'row'}>
                         <div className={'col-3'}>
-                            <select name="" id="" className={'form-select me-2'} value={solvedState} onChange={(e) => setSolvedState(e.target.value)}>
-                                {/*<option value="9" hidden={true}>상태</option>*/}
-                                <option value="9" selected={true}>전체 문제</option>    {/* 비 로그인시 비활성화 */}
-                                <option value="1">해결한 문제</option>
-                                <option value="0">해결 못 한 문제</option>
-                            </select>
+                            {
+                                userInfo == null
+                                    ?
+                                    <select name="" id="" className={'form-select me-2'} value={solvedState} onChange={(e) => setSolvedState(e.target.value)} disabled={true}>
+                                        {/*<option value="9" hidden={true}>상태</option>*/}
+                                        <option value="9" selected={true}>전체 문제</option>    {/* 비 로그인시 비활성화 */}
+                                        <option value="1">해결한 문제</option>
+                                        <option value="0">해결 못 한 문제</option>
+                                    </select>
+                                    :
+                                    <select name="" id="" className={'form-select me-2'} value={solvedState} onChange={(e) => setSolvedState(e.target.value)}>
+                                        {/*<option value="9" hidden={true}>상태</option>*/}
+                                        <option value="9" selected={true}>전체 문제</option>
+                                        <option value="1">해결한 문제</option>
+                                        <option value="0">해결 못 한 문제</option>
+                                    </select>
+                            }
                         </div>
                         <div className={'col-3'}>
                             <select name="" id="" className={'form-select me-2'} value={challengeClass} onChange={(e) => setChallengeClass(e.target.value)}>

@@ -40,4 +40,5 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
 
     ProjectEntity findByProjectIdx(int matchingIdx)throws Exception;
 
+    ProjectEntity findFirstByOrderByProjectIdxDesc();
 }

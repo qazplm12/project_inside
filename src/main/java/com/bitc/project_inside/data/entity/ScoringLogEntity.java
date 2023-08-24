@@ -21,7 +21,7 @@ public class ScoringLogEntity {
     private int scoringLogChallengeIdx;    // 문제테이블 idx
 
     @Column
-    private String scoringLogId;
+    private String scoringLogNick;
 
     @Column
     private String correct;  // 정답 여부
@@ -30,12 +30,12 @@ public class ScoringLogEntity {
     public ScoringLogEntity(
             int scoringLogIdx,
             int scoringLogChallengeIdx,
-            String scoringLogId,
+            String scoringLogNick,
             String correct
     ) {
         this.scoringLogIdx = scoringLogIdx;
         this.scoringLogChallengeIdx = scoringLogChallengeIdx;
-        this.scoringLogId = scoringLogId;
+        this.scoringLogNick = scoringLogNick;
         this.correct = correct;
     }
 }
