@@ -54,13 +54,17 @@ public interface SimService {
 
     void updateInquiry(int idx, String content) throws Exception;
 
-    List<ChallengeEntity> getChallengeList()throws Exception;
+    List<ChallengeEntity> getChallengeList() throws Exception;
 
     List<ProjectEntity> getMyProjectList(String leader) throws Exception;
 
-    List<MatchingEntity> getMyJoinProject(String member)throws Exception;
+    List<MatchingEntity> getMyJoinProject(String member) throws Exception;
 
-    List<ProjectEntity> getJoinProject(List<MatchingEntity> myJoinProject)throws Exception;
+    List<ProjectEntity> getJoinProject(List<MatchingEntity> myJoinProject) throws Exception;
+
+    List<ChallengeEntity> getChallengeListLatest() throws Exception;
+
+    List<QuestionEntity> getQuestionListLatest() throws Exception;
 
 //    Integer save(PersonEntity person);
 }

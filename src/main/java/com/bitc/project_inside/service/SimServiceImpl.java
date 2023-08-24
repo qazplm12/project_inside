@@ -26,6 +26,7 @@ public class SimServiceImpl implements SimService {
     private final TodoRepository todoRepository;
     private final ChallengeRepository challengeRepository;
     private final MatchingRepository matchingRepository;
+    private final QuestionRepository questionRepository;
 
     @Value("${app.upload-profile-dir}")
     private String uploadDir;
@@ -198,6 +199,16 @@ public class SimServiceImpl implements SimService {
         }
 
         return joinProject;
+    }
+
+    @Override
+    public List<ChallengeEntity> getChallengeListLatest() throws Exception {
+        return challengeRepository.findAllByOrderByChallengeIdxDesc();
+    }
+
+    @Override
+    public List<QuestionEntity> getQuestionListLatest() throws Exception {
+        return questionRepository.findAllByOrderByQuestionIdxDesc();
     }
 
 //    @Override

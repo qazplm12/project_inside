@@ -115,7 +115,7 @@ public class SimController {
         simService.readAlarmList(alarmToPerson);
     }
 
-    
+
     // 문의사항 관련
 
     @RequestMapping(value = "/getInquiryList", method = RequestMethod.POST)
@@ -124,11 +124,12 @@ public class SimController {
     ) throws Exception {
         System.out.println("/getInquiryList 서버 : ");
 
-        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);;
+        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);
+        ;
 
         return inquiryList;
     }
-    
+
     @RequestMapping(value = "/sendInquiry", method = RequestMethod.POST)
     public void sendInquiry(
             @RequestParam(value = "personNickName") String personNickName,
@@ -157,7 +158,8 @@ public class SimController {
 
         simService.updateInquiry(idx, content);
 
-        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);;
+        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);
+        ;
 
         return inquiryList;
     }
@@ -177,9 +179,10 @@ public class SimController {
         simService.inquiryAnswer(inquiryIdx, inquiryAnswer);
 
         // 알림
-        simService.makeAlarm(alarmToPerson, inquiryTitle,"admin", "inquiry", String.valueOf(inquiryIdx));
+        simService.makeAlarm(alarmToPerson, inquiryTitle, "admin", "inquiry", String.valueOf(inquiryIdx));
 
-        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);;
+        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);
+        ;
 
         return inquiryList;
     }
@@ -208,8 +211,21 @@ public class SimController {
     public List<ProjectEntity> getProjectList() throws Exception {
         System.out.println("--------- /getProjectList 서버 --------");
 
-
         return simService.getProjectList();
+    }
+
+    @RequestMapping(value = "/getChallengeListLatest", method = RequestMethod.POST)
+    public List<ChallengeEntity> getChallengeListLatest() throws Exception {
+        System.out.println("--------- /getChallengeListLatest 서버 --------");
+
+        return simService.getChallengeListLatest();
+    }
+
+    @RequestMapping(value = "/getQuestionListLatest", method = RequestMethod.POST)
+    public List<QuestionEntity> getQuestionListLatest() throws Exception {
+        System.out.println("--------- /getQuestionListLatest 서버 --------");
+
+        return simService.getQuestionListLatest();
     }
 
     // 프로젝트 보드 관련

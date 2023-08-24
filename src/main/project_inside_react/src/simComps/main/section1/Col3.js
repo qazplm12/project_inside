@@ -4,7 +4,7 @@ import Language from "./Language";
 function Col3(props) {
 
     return (
-        <div className={'col-sm-4 p-5'}>
+        <div className={'col-sm-4 p-4'}>
             <h6 className={'text-start mb-3'}>언어별 공식문서</h6>
             <div className={'d-flex justify-content-around mb-4'}>
                 <Language
