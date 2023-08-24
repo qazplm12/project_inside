@@ -5,8 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@DynamicInsert // 디폴트 값 줄때
 @EntityListeners(AuditingEntityListener.class)
 public class InquiryEntity {
     @Id
@@ -37,5 +42,11 @@ public class InquiryEntity {
     @ColumnDefault("1")
     private String inquiryStatus;
 
+    @Column
+    @CreatedDate
+    private LocalDate inquiryDt;
+
+    @Column
+    private int inquiryCategory;
 
 }

@@ -38,6 +38,8 @@ public class PersonRequest {
 
     private LocalDate personJoinDt;
 
+    private LocalDate personPasswordUpdateDt;
+
 
 //    public PersonRequest(String username, String password, Collection<? extends GrantedAuthority> authorities){
 //        //User 클래스의 생성자를 호출한다.

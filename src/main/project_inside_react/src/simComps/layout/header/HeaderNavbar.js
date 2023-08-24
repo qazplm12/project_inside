@@ -56,6 +56,10 @@ function HeaderNavbar(props) {
         alert('로그인이 필요합니다.')
     };
 
+    const uRAdmin = () => {
+        alert('관리자는 문의를 작성할 수 없습니다.')
+    };
+
     return (
         <nav className={"navbar navbar-expand-lg"}>
             <div className={"container"}>
@@ -90,8 +94,9 @@ function HeaderNavbar(props) {
                             <a onClick={
                                 isLoggedIn
                                     ? needLogin
-                                    :
+                                    : userInfo.personId !== "admin" ?
                                     () => {setShow(true)}
+                                        : uRAdmin
                             } className={"theme-link-white mx-3"}>문의</a>
                             <Inquiry showHandler={showHandler} show={show} />
                         </li>

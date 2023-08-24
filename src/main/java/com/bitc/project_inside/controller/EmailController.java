@@ -23,7 +23,7 @@ public class EmailController {
 
     private final EmailService emailService;
     private final PersonService personService;
-//    private final PersonDetailService personDetailService;
+    //    private final PersonDetailService personDetailService;
     private final SimService simService;
     private final TokenProvider tokenProvider;
 
@@ -68,7 +68,7 @@ public class EmailController {
     public ResponseEntity<?> registerUser(@RequestBody PersonRequest personRequest) {
         try {
 //      회원 가입 정보 확인, 비밀번호 확인, 정보 오류 시 에러 발생
-            if(personRequest == null || personRequest.getPersonPassword() == null ) {
+            if (personRequest == null || personRequest.getPersonPassword() == null) {
                 throw new RuntimeException("Invalid Password value.");
             }
             // 요청을 이용해 저장할 유저 만들기
@@ -106,37 +106,58 @@ public class EmailController {
                 personRequest.getPersonPassword(),
                 passwordEncoder);
 
-//    사용자 정보가 있을 경우
-        if(person != null) {
-            // 웹 토큰 생성기로 토큰 생성
-            final String token = tokenProvider.create(person);
-//      UserDTO 타입으로 사용자 ID/PW, 토큰 정보 저장
-            final PersonRequest responseUserDTO = PersonRequest.builder()
-                    .personId(person.getPersonId())
-                    .personIdx(person.getPersonIdx())
-                    .personPassword(person.getPersonPassword())
-                    .personNickName(person.getPersonNickName())
-                    .personLanguage(person.getPersonLanguage())
-                    .personJoinDt(person.getPersonJoinDt())
-                    .personLevel(person.getPersonLevel())
-                    .personTotalScore(person.getPersonTotalScore())
-                    .personImgPath(person.getPersonImgPath())
-                    .personBannedMsg(person.getPersonBannedMsg())
-                    .token(token)
-                    .build();
 
-//      ResponseEntity : HTTP 상태 코드를 직접 제어할 수 있는 클래스
-//      HTTP 상태 코드와 데이터를 클라이언트로 전송
-            return ResponseEntity.ok().body(responseUserDTO);
-        } else {
-//      사용자 정보가 없을 경우 HTTP 상태 코드와 데이터를 클라이언트로 전송
+        // 유저 정보를 가져오기
+        try {
+            person = simService.getUserInfo(personRequest.getPersonId());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (person.getPersonBannedMsg() != null) {
+            // 차단당한 유저인 경우 HTTP 상태 코드와 데이터를 클라이언트로 전송
             ResponseDTO responseDTO = ResponseDTO.builder()
-                    .error("Login failed.")
+                    .error(person.getPersonBannedMsg())
                     .build();
             return ResponseEntity
                     .badRequest()
                     .body(responseDTO);
+        } else {
+            if (person != null) {
+                // 웹 토큰 생성기로 토큰 생성
+                final String token = tokenProvider.create(person);
+//      UserDTO 타입으로 사용자 ID/PW, 토큰 정보 저장
+                final PersonRequest responseUserDTO = PersonRequest.builder()
+                        .personId(person.getPersonId())
+                        .personIdx(person.getPersonIdx())
+                        .personPassword(person.getPersonPassword())
+                        .personNickName(person.getPersonNickName())
+                        .personLanguage(person.getPersonLanguage())
+                        .personJoinDt(person.getPersonJoinDt())
+                        .personLevel(person.getPersonLevel())
+                        .personTotalScore(person.getPersonTotalScore())
+                        .personImgPath(person.getPersonImgPath())
+                        .personBannedMsg(person.getPersonBannedMsg())
+                        .personPasswordUpdateDt(person.getPersonPasswordUpdateDt())
+                        .token(token)
+                        .build();
+
+//      ResponseEntity : HTTP 상태 코드를 직접 제어할 수 있는 클래스
+//      HTTP 상태 코드와 데이터를 클라이언트로 전송
+                return ResponseEntity.ok().body(responseUserDTO);
+            } else {
+//      사용자 정보가 없을 경우 HTTP 상태 코드와 데이터를 클라이언트로 전송
+                ResponseDTO responseDTO = ResponseDTO.builder()
+                        .error("fail")
+                        .build();
+                return ResponseEntity
+                        .badRequest()
+                        .body(responseDTO);
+            }
         }
+
+//    사용자 정보가 있을 경우
+
     }
 
     @PostMapping("/update")
@@ -146,7 +167,7 @@ public class EmailController {
         PersonEntity person = simService.getUserInfo(personRequest.getPersonId());
 
 //    사용자 정보가 있을 경우
-        if(person != null) {
+        if (person != null) {
             // 웹 토큰 생성기로 토큰 생성
             final String token = tokenProvider.create(person);
 //      UserDTO 타입으로 사용자 ID/PW, 토큰 정보 저장

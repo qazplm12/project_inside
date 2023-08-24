@@ -94,8 +94,6 @@ export function login(userId, userPw) {
         personPassword: userPw
     })
         .then(res => {
-            alert("로그인 !!");
-
             // 브라우저의 로컬 스토리지에 ACCESS_TOKEN 이라는 변수를 만들고 받아온 서버에서 전달받은 데이터 중 token 정보를 저장함
             // 브라우저의 세션 스토리지에 저장해도 상관없음
 
@@ -106,7 +104,11 @@ export function login(userId, userPw) {
             window.location.href = '/pi/main';
         })
         .catch(err => {
-            alert('로그인 중 오류가 발생했습니다.');
+            if (err.response.data.error === "fail") {
+                alert('로그인 중 오류가 발생했습니다.');
+            } else {
+                alert(`차단된 계정입니다.\n\n차단 사유 : ${err.response.data.error}`);
+            }
         });
 
 }
@@ -118,7 +120,6 @@ export function update(userId, userPw) {
     })
         .then(res => {
             alert("업데이트 완료");
-
             // 브라우저의 로컬 스토리지에 ACCESS_TOKEN 이라는 변수를 만들고 받아온 서버에서 전달받은 데이터 중 token 정보를 저장함
             // 브라우저의 세션 스토리지에 저장해도 상관없음
             sessionStorage.setItem("ACCESS_TOKEN", null);
@@ -150,7 +151,7 @@ export function logout() {
 export function signUp(userDto) {
     axios.post(`${BASE_URL}/signup`, userDto)
         .then((res) => {
-            alert("회원 가입 완료!!");
+            alert("회원 가입이 완료되었습니다.");
             console.log(res);
             window.location.href = '/userAuth/login';
         })

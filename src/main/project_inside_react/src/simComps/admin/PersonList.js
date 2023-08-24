@@ -44,15 +44,14 @@ const PersonList = (props) => {
             axios.post('http://localhost:8080/simServer/banningPerson', null, {
                 params: {
                     // 유저 특정 정보 보내기
-                    personNickName : target.nickName,
+                    personId : target.personId,
                     personBannedMsg: content,
                 }
             })
                 .then((resp) => {
-                    console.log(target.nickName);
-                    console.log(content);
                     alert('차단되었습니다.');
                     handleClose();
+                    setTarget(null);
                 })
                 .catch((err) => {
                     alert(err);
@@ -60,6 +59,9 @@ const PersonList = (props) => {
         } else {
             alert('취소되었습니다.');
         }
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
     };
 
     const handleClose = () => setShow(false);
@@ -95,7 +97,9 @@ const PersonList = (props) => {
                 <tbody>
                 {currentUsers.map((user, index, array) => (
                     <tr key={index}>
-                        <td><img src={user.personImgPath} alt="" className={'circle-background'}
+                        <td><img src={
+                            user.personImgPath === null ? "/images/ProfileImg.png" : `/images/profileImg/${user.personImgPath}`
+                        } alt="" className={'circle-background'}
                                  style={{width: '3vw', height: '6vh'}}/></td>
                         <td>{user.personNickName}({user.personId})</td>
                         <td>{user.personLevel}</td>

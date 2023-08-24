@@ -4,91 +4,25 @@ import axios from "axios";
 
 const inquirysPerPage = 7; // 한 페이지에 표시할 문의 수
 
-
-const dummyInquiryList = [
-    {
-        idx : 1,
-        category: "문제 풀이1",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목1",
-        content: "문의 내용1",
-        nick: "문의자 닉네임1",
-        status: "1",
-    }, {
-        idx : 2,
-        category: "문제 풀이2",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목2",
-        content: "문의 내용2",
-        nick: "문의자 닉네임2",
-        status: "1",
-    }, {
-        idx : 3,
-        category: "문제 풀이3",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목3",
-        content: "문의 내용3",
-        nick: "문의자 닉네임3",
-        status: "2",
-    }, {
-        idx : 4,
-        category: "문제 풀이4",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목4",
-        content: "문의 내용4",
-        nick: "문의자 닉네임4",
-        status: "2",
-    }, {
-        idx : 5,
-        category: "문제 풀이5",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목5",
-        content: "문의 내용5",
-        nick: "문의자 닉네임5",
-        status: "1",
-    }, {
-        idx : 6,
-        category: "문제 풀이6",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목6",
-        content: "문의 내용6",
-        nick: "문의자 닉네임6",
-        status: "1",
-    }, {
-        idx : 7,
-        category: "문제 풀이7",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목7",
-        content: "문의 내용7",
-        nick: "문의자 닉네임7",
-        status: "2",
-    }, {
-        idx : 8,
-        category: "문제 풀이8",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목8",
-        content: "문의 내용8",
-        nick: "문의자 닉네임8",
-        status: "1",
-    }, {
-        idx : 9,
-        category: "문제 풀이9",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목9",
-        content: "문의 내용9",
-        nick: "문의자 닉네임9",
-        status: "2",
-    },
+const categoryList = [
+    "계정",
+    "알고리즘 문제",
+    "풀이 채점",
+    "프로젝트 생성 / 참여",
+    "기타",
 ]
 
 function InquiryList(props) {
+
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+    const [inquiryList, setInquiryList] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
 
     // 현재 페이지에 해당하는 유저 리스트 계산
     const indexOfLastInquiry = currentPage * inquirysPerPage;
     const indexOfFirstInquiry = indexOfLastInquiry - inquirysPerPage;
-    const currentInquiry = dummyInquiryList.slice(indexOfFirstInquiry, indexOfLastInquiry);
+    const currentInquiry = inquiryList.slice(indexOfFirstInquiry, indexOfLastInquiry);
 
     // 모달 관련
     const [target, setTarget] = useState(null);
@@ -96,16 +30,33 @@ function InquiryList(props) {
 
     const [answer, setAnswer] = useState("");
 
-    const sendAnswer = () => {
-        axios.post('http://localhost:8080/simServer/sendInquiryAnswer', null, {
+    useEffect(() => {
+        axios.post('http://localhost:8080/simServer/getInquiryList', null, {
             params: {
-                inquiryTitle : target.title,
-                inquiryIdx: target.idx,
-                inquiryAnswer: answer,
-                inquiryPersonNick: target.nick,
+                personNickName: userInfo.personId,
             }
         })
             .then((resp) => {
+                setInquiryList(resp.data);
+            })
+            .catch((err) => {
+                alert(err);
+            });
+    }, [])
+
+    const sendAnswer = () => {
+
+        axios.post('http://localhost:8080/simServer/sendInquiryAnswer', null, {
+            params: {
+                personNickName: userInfo.personId,
+                inquiryTitle : target.inquiryTitle,
+                inquiryIdx: target.inquiryIdx,
+                inquiryAnswer: answer,
+                inquiryPersonNick: target.inquiryPersonNick,
+            }
+        })
+            .then((resp) => {
+                setInquiryList(resp.data);
                 setShow(false);
             })
             .catch((err) => {
@@ -155,16 +106,24 @@ function InquiryList(props) {
                 <tbody>
                 {currentInquiry.map((inquiry, index, array) => (
                     <tr key={index}>
-                        <td className={'py-3'}>{inquiry.idx}</td>
+                        <td className={'py-3'}>{inquiry.inquiryIdx}</td>
                         <td className={'py-3'}>{inquiry.inquiryDt}</td>
-                        <td className={'py-3'}>{inquiry.category}</td>
+                        <td className={'py-3'}>
+                            {
+                                inquiry.inquiryCategory === 0 ? categoryList[0] :
+                                    inquiry.inquiryCategory === 1 ? categoryList[1] :
+                                        inquiry.inquiryCategory === 2 ? categoryList[2] :
+                                            inquiry.inquiryCategory === 3 ? categoryList[3] :
+                                                inquiry.inquiryCategory === 4 ? categoryList[4] : ""
+                            }
+                        </td>
                         <td className={'py-3'}><a className={'theme-link'} onClick={
                             () => setTarget(array[index])
-                        }>{inquiry.title}</a>
+                        }>{inquiry.inquiryTitle}</a>
                         </td>
-                        <td className={'py-3'}>{inquiry.nick}</td>
+                        <td className={'py-3'}>{inquiry.inquiryPersonNick}</td>
                         <td className={'py-3'}>{
-                            inquiry.status === "1" 
+                            inquiry.inquiryStatus === "1"
                                 ? <strong className={'text-danger'}>답변대기</strong> 
                                 : <strong className={'text-success'}>답변완료</strong>
                         }</td>
@@ -179,15 +138,24 @@ function InquiryList(props) {
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>{target ? target.title : ""}</Modal.Title>
+                        <Modal.Title>{target ? target.inquiryTitle : ""}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className={'pb-5'}>
                         {/* 글이 길면 넘어가짐*/}
-                        {target ? target.content : ""}
+                        {target ? target.inquiryContent : ""}
                         <div className={'text-muted me-3 position-absolute'} style={{top: "0px", right: "0px"}}>
                             <small>
-                                <p className={'text-end mb-0'}>{target ? target.inquiryDt : ""} (문의 종류 : <span className={'text-end'}>{target ? target.category : ""})</span></p>
-                                <p className={'text-end mb-0'}>{target ? target.nick : ""}</p>
+                                <p className={'text-end mb-0'}>{target ? target.inquiryDt : ""} (문의 종류 : <span className={'text-end'}>
+                                                                    {target ?
+                                                                        target.inquiryCategory === 0 ? categoryList[0] :
+                                                                            target.inquiryCategory === 1 ? categoryList[1] :
+                                                                                target.inquiryCategory === 2 ? categoryList[2] :
+                                                                                    target.inquiryCategory === 3 ? categoryList[3] :
+                                                                                        target.inquiryCategory === 4 ? categoryList[4] : ""
+                                                                        : ""
+                                                                    }
+                                    )</span></p>
+                                <p className={'text-end mb-0'}>{target ? target.inquiryPeronNick : ""}</p>
 
                             </small>
                         </div>
@@ -195,21 +163,27 @@ function InquiryList(props) {
 
                     {/* 문의 답변*/}
                     <Modal.Body className={'border-top'}>
-                        <h4>답변 작성</h4>
+                        {
+                            target ? target.inquiryStatus === "1" ? ""
+                                    : <h4>답변 내용</h4>
+                                :<h4>답변 작성</h4>
+                        }
                         <Form.Control
                             as="textarea"
                             style={{height: '100px'}}
                             onChange={e => setAnswer(e.target.value)}
                             // 답변 완료된 상태면 readOnly
-                            readOnly={target ? target.status === "1" ? "" : "readOnly" : ""}
-                        />
+                            readOnly={target ? target.inquiryStatus !== "1" : false}
+                        >
+                            {target ? target.inquiryStatus === "1" ? "" : target.inquiryAnswer : ""}
+                        </Form.Control>
                     </Modal.Body>
 
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             닫기
                         </Button>
-                        <Button type={'button'} variant="primary" onClick={sendAnswer} disabled={target ? target.status === "1" ? "" : "disabled" : ""}>답변</Button>
+                        <Button type={'button'} variant="primary" onClick={sendAnswer} disabled={target ? target.inquiryStatus === "1" ? "" : "disabled" : ""}>답변</Button>
                     </Modal.Footer>
                 </Modal>
             </Table>
@@ -220,7 +194,7 @@ function InquiryList(props) {
                         ? () => handlePageChange(currentPage - 1)
                         : () => handlePageChange(1)
                 }/>
-                {Array.from({length: Math.ceil(dummyInquiryList.length / inquirysPerPage)}, (_, index) => {
+                {Array.from({length: Math.ceil(inquiryList.length / inquirysPerPage)}, (_, index) => {
                     const pageNumber = index + 1;
                     return (
                         <Pagination.Item
@@ -233,12 +207,12 @@ function InquiryList(props) {
                     );
                 })}
                 <Pagination.Next onClick={
-                    currentPage + 1 < Math.ceil(dummyInquiryList.length / inquirysPerPage)
+                    currentPage + 1 < Math.ceil(inquiryList.length / inquirysPerPage)
                         ? () => handlePageChange(currentPage + 1)
-                        : () => handlePageChange(Math.ceil(dummyInquiryList.length / inquirysPerPage))
+                        : () => handlePageChange(Math.ceil(inquiryList.length / inquirysPerPage))
                 }/>
                 <Pagination.Last
-                    onClick={() => handlePageChange(Math.ceil(dummyInquiryList.length / inquirysPerPage))}/>
+                    onClick={() => handlePageChange(Math.ceil(inquiryList.length / inquirysPerPage))}/>
             </Pagination>
         </div>
     );

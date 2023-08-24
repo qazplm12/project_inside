@@ -2,29 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {Button, Card, Form, Modal, Table} from "react-bootstrap";
 import axios from "axios";
 
-
-const myInquiryList = [
-    {
-        idx: 1,
-        category: "문제 풀이1",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목1",
-        content: "문의 내용1",
-        nick: "문의자 닉네임1",
-        status: "2",
-    }, {
-        idx: 2,
-        category: "문제 풀이2",
-        inquiryDt: "2023-08-10",
-        title: "문의 제목2",
-        content: "문의 내용2",
-        nick: "문의자 닉네임2",
-        status: "1",
-    }
+const categoryList = [
+    "계정",
+    "알고리즘 문제",
+    "풀이 채점",
+    "프로젝트 생성 / 참여",
+    "기타",
 ]
 
-
 function MyInquiry(props) {
+
+
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     // 모달 관련
     const [target, setTarget] = useState(null);
@@ -32,21 +21,43 @@ function MyInquiry(props) {
 
     const [answer, setAnswer] = useState("")
 
+    // 리스트
+    const [myInquiryList, setMyInquiryList] = useState([]);
+
     const handleClose = () => {
         setShow(false);
         setTarget(null);
     };
     const handleShow = () => setShow(true)
 
+    useEffect(() => {
+        axios.post('http://localhost:8080/simServer/getInquiryList', null, {
+            params: {
+                personNickName: userInfo.personNickName,
+            }
+        })
+            .then((resp) => {
+                setMyInquiryList(resp.data);
+            })
+            .catch((err) => {
+                alert(err);
+            });
+    }, [])
+
+
     const updateInquiry = () => {
+        console.log(target.inquiryIdx);
         axios.post('http://localhost:8080/simServer/updateInquiry', null, {
             params: {
-                inquiryIdx: target.idx,
+                inquiryIdx: target.inquiryIdx,
+                personNickName: userInfo.personNickName,
                 inquiryContent: answer,
             }
         })
             .then((resp) => {
+                setMyInquiryList(resp.data);
                 setShow(false);
+                setTarget(null);
             })
             .catch((err) => {
                 alert(err);
@@ -67,8 +78,7 @@ function MyInquiry(props) {
                     <col width={"8%"}/>
                     <col/>
                     <col/>
-                    <col/>
-                    <col/>
+                    <col width={"40%"}/>
                     <col/>
                     {/*<col width={'9%'}/>*/}
                 </colgroup>
@@ -83,22 +93,37 @@ function MyInquiry(props) {
                 </tr>
                 </thead>
                 <tbody>
-                {myInquiryList.map((inquiry, index, array) => (
-                    <tr key={index}>
-                        <td className={'py-3'}>{inquiry.idx}</td>
-                        <td className={'py-3'}>{inquiry.inquiryDt}</td>
-                        <td className={'py-3'}>{inquiry.category}</td>
-                        <td className={'py-3'}><a className={'theme-link'} onClick={
-                            () => setTarget(array[index])
-                        }>{inquiry.title}</a>
-                        </td>
-                        <td className={'py-3'}>{
-                            inquiry.status === "1"
-                                ? <strong className={'text-danger'}>답변대기</strong>
-                                : <strong className={'text-success'}>답변완료</strong>
-                        }</td>
+                {myInquiryList.length > 0
+                    ?
+                    myInquiryList.map((inquiry, index, array) => (
+
+                        <tr key={index}>
+                            <td className={'py-3'}>{index + 1}</td>
+                            <td className={'py-3'}>{inquiry.inquiryDt}</td>
+                            <td className={'py-3'}>
+                                {
+                                    inquiry.inquiryCategory === 0 ? categoryList[0] :
+                                        inquiry.inquiryCategory === 1 ? categoryList[1] :
+                                            inquiry.inquiryCategory === 2 ? categoryList[2] :
+                                                inquiry.inquiryCategory === 3 ? categoryList[3] :
+                                                    inquiry.inquiryCategory === 4 ? categoryList[4] : ""
+                                }
+                            </td>
+                            <td className={'py-3'}><a className={'theme-link'} onClick={
+                                () => setTarget(array[index])
+                            }>{inquiry.inquiryTitle}</a>
+                            </td>
+                            <td className={'py-3'}>{
+                                inquiry.inquiryStatus === "1"
+                                    ? <strong className={'text-danger'}>답변대기</strong>
+                                    : <strong className={'text-success'}>답변완료</strong>
+                            }</td>
+                        </tr>
+                    ))
+                    : <tr>
+                        <td colSpan={5}><h4 className={'py-3'}>문의사항이 없습니다.</h4></td>
                     </tr>
-                ))}
+                }
                 </tbody>
                 <Modal
                     size={'lg'}
@@ -108,15 +133,15 @@ function MyInquiry(props) {
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>{target ? target.title : ""}</Modal.Title>
+                        <Modal.Title>{target ? target.inquiryTitle : ""}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className={'pb-5'}>
                         {/* 글이 길면 넘어가짐*/}
-                        {target ? target.content : ""}
+                        {target ? target.inquiryContent : ""}
                         <div className={'text-muted me-3 position-absolute'} style={{top: "0px", right: "0px"}}>
                             <small>
                                 <p className={'text-end  mb-0'}>{target ? target.inquiryDt : ""}</p>
-                                <p className={'text-end'}>{target ? target.nick : ""}</p>
+                                <p className={'text-end'}>{target ? target.inquiryPersonNick : ""}</p>
                             </small>
                         </div>
                     </Modal.Body>
@@ -124,18 +149,20 @@ function MyInquiry(props) {
                     {/* 문의 답변*/}
                     <Modal.Body className={'border-top'}>
                         {
-                            target ? target.status === "1" 
-                                ? <h4>문의 내용 수정</h4>
-                                : <h4>문의 답변</h4>
-                            : ""
+                            target ? target.inquiryStatus === "1"
+                                    ? <h4>문의 내용 수정</h4>
+                                    : <h4>답변 내용</h4>
+                                : ""
                         }
                         <Form.Control
                             as="textarea"
                             style={{height: '100px'}}
                             onChange={e => setAnswer(e.target.value)}
                             // 답변 완료된 상태면 readOnly
-                            readOnly={target ? target.status === "1" ? "" : "readOnly" : ""}
-                        />
+                            readOnly={target ? target.inquiryStatus === "1" ? "" : "readOnly" : ""}
+                        >
+                            {target ? target.inquiryAnswer : ""}
+                        </Form.Control>
                     </Modal.Body>
 
                     <Modal.Footer>
@@ -143,7 +170,7 @@ function MyInquiry(props) {
                             닫기
                         </Button>
                         <Button type={'button'} variant="primary" onClick={updateInquiry}
-                                disabled={target ? target.status === "1" ? "" : "disabled" : ""}>수정</Button>
+                                disabled={target ? target.inquiryStatus === "1" ? "" : "disabled" : ""}>수정</Button>
                     </Modal.Footer>
                 </Modal>
             </Table>

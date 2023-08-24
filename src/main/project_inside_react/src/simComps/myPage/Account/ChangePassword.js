@@ -97,7 +97,7 @@ function ChangePassword(props) {
                     // 저장된 화면
                     <>
                         {/* 최근 업데이트 날짜에 {person.updateDt} 넣기 & 엔티티 추가 */}
-                        <p className={'text-start my-0'} ><small>최근 업데이트 : 2023-08-10</small></p>
+                        <p className={'text-start my-0'} ><small>최근 업데이트 : {userInfo.personPasswordUpdateDt}</small></p>
                         <div className={'d-flex'}>
                             <p className={'my-auto'}><strong>비밀번호</strong></p>
                             <button onClick={() => setMode(!mode)} type={'button'}

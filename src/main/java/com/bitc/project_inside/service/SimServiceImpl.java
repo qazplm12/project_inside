@@ -1,17 +1,11 @@
 package com.bitc.project_inside.service;
 
 
-import com.bitc.project_inside.data.DTO.PersonRequest;
-import com.bitc.project_inside.data.entity.AlarmEntity;
-import com.bitc.project_inside.data.entity.PersonEntity;
-import com.bitc.project_inside.data.entity.ProjectEntity;
-import com.bitc.project_inside.data.entity.TodoEntity;
+import com.bitc.project_inside.data.entity.*;
 import com.bitc.project_inside.data.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +14,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +24,8 @@ public class SimServiceImpl implements SimService {
     private final InquiryRepository inquiryRepository;
     private final ProjectRepository projectRepository;
     private final TodoRepository todoRepository;
+    private final ChallengeRepository challengeRepository;
+    private final MatchingRepository matchingRepository;
 
     @Value("${app.upload-profile-dir}")
     private String uploadDir;
@@ -53,9 +48,9 @@ public class SimServiceImpl implements SimService {
     }
 
     @Override
-    public void makeAlarm(String alarmToPerson, String alarmContent, String alarmFromPerson, String alarmFrom) throws Exception {
+    public void makeAlarm(String alarmToPerson, String alarmContent, String alarmFromPerson, String alarmFrom, String alarmContentIdx) throws Exception {
 
-        AlarmEntity alarmEntity = new AlarmEntity(alarmToPerson, alarmContent, alarmFromPerson, alarmFrom);
+        AlarmEntity alarmEntity = new AlarmEntity(alarmToPerson, alarmContent, alarmFromPerson, alarmFrom, alarmContentIdx);
         alarmRepository.save(alarmEntity);
     }
 
@@ -151,6 +146,58 @@ public class SimServiceImpl implements SimService {
         } else {
             return 2;
         }
+    }
+
+    @Override
+    public void sendInquiry(InquiryEntity inquiry) throws Exception {
+        inquiryRepository.save(inquiry);
+    }
+
+    @Override
+    public List<InquiryEntity> getInquiryList(String personNickName) throws Exception {
+
+        if (personNickName.equals("admin")) {
+            // 관리자는 모든 문의사항 가져오기
+            return inquiryRepository.findAll();
+        } else {
+            // 유저일 경우 자기 것만
+            return inquiryRepository.findByInquiryPersonNick(personNickName);
+        }
+
+    }
+
+    @Override
+    public void updateInquiry(int idx, String content) throws Exception {
+        inquiryRepository.updateInquiry(idx, content);
+    }
+
+    @Override
+    public List<ChallengeEntity> getChallengeList() throws Exception {
+        return challengeRepository.findAll();
+    }
+
+    @Override
+    public List<ProjectEntity> getMyProjectList(String leader) throws Exception {
+
+        return projectRepository.findByProjectLeaderId(leader);
+    }
+
+    @Override
+    public List<MatchingEntity> getMyJoinProject(String member) throws Exception {
+        return matchingRepository.findByMatchingMemberNick(member);
+    }
+
+    @Override
+    public List<ProjectEntity> getJoinProject(List<MatchingEntity> myJoinProject) throws Exception {
+
+        List<ProjectEntity> joinProject = null;
+        if (joinProject.size() > 0) {
+            for(MatchingEntity aMatching : myJoinProject) {
+                joinProject.add(projectRepository.findByProjectIdx(aMatching.getMatchingIdx()));
+            }
+        }
+
+        return joinProject;
     }
 
 //    @Override

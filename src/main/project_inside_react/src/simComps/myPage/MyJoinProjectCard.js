@@ -5,7 +5,7 @@ import axios from "axios";
 
 function MyJoinProjectCard(props) {
 
-    const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember} = props.toyProject;
+    const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember} = props.joinProject;
     const [iconCheck, setIconCheck] = useState(false);
     const [recruitMent, setRecruitMent] = useState(false);
 

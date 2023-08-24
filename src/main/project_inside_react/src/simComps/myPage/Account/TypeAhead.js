@@ -107,8 +107,8 @@ function TypeAhead(props) {
             }
         })
             .then((resp) => {
-                props.changeMode(true);
                 update(userInfo.personId, userInfo.personPassword);
+                props.changeMode(true);
             })
             .catch((error) => {
                 alert("프로필 업데이트 실패");
