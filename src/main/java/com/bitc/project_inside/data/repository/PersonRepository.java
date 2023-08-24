@@ -19,7 +19,7 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 
     int countByPersonNickName(String nickName);
 
-    @Query(value = "SELECT p FROM PersonEntity p")
+    @Query(value = "SELECT p FROM PersonEntity p WHERE p.personBannedMsg is Null")
     List<PersonEntity> findAllPerson();
 
     boolean existsByPersonId(String personId);

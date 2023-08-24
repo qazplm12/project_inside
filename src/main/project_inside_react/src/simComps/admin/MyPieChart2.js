@@ -1,15 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
 
 // 실제 데이터 가져오기
-const data = [
-    {name: 'Lv.0', value: 30},
-    {name: 'Lv.1', value: 20},
-    {name: 'Lv.2', value: 20},
-    {name: 'Lv.3', value: 13},
-    {name: 'Lv.4', value: 8},
-    {name: 'Lv.5', value: 2},
-];
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF4756', '#42FF48'];
 
@@ -52,7 +44,21 @@ const ValueTable = ({data}) => {
     );
 };
 
-const MyPieChart1 = () => {
+const MyPieChart2 = (props) => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+
+        const levelCounts = {};
+        for (let level = 0; level <= 5; level++) {
+            levelCounts[`Lv.${level}`] = props.challengeList.filter(item => item.challengeClass === level).length;
+        }
+
+        const newData = Object.entries(levelCounts).map(([name, value]) => ({ name, value }));
+        setData(newData);
+
+    }, [props.challengeList]);
+
     return (
         <div className="d-flex ms-2">
             <ValueTable data={data}/>
@@ -78,4 +84,4 @@ const MyPieChart1 = () => {
     );
 };
 
-export default MyPieChart1;
+export default MyPieChart2;

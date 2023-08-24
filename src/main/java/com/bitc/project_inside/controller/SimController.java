@@ -1,9 +1,7 @@
 package com.bitc.project_inside.controller;
 
-import com.bitc.project_inside.data.entity.AlarmEntity;
-import com.bitc.project_inside.data.entity.PersonEntity;
-import com.bitc.project_inside.data.entity.ProjectEntity;
-import com.bitc.project_inside.data.entity.TodoEntity;
+import com.bitc.project_inside.data.entity.*;
+import com.bitc.project_inside.data.repository.PersonRepository;
 import com.bitc.project_inside.service.SimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +22,7 @@ public class SimController {
 
     private final SimService simService;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PersonRepository personRepository;
 
     // 계정 관련
     @RequestMapping(value = "/updatePersonInfo", method = RequestMethod.POST)
@@ -57,6 +57,7 @@ public class SimController {
             // 비밀번호 변경일때
 
             // 매개변수를 personEntity 에 추가
+            person.setPersonPasswordUpdateDt(LocalDate.now());
             person.setPersonPassword(passwordEncoder.encode(personPassword));
 
         }
@@ -73,14 +74,14 @@ public class SimController {
 
     @RequestMapping(value = "/banningPerson", method = RequestMethod.POST)
     public void banningPerson(
-            String personNickName,
+            String personId,
             String personBannedMsg
     ) throws Exception {
         System.out.println("---- /banningPerson 서버 ---- ");
 
-        System.out.println("personNickName : " + personNickName);
-        System.out.println("personBannedMsg: " + personBannedMsg);
-
+        PersonEntity person = simService.getUserInfo(personId);
+        person.setPersonBannedMsg(personBannedMsg);
+        personRepository.save(person);
     }
 
     // 알림 관련
@@ -116,36 +117,55 @@ public class SimController {
 
     
     // 문의사항 관련
+
+    @RequestMapping(value = "/getInquiryList", method = RequestMethod.POST)
+    public List<InquiryEntity> getInquiryList(
+            @RequestParam(value = "personNickName") String personNickName
+    ) throws Exception {
+        System.out.println("/getInquiryList 서버 : ");
+
+        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);;
+
+        return inquiryList;
+    }
     
     @RequestMapping(value = "/sendInquiry", method = RequestMethod.POST)
     public void sendInquiry(
+            @RequestParam(value = "personNickName") String personNickName,
             @RequestParam(value = "inquiryTitle") String title,
-            @RequestParam(value = "inquiryCategory") String category,
+            @RequestParam(value = "inquiryCategory") int category,
             @RequestParam(value = "inquiryContent") String content
     ) throws Exception {
         System.out.println("/sendInquiry 서버 : ");
 
-        System.out.println("inquiryTitle : " + title);
-        System.out.println("inquiryCategory : " + category);
-        System.out.println("inquiryContent : " + content);
+        InquiryEntity inquiry = new InquiryEntity();
+        inquiry.setInquiryPersonNick(personNickName);
+        inquiry.setInquiryTitle(title);
+        inquiry.setInquiryCategory(category);
+        inquiry.setInquiryContent(content);
 
+        simService.sendInquiry(inquiry);
     }
 
     @RequestMapping(value = "/updateInquiry", method = RequestMethod.POST)
-    public void updateInquiry(
+    public List<InquiryEntity> updateInquiry(
             @RequestParam(value = "inquiryIdx") int idx,
+            @RequestParam(value = "personNickName") String personNickName,
             @RequestParam(value = "inquiryContent") String content
     ) throws Exception {
         System.out.println("------ /updateInquiry 서버 ------");
 
-        System.out.println("inquiryIdx : " + idx);
-        System.out.println("inquiryContent : " + content);
+        simService.updateInquiry(idx, content);
 
+        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);;
+
+        return inquiryList;
     }
 
 
     @RequestMapping(value = "/sendInquiryAnswer", method = RequestMethod.POST)
-    public void sendInquiryAnswer(
+    public List<InquiryEntity> sendInquiryAnswer(
+            @RequestParam(value = "personNickName") String personNickName,
             @RequestParam(value = "inquiryTitle") String inquiryTitle,
             @RequestParam(value = "inquiryIdx") int inquiryIdx,
             @RequestParam(value = "inquiryAnswer") String inquiryAnswer,
@@ -157,8 +177,11 @@ public class SimController {
         simService.inquiryAnswer(inquiryIdx, inquiryAnswer);
 
         // 알림
-        simService.makeAlarm(alarmToPerson, inquiryTitle,"admin", "inquiry");
+        simService.makeAlarm(alarmToPerson, inquiryTitle,"admin", "inquiry", String.valueOf(inquiryIdx));
 
+        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);;
+
+        return inquiryList;
     }
 
 
@@ -169,6 +192,14 @@ public class SimController {
 
 
         return simService.getPersonList();
+    }
+
+    // 관리자 페이지 관련
+    @RequestMapping(value = "/getChallengeList", method = RequestMethod.POST)
+    public List<ChallengeEntity> getChallengeList() throws Exception {
+        System.out.println("--------- /getChallengeList 서버 --------");
+
+        return simService.getChallengeList();
     }
 
 
@@ -250,5 +281,27 @@ public class SimController {
 
         return simService.getTodoList(todoMatchingIdx);
     }
+
+    // 프로젝트 참여 관련(마이페이지)
+    @RequestMapping(value = "/getMyProject", method = RequestMethod.POST)
+    public List<ProjectEntity> getMyProject(
+            @RequestParam(value = "projectLeaderId") String leader
+    ) throws Exception {
+        System.out.println("--------- /getMyProject 서버 --------");
+
+        return simService.getMyProjectList(leader);
+    }
+
+    @RequestMapping(value = "/getJoinProject", method = RequestMethod.POST)
+    public List<ProjectEntity> getJoinProject(
+            @RequestParam(value = "matchingMemberNick") String member
+    ) throws Exception {
+        System.out.println("--------- /getJoinProject 서버 --------");
+
+        List<MatchingEntity> myJoinProject = simService.getMyJoinProject(member);
+
+        return simService.getJoinProject(myJoinProject);
+    }
+
 
 }

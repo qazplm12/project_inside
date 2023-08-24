@@ -104,7 +104,7 @@ function Profile(props) {
                     <div className={'row'}>
                         <div className={'mx-auto my-4'}>
                             {/* 이미지 소스는 로그인 유저 정보에서 가져오기 */}
-                            <img src={image === null ? "/images/ProfileImg.png" : image} alt="" className={'circle-background'}/>
+                            <img src={userInfo.personImgPath === null ? "/images/ProfileImg.png" : `/images/profileImg/${userInfo.personImgPath}`} alt="" className={'circle-background'}/>
                         </div>
                         <div className={'mt-4'}>
                             {/* 닉네임(레벨) */}
@@ -133,7 +133,7 @@ function Profile(props) {
                                 }}
                                 />
                                 <div className={'d-inline-block position-relative'}>
-                                    <img src={image === null ? "/images/ProfileImg.png" : image} alt="" className={'circle-background'}/>
+                                    <img src={userInfo.personImgPath === null ? "/images/ProfileImg.png" : `/images/profileImg/${userInfo.personImgPath}`} alt="" className={'circle-background'}/>
                                     <button className={'theme-btn'}
                                             type={'button'}
                                             style={{position: 'absolute', bottom: '0px', right: '5%'}}

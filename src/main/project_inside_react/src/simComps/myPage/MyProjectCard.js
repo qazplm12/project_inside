@@ -5,17 +5,21 @@ import axios from "axios";
 
 function MyProjectCard(props) {
 
-    const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember} = props.toyProject;
+
+    const {projectTitle, projectThumbnail, projectIdx, projectLanguage, projectMember} = props.myProject;
 
     const [hiddenMode, setHiddenMode] = useState(true);
+    const [leader, setLeader] = useState("");
     const [requestMembers, setRequestMembers] = useState([]);
 
     useEffect(() => {
-        axios.post("http://localhost:8080/simServer/getRequestMembers", null )
+        axios.post("http://localhost:8080/simServer/getRequestMembers", null, {
+            params: {
+                matchingProjectIdx : projectIdx
+            }
+        } )
             .then((res) => {
-                // 로그인 된 계정의 닉네임과 비교
-                // setData(res.data.filter(item => item.projectLeaderId === ))
-                // setRequestMembers()
+                setRequestMembers(res.data.filter(item => item.matchingMemberAccept === "1"));
             })
             .catch((error) => {
 
@@ -27,7 +31,7 @@ function MyProjectCard(props) {
     }
 
     return (
-        <div className={'col-sm p-5 text-start d-flex'}>
+        <div className={'col-sm p-2 text-start d-flex'}>
             <Card className={"ms-3"} key={projectIdx}>
                 <Card.Header className={"p-0"}>
                     <Card.Img variant="top" src={"/images/thumbnail/" + projectThumbnail} className={"cardImg "}/>
@@ -49,7 +53,7 @@ function MyProjectCard(props) {
                     </Card.Title>
                     <Col sm={6} className={"float-start"}>
                         <div className={"mb-5"}>
-                            <span className={"text-start d-block theme-font"}>참여 인원 / 총 인원<br/>(0/{projectMember})</span>
+                            <span className={"text-start d-block theme-font"}>참여 인원 / 총 인원<br/>({requestMembers.length}/{projectMember})</span>
                         </div>
                         <div className={"d-flex"}>
                             <span className={"text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
@@ -63,16 +67,17 @@ function MyProjectCard(props) {
                     </Col>
                 </Card.Body>
             </Card>
-            <div className={'col-1'}>
+            <div className={'mx-2'}>
 
             </div>
-            <div hidden={hiddenMode} className={'shadow px-5 mb-3'}
+            <div hidden={hiddenMode} className={'col-sm px-5 mb-1'}
             style={{overflowY : 'scroll',
                 maxHeight : '45vh'
             }}
             >
                 <h4 className={'text-start mt-2'}>참여 요청</h4>
                 {/* 맵 합수 사용*/}
+                {/*<RequestMember memberInfo={item.memberInfo}/>*/}
                 <RequestMember />
                 <RequestMember />
                 <RequestMember />

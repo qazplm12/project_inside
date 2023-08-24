@@ -22,16 +22,20 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     @Modifying
     @Transactional
     @Query("UPDATE ProjectEntity p SET p.projectLike = p.projectLike + 1 WHERE p.projectIdx = :projectIdx")
-    void likePlusProjectLike(@Param("projectIdx")int projectIdx);
+    void likePlusProjectLike(@Param("projectIdx") int projectIdx);
 
     @Modifying
     @Transactional
     @Query("UPDATE ProjectEntity p SET p.projectLike = p.projectLike - 1 WHERE p.projectIdx = :projectIdx")
-    void likeMinProjectLike(@Param("projectIdx")int projectIdx);
+    void likeMinProjectLike(@Param("projectIdx") int projectIdx);
 
     List<ProjectEntity> findAllByOrderByProjectLikeDesc();
 
     List<ProjectEntity> findAllByOrderByProjectLikeAsc();
 
     List<ProjectEntity> findProjectsByProjectLanguageContaining(String keyword);
+
+    List<ProjectEntity> findByProjectLeaderId(String leader) throws Exception;
+
+    ProjectEntity findByProjectIdx(int matchingIdx)throws Exception;
 }

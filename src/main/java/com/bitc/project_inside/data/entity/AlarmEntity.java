@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@DynamicInsert // 디폴트 값 줄때
 @EntityListeners(AuditingEntityListener.class) // 알람에 날짜정보 넣을거면 컬럼추가
 public class AlarmEntity {
 
@@ -54,10 +56,13 @@ public class AlarmEntity {
     public AlarmEntity (String alarmToPerson,
                         String alarmContent,
                         String alarmFromPerson,
-                        String alarmFrom) {
+                        String alarmFrom,
+                        String alarmContentIdx
+    ) {
         this.alarmToPerson = alarmToPerson;
         this.alarmContent = alarmContent;
         this.alarmFromPerson = alarmFromPerson;
         this.alarmFrom = alarmFrom;
+        this.alarmContentIdx = alarmContentIdx;
     }
 }

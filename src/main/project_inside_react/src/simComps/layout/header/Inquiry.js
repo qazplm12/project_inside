@@ -5,6 +5,7 @@ import DisabledButton from "../../commons/DisabledButton";
 
 function Inquiry(props) {
 
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
     const [show, setShow] = useState(false);
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
@@ -38,13 +39,15 @@ function Inquiry(props) {
         axios.post('http://localhost:8080/simServer/sendInquiry', null, {
             params: {
                 // 사용자 정보도 보내야함
+                personNickName: userInfo.personNickName,
                 inquiryTitle: title,
                 inquiryCategory: category,
                 inquiryContent: content,
             }
         })
             .then((resp) => {
-                setShow(false);
+                alert('문의 작성 완료')
+                handleClose()
             })
             .catch((err) => {
                 alert(err);

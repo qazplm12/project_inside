@@ -21,7 +21,7 @@ function UserUI(props) {
     useEffect(() => {
         axios.post('http://localhost:8080/simServer/readAlarm', null, {
             params: {
-                alarmIdx: target
+                alarmIdx: target.alarmIdx
             }
         })
             .then((res) => {
@@ -77,7 +77,7 @@ function UserUI(props) {
                             <Popover.Body className={'text-center'}>
                                 <h4 className={'text-muted my-auto'}>내 프로필</h4>
                             </Popover.Body>
-                            <Popover.Header className={'theme-bg border-top rounded-0'}>
+                            <Popover.Header className={'theme-bg border-top rounded-0 px-1'}>
                                 <div className={'p-5 py-2'}>
                                     <img src={userInfo.personImgPath === null ? "/images/ProfileImg.png" : `/images/profileImg/${userInfo.personImgPath}`} alt="" className={'circle-background w-100'}/>
                                     <p className={'text-center m-0'}><strong>{userInfo.personId}</strong></p>
@@ -86,7 +86,7 @@ function UserUI(props) {
                                 </div>
                             </Popover.Header>
                             <Popover.Body className={'text-center'}>
-                                <Link to={'/pi/myPage/profile'} className={'theme-link'}>마이 페이지</Link>
+                                <Link to={'/pi/myPage/profile/0'} className={'theme-link'}>마이 페이지</Link>
                                 <hr/>
                                 <a type={'button'} onClick={logout} className={'theme-link'}>로그아웃</a>
                             </Popover.Body>
@@ -229,8 +229,8 @@ function UserUI(props) {
                                                                 <ListGroup.Item key={index} className={'py-3'}
                                                                                 variant={'light'}
                                                                                 action
-                                                                                href={'/pi/myPage/inquiry'} // 링크}
-                                                                                onClick={() => setTarget(item.alarmIdx)}
+                                                                                href={`/pi/myPage/inquiry/${item.alarmContentIdx}`} // 링크}
+                                                                                onClick={() => setTarget(array[index])}
                                                                 >
                                                                     <div className={"theme-link- mx-3"}>
                                                                         <span>문의사항 </span>

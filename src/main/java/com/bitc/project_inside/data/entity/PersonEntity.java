@@ -2,7 +2,9 @@ package com.bitc.project_inside.data.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +22,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class PersonEntity implements UserDetails {
 
     @Id
@@ -31,6 +34,10 @@ public class PersonEntity implements UserDetails {
 
     @Column
     private String personPassword;
+
+    @Column
+    @CreatedDate
+    private LocalDate personPasswordUpdateDt;
 
     @Column
     private String personNickName;
@@ -48,7 +55,6 @@ public class PersonEntity implements UserDetails {
     private String personImgPath;
     // 예 : /images/profile.jpg
 
-    //
     @Column
     private String personBannedMsg;
 

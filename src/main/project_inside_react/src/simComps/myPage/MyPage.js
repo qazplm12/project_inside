@@ -12,25 +12,49 @@ import MyJoinProjectCard from "./MyJoinProjectCard";
 
 
 function MyPage(props) {
+
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
     const {mode} = useParams();
+    const {linkIdx} = useParams();
 
     const [activeTab, setActiveTab] = useState();
 
-    const [data, setData] = useState([]);
+    const [myProject, setMyProject] = useState([]);
+    const [joinProject, setJoinProject] = useState([]);
 
     useEffect(() => {
         setActiveTab(`#${mode}`);
-
-        axios.post("http://localhost:8080/simServer/getProjectList", null)
+        console.log(linkIdx);
+        // 내가 생성한 프로젝트
+        axios.post("http://localhost:8080/simServer/getMyProject", null, {
+            params : {
+                projectLeaderId : userInfo.personId
+            }
+        })
             .then((res) => {
                 // 로그인 된 계정의 닉네임과 비교
-                // setData(res.data.filter(item => item.projectLeaderId === ))
-                setData(res.data[0])
+                setMyProject(res.data.filter(item => item.projectFinish !== "Y"))
+                console.log(myProject);
             })
             .catch((error) => {
 
             });
 
+
+        // 내가 참여한 프로젝트
+        axios.post("http://localhost:8080/simServer/getJoinProject", null, {
+            params : {
+                matchingMemberNick : userInfo.personNickName
+            }
+        })
+            .then((res) => {
+                // 로그인 된 계정의 닉네임과 비교
+                setJoinProject(res.data.filter(item => item.matchingMemberNick === userInfo.personNickName))
+            })
+            .catch((error) => {
+
+            });
 
     }, []);
 
@@ -84,12 +108,23 @@ function MyPage(props) {
                         <Tab.Pane eventKey="#project">
                             <h2 className={'text-start ms-5 mt-5'}>프로젝트</h2>
                             <MyCard title={'내가 생성한 프로젝트'}>
-                                <MyProjectCard toyProject={data}/>
+                                {
+                                    myProject.length > 0
+                                        ? <MyProjectCard myProject={myProject}/>
+                                        : <h3 className={'my-3'}>생성한 프로젝트가 없습니다.</h3>
+                                }
+
                             </MyCard>
                             <MyCard title={'내가 참여한 프로젝트'}>
                                 <div className={'row'}>
-                                    <MyJoinProjectCard toyProject={data}/>
-                                    <MyJoinProjectCard toyProject={data}/>
+                                    {
+                                        joinProject.length > 0
+                                        ?
+                                            <MyJoinProjectCard joinProject={joinProject}/>
+                                            // 맵 함수
+                                        : <h3 className={'my-3'}>참여중인 프로젝트가 없습니다.</h3>
+
+                                }
                                 </div>
                             </MyCard>
                         </Tab.Pane>

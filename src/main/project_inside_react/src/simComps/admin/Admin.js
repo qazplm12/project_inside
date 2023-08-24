@@ -7,7 +7,9 @@ import axios from "axios";
 
 function Admin(props) {
 
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
     const [userList, setUserList] = useState([]);
+    const [challengeList, setChallengeList] = useState([]);
 
     useEffect(() => {
         axios.post("http://localhost:8080/simServer/getPersonList", null, {
@@ -17,6 +19,18 @@ function Admin(props) {
         })
             .then((res) => {
                 setUserList(res.data);
+            })
+            .catch((error) => {
+
+            });
+
+        axios.post("http://localhost:8080/simServer/getChallengeList", null, {
+            params: {
+                // 로그인 정보로 어드민 일시에만 리스트 가져오기
+            }
+        })
+            .then((res) => {
+                setChallengeList(res.data);
             })
             .catch((error) => {
 
@@ -33,7 +47,7 @@ function Admin(props) {
                             <Accordion.Header><h4 className={'text-start'}>PI 운영 현황</h4></Accordion.Header>
                             <Accordion.Body>
                                 {/* 컴포넌트*/}
-                                <DashBoard userList={userList}/>
+                                <DashBoard userList={userList} challengeList={challengeList}/>
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="1">
