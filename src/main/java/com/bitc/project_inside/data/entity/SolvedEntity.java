@@ -22,7 +22,7 @@ public class SolvedEntity {
 
     private int solvedChallengeIdx;
 
-    private String solvedId;    // 나중에 nick으로 변경
+    private String solvedNick;    // 나중에 nick으로 변경
 
     private String solvedContent;
 
@@ -37,10 +37,10 @@ public class SolvedEntity {
 //    private SolutionEntity solutionEntity;
 
     @Builder
-    public SolvedEntity (int solvedIdx, int solvedChallengeIdx, String solvedId, String solvedContent, String solvedLanguage, LocalDate solvedDate) {
+    public SolvedEntity (int solvedIdx, int solvedChallengeIdx, String solvedNick, String solvedContent, String solvedLanguage, LocalDate solvedDate) {
         this.solvedIdx = solvedIdx;
         this.solvedChallengeIdx = solvedChallengeIdx;
-        this.solvedId = solvedId;
+        this.solvedNick = solvedNick;
         this.solvedContent = solvedContent;
         this.solvedLanguage = solvedLanguage;
         this.solvedDate = solvedDate;

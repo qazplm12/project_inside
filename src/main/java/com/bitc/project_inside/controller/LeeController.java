@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,18 +40,18 @@ public class LeeController {
     // 문제 리스트
     @RequestMapping(value = "/challengeList", method = RequestMethod.GET)
     public Object selectChallengeList(
-            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "userNick") String userNick,
             @RequestParam(value = "challengeClass") int challengeClass,
             @RequestParam(value = "solvedState") int solvedState
     ) throws Exception { // 9는 아무런 값 없는것임
         List<ChallengeEntity> challenge = null;
 
         if (challengeClass == 9 && solvedState != 9) {
-            challenge = leeService.selectChallengeListSolvedState(userId, solvedState);
+            challenge = leeService.selectChallengeListSolvedState(userNick, solvedState);
         } else if (challengeClass != 9 && solvedState == 9) {
             challenge = leeService.selectChallengeListClass(challengeClass);
         } else if (challengeClass != 9 && solvedState != 9) {
-            challenge = leeService.selectChallengeListClassSolvedState(userId, challengeClass, solvedState);
+            challenge = leeService.selectChallengeListClassSolvedState(userNick, challengeClass, solvedState);
         } else {
             challenge = leeService.selectChallengeList();
         }
@@ -60,8 +61,8 @@ public class LeeController {
 
     // 문제 푼 상태
     @RequestMapping(value = "/challengeListState", method = RequestMethod.GET)
-    public Object selectChallengeListState(@RequestParam(value = "userId") String userId) throws Exception {
-        List<Integer> solved = leeService.selectChallengeState(userId);
+    public Object selectChallengeListState(@RequestParam(value = "userNick") String userNick) throws Exception {
+        List<Integer> solved = leeService.selectChallengeState(userNick);
         return solved;
     }
 
@@ -201,26 +202,26 @@ public class LeeController {
 
     // 문제 오답일때(중복 정보 입력 가능)
     @RequestMapping(value = "/challengeWrong", method = RequestMethod.POST)
-    public void wrong(@RequestParam(value = "userId") String userId, @RequestParam(value = "idx") int idx) throws Exception {
-        leeService.saveScoringLogWrong(userId, idx);
+    public void wrong(@RequestParam(value = "userNick") String userNick, @RequestParam(value = "idx") int idx) throws Exception {
+        leeService.saveScoringLogWrong(userNick, idx);
         leeService.updateChallenge(idx);
     }
 
     // 문제 정답일때(최초 정보 입력 가능)
     @RequestMapping(value = "/challengeCorrect", method = RequestMethod.POST)
     public void correct(@RequestBody Map<String, String> requestData) throws Exception {
-        String userId = requestData.get("userId");
+        String userNick = requestData.get("userNick");
         int idx = Integer.parseInt(requestData.get("idx"));
         String language = requestData.get("language");
         String code = requestData.get("code");
         // 같은 사람이 같은 문제를 같은 언어로 풀면 save, update 안됨
-        boolean solved = leeService.selectSolvedChallenge(userId, idx, language);
+        boolean solved = leeService.selectSolvedChallenge(userNick, idx, language);
 //        System.out.println(solved);
         if (solved) {
 
         } else {
-            leeService.saveSolved(userId, idx, language, code);
-            leeService.saveScoringLogCorrect(userId, idx);
+            leeService.saveSolved(userNick, idx, language, code);
+            leeService.saveScoringLogCorrect(userNick, idx);
             leeService.updateChallenge(idx);
         }
     }
@@ -332,17 +333,41 @@ public class LeeController {
 //    }
 
     @RequestMapping(value = "/totalChallenge", method = RequestMethod.GET)
-    public int totalChallenge(@RequestParam(value = "userId") String userId) throws Exception {
-        return leeService.countTotalChallenge(userId);
+    public int totalChallenge(@RequestParam(value = "userNick") String userNick) throws Exception {
+        return leeService.countTotalChallenge(userNick);
     }
 
     @RequestMapping(value = "/userRank", method = RequestMethod.GET)
-    public int userRank(@RequestParam(value = "userId") String userId) throws Exception {
-        return leeService.userRank(userId);
+    public List<String> userRank() throws Exception {
+        return leeService.userRank();
+    }
+
+    @RequestMapping(value = "/numRank", method = RequestMethod.GET)
+    public List<Integer> numRank() throws Exception {
+        return leeService.numRank();
     }
 
     @RequestMapping(value = "/toyAnnony", method = RequestMethod.GET)
     public ProjectEntity toyAnnony() throws Exception {
-        return leeService.selecttoyAnnony();
+        return leeService.selectToyAnnony();
+    }
+
+    @RequestMapping(value = "/toyUser", method = RequestMethod.GET)
+    public List<ProjectEntity> toyUser(@RequestParam(value = "language") String language) throws Exception {
+        String[] words = language.split(", ");
+//        System.out.println("잘려진 문자열 : " + words);
+
+        List<ProjectEntity> project = new ArrayList<>();
+        for (String i : words) {
+            project.addAll(leeService.selectToyUser(i));
+        }
+
+//        System.out.println("합쳐진 : " + project);
+        return project;
+    }
+
+    @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
+    public List<PersonEntity> userProfile() throws Exception {
+        return leeService.selectUserProfile();
     }
 }

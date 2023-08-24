@@ -21,7 +21,7 @@ function ChallengeList(props) {
         setChallengeClass(challengeClass);
         setSearch(search);
 
-        axios.get(`http://localhost:8080/server/challengeList?userId=${userInfo?.personNickName}&challengeClass=${challengeClass}&solvedState=${solvedState}`)    // ChallengeListTableTd에도 로그인 정보 넣기(아마 루터에서 넣어줘야 할듯?)
+        axios.get(`http://localhost:8080/server/challengeList?userNick=${userInfo?.personNickName}&challengeClass=${challengeClass}&solvedState=${solvedState}`)    // ChallengeListTableTd에도 로그인 정보 넣기(아마 루터에서 넣어줘야 할듯?)
             .then(res => {
                 // console.log("통신 성공 : " + res)
 

@@ -9,25 +9,25 @@ public interface LeeService {
 
     List<ChallengeEntity> selectChallengeList() throws Exception;
 
-    List<ChallengeEntity> selectChallengeListSolvedState(String userId, int solvedState) throws Exception;
+    List<ChallengeEntity> selectChallengeListSolvedState(String userNick, int solvedState) throws Exception;
 
     List<ChallengeEntity> selectChallengeListClass(int challengeClass) throws Exception;
 
-    List<ChallengeEntity> selectChallengeListClassSolvedState(String userId, int challengeClass, int solvedState) throws Exception;
+    List<ChallengeEntity> selectChallengeListClassSolvedState(String userNick, int challengeClass, int solvedState) throws Exception;
 
-    List<Integer> selectChallengeState(String userId) throws Exception;
+    List<Integer> selectChallengeState(String userNick) throws Exception;
 
     ChallengeEntity selectChallenge(int idx) throws Exception;
 
     List<ScoringEntity> selectScoring(int idx) throws Exception;
 
-    ScoringLogEntity saveScoringLogWrong(String userId, int idx) throws Exception;
+    ScoringLogEntity saveScoringLogWrong(String userNick, int idx) throws Exception;
 
-    boolean selectSolvedChallenge(String userId, int idx, String language) throws Exception;
+    boolean selectSolvedChallenge(String userNick, int idx, String language) throws Exception;
 
-    SolvedEntity saveSolved(String userId, int idx, String language, String code) throws Exception;
+    SolvedEntity saveSolved(String userNick, int idx, String language, String code) throws Exception;
 
-    ScoringLogEntity saveScoringLogCorrect(String userId, int idx) throws Exception;
+    ScoringLogEntity saveScoringLogCorrect(String userNick, int idx) throws Exception;
 
     void updateChallenge(int idx) throws Exception;
 
@@ -45,9 +45,15 @@ public interface LeeService {
 
     ChallengeEntity saveChallenge(String title, String explain, String limit, String paramExample, String solutionExample, String javaCode, String javaScriptCode, String pythonCode, int challengeClass) throws Exception;
 
-    int countTotalChallenge(String userId) throws Exception;
+    int countTotalChallenge(String userNick) throws Exception;
 
-    int userRank(String userId) throws Exception;
+    List<String> userRank() throws Exception;
 
-    ProjectEntity selecttoyAnnony() throws Exception;
+    List<Integer> numRank() throws Exception;
+
+    ProjectEntity selectToyAnnony() throws Exception;
+
+    List<ProjectEntity> selectToyUser(String language) throws Exception;
+
+    List<PersonEntity> selectUserProfile() throws Exception;
 }

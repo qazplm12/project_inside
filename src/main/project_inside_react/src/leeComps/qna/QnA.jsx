@@ -13,6 +13,7 @@ function QnA(props) {
     const [questionLanguage, setQuestionLanguage] = useState('');
     const [questionModalShow, setQuestionModalShow] = React.useState(false);
     const [AnswerModalShow, setAnswerModalShow] = React.useState(false);
+    const [array, setArray] = useState([]);
 
     const [params, setParams] = useSearchParams();
     const idx = params.get('idx');
@@ -25,6 +26,29 @@ function QnA(props) {
                 // alert('통신 성공 : ' + res);
                 // console.log('통신 성공 : ' + res.data);
                 setQnaList(res.data);
+
+                const nickList = res.data;
+                let arr = new Array(res.data.length).fill(0);    // qnaList와 같은 크기의 배열 선언
+                axios.get('http://localhost:8080/server/userProfile')
+                    .then(res => {
+                        // setProfile(res.data);
+                        // console.log("이미지 경로 : " + res.data)
+                        for (let i = 0; i < res.data.length; i++) {
+                            for (let y = 0; y < nickList.length; y++) {
+                                if ((res.data[i].personNickName) == nickList[y].questionNick) {
+                                    // console.log("리스트 순서 : " + y);
+                                    // console.log("사진 경로 : " + res.data[i].personImgPath);
+                                    arr.splice(y, 1, res.data[i].personImgPath);    // 해당 위치 배열 교체
+                                }
+                            }
+                        }
+                        // console.log("내가 만든 배열 : " + arr);
+                        // console.log("내가 만든 길이 : " + arr.length);
+                        setArray(arr);
+                    })
+                    .catch(err => {
+
+                    })
             })
             .catch(err => {
                 alert('통신 실패 : ' + err);
@@ -49,7 +73,8 @@ function QnA(props) {
                         return (
                             <Accordion.Item eventKey={index} key={index}>
                                 <Accordion.Header>
-                                    <img src="/images/sakura.jpg" alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>
+                                    {/*<img src="/images/sakura.jpg" alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>*/}
+                                    <img src={array[index] === 0 ? "/images/ProfileImg.png" : `/images/profileImg/${array[index]}`} alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>
                                     <div className={'d-flex flex-column ms-3 w-100'}>
                                         <div className={'pb-2'}>
                                             <span>{item.questionTitle}</span>

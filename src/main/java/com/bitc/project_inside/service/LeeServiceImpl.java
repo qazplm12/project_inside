@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -33,8 +35,8 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public List<ChallengeEntity> selectChallengeListSolvedState(String userId, int solvedState) throws Exception {
-        List<Integer> solvedStateList = solvedRepository.selectSolvedState(userId);   // 쿼리 메소드에선 group by, having 사용 불가
+    public List<ChallengeEntity> selectChallengeListSolvedState(String userNick, int solvedState) throws Exception {
+        List<Integer> solvedStateList = solvedRepository.selectSolvedState(userNick);   // 쿼리 메소드에선 group by, having 사용 불가
 
         List<ChallengeEntity> challengeList = new ArrayList<>();
 
@@ -61,8 +63,8 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public List<ChallengeEntity> selectChallengeListClassSolvedState(String userId, int challengeClass, int solvedState) throws Exception {
-        List<Integer> solvedStateList = solvedRepository.selectSolvedState(userId); // 푼 문제 리스트
+    public List<ChallengeEntity> selectChallengeListClassSolvedState(String userNick, int challengeClass, int solvedState) throws Exception {
+        List<Integer> solvedStateList = solvedRepository.selectSolvedState(userNick); // 푼 문제 리스트
         List<ChallengeEntity> challengeList = new ArrayList<>();    // 해당 난이도 리스트 출력
 
         if (solvedState == 1) { // 해결 한 문제인 경우
@@ -86,8 +88,8 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public List<Integer> selectChallengeState(String userId) throws Exception {
-        return solvedRepository.selectSolvedState(userId);
+    public List<Integer> selectChallengeState(String userNick) throws Exception {
+        return solvedRepository.selectSolvedState(userNick);
     }
 
     @Override
@@ -101,17 +103,17 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public ScoringLogEntity saveScoringLogWrong(String userId, int idx) throws Exception {
+    public ScoringLogEntity saveScoringLogWrong(String userNick, int idx) throws Exception {
         return scoringLogRepository.save(ScoringLogEntity.builder()
-                        .scoringLogNick(userId)
+                        .scoringLogNick(userNick)
                         .scoringLogChallengeIdx(idx)
                         .correct("N")
                 .build());
     }
 
     @Override
-    public boolean selectSolvedChallenge(String userId, int idx, String language) throws Exception {
-        SolvedEntity solved = solvedRepository.findBySolvedIdAndSolvedChallengeIdxAndSolvedLanguage(userId, idx, language);
+    public boolean selectSolvedChallenge(String userNick, int idx, String language) throws Exception {
+        SolvedEntity solved = solvedRepository.findBySolvedNickAndSolvedChallengeIdxAndSolvedLanguage(userNick, idx, language);
         if (solved != null) {
             return true;
         }
@@ -121,9 +123,9 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public SolvedEntity saveSolved(String userId, int idx, String language, String code) throws Exception {
+    public SolvedEntity saveSolved(String userNick, int idx, String language, String code) throws Exception {
         return solvedRepository.save(SolvedEntity.builder()
-                        .solvedId(userId)
+                        .solvedNick(userNick)
                         .solvedChallengeIdx(idx)
                         .solvedLanguage(language)
                         .solvedContent(code)
@@ -131,9 +133,9 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public ScoringLogEntity saveScoringLogCorrect(String userId, int idx) throws Exception {
+    public ScoringLogEntity saveScoringLogCorrect(String userNick, int idx) throws Exception {
         return scoringLogRepository.save(ScoringLogEntity.builder()
-                        .scoringLogNick(userId)
+                        .scoringLogNick(userNick)
                         .scoringLogChallengeIdx(idx)
                         .correct("Y")
                 .build());
@@ -212,20 +214,35 @@ public class LeeServiceImpl implements LeeService {
     }
 
     @Override
-    public int countTotalChallenge(String userId) throws Exception {
-        int num =  solvedRepository.countBySolvedId(userId);
-        System.out.println("num1 : " + num);
+    public int countTotalChallenge(String userNick) throws Exception {
+        int num =  solvedRepository.countBySolvedNick(userNick);
         return num;
     }
 
     @Override
-    public int userRank(String userId) throws Exception {
-        return personRepository.userRank(userId);
+    public List<String> userRank() throws Exception {
+        return personRepository.userRank();
     }
 
     @Override
-    public ProjectEntity selecttoyAnnony() throws Exception {
+    public List<Integer> numRank() throws Exception {
+        return personRepository.numRank();
+    }
+
+    @Override
+    public ProjectEntity selectToyAnnony() throws Exception {
         return projectRepository.findFirstByOrderByProjectIdxDesc();
+    }
+
+    @Override
+    public List<ProjectEntity> selectToyUser(String language) throws Exception {
+        return projectRepository.findAllByProjectLanguageContaining(language);
+//        return null;
+    }
+
+    @Override
+    public List<PersonEntity> selectUserProfile() throws Exception {
+        return personRepository.findAllPerson();
     }
 
 

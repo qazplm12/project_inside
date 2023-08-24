@@ -202,7 +202,7 @@ function CodeChallenge(props) {
 
     function correct() {
         const requestData = {   // 코드를 JSON 형식으로 변환(자바언어가 textarea로 입력이 안되는 인코딩 이슈 발생)
-            userId: userInfo.personNickName,
+            userNick: userInfo.personNickName,
             idx: idx,
             language: language,
             code: code
@@ -221,7 +221,7 @@ function CodeChallenge(props) {
     function wrong() {
         axios.post(`http://localhost:8080/server/challengeWrong`, null, {
             params: { // params 하면 쿼리스트링으로 데이터 전달, data는 바디에 포함되어 데이터 전달.. data 사용하면 서버에서 못받음
-                userId: userInfo.personNickName,
+                userNick: userInfo.personNickName,
                 idx: idx
             }
         })
@@ -281,13 +281,23 @@ function CodeChallenge(props) {
                 </div>
             </div>
             <div className={'row'}>
-                <div className={'d-flex py-2 border border-top'}>
-                    <button className={'theme-btn ms-2 me-auto'} onClick={handleQnA}>질문하기</button>
-                    <button className={'theme-btn me-2'} onClick={handleSolved}>다른 사람의 풀이</button>
-                    <button className={'theme-btn me-2'} onClick={handleReset}>초기화</button>
-                    <button className={'theme-btn me-2'} onClick={handleRun}>코드 실행</button>
-                    <button className={'theme-btn me-2'} onClick={handleSubmit}>제출 후 채점하기</button>
-                </div>
+                {
+                    userInfo == null
+                        ?
+                        <div className={'d-flex justify-content-end py-2 border border-top'}>
+                            <button className={'theme-btn me-2'} onClick={handleReset}>초기화</button>
+                            <button className={'theme-btn me-2'} onClick={handleRun}>코드 실행</button>
+                            <Link className={'theme-btn me-2 text-decoration-none'} to={`/userAuth/login`}>로그인</Link>
+                        </div>
+                        :
+                        <div className={'d-flex py-2 border border-top'}>
+                            <button className={'theme-btn ms-2 me-auto'} onClick={handleQnA}>질문하기</button>
+                            <button className={'theme-btn me-2'} onClick={handleSolved}>다른 사람의 풀이</button>
+                            <button className={'theme-btn me-2'} onClick={handleReset}>초기화</button>
+                            <button className={'theme-btn me-2'} onClick={handleRun}>코드 실행</button>
+                            <button className={'theme-btn me-2'} onClick={handleSubmit}>제출 후 채점하기</button>
+                        </div>
+                }
             </div>
         </div>
     )

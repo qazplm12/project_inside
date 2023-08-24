@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {useSearchParams} from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
 import SolvedListItems from "./SolvedListItems";
 
 function Solved(props) {
     const [solvedList, setSolvedList] = useState([]);
     const [language, setLanguage] = useState('전체 언어');
-    const [userId, setUserId] = useState('test');   // 로그인 구현되면 userNick 으로 바꿀 것
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     const [params, setParams] = useSearchParams();
     const idx = params.get('idx');
@@ -39,6 +39,7 @@ function Solved(props) {
                     </div>
                 </div>
                 <div className={'me-2'}>
+                    <Link className={'btn btn-secondary mb-1 me-2'} to={`/codeChallenge?idx=${idx}`}>문제 페이지로</Link>
                     <select name="" id="" className={'theme-select'} value={language} onChange={(e) => setLanguage(e.target.value)}>
                         <option value={'전체 언어'} selected={true}>전체 언어</option>
                         <option value={'Java'}>Java</option>
@@ -68,12 +69,12 @@ function Solved(props) {
                 <div className="tab-pane fade" id="pills-profile">
                     {
                         solvedList.map((item, index) => {
-                            if (userId == item.solvedId && language == '전체 언어') {
+                            if (userInfo.personNickName == item.solvedNick && language == '전체 언어') {
                                 return (
                                     <SolvedListItems sendItem={item} readOnly={true}/>
                                 )
                             }
-                            else if (userId == item.solvedId && language == item.solvedLanguage) {
+                            else if (userInfo.personNickName == item.solvedNick && language == item.solvedLanguage) {
                                 return (
                                     <SolvedListItems sendItem={item} readOnly={true}/>
                                 )

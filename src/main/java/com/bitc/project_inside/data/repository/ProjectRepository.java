@@ -40,5 +40,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
 
     ProjectEntity findByProjectIdx(int matchingIdx)throws Exception;
 
-    ProjectEntity findFirstByOrderByProjectIdxDesc();
+    ProjectEntity findFirstByOrderByProjectIdxDesc() throws Exception;
+
+    List<ProjectEntity> findAllByProjectLanguageContaining(String language) throws Exception;
 }

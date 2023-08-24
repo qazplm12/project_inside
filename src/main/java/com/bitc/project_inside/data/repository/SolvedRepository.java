@@ -21,16 +21,16 @@ public interface SolvedRepository extends JpaRepository<SolvedEntity, Integer> {
     @Query(value = "" +
             "SELECT solvedChallengeIdx " +
             "FROM SolvedEntity " +
-            "WHERE solvedId = :userId " +
+            "WHERE solvedNick = :userNick " +
             "GROUP BY solvedChallengeIdx " +
             "")
-    List<Integer> selectSolvedState(@Param("userId") String userId) throws Exception;
+    List<Integer> selectSolvedState(@Param("userNick") String userNick) throws Exception;
 
-    SolvedEntity findBySolvedIdAndSolvedChallengeIdxAndSolvedLanguage(String userId, int idx, String language) throws Exception;
+    SolvedEntity findBySolvedNickAndSolvedChallengeIdxAndSolvedLanguage(String userNick, int idx, String language) throws Exception;
 
     int countBySolvedChallengeIdx(int idx) throws Exception;
 
     List<SolvedEntity> findAllBySolvedChallengeIdx(int idx) throws Exception;
 
-    int countBySolvedId(String solvedId) throws Exception;
+    int countBySolvedNick(String userNick) throws Exception;
 }

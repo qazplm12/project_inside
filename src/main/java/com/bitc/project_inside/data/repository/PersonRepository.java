@@ -1,12 +1,10 @@
 package com.bitc.project_inside.data.repository;
 
 import com.bitc.project_inside.data.entity.PersonEntity;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 
@@ -29,13 +27,15 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 
 //    int findAllByPersonId(String personId);
 
+    @Query(value = "SELECT personId FROM PersonEntity ORDER BY personTotalScore DESC ")
+    List<String> userRank();
+
     @Query(value = "" +
             "SELECT " +
-            "    RANK() OVER(ORDER BY personTotalScore DESC) AS p_rank " +
+            "    RANK() OVER(ORDER BY personTotalScore DESC) AS ranked " +
             "FROM PersonEntity " +
-            "WHERE personId = :userId" +
             "")
-    int userRank(@Param("userId") String userId);
+    List<Integer> numRank();
 
     // 아이디 중복 검사
 
