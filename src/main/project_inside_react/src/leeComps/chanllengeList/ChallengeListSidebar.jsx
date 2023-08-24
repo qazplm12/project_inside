@@ -10,7 +10,7 @@ function ChallengeListSidebar(props) {
     const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/totalChallenge?userId=${userInfo?.personId}`)
+        axios.get(`http://localhost:8080/server/totalChallenge?userId=${userInfo?.personNickName}`)
             .then(res => {
                 setTotalChallenge(res.data);
                 // console.log("내 문제 : " + res.data);

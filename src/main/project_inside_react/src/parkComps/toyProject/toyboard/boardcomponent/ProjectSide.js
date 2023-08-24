@@ -35,21 +35,10 @@ function ProjectSide(props){
                 <ul className={'list-group theme-border'}>
                     <li className={'list-group-item p-2 pt-4'}>
                         <img src={'/images/sakura.jpg'} alt="" className={'circle-background w-100'} style={{maxWidth: "10em"}}/>
-                        <div className={'row d-flex justify-content-center mt-5'}>
-                            <div className={'col-sm-5'}>
-                                <p className={'text-start'}>닉네임 : {userNames.personNickName} </p>
-                            </div>
-                            <div className={'col-sm-5 pe-0 ps-3'}>
-                                <p className={'text-start'}>내 랭킹 : {userNames.personLevel} </p>
-                            </div>
-                        </div>
-                        <div className={'row d-flex justify-content-center'}>
-                            <div className={'col-sm-5'}>
-                                <p className={'text-start'}>내 점수 :{userNames.personTotalScore} </p>
-                            </div>
-                            <div className={'col-sm-5 pe-0 ps-3'}>
-                                <p className={'text-start'}>내 레벨 : LV. {userNames.personLevel}</p>
-                            </div>
+                        <h4 className={'text-center theme-font'}><strong>{userNames.personNickName}</strong><span className={'fs-5 ms-1'}>(Lv.{userNames.personLevel})</span></h4>
+                        <div className={'m-3 ms-5 ps-2 col-sm-8 mx-auto'}>
+                                <p className={'text-start mb-2'}>내 랭킹 : <span className={'mx-4'}></span> {userNames.personLevel} </p>
+                                <p className={'text-start'}>내 점수 : <span className={'mx-4'}></span> {userNames.personTotalScore} </p>
                         </div>
                     </li>
                     <div className={"theme-border pt-3 pb-3"}>

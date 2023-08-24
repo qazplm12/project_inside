@@ -84,7 +84,7 @@ function ChangePassword(props) {
             });
         setTimeout(() => {
             window.location.reload();
-        }, 300);
+        }, 1000);
     };
 
 

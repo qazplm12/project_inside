@@ -213,7 +213,9 @@ public class LeeServiceImpl implements LeeService {
 
     @Override
     public int countTotalChallenge(String userId) throws Exception {
-        return solvedRepository.countBySolvedId(userId);
+        int num =  solvedRepository.countBySolvedId(userId);
+        System.out.println("num1 : " + num);
+        return num;
     }
 
     @Override

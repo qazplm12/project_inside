@@ -139,32 +139,50 @@ function TypeSearchProject(props) {
             </div>
             {/* 선택된 태그 레이어 */}
             <div
-                ref={tagLayerRef}
-                style={{
-                    position: 'inherit',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    padding: '10px',
-                    background: 'white',
-                    border: '1px solid #ccc',
-                    borderRadius: '5px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                    overflow: 'auto',
-                    marginTop: '-42px',
-                    marginLeft: '-200px',
-                    height : '40px',
-                    width: '330px', // 선택된 태그 레이어 고정 너비
-                    left: '50%', // 왼쪽으로 중앙 정렬
-                    transform: 'translateX(150%)', // 중앙 정렬을 위한 트랜스폼
-                }}
+                // ref={tagLayerRef}
+                // style={{
+                //     position: 'inherit',
+                //     display: 'flex',
+                //     flexWrap: 'wrap',
+                //     padding: '10px',
+                //     background: 'white',
+                //     border: '1px solid #ccc',
+                //     borderRadius: '5px',
+                //     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                //     overflow: 'auto',
+                //     marginTop: '-42px',
+                //     marginLeft: '-200px',
+                //     height : '40px',
+                //     width: '330px', // 선택된 태그 레이어 고정 너비
+                //     left: '50%', // 왼쪽으로 중앙 정렬
+                //     transform: 'translateX(150%)', // 중앙 정렬을 위한 트랜스폼
+                // }}
             >
-                {selectedTags.map((tag, index) => (
-                    <div key={index} className="custom-token theme-bg">
-                        <div className={'d-flex'}>
-                            <span>{tag}</span>
+                {/*{selectedTags.map((tag, index) => (*/}
+                {/*    <div key={index} className="custom-token theme-bg">*/}
+                {/*        <div className={'d-flex'}>*/}
+                {/*            <span>{tag}</span>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*))}*/}
+
+                {/* 토큰 리스트 */}
+                <div className="text-start">
+                    {selectedTags.map((tag, index) => (
+                        // 토큰(태그)
+                        <div key={index} className="custom-token theme-bg">
+                            <div className={'d-flex'}>
+                                <span>{tag}</span>
+                                <button
+                                    className="btn-close align-self-center d-block ms-1"
+                                    style={{width: "3px", height: "3px"}}
+                                    onClick={() => handleTagRemoval(tag)}
+                                >
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );

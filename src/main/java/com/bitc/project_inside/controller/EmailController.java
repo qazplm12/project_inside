@@ -182,6 +182,7 @@ public class EmailController {
                     .personTotalScore(person.getPersonTotalScore())
                     .personImgPath(person.getPersonImgPath())
                     .personBannedMsg(person.getPersonBannedMsg())
+                    .personPasswordUpdateDt(person.getPersonPasswordUpdateDt())
                     .token(token)
                     .build();
 

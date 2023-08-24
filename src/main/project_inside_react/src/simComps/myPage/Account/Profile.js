@@ -82,12 +82,12 @@ function Profile(props) {
             .then((resp) => {
                 update(userInfo.personId, userInfo.personPassword);
                 // 필요한 업데이트 로직 추가
+                setMode(true);
             })
             .catch((error) => {
                 alert("프로필 업데이트 실패");
                 console.error(error);
             });
-        setMode(true);
         setTimeout(() => {
             window.location.reload();
         }, 300);

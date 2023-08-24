@@ -37,7 +37,7 @@ function ToyListBoard(props) {
         setIsLoading(true);
         axios.get(`http://localhost:8080/pi/toyProject/ToyListBoard?page=${page}`)
             .then(response => {
-                setToyProjects((e) => [ ...response.data]);
+                setToyProjects((e) => [...toyProjects, ...response.data]);
                 setIsLoading(false);
                 setPage(prevPage => prevPage + 1);
             })
@@ -165,10 +165,7 @@ function ToyListBoard(props) {
             </Row>
 
             <Row>
-                <Col sm={2}>
-
-                </Col>
-                <Col sm={8}>
+                <Col sm={9} className={'mx-auto'}>
                     <div>
                         {chunksThumbnail.map((toyProjects, index) => (
                             <Row
@@ -182,21 +179,21 @@ function ToyListBoard(props) {
                             </Row>))}
                     </div>
                 </Col>
-                <Col>
+                <Col sm={2} className={'px-0'}>
                     <aside>
                         <ProjectSide/>
                     </aside>
                 </Col>
 
-                {/*<InView*/}
-                {/*    as="div"*/}
-                {/*    onChange={loadMoreItems}*/}
-                {/*    threshold={0.1}*/}
-                {/*    rootMargin="1px">*/}
-                {/*    <div>*/}
-                {/*        {isLoading ? <img src={"/images/loding.gif"}/> : null}*/}
-                {/*    </div>*/}
-                {/*</InView>*/}
+                <InView
+                    as="div"
+                    onChange={loadMoreItems}
+                    threshold={0.1}
+                    rootMargin="1px">
+                    <div>
+                        {isLoading ? <img src={"/images/loding.gif"}/> : null}
+                    </div>
+                </InView>
             </Row>
         </Container>
     );

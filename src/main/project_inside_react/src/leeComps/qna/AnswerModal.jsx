@@ -23,6 +23,8 @@ function AnswerModal(props) {
     };
 
     const handleSubmit = (e) => {
+        // 알림관련 매개변수 넣어주기 
+        
         const requestData = {
             idx: idx,
             userNick: userInfo.personNickName,

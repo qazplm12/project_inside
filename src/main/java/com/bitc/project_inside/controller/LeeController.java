@@ -286,6 +286,8 @@ public class LeeController {
         String code = requestData.get("code");
         String content = requestData.get("content");
 
+        // 알림 넣기
+
         leeService.saveAnswer(idx, userNick, language, code, content);
         leeService.updateAnswerCount(idx);
     }
