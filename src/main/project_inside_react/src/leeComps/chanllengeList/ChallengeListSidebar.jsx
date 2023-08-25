@@ -20,7 +20,7 @@ function ChallengeListSidebar(props) {
                 const numRank = result2.data;
 
                 for (let i = 0; i < userRank.length; i++) {
-                    if (userRank[i] == userInfo.personId) {
+                    if (userRank[i] == userInfo?.personId) {
                         // console.log(userRank[i]);
                         // console.log(numRank[i]);
                         setRanking(numRank[i]);
@@ -56,7 +56,7 @@ function ChallengeListSidebar(props) {
             .catch(err => {
 
             })
-        axios.get(`http://localhost:8080/server/userDetail?userId=${userInfo.personId}`)
+        axios.get(`http://localhost:8080/server/userDetail?userId=${userInfo?.personId}`)
             .then(res => {
                 setUserDetail(res.data);
             })
@@ -74,6 +74,9 @@ function ChallengeListSidebar(props) {
     // afterSplit = beforeSplit.split(', ');
     // console.log("afterSplit : " + afterSplit)
 
+    console.log(toyAnnony.projectThumbnail);
+    console.log(userInfo.personImgPath);
+
     if (userInfo == null) {
         return (
             <div>
@@ -85,7 +88,7 @@ function ChallengeListSidebar(props) {
                     <li className={'list-group-item p-2 py-4'}>
                         <p className={'mt-3'}>최근 등록된 프로젝트</p>
                         {/*<img src={'/images/profile.jpg'} alt="" className={'rounded w-100'} style={{maxWidth: "10em"}}/>*/}
-                        <img src={toyAnnony.projectThumbnail === '' ? "/images/ProjectImg.png" : `/images/thumbnail/${toyAnnony.projectThumbnail}`} alt="" className={'rounded w-100 my-3'} style={{maxWidth: "10em"}}/>
+                        <img src={toyAnnony.projectThumbnail === ('' || undefined) ? "/images/ProjectImg.png" : `/images/thumbnail/${toyAnnony.projectThumbnail}`} alt="" className={'rounded w-100 my-3'} style={{maxWidth: "10em"}}/>
                         <div className={'row d-flex justify-content-center'}>
                             <div className={'col-8 text-start mt-3'}>
                                 <p>프로젝트 이름 : {toyAnnony.projectTitle}</p>

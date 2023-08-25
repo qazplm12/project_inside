@@ -280,6 +280,7 @@ public class LeeController {
         leeService.updateAnswerCount(idx);
     }
 
+    // 문제 작성하기
     @RequestMapping(value = "/challengeWrite", method = RequestMethod.POST)
     public void saveChallenge (@RequestBody Map<String, String> requestData) throws Exception {
         String title = requestData.get("title");
