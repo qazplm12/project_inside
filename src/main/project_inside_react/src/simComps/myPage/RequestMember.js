@@ -3,6 +3,7 @@ import axios from "axios";
 
 function RequestMember(props) {
 
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
     const [memberInfo, setMemberInfo] = useState(props.memberInfo);
     const [hidden, setHidden] = useState(false);
 
@@ -10,29 +11,31 @@ function RequestMember(props) {
         setMemberInfo(props.memberInfo)
     }, [])
 
+    const formData = new FormData();
+    formData.append("matchingIdx", props.matchingIdx);
+    formData.append("alarmToPerson", memberInfo.personNickName);
+    formData.append("alarmContent", props.projectInfo.projectTitle);
+    formData.append("alarmFromPerson", userInfo.personNickName);
+    formData.append("alarmContentIdx", props.projectInfo.projectIdx);
+
+
     const accept = () => {
-        axios.post('http://localhost:8080/simServer/memberAccept', null, {
-            params: {
-                matchingIdx : props.matchingIdx
-            }
-        })
+        formData.append("alarmFrom", "projectAcc");
+        axios.post('http://localhost:8080/simServer/memberAccept', formData)
             .then(response => {
                 alert('수락되었습니다.');
-                props.setHidden(true);
+                props.fetchUpdateData();
             })
             .catch((error) => {
             });
     };
 
     const reject = () => {
-        axios.post('http://localhost:8080/simServer/memberReject', null, {
-            params: {
-                matchingIdx : props.matchingIdx
-            }
-        })
+        formData.append("alarmFrom", "projectRej");
+        axios.post('http://localhost:8080/simServer/memberReject', formData)
             .then(response => {
                 alert('거부되었습니다.');
-                props.setHidden(true);
+                props.fetchUpdateData();
             })
             .catch((error) => {
             });

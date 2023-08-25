@@ -14,7 +14,7 @@ public interface SimService {
 
     void insertPerson(PersonEntity person) throws Exception;
 
-    void makeAlarm(String alarmToPerson, String alarmContent, String alarmFromPerson, String alarmFrom, String inquiryIdx) throws Exception;
+    void makeAlarm(String alarmToPerson, String alarmContent, String alarmFromPerson, String alarmFrom, String contentIdx) throws Exception;
     // 알림 생성 매개변수
     // 1. 알림 받는 사람 닉네임
     // 2. 알림내용 (문의제목, 프로젝트명, 알고리즘 문제명)
@@ -75,6 +75,10 @@ public interface SimService {
     void memberReject(int idx) throws Exception;
 
     List<MatchingEntity> getMatchingAllList(int idx) throws Exception;
+
+    List<MatchingEntity> getMyMatchingList(String memberNick) throws Exception;
+
+    int countJoinMember(int idx) throws Exception;
 
 //    Integer save(PersonEntity person);
 }

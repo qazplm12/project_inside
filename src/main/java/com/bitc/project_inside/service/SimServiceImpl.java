@@ -194,12 +194,11 @@ public class SimServiceImpl implements SimService {
     public List<ProjectEntity> getJoinProject(List<MatchingEntity> myJoinProject) throws Exception {
 
         List<ProjectEntity> joinProject = new ArrayList<>();
-        if (joinProject.size() > 0) {
+        if (myJoinProject.size() > 0) {
             for(MatchingEntity aMatching : myJoinProject) {
-                joinProject.add(projectRepository.findByProjectIdx(aMatching.getMatchingIdx()));
+                joinProject.add(projectRepository.findByProjectIdx(aMatching.getMatchingProjectIdx()));
             }
         }
-
         return joinProject;
     }
 
@@ -235,11 +234,19 @@ public class SimServiceImpl implements SimService {
     }
 
     @Override
+    public List<MatchingEntity> getMyMatchingList(String memberNick) throws Exception {
+        return matchingRepository.findAllByMatchingMemberNick(memberNick);
+    }
+
+    @Override
+    public int countJoinMember(int idx) throws Exception {
+        return matchingRepository.countByMatchingProjectIdxAndMatchingMemberAccept(idx, "3");
+    }
+
+    @Override
     public List<MatchingEntity> getMatchingList(int idx) throws Exception {
         return matchingRepository.findAllByMatchingProjectIdxAndMatchingMemberAccept(idx, "1");
     }
-
-
 
     @Override
     public void memberAccept(int idx) throws Exception {
