@@ -5,6 +5,8 @@ import axios from "axios";
 import TypeSearchProject from "./boardcomponent/TypeSearchProject";
 import {InView, useInView} from "react-intersection-observer";
 import ProjectSide from "./boardcomponent/ProjectSide";
+import ChallengeListSidebar from "../../../leeComps/chanllengeList/ChallengeListSidebar";
+import ListSidebar from "./boardcomponent/ListSidebar";
 
 
 function ToyListBoard(props) {
@@ -178,7 +180,8 @@ function ToyListBoard(props) {
                 </Col>
                 <Col sm={2} className={'px-0'}>
                     <aside>
-                        <ProjectSide/>
+                        {/*<ProjectSide/>*/}
+                        <ListSidebar />
                     </aside>
                 </Col>
 

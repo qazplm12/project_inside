@@ -75,7 +75,7 @@ function Thumbnail(props) {
 
             const formData = new FormData();
             formData.append("projectIdx", projectIdx)
-            formData.append("personId",userInfo.personId)
+            formData.append("personId", userInfo ? userInfo.personId : "")
 
             axios.post(
                 'http://localhost:8080/pi/toyProject/likeMinView',formData)
@@ -112,7 +112,7 @@ function Thumbnail(props) {
             //      이 저장된 값을 boardList 화면에 들어 오면 클릭된 idx 를 뿌려야 한다
             const formData = new FormData();
             formData.append("projectIdx", projectIdx)
-            formData.append("personId",userInfo.personId)
+            formData.append("personId", userInfo ? userInfo.personId : "")
 
             axios.post(
                 'http://localhost:8080/pi/toyProject/likePlus',formData)
@@ -130,7 +130,8 @@ function Thumbnail(props) {
 
     useEffect(() => {
             const formData = new FormData();
-            formData.append("personId", userInfo.personId)
+            formData.append("personId", userInfo ? userInfo.personId : "")
+
             // 이제 화면에 뿌려주는 부분
             axios.post('http://localhost:8080/pi/toyProject/likePlusView', formData)
                 .then(response => {
@@ -199,7 +200,7 @@ function Thumbnail(props) {
                                 <span onClick={() => likeProject(projectIdx)}>
                                     {/* (비회원일떄) ? (모달창으로 회원전용입니다.) : (회원일떄) ? (참일떄): (거짓일떄) */}
                                     {
-                                        (userInfo == null) ? <span variant="primary" onClick={handleShow}><i className="bi bi-heart-fill text-danger theme-font fs-2 ms-2"></i></span>
+                                        (userInfo == null) ? <span variant="primary" onClick={handleShow}><i className="bi bi-heart theme-font fs-2 ms-2"></i></span>
                                             : iconCheck ?
                                                 (<i className="bi bi-heart-fill text-danger theme-font fs-2 ms-2"></i>)
                                                 :

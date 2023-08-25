@@ -56,7 +56,7 @@ function AnswerBody(props) {
                         <div key={index}>
                             <div className={'d-flex'}>
                                 {/*<img src="/images/kazha.jpg" alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>*/}
-                                <img src={array[index]?.personImgPath === undefined ? "/images/ProfileImg.png" : `/images/profileImg/${array[index]?.personImgPath}`} alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>
+                                <img src={!array[index]?.personImgPath ? "/images/ProfileImg.png" : `/images/profileImg/${array[index]?.personImgPath}`} alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>
                                 <div className={'text-start ms-3'}>
                                     <p className={'m-0'}><i className="bi bi-person-fill"></i> {item.answerNick}</p>
                                     <p className={'m-0'}><i className="bi bi-award"></i> Lv.{array[index]?.personLevel}</p>

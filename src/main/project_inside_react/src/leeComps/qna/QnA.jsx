@@ -75,7 +75,7 @@ function QnA(props) {
                             <Accordion.Item eventKey={index} key={index}>
                                 <Accordion.Header>
                                     {/*<img src="/images/sakura.jpg" alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>*/}
-                                    <img src={array[index] === 0 ? "/images/ProfileImg.png" : `/images/profileImg/${array[index]}`} alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>
+                                    <img src={!array[index] ? "/images/ProfileImg.png" : `/images/profileImg/${array[index]}`} alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>
                                     <div className={'d-flex flex-column ms-3 w-100'}>
                                         <div className={'pb-2'}>
                                             <span>{item.questionTitle}</span>

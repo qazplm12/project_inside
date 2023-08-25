@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import axios from "axios";
 
-function ChallengeListSidebar(props) {
+function ListSidebar(props) {
     const [totalChallenge, setTotalChallenge] = useState('');
     const [ranking, setRanking] = useState('');
     const [toyAnnony, setToyAnnony] = useState('');
@@ -47,7 +47,7 @@ function ChallengeListSidebar(props) {
             })
         axios.get(`http://localhost:8080/server/toyUser?language=${userInfo?.personLanguage}`)
             .then(res => {
-                setToyUser(res.data);
+                setToyUser(res.data); // 프로젝트 정보를 담음
                 // console.log(res.data);
                 let math = Math.floor(Math.random() * res.data.length);
                 setRandom(math);
@@ -149,4 +149,4 @@ function ChallengeListSidebar(props) {
     }
 }
 
-export default ChallengeListSidebar;
+export default ListSidebar;

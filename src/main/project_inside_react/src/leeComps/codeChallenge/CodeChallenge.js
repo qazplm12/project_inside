@@ -37,7 +37,7 @@ function CodeChallenge(props) {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/userDetail?userId=${userInfo.personId}`)
+        axios.get(`http://localhost:8080/server/userDetail?userId=${userInfo?.personId}`)
             .then(res => {
                 setUserTotalScore(res.data.personTotalScore);
             })
