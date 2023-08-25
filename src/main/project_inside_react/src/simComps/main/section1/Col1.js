@@ -1,43 +1,61 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 function Col1(props) {
 
+    const [challengeList, setChallengeList] = useState([]);
+
+    useEffect(() => {
+        axios.post("http://localhost:8080/simServer/getChallengeListLatest", null)
+            .then((res) => {
+                setChallengeList(res.data)
+            })
+            .catch((error) => {
+
+            });
+    }, []);
+
     return (
-        <div className={'col-sm-4 p-5'}>
+        <div className={'col-sm-4 p-4'}>
             <div className={'d-flex justify-content-between'}>
                 <p>최신 문제</p>
-                <Link to={'/pi/challenge'} className={'theme-link'}>더보기</Link>
+                <Link to={'/pi/challengeList'} className={'theme-link'}>더보기</Link>
             </div>
             <table className={'table'}>
                 <colgroup>
                     <col width={'10%'}/>
-                    <col width={'25%'}/>
-                    <col width={'40%'}/>
-                    <col width={'25%'}/>
+                    <col />
+                    <col width={'18%'}/>
+                    <col width={'18%'}/>
                 </colgroup>
                 <thead className={'theme-bg'}>
                 <tr>
-                    <th >No.</th>
+                    <th>No.</th>
                     <th>문제</th>
                     <th>난이도</th>
-                    <th>비고</th>
+                    <th>정답률</th>
                 </tr>
                 </thead>
                 <tbody>
                 {/* 맵 함수로 표현? */}
-                <tr>
-                    <td>1</td>
-                    <td>문제1</td>
-                    <td>1</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>문제2</td>
-                    <td>0</td>
-                    <td></td>
-                </tr>
+                {
+                    challengeList.map((item, index, array) => (
+                        index < 5
+                            ?
+                            <tr key={index}>
+                                <td>{item.challengeIdx}</td>
+                                <td>
+                                    {item.challengeTitle.length < 14
+                                        ? <Link className={'theme-link'} to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link>
+                                        : <Link className={'theme-link'} to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle.slice(0, 13)+ '...'}</Link>}
+                                </td>
+                                <td>{item.challengeClass}</td>
+                                <td>{item.challengeCorrectPercent}</td>
+                            </tr>
+                            : ""
+                    ))
+                }
                 </tbody>
             </table>
         </div>

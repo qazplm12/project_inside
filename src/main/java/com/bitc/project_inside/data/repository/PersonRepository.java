@@ -46,6 +46,8 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
     @Query(value = "UPDATE PersonEntity SET personTotalScore = :score WHERE personNickName = :userNick")
     void updateTotalScore(int score, String userNick);
 
+    PersonEntity findByPersonNickName(String matchingMemberNick) throws Exception;
+
     // 아이디 중복 검사
 
 }

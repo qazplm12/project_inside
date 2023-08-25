@@ -11,4 +11,10 @@ public interface MatchingRepository extends JpaRepository<MatchingEntity, Intege
     List<MatchingEntity> findByMatchingMemberNick(String member) throws Exception;
 
     int countByMatchingLeaderNick(String personId) throws Exception;
+
+    List<MatchingEntity> findAllByMatchingProjectIdxAndMatchingMemberAccept(int idx, String i);
+
+    List<MatchingEntity> findAllByMatchingProjectIdx(int idx) throws Exception;
+
+    MatchingEntity findByMatchingIdx(int idx) throws Exception;
 }

@@ -37,4 +37,6 @@ public interface ChallengeRepository extends JpaRepository<ChallengeEntity, Inte
             "WHERE challengeIdx = :idx " +
             "")
     void updateCorrectPercent(@Param("idx") int idx, @Param("correctPercent") int correctPercent) throws Exception;
+
+    List<ChallengeEntity> findAllByOrderByChallengeIdxDesc() throws Exception;
 }

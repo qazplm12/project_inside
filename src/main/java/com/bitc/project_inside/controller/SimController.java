@@ -115,7 +115,7 @@ public class SimController {
         simService.readAlarmList(alarmToPerson);
     }
 
-    
+
     // 문의사항 관련
 
     @RequestMapping(value = "/getInquiryList", method = RequestMethod.POST)
@@ -124,11 +124,12 @@ public class SimController {
     ) throws Exception {
         System.out.println("/getInquiryList 서버 : ");
 
-        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);;
+        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);
+        ;
 
         return inquiryList;
     }
-    
+
     @RequestMapping(value = "/sendInquiry", method = RequestMethod.POST)
     public void sendInquiry(
             @RequestParam(value = "personNickName") String personNickName,
@@ -157,7 +158,8 @@ public class SimController {
 
         simService.updateInquiry(idx, content);
 
-        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);;
+        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);
+        ;
 
         return inquiryList;
     }
@@ -177,9 +179,10 @@ public class SimController {
         simService.inquiryAnswer(inquiryIdx, inquiryAnswer);
 
         // 알림
-        simService.makeAlarm(alarmToPerson, inquiryTitle,"admin", "inquiry", String.valueOf(inquiryIdx));
+        simService.makeAlarm(alarmToPerson, inquiryTitle, "admin", "inquiry", String.valueOf(inquiryIdx));
 
-        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);;
+        List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);
+        ;
 
         return inquiryList;
     }
@@ -208,8 +211,21 @@ public class SimController {
     public List<ProjectEntity> getProjectList() throws Exception {
         System.out.println("--------- /getProjectList 서버 --------");
 
-
         return simService.getProjectList();
+    }
+
+    @RequestMapping(value = "/getChallengeListLatest", method = RequestMethod.POST)
+    public List<ChallengeEntity> getChallengeListLatest() throws Exception {
+        System.out.println("--------- /getChallengeListLatest 서버 --------");
+
+        return simService.getChallengeListLatest();
+    }
+
+    @RequestMapping(value = "/getQuestionListLatest", method = RequestMethod.POST)
+    public List<QuestionEntity> getQuestionListLatest() throws Exception {
+        System.out.println("--------- /getQuestionListLatest 서버 --------");
+
+        return simService.getQuestionListLatest();
     }
 
     // 프로젝트 보드 관련
@@ -301,6 +317,59 @@ public class SimController {
         List<MatchingEntity> myJoinProject = simService.getMyJoinProject(member);
 
         return simService.getJoinProject(myJoinProject);
+    }
+
+
+    @RequestMapping(value = "/getRequestMembers", method = RequestMethod.POST)
+    public List<PersonEntity> getRequestMembers(
+            @RequestParam(value = "matchingProjectIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /getRequestMembers 서버 --------");
+        System.out.println("matchingProjectIdx : " +  idx);
+        // 매칭 프로젝트 테이블에서 memberAccept 1이고, idx가 매치되는 유저 리스트 가져오기
+        return simService.getMyRequestMembers(idx);
+    }
+
+  @RequestMapping(value = "/getMatchingAllList", method = RequestMethod.POST)
+    public List<MatchingEntity> getMatchingAllList(
+            @RequestParam(value = "matchingProjectIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /getMatchingAllList 서버 --------");
+        System.out.println("matchingProjectIdx : " +  idx);
+
+        // 매칭 프로젝트 테이블에서 memberAccept 1이고, idx가 매치되는 matchingEntity List
+        return simService.getMatchingAllList(idx);
+    }
+@RequestMapping(value = "/getMatchingList", method = RequestMethod.POST)
+    public List<MatchingEntity> getMatchingList(
+            @RequestParam(value = "matchingProjectIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /getMatchingList 서버 --------");
+        System.out.println("matchingProjectIdx : " +  idx);
+
+        return simService.getMatchingList(idx);
+    }
+
+
+  @RequestMapping(value = "/memberAccept", method = RequestMethod.POST)
+    public void memberAccept(
+            @RequestParam(value = "matchingIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /memberAccept 서버 --------");
+        System.out.println("matchingIdx : " +  idx);
+
+        simService.memberAccept(idx);
+    }
+
+
+  @RequestMapping(value = "/memberReject", method = RequestMethod.POST)
+    public void memberReject(
+            @RequestParam(value = "matchingIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /memberReject 서버 --------");
+        System.out.println("matchingIdx : " +  idx);
+
+      simService.memberReject(idx);
     }
 
 

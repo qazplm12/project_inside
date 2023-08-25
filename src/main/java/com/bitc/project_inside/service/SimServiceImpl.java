@@ -8,11 +8,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +28,7 @@ public class SimServiceImpl implements SimService {
     private final TodoRepository todoRepository;
     private final ChallengeRepository challengeRepository;
     private final MatchingRepository matchingRepository;
+    private final QuestionRepository questionRepository;
 
     @Value("${app.upload-profile-dir}")
     private String uploadDir;
@@ -190,7 +193,7 @@ public class SimServiceImpl implements SimService {
     @Override
     public List<ProjectEntity> getJoinProject(List<MatchingEntity> myJoinProject) throws Exception {
 
-        List<ProjectEntity> joinProject = null;
+        List<ProjectEntity> joinProject = new ArrayList<>();
         if (joinProject.size() > 0) {
             for(MatchingEntity aMatching : myJoinProject) {
                 joinProject.add(projectRepository.findByProjectIdx(aMatching.getMatchingIdx()));
@@ -198,6 +201,58 @@ public class SimServiceImpl implements SimService {
         }
 
         return joinProject;
+    }
+
+    @Override
+    public List<ChallengeEntity> getChallengeListLatest() throws Exception {
+        return challengeRepository.findAllByOrderByChallengeIdxDesc();
+    }
+
+    @Override
+    public List<QuestionEntity> getQuestionListLatest() throws Exception {
+        return questionRepository.findAllByOrderByQuestionIdxDesc();
+    }
+
+    @Override
+    public List<PersonEntity> getMyRequestMembers(int idx) throws Exception {
+
+        List<MatchingEntity> members = matchingRepository.findAllByMatchingProjectIdxAndMatchingMemberAccept(idx,"1");
+        System.out.println(" members :" + members);
+        List<PersonEntity> requestMembers = new ArrayList<>();
+        if(members.size() > 0){
+            for(MatchingEntity aMember : members){
+                requestMembers.add(personRepository.findByPersonNickName(aMember.getMatchingMemberNick()));
+            }
+        }
+        System.out.print("requestMembers : " + requestMembers);
+
+        return requestMembers;
+    }
+
+    @Override
+    public List<MatchingEntity> getMatchingAllList(int idx) throws Exception {
+        return matchingRepository.findAllByMatchingProjectIdx(idx);
+    }
+
+    @Override
+    public List<MatchingEntity> getMatchingList(int idx) throws Exception {
+        return matchingRepository.findAllByMatchingProjectIdxAndMatchingMemberAccept(idx, "1");
+    }
+
+
+
+    @Override
+    public void memberAccept(int idx) throws Exception {
+        MatchingEntity matching =  matchingRepository.findByMatchingIdx(idx);
+        matching.setMatchingMemberAccept("3");
+        matchingRepository.save(matching);
+    }
+
+    @Override
+    public void memberReject(int idx) throws Exception {
+        MatchingEntity matching =  matchingRepository.findByMatchingIdx(idx);
+        matching.setMatchingMemberAccept("4");
+        matchingRepository.save(matching);
     }
 
 //    @Override

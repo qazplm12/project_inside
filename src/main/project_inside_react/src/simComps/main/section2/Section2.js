@@ -22,14 +22,14 @@ function Section2(props) {
         <section className={'container'}>
             <div className={'d-flex justify-content-between mb-3'}>
                 <h5>모집중인 프로젝트</h5>
-                <Link to={'/pi/project'} className={'theme-link'}>더보기</Link>
+                <Link to={'/pi/toyListBoard'} className={'theme-link'}>더보기</Link>
             </div>
             <div className={'row d-flex justify-content-between'}>
                 {/* 최신순으로 3개 가져오기 */}
                 {
                     data.map((item, index) => {
                         if(index < 3){
-                            return <ProjectCard toyProject={item}/>
+                            return <ProjectCard key={index} toyProject={item}/>
                         }
                     })
                 }

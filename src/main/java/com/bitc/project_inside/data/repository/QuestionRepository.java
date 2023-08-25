@@ -21,4 +21,6 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Intege
     void updateAnswerCount(int idx);
 
     QuestionEntity findByQuestionIdx(int idx) throws Exception;
+
+    List<QuestionEntity> findAllByOrderByQuestionIdxDesc() throws Exception;
 }
