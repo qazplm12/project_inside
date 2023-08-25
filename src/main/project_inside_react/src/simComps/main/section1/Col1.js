@@ -43,9 +43,13 @@ function Col1(props) {
                     challengeList.map((item, index, array) => (
                         index < 5
                             ?
-                            <tr>
+                            <tr key={index}>
                                 <td>{item.challengeIdx}</td>
-                                <td>{item.challengeTitle}</td>
+                                <td>
+                                    {item.challengeTitle.length < 14
+                                        ? <Link className={'theme-link'} to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link>
+                                        : <Link className={'theme-link'} to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle.slice(0, 13)+ '...'}</Link>}
+                                </td>
                                 <td>{item.challengeClass}</td>
                                 <td>{item.challengeCorrectPercent}</td>
                             </tr>

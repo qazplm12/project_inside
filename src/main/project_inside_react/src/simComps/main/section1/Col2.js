@@ -10,7 +10,12 @@ function Col2(props) {
     useEffect(() => {
         axios.post("http://localhost:8080/simServer/getQuestionListLatest", null)
             .then((res) => {
-                setQuestionList(res.data)
+                const list = []
+                for(let i = 0; i < 5; i ++){
+                    list.push(res.data[i])
+                }
+                console.log(list)
+                setQuestionList(list);
             })
             .catch((error) => {
 
@@ -25,52 +30,49 @@ function Col2(props) {
             });
     }, []);
 
-    const getChallengeTitle = (idx) => {
-        console.log(challengeList)
-
-        challengeList.find(idx => {
-            return (challengeList.challengeTitle === idx)
-        })
-    }
-
-
     return (
         <div className={'col-sm-4 p-4'}>
             <div className={'d-flex justify-content-between'}>
                 <p>최근 질문</p>
                 {/* 링크 질문 페이지로 */}
-                <Link to={'/pi/QnA?idx=1'} className={'theme-link'}>더보기</Link>
+                <Link to={`/pi/QnA?idx=${questionList.length > 0 ? questionList[0].questionChallengeIdx : '2' }`} className={'theme-link'}>더보기</Link>
             </div>
             <table className={'table'}>
                 <colgroup>
                     <col width={'10%'}/>
-                    <col width={'25%'}/>
-                    <col width={'40%'}/>
-                    <col width={'25%'}/>
+                    <col width={'36%'}/>
+                    <col />
+                    <col width={'18%'}/>
                 </colgroup>
                 <thead>
                 <tr>
                     <th>No.</th>
                     <th>문제</th>
-                    <th>난이도</th>
-                    <th>비고</th>
+                    <th>질문</th>
+                    <th>정답률</th>
                 </tr>
                 </thead>
                 <tbody>
                 {/* 맵 함수로 표현? */}
                 {
-                    questionList.map((item, index, array) => (
+                    challengeList.map((item, index, array) => (
                         index < 5
                             ?
-                            <tr>
-                                <td>{item.questionChallengeIdx}</td>
-                                <td>
-                                    {
-                                        getChallengeTitle(item.questionChallengeIdx)
-                                }
+                            <tr key={`Cl${index}`}>
+                                <td>{questionList[index].questionIdx}</td>
+                                <td className={'px-0'}>
+                                    {item.challengeTitle.length < 13
+                                    ? <Link className={'theme-link'} to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link>
+
+                                    : <Link className={'theme-link'} to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle.slice(0, 12)+ '...'}</Link>}
                                 </td>
-                                <td>{item.questionClass}</td>
-                                <td>{item.questionCorrectPercent}</td>
+                                <td className={'px-0'}>
+                                    {questionList[index].questionTitle.length < 13
+                                        ? <Link className={'theme-link'} to={`/pi/QnA?idx=${item.challengeIdx}`}>{questionList[index].questionTitle}</Link>
+
+                                        : <Link className={'theme-link'} to={`/pi/QnA?idx=${item.challengeIdx}`}>{questionList[index].questionTitle.slice(0, 12) + '...'}</Link>}
+                                </td>
+                                <td>{item.challengeCorrectPercent}</td>
                             </tr>
                             : ""
                     ))

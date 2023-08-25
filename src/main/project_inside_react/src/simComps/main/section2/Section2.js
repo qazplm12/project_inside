@@ -29,7 +29,7 @@ function Section2(props) {
                 {
                     data.map((item, index) => {
                         if(index < 3){
-                            return <ProjectCard toyProject={item}/>
+                            return <ProjectCard key={index} toyProject={item}/>
                         }
                     })
                 }

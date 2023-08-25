@@ -66,5 +66,15 @@ public interface SimService {
 
     List<QuestionEntity> getQuestionListLatest() throws Exception;
 
+    List<PersonEntity> getMyRequestMembers(int idx) throws Exception;
+
+    List<MatchingEntity> getMatchingList(int idx) throws Exception;
+
+    void memberAccept(int idx) throws Exception;
+
+    void memberReject(int idx) throws Exception;
+
+    List<MatchingEntity> getMatchingAllList(int idx) throws Exception;
+
 //    Integer save(PersonEntity person);
 }

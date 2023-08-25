@@ -320,4 +320,57 @@ public class SimController {
     }
 
 
+    @RequestMapping(value = "/getRequestMembers", method = RequestMethod.POST)
+    public List<PersonEntity> getRequestMembers(
+            @RequestParam(value = "matchingProjectIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /getRequestMembers 서버 --------");
+        System.out.println("matchingProjectIdx : " +  idx);
+        // 매칭 프로젝트 테이블에서 memberAccept 1이고, idx가 매치되는 유저 리스트 가져오기
+        return simService.getMyRequestMembers(idx);
+    }
+
+  @RequestMapping(value = "/getMatchingAllList", method = RequestMethod.POST)
+    public List<MatchingEntity> getMatchingAllList(
+            @RequestParam(value = "matchingProjectIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /getMatchingAllList 서버 --------");
+        System.out.println("matchingProjectIdx : " +  idx);
+
+        // 매칭 프로젝트 테이블에서 memberAccept 1이고, idx가 매치되는 matchingEntity List
+        return simService.getMatchingAllList(idx);
+    }
+@RequestMapping(value = "/getMatchingList", method = RequestMethod.POST)
+    public List<MatchingEntity> getMatchingList(
+            @RequestParam(value = "matchingProjectIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /getMatchingList 서버 --------");
+        System.out.println("matchingProjectIdx : " +  idx);
+
+        return simService.getMatchingList(idx);
+    }
+
+
+  @RequestMapping(value = "/memberAccept", method = RequestMethod.POST)
+    public void memberAccept(
+            @RequestParam(value = "matchingIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /memberAccept 서버 --------");
+        System.out.println("matchingIdx : " +  idx);
+
+        simService.memberAccept(idx);
+    }
+
+
+  @RequestMapping(value = "/memberReject", method = RequestMethod.POST)
+    public void memberReject(
+            @RequestParam(value = "matchingIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /memberReject 서버 --------");
+        System.out.println("matchingIdx : " +  idx);
+
+      simService.memberReject(idx);
+    }
+
+
 }

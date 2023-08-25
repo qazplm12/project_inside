@@ -9,4 +9,10 @@ import java.util.List;
 public interface MatchingRepository extends JpaRepository<MatchingEntity, Integer> {
 
     List<MatchingEntity> findByMatchingMemberNick(String member) throws Exception;
+
+    List<MatchingEntity> findAllByMatchingProjectIdxAndMatchingMemberAccept(int idx, String i);
+
+    List<MatchingEntity> findAllByMatchingProjectIdx(int idx) throws Exception;
+
+    MatchingEntity findByMatchingIdx(int idx) throws Exception;
 }

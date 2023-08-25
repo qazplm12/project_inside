@@ -37,6 +37,8 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
             "")
     int userRank(@Param("userId") String userId);
 
+    PersonEntity findByPersonNickName(String matchingMemberNick) throws Exception;
+
     // 아이디 중복 검사
 
 }
