@@ -245,5 +245,28 @@ public class LeeServiceImpl implements LeeService {
         return personRepository.findAllPerson();
     }
 
+    @Override
+    public QuestionEntity selectQuestionDetail(int idx) throws Exception {
+        return questionRepository.findByQuestionIdx(idx);
+    }
 
+    @Override
+    @Transactional
+    public void levelExp(int score, String userNick) throws Exception {
+        for (int i = 0; i < 6; i++) {
+            if ((i * 10) == score) {
+                //레벨 i로 업데이트
+                personRepository.levelUp(i, score, userNick);  // 레벨업 업데이트문
+            }
+            else {
+                personRepository.updateTotalScore(score, userNick); // 경험치 획득 이벤트
+            }
+        }
+
+    }
+
+    @Override
+    public PersonEntity selectUserDetail(String userId) throws Exception {
+        return personRepository.findByPersonId(userId);
+    }
 }

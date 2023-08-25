@@ -24,6 +24,7 @@ public class SolvedEntity {
 
     private String solvedNick;    // 나중에 nick으로 변경
 
+    @Column(length = 2000)
     private String solvedContent;
 
     private String solvedLanguage;

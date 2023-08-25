@@ -75,7 +75,8 @@ public class PersonEntity implements UserDetails {
 //    }
 
     @Builder
-    public PersonEntity(String personId, String personPassword, String personNickName, String auth) {
+    public PersonEntity(int personIdx, String personId, String personPassword, String personNickName, String auth) {
+        this.personIdx = personIdx;
         this.personId = personId;
         this.personPassword = personPassword;
         this.personNickName = personNickName;

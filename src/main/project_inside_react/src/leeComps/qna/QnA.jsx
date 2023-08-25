@@ -11,6 +11,7 @@ function QnA(props) {
     const [qnaList, setQnaList] = useState([]);
     const [questionIdx, setQuestionIdx] = useState('');
     const [questionLanguage, setQuestionLanguage] = useState('');
+    const [questionNick, setQuestionNick] = useState('');
     const [questionModalShow, setQuestionModalShow] = React.useState(false);
     const [AnswerModalShow, setAnswerModalShow] = React.useState(false);
     const [array, setArray] = useState([]);
@@ -98,8 +99,9 @@ function QnA(props) {
                                     <div className={'d-flex justify-content-start mb-4'}>
                                         <h5 className={'align-middle me-auto mb-0 mt-1'}>{item.questionCount} 개의 답변</h5>
                                         <button className={'btn btn-primary me-2'} onClick={() => {
-                                            setQuestionIdx(item.questionIdx)
-                                            setQuestionLanguage(item.questionLanguage)
+                                            setQuestionIdx(item.questionIdx);
+                                            setQuestionLanguage(item.questionLanguage);
+                                            setQuestionNick(item.questionNick);
                                             setAnswerModalShow(true)
                                         }}>답변 작성하기</button>
                                     </div>
@@ -110,7 +112,7 @@ function QnA(props) {
                     })
                 }
                 <QuestionModal questionModalShow={questionModalShow} setQuestionModalShow={setQuestionModalShow} idx={idx} />
-                <AnswerModal AnswerModalShow={AnswerModalShow} setAnswerModalShow={setAnswerModalShow} idx={questionIdx} language={questionLanguage} />
+                <AnswerModal AnswerModalShow={AnswerModalShow} setAnswerModalShow={setAnswerModalShow} challenegeIdx={idx} idx={questionIdx} language={questionLanguage} questionNick={questionNick} />
             </Accordion>
         </div>
     )

@@ -8,6 +8,7 @@ function ChallengeListSidebar(props) {
     const [toyAnnony, setToyAnnony] = useState('');
     const [toyUser, setToyUser] = useState('');
     const [random, setRandom] = useState('');
+    const [userDetail, setUserDetail] = useState('');
     const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     useEffect(() => {
@@ -55,6 +56,13 @@ function ChallengeListSidebar(props) {
             .catch(err => {
 
             })
+        axios.get(`http://localhost:8080/server/userDetail?userId=${userInfo.personId}`)
+            .then(res => {
+                setUserDetail(res.data);
+            })
+            .catch(err => {
+                console.log("코드챌린지 에러 : " + err)
+            });
         rank();
 
     }, []);
@@ -97,21 +105,26 @@ function ChallengeListSidebar(props) {
                     <li className={'list-group-item p-2 pt-4'}>
                         {/*<img src={'/images/sakura.jpg'} alt="" className={'circle-background w-100'} style={{maxWidth: "10em"}}/>*/}
                         <img src={userInfo.personImgPath === null ? "/images/ProfileImg.png" : `/images/profileImg/${userInfo.personImgPath}`} alt="" className={'circle-background w-100'} style={{maxWidth: "10em"}}/>
-                        <p className={'pt-3'}>{userInfo.personNickName}</p>
-                        <div className={'row d-flex justify-content-center'}>
-                            <div className={'col-sm-5'}>
-                                <p className={'text-start'}>내 랭킹 : {ranking}</p>
+                        <h4 className={'text-center theme-font py-2'}><strong>{userInfo.personNickName}</strong><span className={'fs-5 ms-1'}>(Lv.{userDetail.personLevel})</span></h4>
+                        {/*<div className={'m-3 ms-5 ps-2 col-sm-8 mx-auto'}>*/}
+                        {/*    <p className={'text-start mb-2'}>내 랭킹 : <span className={'mx-4'}></span> {userInfo.personLevel} </p>*/}
+                        {/*    <p className={'text-start'}>내 점수 : <span className={'mx-4'}></span> {userInfo.personTotalScore} </p>*/}
+                        {/*    <p className={'text-start'}>내 문제 : <span className={'mx-4'}></span> {totalChallenge} </p>*/}
+                        {/*</div>*/}
+
+
+                        <div className={'row justify-content-center'}>
+                            <div className={'col-sm-4 text-center pe-0'}>
+                                <span className={'theme-font'} style={{fontSize: '1.2em'}}><b><i className="bi bi-trophy theme-font"></i> 랭킹</b></span>
+                                <p className={'mt-2'}>: {ranking} 등</p>
                             </div>
-                            <div className={'col-sm-5 pe-0 ps-3'}>
-                                <p className={'text-start'}>내 점수 : {userInfo.personTotalScore}</p>
+                            <div className={'col-sm-3 text-center px-0'}>
+                                <span className={'theme-font'} style={{fontSize: '1.2em'}}><b><i className="bi bi-table theme-font"></i> 점수</b></span>
+                                <p className={'mt-2'}>: {userDetail.personTotalScore} 점</p>
                             </div>
-                        </div>
-                        <div className={'row d-flex justify-content-center'}>
-                            <div className={'col-sm-5'}>
-                                <p className={'text-start'}>내 레벨 : {userInfo.personLevel}</p>
-                            </div>
-                            <div className={'col-sm-5 pe-0 ps-3'}>
-                                <p className={'text-start'}>내 문제 : {totalChallenge}</p>
+                            <div className={'col-sm-4 text-center ps-0'}>
+                                <span className={'theme-font'} style={{fontSize: '1.2em'}}><b><i className="bi bi-lightbulb theme-font"></i> 문제</b></span>
+                                <p className={'mt-2'}>: {totalChallenge} 개</p>
                             </div>
                         </div>
                     </li>

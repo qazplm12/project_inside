@@ -2,6 +2,7 @@ package com.bitc.project_inside.data.repository;
 
 import com.bitc.project_inside.data.entity.PersonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -36,6 +37,14 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
             "FROM PersonEntity " +
             "")
     List<Integer> numRank();
+
+    @Modifying
+    @Query(value = "UPDATE PersonEntity SET personLevel = :i, personTotalScore = :score WHERE personNickName = :userNick")
+    void levelUp(int i, int score, String userNick);
+
+    @Modifying
+    @Query(value = "UPDATE PersonEntity SET personTotalScore = :score WHERE personNickName = :userNick")
+    void updateTotalScore(int score, String userNick);
 
     // 아이디 중복 검사
 

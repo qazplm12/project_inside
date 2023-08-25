@@ -10,6 +10,8 @@ function CodeChallenge(props) {
     const [code, setCode] = useState('');
     const [result, setResult] = useState('실행 결과가 여기에 표시됩니다.');
     const [sendChallenge, setSendChallenge] = useState([]);
+    const [userTotalScore, setUserTotalScore] = useState('');
+    const [challengeScore, setChallengeScore] = useState('');
     const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     const [params, setParams] = useSearchParams();
@@ -24,12 +26,25 @@ function CodeChallenge(props) {
                 // console.log(res.data);
 
                 setSendChallenge(res.data);
+                setChallengeScore(res.data.challengeScore);
+                // console.log(res.data.challengeScore);
+                // console.log(userInfo.personTotalScore);
             })
             .catch(err => {
-                alert('통신 실패')
+                // alert('통신 실패')
                 console.log(err);
             });
     }, []);
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/server/userDetail?userId=${userInfo.personId}`)
+            .then(res => {
+                setUserTotalScore(res.data.personTotalScore);
+            })
+            .catch(err => {
+                console.log("코드챌린지 에러 : " + err)
+            });
+    }, [code]);
 
     const handleSelect = (e) => {
         setLanguage(e.target.value);
@@ -205,7 +220,8 @@ function CodeChallenge(props) {
             userNick: userInfo.personNickName,
             idx: idx,
             language: language,
-            code: code
+            code: code,
+            score: `${challengeScore + userTotalScore}`,   // 덧셈 식 주의, jwt 로그인 하였기 때문에 최초 로그인 한 정보에서 업데이트 안되고 있음(걍 정보 불러옴..)
         };
 
         axios.post(`http://localhost:8080/server/challengeCorrect`, requestData)
@@ -213,8 +229,8 @@ function CodeChallenge(props) {
                 // alert("저장성공 : " + res.data);
             })
             .catch(err => {
-                alert("통신 실패 : " + err);
-                console.log("통신 실패 : " + err);
+                // alert("통신 실패 : " + err);
+                console.log("통신 실패 정답 업뎃 실패 : " + err);
             });
     }
 

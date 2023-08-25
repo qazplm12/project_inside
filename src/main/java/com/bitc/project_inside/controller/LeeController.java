@@ -2,6 +2,7 @@ package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.entity.*;
 import com.bitc.project_inside.service.LeeService;
+import com.bitc.project_inside.service.SimService;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class LeeController {
 
     private final LeeService leeService;
+    private final SimService simService;
     private final ResourceLoader resourceLoader;
 
     // 암호 생성 객체
@@ -214,6 +216,7 @@ public class LeeController {
         int idx = Integer.parseInt(requestData.get("idx"));
         String language = requestData.get("language");
         String code = requestData.get("code");
+        int score = Integer.parseInt(requestData.get("score"));
         // 같은 사람이 같은 문제를 같은 언어로 풀면 save, update 안됨
         boolean solved = leeService.selectSolvedChallenge(userNick, idx, language);
 //        System.out.println(solved);
@@ -223,6 +226,7 @@ public class LeeController {
             leeService.saveSolved(userNick, idx, language, code);
             leeService.saveScoringLogCorrect(userNick, idx);
             leeService.updateChallenge(idx);
+            leeService.levelExp(score, userNick); // 경험치 추가
         }
     }
 
@@ -246,14 +250,7 @@ public class LeeController {
 
     // 질문하기
     @RequestMapping(value = "/Question", method = RequestMethod.POST)
-//    public ResponseEntity<?> qnaQuestion(
-//            @AuthenticationPrincipal String personId,
-//            @RequestBody Map<String, String> requestData
-//    ) throws Exception {
-    public void qnaQuestion(
-            @RequestBody Map<String, String> requestData
-    ) throws Exception {
-
+    public void qnaQuestion(@RequestBody Map<String, String> requestData) throws Exception {
         int idx = Integer.parseInt(requestData.get("idx"));
         String userNick = requestData.get("userNick");
         String language = requestData.get("language");
@@ -261,33 +258,23 @@ public class LeeController {
         String title = requestData.get("title");
         String content = requestData.get("content");
 
-//        System.out.println(personEntity.getUsername());
-//        System.out.println(userId);
-//        QuestionEntity entity = null;
-//
-//        entity.setQuestionChallengeIdx(Integer.parseInt(requestData.get("idx")));
-//        entity.setQuestionNick(requestData.get("userNick"));
-//        entity.setQuestionLanguage(requestData.get("language"));
-//        entity.setQuestionCode(requestData.get("code"));
-//        entity.setQuestionTitle(requestData.get("title"));
-//        entity.setQuestionContent(requestData.get("content"));
-//
-//        entity.setQuestionIdx(null);
-//        entity.setPersonId(personId);
-
         leeService.saveQuestion(idx, userNick, language, code, title, content);
     }
 
     // 답변하기
     @RequestMapping(value = "/Answer", method = RequestMethod.POST)
     public void qnaAnswer(@RequestBody Map<String, String> requestData) throws Exception {
-        int idx = Integer.parseInt(requestData.get("idx")); // 문제 번호가 아니라 질문 번호를 받아와야 함
-        String userNick = requestData.get("userNick");
+        int idx = Integer.parseInt(requestData.get("idx")); // 질문 번호
+        int challengeIdx = Integer.parseInt(requestData.get("challengeIdx"));   // 문제 번호
+        String challengeTitle = requestData.get("challengeTitle");
+        String userNick = requestData.get("userNick");  // 답변한 사람 닉
+        String questionNick = requestData.get("questionNick");
         String language = requestData.get("language");
         String code = requestData.get("code");
         String content = requestData.get("content");
 
         // 알림 넣기
+        simService.makeAlarm(questionNick, challengeTitle, userNick, "question", String.valueOf(challengeIdx));
 
         leeService.saveAnswer(idx, userNick, language, code, content);
         leeService.updateAnswerCount(idx);
@@ -337,21 +324,25 @@ public class LeeController {
         return leeService.countTotalChallenge(userNick);
     }
 
+    // 랭킹 유저 이름
     @RequestMapping(value = "/userRank", method = RequestMethod.GET)
     public List<String> userRank() throws Exception {
         return leeService.userRank();
     }
 
+    // 랭킹 순위
     @RequestMapping(value = "/numRank", method = RequestMethod.GET)
     public List<Integer> numRank() throws Exception {
         return leeService.numRank();
     }
 
+    // 비로그인 시 토이프로젝트 정보
     @RequestMapping(value = "/toyAnnony", method = RequestMethod.GET)
     public ProjectEntity toyAnnony() throws Exception {
         return leeService.selectToyAnnony();
     }
 
+    // 로그인 시 토이프로젝트 정보
     @RequestMapping(value = "/toyUser", method = RequestMethod.GET)
     public List<ProjectEntity> toyUser(@RequestParam(value = "language") String language) throws Exception {
         String[] words = language.split(", ");
@@ -366,8 +357,19 @@ public class LeeController {
         return project;
     }
 
+    // 유저 정보 가져오기
     @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
     public List<PersonEntity> userProfile() throws Exception {
         return leeService.selectUserProfile();
+    }
+
+    @RequestMapping(value = "/questionDetail", method = RequestMethod.GET)
+    public QuestionEntity questionDetail(@RequestParam(value = "idx") int idx) throws Exception {
+        return leeService.selectQuestionDetail(idx);
+    }
+
+    @RequestMapping(value = "/userDetail", method = RequestMethod.GET)
+    public PersonEntity userDetail(@RequestParam(value = "userId") String userId) throws Exception {
+        return leeService.selectUserDetail(userId);
     }
 }

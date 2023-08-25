@@ -8,14 +8,31 @@ function AnswerModal(props) {
     const [show, setShow] = useState(false);
     const [answerContent, setAnswerContent] = useState('');
     const [code, setCode] = useState('');
+    const [challengeDetail, setChallengeDetail] = useState('');
     const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
-    const idx = props.idx;
+    const challengeIdx = props.challenegeIdx;   // 문제의 idx
+    const idx = props.idx;  // 질문의 idx
     const language = props.language;
+    const questionNick = props.questionNick;
 
     useEffect(() => {
         setShow(props.AnswerModalShow);
     }, [props.AnswerModalShow]);
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/server/challenge?idx=${challengeIdx}`)  // 문제 정보 호출
+            .then(res => {
+                // alert('통신 성공')
+                // console.log(res.data);
+                setChallengeDetail(res.data);
+            })
+            .catch(err => {
+                // alert('통신 실패')
+                console.log(err);
+            });
+
+    }, [])
 
     const handleClose = () => {
         setShow(false);
@@ -26,8 +43,11 @@ function AnswerModal(props) {
         // 알림관련 매개변수 넣어주기 
         
         const requestData = {
-            idx: idx,
+            idx: idx,   // 질문 번호
+            challengeIdx: challengeIdx, // 문제 번호
+            challengeTitle: challengeDetail.challengeTitle, // 문제 제목
             userNick: userInfo.personNickName,
+            questionNick: questionNick,
             language: language,
             code: code,
             content: answerContent,
