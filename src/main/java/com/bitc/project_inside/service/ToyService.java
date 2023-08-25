@@ -33,7 +33,7 @@ public interface ToyService {
 
     PersonEntity sideProfile(String personId) throws Exception;
 
-    MatchingEntity matchingPart(int projectIdx, String matchingMemberNick, String matchingLeaderNick) throws Exception;
+    MatchingEntity matchingPart(int projectIdx, String projectLeaderId, String matchingMemberNick) throws Exception;
 
     LikeCheckEntity likeCheck(int projectIdx, String personId) throws Exception;
 
@@ -42,4 +42,10 @@ public interface ToyService {
     List<LikeCheckEntity> minView(String personId, int i) throws Exception;
 
     List<LikeCheckEntity> minCheck(int projectIdx, String personId) throws Exception;
+
+    int projectCheck(String personNickName) throws Exception;
+
+    List<ProjectEntity> likeLatestPost() throws Exception;
+
+    List<ProjectEntity> likeMinLatestPost() throws Exception;
 }

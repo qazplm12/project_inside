@@ -84,7 +84,7 @@ function Thumbnail(props) {
                 })
                 .catch((error) =>{
                     console.log("error min value :::"+error)
-                })
+                });
         }
         else {
         //[1-1] +1 -1 이 실시간으로 동작이 되어야 한다.
@@ -129,47 +129,49 @@ function Thumbnail(props) {
     /////////////////////////////////////////////////////////////////////////////////
 
     useEffect(() => {
-        const formData = new FormData();
-        formData.append("personId",userInfo.personId)
-        // 이제 화면에 뿌려주는 부분
-        axios.post('http://localhost:8080/pi/toyProject/likePlusView', formData)
-            .then(response =>{
-                const likeDataArray = response.data;
+            const formData = new FormData();
+            formData.append("personId", userInfo.personId)
+            // 이제 화면에 뿌려주는 부분
+            axios.post('http://localhost:8080/pi/toyProject/likePlusView', formData)
+                .then(response => {
+                    const likeDataArray = response.data;
 
-                const projectIdxArray = likeDataArray
-                    .filter(item => item.memberId === userInfo.personId && item.likeCheck === 1)
-                    .map(item => item.projectIdx);
+                    const projectIdxArray = likeDataArray
+                        .filter(item => item.memberId === userInfo.personId && item.likeCheck === 1)
+                        .map(item => item.projectIdx);
 
-                const projectIdxSet = new Set(projectIdxArray);
-                const uniqueProjectIdxArray = Array.from(projectIdxSet);
+                    const projectIdxSet = new Set(projectIdxArray);
+                    const uniqueProjectIdxArray = Array.from(projectIdxSet);
 
-                if (uniqueProjectIdxArray.includes(projectIdx)) {
-                    setIconCheck(!iconCheck);
-                }
-            })
-            .catch((error) =>{
-                console.log("plus view error message :::"+error)
-            })
+                    if (uniqueProjectIdxArray.includes(projectIdx)) {
+                        setIconCheck(!iconCheck);
+                    }
+                })
+                .catch((error) => {
+                    console.log("plus view error message :::" + error)
+                })
 
-        axios.post('http://localhost:8080/pi/toyProject/likeMinView', formData)
-            .then(response =>{
-                const likeDataArray = response.data;
-
-                const projectIdxArray = likeDataArray
-                    .filter(item => item.memberId === userInfo.personId && item.likeCheck === 0)
-                    .map(item => item.projectIdx);
-
-                const projectIdxSet = new Set(projectIdxArray);
-                const uniqueProjectIdxArray = Array.from(projectIdxSet);
-
-                if (uniqueProjectIdxArray.includes(projectIdx)) {
-                    setIconCheck(iconCheck);
-                }
-            })
-            .catch((error) =>{
-                console.log("plus view error message :::"+error)
-            })
+            // axios.post('http://localhost:8080/pi/toyProject/likeMinView', formData)
+            //     .then(response =>{
+            //         const likeDataArray = response.data;
+            //
+            //         const projectIdxArray = likeDataArray
+            //             .filter(item => item.memberId === userInfo.personId && item.likeCheck === 0)
+            //             .map(item => item.projectIdx);
+            //
+            //         const projectIdxSet = new Set(projectIdxArray);
+            //         const uniqueProjectIdxArray = Array.from(projectIdxSet);
+            //
+            //         if (uniqueProjectIdxArray.includes(projectIdx)) {
+            //             setIconCheck(iconCheck);
+            //         }
+            //     })
+            //     .catch((error) =>{
+            //         console.log("plus view error message :::"+error)
+            //     })
     }, []);
+
+    ////////////////////////////////////////////////////
 
     const recruitMentChange = (e) =>{
         setRecruitMent(!recruitMent);

@@ -46,14 +46,14 @@ function ToyDetail(props) {
             .catch((error) => {
                 console.log("에로 로그"+error)
             })
-    }, [projectIdx]);
+    }, []);
 
     const projectLike  = (e) =>{
         setLikeProject(likeProject => !likeProject);
 
         const formData = new FormData()
         formData.append("projectIdx",projectIdx);
-        formData.append("matchingLeaderNick", userNames.personId)
+        formData.append("projectLeaderId", toyProject.projectLeaderId)
         formData.append("matchingMemberNick",userNames.personNickName);
 
         if (likeProject) {
@@ -100,10 +100,10 @@ function ToyDetail(props) {
                 </Col>
             </Row>
             {/* 프로젝트 기본 정보및 개설자 정보 */}
-            <Row className={"py-3 mt-2"}>
-                <Col sm={8}>
-                    <div className={'me-5 pe-5'}>
-                        <span className={"fs-1 text-secondary fw-bold"}> {toyProject.projectTitle}</span>
+            <Row className={"py-3 mt-2 "}>
+                <Col sm={12}>
+                    <div className={'ms-5 ps-3'}>
+                        <span className={"fs-1 text-secondary fw-bold "}> {toyProject.projectTitle}</span>
                     </div>
                 </Col>
             </Row>
@@ -116,22 +116,22 @@ function ToyDetail(props) {
                     <div className={"mt-5"}>
                         <span className={"text-secondary fs-5"}>프로젝트 관리자 프로필 <br/>
                                 <i className="bi bi-envelope-open-heart"></i>
-                        <span className={"fw-bold ms-3"}>{userNames.personId}</span></span>
+                        <span className={"fw-bold ms-3"}>{toyProject.projectLeaderId}</span></span>
                     </div>
                 </Col>
                 <Col sm={6}>
                 {/*  관리자 닉네임, 레벨, 기술스팩   */}
                     <div>
                         <span><i className="bi bi-person-bounding-box text-danger-emphasis fs-1 fw-bold"></i></span>
-                        <span className={"ms-3 text-secondary fs-5"}> {userNames.personNickName}</span>
+                        <span className={"ms-3 text-secondary fs-5"}> {toyProject.personNickName}</span>
                     </div>
                     <div className={"mt-5"}>
                         <span><i className="bi bi-star-fill text-danger-emphasis fs-1 fw-bold me-5"></i></span>
-                        <span className={"text-secondary text-start"}>Lv. {userNames.personLevel}</span>
+                        <span className={"text-secondary text-start"}>Lv. {toyProject.projectLevel}</span>
                     </div>
                     <div className={"mt-5"}>
                             <span><i className="bi bi-gear-wide-connected text-danger-emphasis fs-1 fw-bold ms-5 ps-5"></i></span>
-                        <span className={"ms-3 text-secondary text-center"}>{userNames.personLanguage}</span>
+                        <span className={"ms-3 text-secondary text-center"}>{toyProject.projectLanguage}</span>
                     </div>
                 </Col>
             </Row>
@@ -164,10 +164,10 @@ function ToyDetail(props) {
                 </Col>
             </Row>
             {/* 프로젝트 상세 내용 */}
-            <Row>
+            <Row className={"border-top"}>
                 <Col>
-                    <div className={"mt-5"}>
-                        <span className={"text-secondary fs-3 fw-bold"}>프로젝트 내용</span>
+                    <div className={"my-5"}>
+                        <span className={"text-secondary fs-3 fw-bold "}>[프로젝트 내용]</span>
                     </div>
                     <div>
                         <ReactQuill value={toyProject.projectContent} readOnly={true} modules={modules}/>

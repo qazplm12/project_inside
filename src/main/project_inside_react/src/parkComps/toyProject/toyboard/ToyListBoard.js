@@ -29,9 +29,6 @@ function ToyListBoard(props) {
         threshold : 0,
     })
 
-
-
-
     // ...toyProjects,
     const loadMoreItems = () => {
         setIsLoading(true);
@@ -114,7 +111,7 @@ function ToyListBoard(props) {
     const likeListCheck = () =>{
         setLikeList(true);
         if (likeList) {
-            axios.post("http://localhost:8080/pi/toyProject/ReLatest")
+            axios.post("http://localhost:8080/pi/toyProject/likeLatest")
                 .then(response => {
                     setToyProjects(response.data);
                     setLikeList(false);
@@ -124,7 +121,7 @@ function ToyListBoard(props) {
                     setLikeList(false);
                 });
         } else {
-            axios.post("http://localhost:8080/pi/toyProject/Latest")
+            axios.post("http://localhost:8080/pi/toyProject/likeMinLatest")
                 .then(response => {
                     setToyProjects(response.data);
                     setLikeList(true);
@@ -138,27 +135,27 @@ function ToyListBoard(props) {
 
     return (
         <Container fluid>
-            <Row>
-                <Col sm={6} className={"my-3  justify-content-start"}>
-                    <Button className={"theme-outline-btn"} onClick={LatestCheck}>
+            <Row className={"ms-5"}>
+                <Col sm={6} className={"my-3 d-flex ps-5  justify-content-start"}>
+                    <button className={"theme-btn"} onClick={LatestCheck}>
                         {latest ?
                             <span >최신 순<i className={"bi bi-caret-down-fill"}></i></span>
                             :
                             <span >최신 순<i className={"bi bi-caret-up-fill"}></i></span>
                         }
-                    </Button>
-                    <Button className={"theme-btn ms-3"} onClick={likeListCheck}>
+                    </button>
+                    <button className={"theme-btn ms-3"} onClick={likeListCheck}>
                         {likeList ?
                             // 찜 많은순??
                             <span>좋아요 순<i className={"bi bi-caret-up-fill "}></i></span>
                             :
                             <span>좋아요 순<i className={"bi bi-caret-down-fill "}></i></span>
                         }
-                    </Button>
+                    </button>
                 </Col>
                 {/* 검색 실행후 바로 검색 되게 만드는 부분 */}
-                <Col sm={6} className="">
-                    <div className={""}>
+                <Col sm={6} >
+                    <div className={"justify-content-start"}>
                         <TypeSearchProject handleTagChange={handleTagSelections}/>
                     </div>
                 </Col>

@@ -95,6 +95,19 @@ public class ParkController {
         return toyService.reLatestPost();
     }
 
+    // 프로젝트 좋아요 순 버튼 클릭시
+    @ResponseBody
+    @RequestMapping(value="toyProject/likeLatest", method = RequestMethod.POST)
+    public List<ProjectEntity> likeLatestPost() throws Exception{
+        return toyService.likeLatestPost();
+    }
+
+    @ResponseBody
+    @RequestMapping(value="toyProject/likeMinLatest", method = RequestMethod.POST)
+    public List<ProjectEntity> likeMinLatestPost() throws Exception{
+        return toyService.likeMinLatestPost();
+    }
+
     // 프로젝트 좋아요 클릭시 숫자 변환
     @ResponseBody
     @RequestMapping(value="toyProject/likePlusProjectCheck", method=RequestMethod.POST)
@@ -163,10 +176,12 @@ public class ParkController {
     @RequestMapping(value="toyProject/projectApplication", method = RequestMethod.POST)
     public MatchingEntity applicationPost(
             @RequestParam(value="projectIdx") int projectIdx,
-            @RequestParam(value="matchingMemberNick") String matchingMemberNick,
-            @RequestParam(value="matchingLeaderNick") String matchingLeaderNick
+            @RequestParam(value="projectLeaderId") String projectLeaderId,
+            @RequestParam(value="matchingMemberNick") String matchingMemberNick
     ) throws Exception{
-        return toyService.matchingPart(projectIdx,matchingMemberNick,matchingLeaderNick);
+        System.out.println(projectIdx + projectLeaderId + matchingMemberNick);
+
+        return toyService.matchingPart(projectIdx,projectLeaderId,matchingMemberNick);
     }
 
     // 참여 거절
@@ -210,6 +225,15 @@ public class ParkController {
     public List<LikeCheckEntity> minViewPost(@RequestParam(value="personId") String personId) throws Exception{
 
         return toyService.minView(personId, 0);
+    }
+
+    // 프로젝트 유무 확인
+
+    @ResponseBody
+    @RequestMapping(value="toyProject/projectNullCheck", method =RequestMethod.POST)
+    public int projectCheckPost(@RequestParam(value="personNickName") String personNickName) throws Exception{
+
+        return toyService.projectCheck(personNickName);
     }
 
     // 프로젝트 이미지를 저장하는 메서드1

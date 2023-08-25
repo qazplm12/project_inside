@@ -112,13 +112,15 @@ public class ToyServiceImpl implements  ToyService {
     }
 
     @Override
-    public MatchingEntity matchingPart(int projectIdx, String matchingMemberNick, String matchingLeaderNick) throws Exception {
+    public MatchingEntity matchingPart(int projectIdx, String projectLeaderId, String matchingMemberNick) throws Exception {
 
         MatchingEntity project = new MatchingEntity();
         project.setMatchingProjectIdx(projectIdx);
-        project.setMatchingMemberNick(matchingMemberNick);
+
+        PersonEntity leaderInfo = personRepository.findByPersonId(projectLeaderId);
+        project.setMatchingLeaderNick(leaderInfo.getPersonNickName());
         project.setMatchingMemberAccept("1");
-        project.setMatchingLeaderNick(matchingLeaderNick);
+        project.setMatchingMemberNick(matchingMemberNick);
 
         return matchingRepository.save(project);
     }
@@ -155,6 +157,31 @@ public class ToyServiceImpl implements  ToyService {
         System.out.println("0의 자리로 타나요");
 
         return likeCheckRepository.findByMemberIdAndLikeCheck(personId, 0);
+    }
+
+    @Override
+    public int projectCheck(String personNickName) throws Exception {
+
+        int num = matchingRepository.countByMatchingLeaderNick(personNickName);
+        System.out.println("num"+num);
+        if(num > 0){
+            return 0;
+        }
+        else if(num == 0){
+            return 1;
+        }
+//
+        return 0;
+    }
+
+    @Override
+    public List<ProjectEntity> likeLatestPost() throws Exception {
+        return projectRepository.findAllByOrderByProjectLikeDesc();
+    }
+
+    @Override
+    public List<ProjectEntity> likeMinLatestPost() throws Exception {
+        return projectRepository.findAllByOrderByProjectLikeAsc();
     }
 
 //    @Override

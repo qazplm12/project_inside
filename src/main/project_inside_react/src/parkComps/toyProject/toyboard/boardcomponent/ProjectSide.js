@@ -11,6 +11,7 @@ function ProjectSide(props){
         console.log("userIn?::"+userInfo);
     }, [userInfo]);
 
+
     // 회원 정보 가져 오기
     const [userNames, setUserNames] = useState([]);
 
@@ -43,9 +44,21 @@ function ProjectSide(props){
                         </div>
                     </li>
                     <div className={"theme-border pt-3 pb-3"}>
+
                         <Button type={"button"} className={"theme-btn"}
                                 onClick={() => {
-                                    window.location.href = 'http://localhost:3000/pi/ToyRegis';
+                                    const formData = new FormData();
+                                    formData.append("personNickName",userNames.personNickName)
+                                    axios.post('http://localhost:8080/pi/toyProject/projectNullCheck',formData)
+                                        .then(res =>{
+                                            console.log(res.data)
+                                            if(res.data == 1){
+                                                window.location.href = 'http://localhost:3000/pi/ToyRegis';
+                                            }
+                                            else{
+                                                alert('이미 프로젝트를 생성 하셨습니다.')
+                                            }
+                                        })
                                 }}
                         >프로젝트 등록</Button>
                     </div>

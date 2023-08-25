@@ -9,4 +9,6 @@ import java.util.List;
 public interface MatchingRepository extends JpaRepository<MatchingEntity, Integer> {
 
     List<MatchingEntity> findByMatchingMemberNick(String member) throws Exception;
+
+    int countByMatchingLeaderNick(String personId) throws Exception;
 }
