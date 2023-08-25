@@ -118,13 +118,12 @@ function TypeSearchProject(props) {
 
     return (
         <div>
-
             <div className={'d-flex'}>
                 <p className={'my-auto mx-2 pt-2 ms-5 theme-font'}>스택 검색 :</p>
                 <Typeahead
                     id="search-bar"
                     labelKey="name"
-                    className={'m-1 mt-3 d-inline-block '} style={{ width: "75%" }}
+                    className={'m-1 mt-3 d-inline-block '} style={{ width: "41%" }}
                     placeholder={'기술명으로 검색'}
                     multiple
                     renderToken={(option, props, index) => (

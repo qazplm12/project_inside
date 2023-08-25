@@ -31,6 +31,9 @@ public class ProjectEntity {
     @Column
     private String projectLeaderId; //
 
+    @Column
+    private String personNickName;
+
     @Column(length = 5000)
     private String projectThumbnail; //
 

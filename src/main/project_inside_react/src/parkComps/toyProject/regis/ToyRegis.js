@@ -33,7 +33,6 @@ function Park(props) {
     const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     useEffect(() => {
-        console.log("userIn?::"+userInfo);
     }, [userInfo]);
 
 
@@ -55,6 +54,8 @@ function Park(props) {
         formData.append("levels",levels)
         formData.append("content",content)
         formData.append("projectThumbnail",projectThumbnail)
+        formData.append("personId",userInfo.personId)
+        formData.append("personNickName",userInfo.personNickName)
 
         axios({
             method : 'POST',
