@@ -16,12 +16,16 @@ import Solved from "./leeComps/solved/Solved";
 import ProjectBoard from "./simComps/projectBoard/ProjectBoard";
 import QnA from "./leeComps/qna/QnA";
 import ChallengeWrite from "./leeComps/codeChallenge/ChallengeWrite";
+import HappyCat from "./simComps/commons/HappyCat";
 
 function App(props) {
 
 
     return (
         <div className="App">
+            <div className={'position-absolute top-50 start-50 '}>
+                <HappyCat />
+            </div>
             <BrowserRouter>
                 <Routes>
                     <Route path={'/pi'} element={<Layout/>}>

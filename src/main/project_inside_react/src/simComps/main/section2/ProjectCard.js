@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, Col, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
@@ -84,18 +84,51 @@ function ProjectCard(props) {
                     .catch((error) => {
                         console.log('좋아요 전송을 위한 플래그 실패');
                     });
+
+                const formData = new FormData();
+                formData.append("projectIdx", projectIdx)
+                formData.append("personId", userInfo ? userInfo.personId : "")
+
+                axios.post(
+                    'http://localhost:8080/pi/toyProject/likePlus',formData)
+                    .then(response =>{
+                        console.log('성공')
+                    })
+                    .catch((error) =>{
+                        console.log("error value :::"+error)
+                    })
             }
         }
 
     }
 
 
-
     /////////////////////////////////////////////////////////////////////////////////
+    useEffect(() => {
+        const formData = new FormData();
+        formData.append("personId", userInfo ? userInfo.personId : "")
 
+        // 이제 화면에 뿌려주는 부분
+        axios.post('http://localhost:8080/pi/toyProject/likePlusView', formData)
+            .then(response => {
+                const likeDataArray = response.data;
 
+                const projectIdxArray = likeDataArray
+                    .filter(item => item.memberId === userInfo.personId && item.likeCheck === 1)
+                    .map(item => item.projectIdx);
 
+                const projectIdxSet = new Set(projectIdxArray);
+                const uniqueProjectIdxArray = Array.from(projectIdxSet);
 
+                if (uniqueProjectIdxArray.includes(projectIdx)) {
+                    setIconCheck(!iconCheck);
+                }
+            })
+            .catch((error) => {
+                console.log("plus view error message :::" + error)
+            })
+
+    }, []);
 
 
     const recruitMentChange = (e) =>{
@@ -126,7 +159,7 @@ function ProjectCard(props) {
                                 <span onClick={() => likeProject(projectIdx)}>
                                     {/* (비회원일떄) ? (모달창으로 회원전용입니다.) : (회원일떄) ? (참일떄): (거짓일떄) */}
                                     {
-                                        (userInfo == null) ? <span variant="primary" onClick={handleShow}><i className="bi bi-heart-fill text-danger theme-font fs-2 ms-2"></i></span>
+                                        (userInfo == null) ? <span variant="primary" onClick={handleShow}><i className="bi bi-heart theme-font fs-2 ms-2"></i></span>
                                             : iconCheck ?
                                                 (<i className="bi bi-heart-fill text-danger theme-font fs-2 ms-2"></i>)
                                                 :
@@ -175,7 +208,7 @@ function ProjectCard(props) {
                             </div>
                         </Col>
                         <Col sm={6}>
-                            <div className={"mt-1 ms-3"}>
+                            <div className={"mt-1 ms-5"}>
                                 <span className={"theme-font fw-bold"}>참여가능 레벨</span><br/>
                                 <span className={"theme-font"}>Lv.{projectLevel}</span>
                             </div>
