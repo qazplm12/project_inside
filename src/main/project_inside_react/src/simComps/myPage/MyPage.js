@@ -31,8 +31,53 @@ function MyPage(props) {
     // 매칭 리스트 가져오기
     const [myMatchingList, setMyMatchingList] = useState([]);
     // 꼼수용 state
-    const [time, setTime] = useState(false);
+    const [time, setTime] = useState(0);
 
+
+    const fetchRequestMembers = () => {
+        console.log('최신화');
+        axios.post("http://localhost:8080/simServer/getMyProject", null, {
+            params: {
+                projectLeaderId: userInfo.personId
+            }
+        })
+            .then((res) => {
+                // 리스트를 가져와서 finish가 아닌 프로젝트만 가져오기
+                setMyProject(res.data.filter(item => item.projectFinish !== "Y"))
+                console.log(myProject);
+            })
+            .catch((error) => {
+
+            });
+
+
+        // 내가 신청한 && 참여한 프로젝트
+        axios.post("http://localhost:8080/simServer/getJoinProject", null, {
+            params: {
+                matchingMemberNick: userInfo.personNickName
+            }
+        })
+            .then((res) => {
+                // 내가 신청한 프로젝트를 저장
+                setMyRequestProject(res.data);
+            })
+            .catch((error) => {
+
+            });
+        // 참여 요청의 상태를 가져오기 위함
+        axios.post("http://localhost:8080/simServer/getMyMatchingList", null, {
+            params: {
+                matchingMemberNick: userInfo.personNickName
+            }
+        })
+            .then((res) => {
+                setMyMatchingList(res.data);
+            })
+            .catch((error) => {
+
+            });
+        setTimeout(timer, 1000)
+    };
 
     useEffect(() => {
         setActiveTab(`#${mode}`);
@@ -78,12 +123,14 @@ function MyPage(props) {
             .catch((error) => {
 
             });
-        setTimeout(timer, 300)
+        setTimeout(timer, 1000)
     }, []);
 
     // 렌더링 끝난 후 실행
     const timer = () => {
-        setTime(true);
+        if (time < 2) {
+            setTime(time + 1)
+        }
     };
 
     // 렌더링시 time 값 바뀜 > useEffect 동작
@@ -92,20 +139,20 @@ function MyPage(props) {
         if (myRequestProject.length > 0) {
             for (let i = 0; i < myRequestProject.length; i++) {
                 myRequestProject[i].matchingStatus = myMatchingList[i].matchingMemberAccept;
+                myRequestProject[i].matchingIdx = myMatchingList[i].matchingIdx;
             }
             // 프로젝트가 완료되지않고, 멤버가 가득찬(매칭완료 O) 프로젝트를 걸러줌
-            setJoinProject(myRequestProject.filter(item => item.projectFinish !== "Y" && item.projectFull === "Y" && item.matchingStatus === "5"))
+            setJoinProject(myRequestProject.filter(item => item.projectFinish !== "Y" && item.projectFull === "Y"));
             // 완료된 프로젝트를 걸러줌
             setMyFinishedProject(myRequestProject.filter(item => item.projectFinish === "Y"));
             // 프로젝트가 완료되지않고, 멤버가 가득차지않은(매칭완료 X), 신청대기중이거나 신청 수락된 프로젝트를 걸러줌
-            setMyRequestProject(myRequestProject.filter(item => item.projectFinish !== "Y" && item.projectFull !== "Y" && (item.matchingStatus === "1" || item.matchingStatus === "3")))
+            setMyRequestProject(myRequestProject.filter(item => item.projectFinish !== "Y" && item.projectFull !== "Y" && (item.matchingStatus === "1" || item.matchingStatus === "3")));
         }
     }, [time]);
 
     const activateTab = (tabKey) => {
         setActiveTab(tabKey);
     }
-
 
     return (
         <Tab.Container defaultActiveKey={mode} activeKey={activeTab}>
@@ -166,10 +213,12 @@ function MyPage(props) {
                                         myRequestProject.length > 0
                                             ? myRequestProject[0].matchingStatus !== '' ?
                                                 myRequestProject.map((item, index) => (
-                                                    <MyJoinProjectCard joinProject={item} key={index}/>
+                                                    <MyJoinProjectCard joinProject={item} key={index}
+                                                                       fetchUpdateData={fetchRequestMembers}
+                                                    />
                                                 ))
                                                 : <h3 className={'my-3'}>신청한 프로젝트가 없습니다.</h3>
-                                            : ""
+                                            : <h3 className={'my-3'}>신청한 프로젝트가 없습니다.</h3>
                                     }
                                 </div>
                             </MyCard>
@@ -195,7 +244,9 @@ function MyPage(props) {
                                     {
                                         myFinishedProject.length > 0
                                             ?
-                                            <MyJoinProjectCard joinProject={joinProject}/>
+                                            myFinishedProject.map((item, index) => (
+                                                <MyJoinProjectCard joinProject={item} key={index}/>
+                                            ))
                                             // 맵 함수
                                             : <h3 className={'my-3'}>완료한 프로젝트가 없습니다.</h3>
 

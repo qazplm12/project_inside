@@ -2,7 +2,9 @@ package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.DTO.AlarmRequest;
 import com.bitc.project_inside.data.entity.*;
+import com.bitc.project_inside.data.repository.MatchingRepository;
 import com.bitc.project_inside.data.repository.PersonRepository;
+import com.bitc.project_inside.data.repository.ProjectRepository;
 import com.bitc.project_inside.service.SimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +26,9 @@ public class SimController {
     private final SimService simService;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final PersonRepository personRepository;
+    private final ProjectRepository projectRepository;
+    private final MatchingRepository matchingRepository;
+
 
     // 계정 관련
     @RequestMapping(value = "/updatePersonInfo", method = RequestMethod.POST)
@@ -160,7 +165,6 @@ public class SimController {
         simService.updateInquiry(idx, content);
 
         List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);
-        ;
 
         return inquiryList;
     }
@@ -183,7 +187,7 @@ public class SimController {
         simService.makeAlarm(alarmToPerson, inquiryTitle, "admin", "inquiry", String.valueOf(inquiryIdx));
 
         List<InquiryEntity> inquiryList = simService.getInquiryList(personNickName);
-        ;
+
 
         return inquiryList;
     }
@@ -347,7 +351,7 @@ public class SimController {
     ) throws Exception {
         System.out.println("--------- /getMatchingList 서버 --------");
         System.out.println("matchingProjectIdx : " + idx);
-
+        // accept1인 사람만 가져옴
         return simService.getMatchingList(idx);
     }
 
@@ -357,6 +361,7 @@ public class SimController {
     ) throws Exception {
         System.out.println("--------- /getMyMatchingList 서버 --------");
 
+        // 이 사람이 신청했던 모든 매칭신청을 가져옴
         return simService.getMyMatchingList(memberNick);
     }
 
@@ -374,8 +379,28 @@ public class SimController {
 
         simService.makeAlarm(toPerson, content, fromPerson, from, contentIdx);
         simService.memberAccept(idx);
-    }
 
+        // 3인 사람 갯수 세서 projectMember 값과 같아지면 projcetFull에 Y 넣어주고 알람 다 보내주기
+
+        MatchingEntity matching = matchingRepository.findByMatchingIdx(idx);
+        ProjectEntity project = simService.getProjectInfo(matching.getMatchingProjectIdx());
+        int currentMemberCount = simService.countAcceptMember(project.getProjectIdx());
+        System.out.print("----project----");
+        System.out.print(project);
+        System.out.print(currentMemberCount);
+        if (currentMemberCount == project.getProjectMember()) {
+            project.setProjectFull("Y");
+            projectRepository.save(project);
+
+            // 멤버들 엔티티 리스트
+            List<MatchingEntity> members = simService.getMatchingMembers(project.getProjectIdx());
+            // 알림 다 보내주기 보드 넘버 보내주기
+            for (MatchingEntity aMember : members) {
+                simService.makeAlarm(aMember.getMatchingMemberNick(), project.getProjectTitle(), aMember.getMatchingLeaderNick(), "projectMatched", String.valueOf(aMember.getMatchingProjectIdx()));
+            }
+        }
+
+    }
 
     @RequestMapping(value = "/memberReject", method = RequestMethod.POST)
     public void memberReject(
@@ -392,7 +417,7 @@ public class SimController {
         simService.memberReject(idx);
     }
 
-@RequestMapping(value = "/countJoinMember", method = RequestMethod.POST)
+    @RequestMapping(value = "/countJoinMember", method = RequestMethod.POST)
     public int countJoinMember(
             @RequestParam(value = "matchingProjectIdx") int idx
     ) throws Exception {
@@ -401,5 +426,43 @@ public class SimController {
         return simService.countJoinMember(idx);
     }
 
+    @RequestMapping(value = "/cancelRequest", method = RequestMethod.POST)
+    public void cancelRequest(
+            @RequestParam(value = "matchingIdx") int idx
+    ) throws Exception {
+        System.out.println("--------- /cancelRequest 서버 --------");
+
+        simService.cancelRequest(idx);
+    }
+
+    @RequestMapping(value = "/getMyMatchingInfo", method = RequestMethod.POST)
+    public MatchingEntity getMyMatchingInfo(
+            @RequestParam(value = "matchingProjectIdx") int idx,
+            @RequestParam(value = "nick") String nick
+    ) throws Exception {
+        System.out.println("--------- /getMyMatchingInfo 서버 --------");
+
+        return simService.getMatchingInfo(idx, nick);
+    }
+
+    @RequestMapping(value = "/isMatchMember", method = RequestMethod.POST)
+    public Optional<MatchingEntity> isMatchMember(
+            @RequestParam(value = "matchingProjectIdx") int idx,
+            @RequestParam(value = "nick") String nick
+    ) throws Exception {
+        System.out.println("--------- /isMatchMember 서버 --------");
+
+        return simService.isMatchingMember(idx, nick);
+    }
+
+    @RequestMapping(value = "/checkRejectMember", method = RequestMethod.POST)
+    public int checkRejectMember(
+            @RequestParam(value = "matchingProjectIdx") int idx,
+            @RequestParam(value = "nick") String nick
+    ) throws Exception {
+        System.out.println("--------- /checkRejectMember 서버 --------");
+
+        return simService.checkRejectMember(idx, nick);
+    }
 
 }

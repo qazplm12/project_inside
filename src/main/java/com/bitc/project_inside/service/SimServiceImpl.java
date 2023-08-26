@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -195,7 +196,7 @@ public class SimServiceImpl implements SimService {
 
         List<ProjectEntity> joinProject = new ArrayList<>();
         if (myJoinProject.size() > 0) {
-            for(MatchingEntity aMatching : myJoinProject) {
+            for (MatchingEntity aMatching : myJoinProject) {
                 joinProject.add(projectRepository.findByProjectIdx(aMatching.getMatchingProjectIdx()));
             }
         }
@@ -215,11 +216,11 @@ public class SimServiceImpl implements SimService {
     @Override
     public List<PersonEntity> getMyRequestMembers(int idx) throws Exception {
 
-        List<MatchingEntity> members = matchingRepository.findAllByMatchingProjectIdxAndMatchingMemberAccept(idx,"1");
+        List<MatchingEntity> members = matchingRepository.findAllByMatchingProjectIdxAndMatchingMemberAccept(idx, "1");
         System.out.println(" members :" + members);
         List<PersonEntity> requestMembers = new ArrayList<>();
-        if(members.size() > 0){
-            for(MatchingEntity aMember : members){
+        if (members.size() > 0) {
+            for (MatchingEntity aMember : members) {
                 requestMembers.add(personRepository.findByPersonNickName(aMember.getMatchingMemberNick()));
             }
         }
@@ -244,20 +245,66 @@ public class SimServiceImpl implements SimService {
     }
 
     @Override
+    public void cancelRequest(int idx) throws Exception {
+        MatchingEntity matching = matchingRepository.findByMatchingIdx(idx);
+        matching.setMatchingMemberAccept("2");
+        matchingRepository.save(matching);
+    }
+
+    @Override
+    public ProjectEntity getProjectInfo(int projectIdx) throws Exception {
+        return projectRepository.findByProjectIdx(projectIdx);
+    }
+
+    @Override
+    public MatchingEntity getMatchingInfo(int projectIdx, String matchingMemberNick) throws Exception {
+        return matchingRepository.findByMatchingProjectIdxAndMatchingMemberNickAndMatchingMemberAccept(projectIdx, matchingMemberNick, "1");
+    }
+
+    @Override
+    public int checkRejectMember(int idx, String nick) throws Exception {
+        return matchingRepository.countByMatchingProjectIdxAndMatchingMemberNickAndMatchingMemberAccept(idx, nick, "4");
+    }
+
+    @Override
+    public int countAcceptMember(int idx) throws Exception {
+        return matchingRepository.countByMatchingProjectIdxAndMatchingMemberAccept(idx, "3");
+    }
+
+    @Override
+    public List<MatchingEntity> getMatchingMembers(int idx) throws Exception {
+        return matchingRepository.findAllByMatchingProjectIdxAndMatchingMemberAccept(idx, "3");
+    }
+
+    @Override
+    public Optional<MatchingEntity> isMatchingMember(int idx, String nick) throws Exception {
+
+        Optional<MatchingEntity> matchingInfo = matchingRepository.findByMatchingProjectIdxAndMatchingMemberAcceptAndMatchingMemberNick(idx, nick, "3");
+        if (matchingInfo.isEmpty()) {
+            Optional<MatchingEntity> leaderInfo = matchingRepository.findByMatchingProjectIdxAndMatchingLeaderNick(idx, nick);
+            if (leaderInfo.isPresent()) {
+                return leaderInfo;
+            }
+        }
+        return matchingInfo;
+
+    }
+
+    @Override
     public List<MatchingEntity> getMatchingList(int idx) throws Exception {
         return matchingRepository.findAllByMatchingProjectIdxAndMatchingMemberAccept(idx, "1");
     }
 
     @Override
     public void memberAccept(int idx) throws Exception {
-        MatchingEntity matching =  matchingRepository.findByMatchingIdx(idx);
+        MatchingEntity matching = matchingRepository.findByMatchingIdx(idx);
         matching.setMatchingMemberAccept("3");
         matchingRepository.save(matching);
     }
 
     @Override
     public void memberReject(int idx) throws Exception {
-        MatchingEntity matching =  matchingRepository.findByMatchingIdx(idx);
+        MatchingEntity matching = matchingRepository.findByMatchingIdx(idx);
         matching.setMatchingMemberAccept("4");
         matchingRepository.save(matching);
     }

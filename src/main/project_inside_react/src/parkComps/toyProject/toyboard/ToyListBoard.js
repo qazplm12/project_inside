@@ -1,4 +1,4 @@
-import {Button,  Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
 import Thumbnail from "./boardcomponent/Thumbnail";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -27,8 +27,8 @@ function ToyListBoard(props) {
     const [chunksThumbnail, setChunksThumbnail] = useState([]);
 
     // 무한스크롤 필드
-    const { ref, inView, entry} = useInView({
-        threshold : 0,
+    const {ref, inView, entry} = useInView({
+        threshold: 0,
     })
 
     // ...toyProjects,
@@ -46,13 +46,13 @@ function ToyListBoard(props) {
             });
     };
 
-    const tagSearchChange = () =>{
+    const tagSearchChange = () => {
 
     }
 
     // 검색 axios
     const handleTagSelections = (tag) => {
-        console.log(tag+ "아프다 ")
+        console.log(tag + "아프다 ")
         setProjectCode(tag);
         axios.post(`http://localhost:8080/pi/toyProject/codeSearch?keyword=${tag}`)
             .then(response => {
@@ -77,7 +77,7 @@ function ToyListBoard(props) {
     useEffect(() => {
         const _chunksThumbnail = []
         for (let i = 0; i < toyProjects.length; i += thumbnailSize) {
-            _chunksThumbnail.push(toyProjects.slice(i, i+thumbnailSize))
+            _chunksThumbnail.push(toyProjects.slice(i, i + thumbnailSize))
         }
 
         setChunksThumbnail(_chunksThumbnail)
@@ -89,7 +89,8 @@ function ToyListBoard(props) {
         if (latest) {
             axios.post("http://localhost:8080/pi/toyProject/ReLatest")
                 .then(response => {
-                    setToyProjects(response.data);
+                    // 진행중인 리스트만 가져오도록 필터링
+                    setToyProjects(response.data.filter(item => item.projectFull !== "Y" && item.projectFinish !== "Y"));
                     setLatest(false);
                 })
                 .catch(error => {
@@ -99,7 +100,8 @@ function ToyListBoard(props) {
         } else {
             axios.post("http://localhost:8080/pi/toyProject/Latest")
                 .then(response => {
-                    setToyProjects(response.data);
+                    // 진행중인 리스트만 가져오도록 필터링
+                    setToyProjects(response.data.filter(item => item.projectFull !== "Y" && item.projectFinish !== "Y"));
                     setLatest(true);
                 })
                 .catch(error => {
@@ -110,7 +112,7 @@ function ToyListBoard(props) {
     }
 
     // 찜많은 순 클릭시
-    const likeListCheck = () =>{
+    const likeListCheck = () => {
         setLikeList(true);
         if (likeList) {
             axios.post("http://localhost:8080/pi/toyProject/likeLatest")
@@ -141,9 +143,9 @@ function ToyListBoard(props) {
                 <Col sm={6} className={"my-3 d-flex ps-5  justify-content-start"}>
                     <button className={"theme-btn"} onClick={LatestCheck}>
                         {latest ?
-                            <span >최신 순<i className={"bi bi-caret-down-fill"}></i></span>
+                            <span>최신 순<i className={"bi bi-caret-down-fill"}></i></span>
                             :
-                            <span >최신 순<i className={"bi bi-caret-up-fill"}></i></span>
+                            <span>최신 순<i className={"bi bi-caret-up-fill"}></i></span>
                         }
                     </button>
                     <button className={"theme-btn ms-3"} onClick={likeListCheck}>
@@ -156,7 +158,7 @@ function ToyListBoard(props) {
                     </button>
                 </Col>
                 {/* 검색 실행후 바로 검색 되게 만드는 부분 */}
-                <Col sm={6} >
+                <Col sm={6}>
                     <div className={"justify-content-start"}>
                         <TypeSearchProject handleTagChange={handleTagSelections}/>
                     </div>
@@ -181,7 +183,7 @@ function ToyListBoard(props) {
                 <Col sm={2} className={'px-0'}>
                     <aside>
                         {/*<ProjectSide/>*/}
-                        <ListSidebar />
+                        <ListSidebar/>
                     </aside>
                 </Col>
 

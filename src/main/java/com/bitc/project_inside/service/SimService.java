@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SimService {
     int isUser(String email) throws Exception;
@@ -79,6 +80,20 @@ public interface SimService {
     List<MatchingEntity> getMyMatchingList(String memberNick) throws Exception;
 
     int countJoinMember(int idx) throws Exception;
+
+    void cancelRequest(int idx) throws Exception;
+
+    ProjectEntity getProjectInfo(int projectIdx) throws Exception;
+
+    MatchingEntity getMatchingInfo(int projectIdx, String matchingMemberNick) throws Exception;
+
+    int checkRejectMember(int idx, String nick) throws Exception;
+
+    int countAcceptMember(int idx) throws Exception;
+
+    List<MatchingEntity> getMatchingMembers(int idx) throws Exception;
+
+    Optional<MatchingEntity> isMatchingMember(int idx, String nick) throws Exception;
 
 //    Integer save(PersonEntity person);
 }

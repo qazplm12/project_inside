@@ -100,12 +100,11 @@ export function login(userId, userPw) {
             sessionStorage.setItem("ACCESS_TOKEN", JSON.stringify(res.data.token));
             sessionStorage.setItem("userInfo", JSON.stringify(res.data));
 
-
             window.location.href = '/pi/main';
         })
         .catch(err => {
             if (err.response.data.error === "fail") {
-                alert('로그인 중 오류가 발생했습니다.');
+                alert('잘못된 로그인 정보입니다.');
             } else {
                 alert(`차단된 계정입니다.\n\n차단 사유 : ${err.response.data.error}`);
             }

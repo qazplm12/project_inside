@@ -49,7 +49,7 @@ function RequestMember(props) {
                         src={memberInfo.personImgPath === null ? "/images/ProfileImg.png" : `/images/profileImg/${memberInfo.personImgPath}`}
                         alt="" className={'circle-background'} style={{width: '5vw', height: '10vh'}}/>
                 </div>
-                <div className={'col ms-2 mt-2'}>
+                <div className={'col ms-4 mt-2'}>
                     <div className={'m-0'}><h5 className={'d-inline'}>{memberInfo ? memberInfo.personNickName : ""}</h5>
                         <small><span>(Lv.{memberInfo ? memberInfo.personLevel : ""})</span></small>
                     </div>

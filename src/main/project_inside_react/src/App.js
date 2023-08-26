@@ -38,7 +38,7 @@ function App(props) {
                         <Route path={'challengeList'} element={<ChallengeList/>}></Route>
                         <Route path={'admin'} element={<Admin/>}></Route>
                         <Route path={'solved'} element={<Solved/>}></Route>
-                        <Route path={'projectBoard'} element={<ProjectBoard />}></Route>
+                        <Route path={'projectBoard/:matchingProjectIdx'} element={<ProjectBoard />}></Route>
                         <Route path={'QnA'} element={<QnA/>}></Route>
                     </Route>
                     {/* 그 외 개별 컴포넌트들 */}

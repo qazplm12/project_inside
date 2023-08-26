@@ -15,21 +15,18 @@ function MyJoinProjectCard(props) {
         projectMember,
         projectLike,
         projectLevel,
-        matchingStatus
+        projectFull,
+        projectFinish,
+        matchingStatus,
+        matchingIdx
     } = props.joinProject;
-    const [iconCheck, setIconCheck] = useState(false);
-    const [recruitMent, setRecruitMent] = useState(false);
-    const [likeCount, setLikeCount] = useState(projectLike);
 
+    // const [matchingStatus, setMatchingStatus] = useState(0);
+    const [iconCheck, setIconCheck] = useState(false);
+    const [likeCount, setLikeCount] = useState(projectLike);
+    const [reRender, setReRender] = useState();
 
     const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
-
-// 모달 창 open, close 관련 필드 이다.
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
 
     // 5. 내가 찜한 거는 아이콘에 불이 들어 있어야 한다.
     //  --> 찜한 거만 볼려 클릭시 idx(프로젝트 번호) 에 저장이 되어야 하고
@@ -136,25 +133,50 @@ function MyJoinProjectCard(props) {
                 console.log("plus view error message :::" + error)
             })
 
-        axios.post('http://localhost:8080/simServer/countJoinMember', null, {
+        axios.post('http://localhost:8080/simServer/getMyMatchingList', null, {
             params: {
-                matchingProjectIdx: projectIdx
+                matcingMemberNick: userInfo.personNickName
             }
         })
             .then(res => {
-                setJoinMember(res.data);
+                setJoinMember(res.data.filter(item => item.matchingMemberAccept === "3").length);
             })
             .catch((error) => {
 
-            })
-        console.log(props.joinProject)
+            });
     }, []);
 
+    useEffect(() => {
 
-    const recruitMentChange = (e) => {
-        setRecruitMent(!recruitMent);
-    }
+    }, [reRender])
+    const cancelRequest = () => {
+        let status;
+        switch (matchingStatus) {
+            case "1" :
+                status = "[응답 대기중]";
+                break;
 
+            case "3" :
+                status = "[요청 수락됨]";
+                break;
+        }
+        if (window.confirm("정말 요청을 취소하시겠습니까?\n" +
+            `현재 상태 : ${status}`)) {
+            axios.post('http://localhost:8080/simServer/cancelRequest', null, {
+                params: {
+                    matchingIdx: matchingIdx
+                }
+            })
+                .then(res => {
+                    alert("취소되었습니다.");
+                    props.fetchUpdateData();
+                    setReRender(1);
+                })
+                .catch((error) => {
+
+                });
+        }
+    };
 
     return (
         <div className={' col-sm-6 p-5 text-start'}>
@@ -197,27 +219,59 @@ function MyJoinProjectCard(props) {
                         </Row>
                     </Card.Title>
                     <Row>
-                        <Col sm={6}>
+                        <Col sm={5}>
                             <div className={"mb-5"}>
-                                <span
-                                    className={"text-start d-block theme-font"}>인원 : {joinMember}명 / {projectMember}명<br/></span>
+                                {
+                                    projectFull !== "Y"
+                                        ? <span
+                                            className={"text-start d-block theme-font"}>인원 : {joinMember}명 / {projectMember}명<br/></span>
+                                        : <span className={' d-block py-4'}></span>
+                                }
+
                             </div>
                             <div className={"d-flex"}>
+                                <div className={
+                                    projectFull === "Y" || projectFinish === "Y"
+                                        ? "mt-5"
+                                        :
+                                        'mt-5 pt-3'
+                                }>
                                 <span
-                                    className={"mt-4 text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
+                                    className={"mt-5 text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
+                                </div>
                             </div>
                         </Col>
-                        <Col sm={6}>
+                        <Col sm={7}>
                             <div className={"mt-1 ms-5"}>
-                                <span className={"theme-font fw-bold"}>참여 레벨</span><br/>
-                                <span className={"theme-font"}>Lv.{projectLevel}</span>
+                                <span className={"d-block theme-font fw-bold text-end"}>참여 레벨</span><br/>
+                                <span className={"d-block theme-font text-end"}>Lv.{projectLevel}</span>
                             </div>
-                            <div className={"mt-5 ms-5"}>
-                                {matchingStatus === 3
-                                    ?
-                                    <h6 className={"text-success d-inline"}>요청 수락됨</h6>
+                            <div className={"mt-5 text-end"}>
+                                {projectFinish === "Y"
+                                    ? <h5>
+                                        <Link type={'button'} className={'theme-btn text-decoration-none'}
+                                              to={`/pi/projectBoard/${projectIdx}`}>프로젝트 보기</Link>
+                                    </h5>
                                     :
-                                    <h6 className={"text-danger d-inline"}>요청 대기중</h6>
+                                    matchingStatus === "3"
+                                        ? projectFull === "Y"
+                                            ?
+                                            <h5>
+                                                <Link type={'button'} className={'theme-btn text-decoration-none'}
+                                                      to={`/pi/projectBoard/${projectIdx}`}>프로젝트 관리</Link>
+                                            </h5>
+                                            :
+                                            <>
+                                                <h5 className={"text-success"}>요청 수락됨</h5>
+                                                <button className={'theme-btn fs-5'} onClick={cancelRequest}>요청 취소</button>
+                                            </>
+
+                                        :
+                                        <>
+                                            <h5 className={"text-danger"}>응답 대기중</h5>
+                                            <button className={'theme-btn fs-5'} onClick={cancelRequest}>요청 취소</button>
+                                        </>
+
                                 }
                             </div>
                         </Col>

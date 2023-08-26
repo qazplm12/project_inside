@@ -8,7 +8,15 @@ import Button from "react-bootstrap/Button";
 
 function MyProjectCard(props) {
 
-    const {projectTitle, projectThumbnail, projectIdx, projectLanguage, projectMember} = props.myProject[0];
+    const {
+        projectTitle,
+        projectThumbnail,
+        projectIdx,
+        projectLanguage,
+        projectMember,
+        projectFull,
+        projectFinish
+    } = props.myProject[0];
 
     const [hiddenMode, setHiddenMode] = useState(true);
     const [leader, setLeader] = useState("");
@@ -125,12 +133,23 @@ function MyProjectCard(props) {
                         </div>
                     </Col>
                     <Col sm={6} className={"float-end"}>
-                        <div className={"mb-0 ms-2 ps-4"}>
-                            {/* projectFull 값이 Y면 projeectBoard로 보내주는 버튼 조건부 렌더링*/}
-                            <button className={'theme-btn'}
-                                    onClick={modeHandler}><small>요청 확인</small>
-                            </button>
-                        </div>
+                        {/* projectFull 값이 Y면 projectBoard로 보내주는 버튼 조건부 렌더링*/}
+                        {
+                            projectFull === "Y" || projectFinish === "Y"
+                                ?
+                                <div className={"mb-0 ms-2 ps-2"}>
+                                    <Link type={'button'} className={'theme-btn text-decoration-none'}
+                                          to={`/pi/projectBoard/${projectIdx}`}>프로젝트관리</Link>
+                                </div>
+                                :
+                                <div className={"mb-0 ms-2 ps-4"}>
+
+                                    <button className={'theme-btn'}
+                                            onClick={modeHandler}><small>요청 확인</small>
+                                    </button>
+                                </div>
+                        }
+
                     </Col>
                 </Card.Body>
             </Card>
