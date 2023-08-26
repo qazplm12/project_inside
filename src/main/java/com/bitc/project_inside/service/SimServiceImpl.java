@@ -118,7 +118,7 @@ public class SimServiceImpl implements SimService {
 
     @Override
     public List<TodoEntity> getTodoList(int todoMatchingIdx) throws Exception {
-        return todoRepository.findByTodoMatchingIdx(todoMatchingIdx);
+        return todoRepository.findAllByTodoMatchingIdxOrderByTodoIdxDesc(todoMatchingIdx);
     }
 
     @Override

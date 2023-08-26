@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface TodoRepository extends JpaRepository<TodoEntity, Integer> {
 
-    List<TodoEntity> findByTodoMatchingIdx(int todoMatchingIdx);
+    List<TodoEntity> findAllByTodoMatchingIdxOrderByTodoIdxDesc(int todoMatchingIdx);
 }

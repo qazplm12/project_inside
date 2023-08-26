@@ -40,7 +40,7 @@ function AnswerBody(props) {
                     })
             })
             .catch(err => {
-                alert('통신 실패 : ' + err);
+                // alert('통신 실패 : ' + err);
                 console.log('통신 실패 : ' + err);
             })
     }, [AnswerModalShow]);

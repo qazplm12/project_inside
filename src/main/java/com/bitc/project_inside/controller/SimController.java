@@ -245,7 +245,9 @@ public class SimController {
             @RequestParam String todoStatus,
             @RequestParam String todoContent,
             @RequestParam LocalDate todoStartDay,
-            @RequestParam LocalDate todoEndDay
+            @RequestParam LocalDate todoEndDay,
+            @RequestParam int todoProgress
+
     ) throws Exception {
         System.out.println("--------- /addTodoItem 서버 --------");
         TodoEntity todoEntity = new TodoEntity();
@@ -256,6 +258,7 @@ public class SimController {
         todoEntity.setTodoContent(todoContent);
         todoEntity.setTodoStartDate(todoStartDay);
         todoEntity.setTodoEndDate(todoEndDay);
+        todoEntity.setTodoProgress(todoProgress);
 
         System.out.println(todoEntity);
 

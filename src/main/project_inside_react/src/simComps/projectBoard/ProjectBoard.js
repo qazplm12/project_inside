@@ -2,17 +2,79 @@ import React, {useEffect, useState} from 'react';
 import {Accordion, Button, Col, Form, Modal, Table} from "react-bootstrap";
 import axios from "axios";
 import {FrappeGantt} from "frappe-gantt-react";
+import ProjectBoardMember from "./ProjectBoardMember";
+import ChallengeListPaging from "../../leeComps/chanllengeList/ChallengeListPaging";
+import {useNavigate} from "react-router-dom";
 
 function ProjectBoard(props) {
-
+    const [idx, setIdx] = useState(28);
     // axios로 값 불러오기
     const [tasks, setTasks] = useState([{}])
+    const [pm, setPm] = useState('');
+    const [member, setMember] = useState([]);
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
+    const navigate = useNavigate();
+    const [once, setOnce] = useState(0);
+
+    const filter = (e) => {
+            alert('정상적인 접근경로가 아닙니다.');
+            navigate(`/pi/toyListBoard`);
+    };
+
+    const user = async() => {
+        try {
+            const result1 = await axios.get(`http://localhost:8080/server/userProfile`)    // 유저 리스트 가져오기
+            const allUser = result1.data;
+            const result2 = await axios.get(`http://localhost:8080/server/matching?idx=${idx}`)    // 매칭 정보 가져오기
+            const matchUser = result2.data;
+
+            const arr = [];
+
+            for (let i = 0; i < allUser.length; i++) {
+                for (let j = 0; j < matchUser.length; j++) {
+                    if (allUser[i].personNickName == matchUser[j].matchingMemberNick && matchUser[j].matchingMemberAccept == "3") {
+                        arr.push(allUser[i]);
+                        if (userInfo.personNickName != matchUser[j].matchingMemberNick && matchUser.length == j + 1) {
+                            filter();
+                        }
+                    }
+                    else if (allUser[i].personNickName == matchUser[j].matchingLeaderNick) {
+                        setPm(allUser[i]);
+                    }
+                }
+            }
+            setMember(arr);
+        }
+        catch (e) {
+            console.log("err : " + e);
+        }
+    }
+
+    const [count, setCount] = useState(0); //아이템 총 개수
+    const [currentPage, setCurrentPage] = useState(1); //현재페이지
+    const [postPerPage] = useState(10); //페이지당 아이템 개수
+
+    const [indexOfLastPost, setIndexOfLastPost] = useState(0);
+    const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
+    const [currentPosts, setCurrentPosts] = useState([]);
+
+    const setPage = (e) => {
+        setCurrentPage(e);
+    };
+
+    useEffect (() => {
+        setCount(tasks.length);
+        setIndexOfLastPost(currentPage * postPerPage);
+        setIndexOfFirstPost(indexOfLastPost - postPerPage);
+        setCurrentPosts(tasks.slice(indexOfFirstPost, indexOfLastPost));
+    }, [currentPage, indexOfFirstPost, indexOfLastPost, tasks, postPerPage])
 
     useEffect(() => {
         axios.post("http://localhost:8080/simServer/getTodoList", null, {
             params: {
                 // 보드 idx 보내기
-                todoMatchingIdx: 1
+                todoMatchingIdx: idx
             }
         })
             .then((res) => {
@@ -32,7 +94,14 @@ function ProjectBoard(props) {
             .catch((error) => {
 
             });
+        setOnce(1);
     }, []);
+
+    useEffect(() =>{
+        if (once > 0) {
+            user();
+        }
+    }, [once])
 
     const [show, setShow] = useState(false);
 
@@ -40,11 +109,12 @@ function ProjectBoard(props) {
         setShow(false);
         setStartDay(null);
         setEndDay(null);
+        // setItemName(null);  // 이거 켜면 입력 느려짐
         setItemContent("");
+        setProgress(0);
         setTarget(null);
     };
     const handleShow = e => {
-
         setShow(true);
     };
 
@@ -60,7 +130,8 @@ function ProjectBoard(props) {
     const [endDay, setEndDay] = useState(tomorrow);
     const [itemName, setItemName] = useState("");
     const [itemContent, setItemContent] = useState("");
-    const [itemStatus, setItemStatus] = useState(1);
+    const [itemStatus, setItemStatus] = useState("");
+    const [progress, setProgress] = useState(0);
 
 
     // 일정수정
@@ -71,7 +142,6 @@ function ProjectBoard(props) {
     const [targetEndDay, setTargetEndDay] = useState(null);
     const [targetItemContent, setTargetItemContent] = useState(null);
     const [targetProgress, setTargetProgress] = useState(null);
-    // range 쓰던지
 
     useEffect(() => {
         setItemName(itemName)
@@ -90,6 +160,7 @@ function ProjectBoard(props) {
             setTargetStartDay(target.start)
             setTargetEndDay(target.end)
             setTargetItemContent(target.content)
+            setTargetProgress(target.progress)
 
         }
     }, [target]);
@@ -103,30 +174,34 @@ function ProjectBoard(props) {
         }
     };
 
-    const handleKeyDown = e => {
+    const handleKeyDown = e => {    // 테이블에 있는 input에 엔터 누르면 발생
         if (e.key === 'Enter') {
-
-            addItem();
             setStartDay(dateString);
             setEndDay(tomorrow);
-            setItemName("");
+            setItemName(itemName);
             setItemContent("");
             setTarget(null);
+            setProgress(0);
+            console.log("아이템 이름 : " + itemName);
+            addItem();
+
+            handleClose();
         }
     };
 
-    const addItem = () => {
+    const addItem = () => { // + 버튼 모달로 실행
         // axios insert 문으로 바꾸기
         if (startDay && endDay && itemName) {
             axios.post("http://localhost:8080/simServer/addTodoItem", null, {
                 params: {
-                    todoMatchingIdx: 1,
-                    todoNickName: "tester1", // 로그인 정보에서 닉네임
+                    todoMatchingIdx: idx,
+                    todoNickName: userInfo.personNickName, // 로그인 정보에서 닉네임
                     todoTitle: itemName,
                     todoStatus: itemStatus,
                     todoContent: itemContent,
                     todoStartDay: startDay,
                     todoEndDay: endDay,
+                    todoProgress: progress
                 }
             })
                 .then((res) => {
@@ -153,12 +228,12 @@ function ProjectBoard(props) {
 
     };
 
-    const editItem = () => {
+    const editItem = () => {    // 제목 누르고 수정 모달을 통해 수정하면 실행
         console.log(target);
         axios.post("http://localhost:8080/simServer/editTodoItem", null, {
             params: {
                 // idx 보내기
-                todoMatchingIdx: 1,
+                todoMatchingIdx: idx,
                 todoIdx: target.idx,
                 todoNickName: target.user,
                 todoStatus: targetStatus,
@@ -166,8 +241,7 @@ function ProjectBoard(props) {
                 todoContent: targetItemContent,
                 todoStartDay: targetStartDay,
                 todoEndDay: targetEndDay,
-                todoProgress: 10,
-                // range 셋팅
+                todoProgress: targetProgress,
             }
         })
             .then((res) => {
@@ -190,12 +264,12 @@ function ProjectBoard(props) {
         handleClose();
     };
 
-    const editStatus = (e, obj) => {
+    const editStatus = (e, obj) => {    // 리스트에서 상태 바뀌면 실행
         console.log(obj)
         axios.post("http://localhost:8080/simServer/editTodoItem", null, {
             params: {
                 // idx 보내기
-                todoMatchingIdx : 1,
+                todoMatchingIdx : idx,
                 todoIdx: obj.idx,
                 todoNickName: obj.user,
                 todoStatus: e.target.value,
@@ -203,7 +277,7 @@ function ProjectBoard(props) {
                 todoContent: obj.content,
                 todoStartDay: obj.start,
                 todoEndDay: obj.end,
-                todoProgress: 10,
+                todoProgress: obj.progress,
             }
         })
             .then((res) => {
@@ -238,62 +312,62 @@ function ProjectBoard(props) {
                 />
             </div>
             <div className={'mt-3'}>
-                <Table bordered hover size="sm" className={'container'}>
-                    <colgroup>
-                        <col width={'3%'}/>
-                        <col/>
-                        <col/>
-                        <col width={'15%'}/>
-                        <col width={'5%'}/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>제목</th>
-                        <th>등록자</th>
-                        <th>상태</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td></td>
-                        <td colSpan={3}>
-                            <Form.Control
-                                as={'input'}
-                                type={'text'}
-                                value={itemName}
-                                onChange={e => setItemName(e.target.value)}
-                                onKeyDown={handleKeyDown}
-                            ></Form.Control></td>
-                        <td>
-                            <button type={'button'} className={'theme-btn border-0 fs-5'} onClick={e => handleShow(e)}>
-                                <i className="bi bi-plus-square"></i></button>
-                        </td>
-                    </tr>
-                    {tasks.map((item, index, array) => (
-                        <tr key={item.id}>
-                            <td></td>
-                            <td><a type={'button'} onClick={() => setTarget(array[index])}
-                                   className={'theme-link'}>{item.name}</a></td>
-                            <td>{item.user}</td>
-                            <td>
-                                <Form.Select
-                                value={item.status}
-                                onChange={e => editStatus(e, array[index])}>
-                                <option>상태</option>
-                                <option value="1">할일</option>
-                                <option value="2">진행중</option>
-                                <option value="3">완료</option>
-                                <option value="4">이슈발생</option>
-                            </Form.Select>
-                            </td>
-                            <td></td>
-                        </tr>
-                    ))}
+                {/*<Table bordered hover size="sm" className={'container'}>*/}
+                {/*    <colgroup>*/}
+                {/*        <col width={'5%'}/>*/}
+                {/*        <col/>*/}
+                {/*        <col/>*/}
+                {/*        <col width={'15%'}/>*/}
+                {/*        <col width={'5%'}/>*/}
+                {/*    </colgroup>*/}
+                {/*    <thead>*/}
+                {/*    <tr>*/}
+                {/*        <th>번호</th>*/}
+                {/*        <th>제목</th>*/}
+                {/*        <th>등록자</th>*/}
+                {/*        <th>상태</th>*/}
+                {/*        <th></th>*/}
+                {/*    </tr>*/}
+                {/*    </thead>*/}
+                {/*    <tbody>*/}
+                {/*    <tr>*/}
+                {/*        <td></td>*/}
+                {/*        <td colSpan={3}>*/}
+                {/*            <Form.Control*/}
+                {/*                as={'input'}*/}
+                {/*                type={'text'}*/}
+                {/*                value={itemName}*/}
+                {/*                onChange={e => setItemName(e.target.value)}*/}
+                {/*                onKeyDown={handleKeyDown}*/}
+                {/*            ></Form.Control></td>*/}
+                {/*        <td>*/}
+                {/*            <button type={'button'} className={'theme-btn border-0 fs-5'} onClick={e => handleShow(e)}>*/}
+                {/*                <i className="bi bi-plus-square"></i></button>*/}
+                {/*        </td>*/}
+                {/*    </tr>*/}
+                {/*    {tasks.map((item, index, array) => (*/}
+                {/*        <tr key={item.id}>*/}
+                {/*            <td></td>*/}
+                {/*            <td><a type={'button'} onClick={() => setTarget(array[index])}*/}
+                {/*                   className={'theme-link'}>{item.name}</a></td>*/}
+                {/*            <td>{item.user}</td>*/}
+                {/*            <td>*/}
+                {/*                <Form.Select*/}
+                {/*                value={item.status}*/}
+                {/*                onChange={e => editStatus(e, array[index])}>*/}
+                {/*                <option>상태</option>*/}
+                {/*                <option value="1">할일</option>*/}
+                {/*                <option value="2">진행중</option>*/}
+                {/*                <option value="3">완료</option>*/}
+                {/*                <option value="4">이슈발생</option>*/}
+                {/*            </Form.Select>*/}
+                {/*            </td>*/}
+                {/*            <td></td>*/}
+                {/*        </tr>*/}
+                {/*    ))}*/}
 
-                    </tbody>
-                </Table>
+                {/*    </tbody>*/}
+                {/*</Table>*/}
             </div>
 
             <Modal
@@ -303,7 +377,14 @@ function ProjectBoard(props) {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>일정 추가</Modal.Title>
+                    {
+                        target
+                            ?
+                            target
+                                ? <Modal.Title>일정 수정</Modal.Title>
+                                : ""
+                            : <Modal.Title>일정 추가</Modal.Title>
+                    }
                 </Modal.Header>
                 <Modal.Body>
                     <div className={'row'}>
@@ -337,7 +418,7 @@ function ProjectBoard(props) {
                                         onChange={e => setTargetStatus(e.target.value)}
                                         value={targetStatus}
                                     >
-                                        <option>상태</option>
+                                        <option selected={true} hidden={true}>상태</option>
                                         <option value="1">할일</option>
                                         <option value="2">진행중</option>
                                         <option value="3">완료</option>
@@ -347,7 +428,7 @@ function ProjectBoard(props) {
                                     onChange={e => setItemStatus(e.target.value)}
                                     value={itemStatus}
                                 >
-                                    <option>상태</option>
+                                    <option selected={true} hidden={true}>상태</option>
                                     <option value="1">할일</option>
                                     <option value="2">진행중</option>
                                     <option value="3">완료</option>
@@ -404,6 +485,23 @@ function ProjectBoard(props) {
                         }
                     </div>
                 </Modal.Body>
+                <Modal.Body>
+                    <span><strong>진척도</strong></span>
+                    {
+                        target
+                            ?
+                            target
+                                ? <>
+                                    <Form.Label>({targetProgress}%)</Form.Label>
+                                    <Form.Range value={targetProgress} onChange={(e) => setTargetProgress(e.target.value)}/>
+                                </>
+                                : ""
+                            : <>
+                                <Form.Label>({progress}%)</Form.Label>
+                                <Form.Range value={progress} onChange={(e) => setProgress(e.target.value)}/>
+                            </>
+                    }
+                </Modal.Body>
                 <Modal.Body className={'border-top'}>
                     <h4>내용</h4>
                     {
@@ -442,28 +540,69 @@ function ProjectBoard(props) {
                 </Modal.Footer>
             </Modal>
 
-            <div className={'d-flex justify-content-around'}>
-                <Col sm={6} className={'my-5'}>
-                    <Accordion defaultActiveKey={['0']} alwaysOpen>
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header><h4 className={'text-start'}>아코디언1</h4></Accordion.Header>
-                            <Accordion.Body>
-                                {/* 컴포넌트*/}
-                            </Accordion.Body>
-                        </Accordion.Item>
-                        <Accordion.Item eventKey="1">
-                            <Accordion.Header><h4 className={'text-start'}>아코디언2</h4></Accordion.Header>
-                            <Accordion.Body>
-                                {/* 컴포넌트*/}
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
+            <div className={'d-flex justify-content-center'}>
+                <Col sm={5} className={'my-5 mx-4'}>
+                    <ProjectBoardMember pm={pm} member={member} />
                 </Col>
-                <Col sm={4} className={'my-5 pb-5'}>
+                <Col sm={6} className={'my-5 mx-4 pb-5'}>
                     <div>
-                        <h4 className={'text-start'}>콜2</h4>
-                        {/* 컴포넌트*/}
+                        <Table bordered hover size="sm" className={'container'}>
+                            <colgroup>
+                                <col width={'8%'}/>
+                                <col width={'40%'}/>
+                                <col width={'20%'}/>
+                                <col width={'20%'}/>
+                                <col width={'12%'}/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>등록자</th>
+                                <th>상태</th>
+                                <th>진척도</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colSpan={5}>
+                                    <div className={'d-flex justify-content-center'}>
+                                        <Form.Control
+                                            as={'input'}
+                                            type={'text'}
+                                            value={itemName}
+                                            onChange={e => setItemName(e.target.value)}
+                                            onKeyDown={handleKeyDown}
+                                            placeholder={'제목을 입력하세요.'}
+                                        ></Form.Control>
+                                        <button type={'button'} className={'theme-btn border-0 fs-5 ms-1'} onClick={e => handleShow(e)}><i className="bi bi-plus-square"></i></button>
 
+                                    </div>
+                                </td>
+                            </tr>
+                            {currentPosts.map((item, index, array) => (
+                                <tr key={item.id}>
+                                    <td className={'align-middle'}>{tasks.length - index - ((currentPage - 1) * 10)}</td>
+                                    <td className={'align-middle'}><a type={'button'} onClick={() => setTarget(array[index])} className={'theme-link'}>{item.name}</a></td>
+                                    <td className={'align-middle'}>{item.user}</td>
+                                    <td className={'align-middle'}>
+                                        <Form.Select
+                                            value={item.status}
+                                            onChange={e => editStatus(e, array[index])}>
+                                            <option selected={true} hidden={true}>상태</option>
+                                            <option value="1">할일</option>
+                                            <option value="2">진행중</option>
+                                            <option value="3">완료</option>
+                                            <option value="4">이슈발생</option>
+                                        </Form.Select>
+                                    </td>
+                                    <td className={'align-middle'}><b className={'theme-font'}>{item.progress}</b>%</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </Table>
+
+                        <ChallengeListPaging page={currentPage} count={count} setPage={setPage} postPerPage={postPerPage} />
                     </div>
                 </Col>
             </div>

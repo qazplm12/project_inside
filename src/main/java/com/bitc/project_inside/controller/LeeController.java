@@ -373,4 +373,10 @@ public class LeeController {
     public PersonEntity userDetail(@RequestParam(value = "userId") String userId) throws Exception {
         return leeService.selectUserDetail(userId);
     }
+
+    // =============================================================================================== 프로젝트
+    @RequestMapping(value = "/matching", method = RequestMethod.GET)
+    public List<MatchingEntity> pmInfo(@RequestParam(value = "idx") int idx) throws Exception {
+        return leeService.selectMatching(idx);  // 프로젝트 번호
+    }
 }

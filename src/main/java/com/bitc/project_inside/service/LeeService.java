@@ -62,4 +62,6 @@ public interface LeeService {
     void levelExp(int score, String userNick) throws Exception;
 
     PersonEntity selectUserDetail(String userId) throws Exception;
+
+    List<MatchingEntity> selectMatching(int idx) throws Exception;
 }

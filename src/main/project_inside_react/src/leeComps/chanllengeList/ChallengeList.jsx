@@ -101,7 +101,6 @@ function ChallengeList(props) {
                     <ChallengeListSidebar/>
                 </div>
             </div>
-        {/*  ================================== 페이징 자리 ==================================  */}
         </div>
     )
 }

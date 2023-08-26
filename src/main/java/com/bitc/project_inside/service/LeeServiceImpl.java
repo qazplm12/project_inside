@@ -22,12 +22,12 @@ public class LeeServiceImpl implements LeeService {
     private final PersonRepository personRepository;
     private final ChallengeRepository challengeRepository;
     private final SolvedRepository solvedRepository;
-    private final SolutionRepository solutionRepository;
     private final ScoringRepository scoringRepository;
     private final ScoringLogRepository scoringLogRepository;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final ProjectRepository projectRepository;
+    private final MatchingRepository matchingRepository;
 
     @Override
     public List<ChallengeEntity> selectChallengeList() throws Exception {
@@ -268,5 +268,10 @@ public class LeeServiceImpl implements LeeService {
     @Override
     public PersonEntity selectUserDetail(String userId) throws Exception {
         return personRepository.findByPersonId(userId);
+    }
+
+    @Override
+    public List<MatchingEntity> selectMatching(int idx) throws Exception {
+        return matchingRepository.findAllByMatchingProjectIdx(idx);
     }
 }

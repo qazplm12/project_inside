@@ -11,26 +11,27 @@ function ChallengeListSidebar(props) {
     const [userDetail, setUserDetail] = useState('');
     const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
-    useEffect(() => {
-        const rank = async() => {
-            try {
-                const result1 = await axios.get(`http://localhost:8080/server/userRank`);
-                const userRank = result1.data;
-                const result2 = await axios.get(`http://localhost:8080/server/numRank`);
-                const numRank = result2.data;
+    const rank = async() => {
+        try {
+            const result1 = await axios.get(`http://localhost:8080/server/userRank`);
+            const userRank = result1.data;
+            const result2 = await axios.get(`http://localhost:8080/server/numRank`);
+            const numRank = result2.data;
 
-                for (let i = 0; i < userRank.length; i++) {
-                    if (userRank[i] == userInfo?.personId) {
-                        // console.log(userRank[i]);
-                        // console.log(numRank[i]);
-                        setRanking(numRank[i]);
-                    }
+            for (let i = 0; i < userRank.length; i++) {
+                if (userRank[i] == userInfo?.personId) {
+                    // console.log(userRank[i]);
+                    // console.log(numRank[i]);
+                    setRanking(numRank[i]);
                 }
             }
-            catch (e) {
-                console.log("err : " + e);
-            }
         }
+        catch (e) {
+            console.log("err : " + e);
+        }
+    }
+
+    useEffect(() => {
         axios.get(`http://localhost:8080/server/totalChallenge?userNick=${userInfo?.personNickName}`)
             .then(res => {
                 setTotalChallenge(res.data);
@@ -83,7 +84,7 @@ function ChallengeListSidebar(props) {
                 <ul className={'list-group'}>
                     <li className={'list-group-item p-2 py-4'}>
                         <p className={'my-3'}>로그인 정보가 없습니다!</p>
-                        <Link className={'btn btn-primary btn-lg my-3'} to={'/userAuth/login'}>로그인</Link>
+                        <Link className={'d-block theme-btn mx-auto mt-4 mb-3 px-0 text-decoration-none fs-5 w-50'} to={'/userAuth/login'}>로그인</Link>
                     </li>
                     <li className={'list-group-item p-2 py-4'}>
                         <p className={'mt-3'}>최근 등록된 프로젝트</p>
@@ -131,18 +132,28 @@ function ChallengeListSidebar(props) {
                             </div>
                         </div>
                     </li>
-                    <li className={'list-group-item p-2 py-4'}>
-                        <p className={'mt-3'}>{userInfo.personNickName}님 추천 프로젝트</p>
-                        {/*<img src={'/images/profile.jpg'} alt="" className={'rounded w-100 mt-3'} style={{maxWidth: "10em"}}/>*/}
-                        <img src={toyUser[random]?.projectThumbnail === '' ? "/images/ProjectImg.png" : `/images/thumbnail/${toyUser[random]?.projectThumbnail}`} alt="" className={'rounded w-100 my-3'} style={{maxWidth: "10em"}}/>
-                        <div className={'row d-flex justify-content-center'}>
-                            <div className={'col-10 text-start mt-3'}>
-                                <p>프로젝트 이름 : {toyUser[random]?.projectTitle}</p>
-                                <p>프로젝트 인원 : {toyUser[random]?.projectMember}명</p>
-                                <p>사용 언어 : {toyUser[random]?.projectLanguage}</p>
-                            </div>
-                        </div>
-                    </li>
+                    {
+                        userInfo?.personLanguage
+                        ?
+                            <li className={'list-group-item p-2 py-4'}>
+                                <p className={'mt-3'}>{userInfo.personNickName}님 추천 프로젝트</p>
+                                {/*<img src={'/images/profile.jpg'} alt="" className={'rounded w-100 mt-3'} style={{maxWidth: "10em"}}/>*/}
+                                <img src={toyUser[random]?.projectThumbnail === '' ? "/images/ProjectImg.png" : `/images/thumbnail/${toyUser[random]?.projectThumbnail}`} alt="" className={'rounded w-100 my-3'} style={{maxWidth: "10em"}}/>
+                                <div className={'row d-flex justify-content-center'}>
+                                    <div className={'col-10 text-start mt-3'}>
+                                        <p>프로젝트 이름 : {toyUser[random]?.projectTitle}</p>
+                                        <p>프로젝트 인원 : {toyUser[random]?.projectMember}명</p>
+                                        <p>사용 언어 : {toyUser[random]?.projectLanguage}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        :
+                            <li className={'list-group-item p-2 py-4'}>
+                                <p className={'mt-3'}>{userInfo.personNickName}님! 추천 프로젝트가 없습니다!</p>
+                                <p>선호하는 언어를 등록해주세요</p>
+                                <Link to={'/pi/myPage/profile/0#profile'} className={'d-block theme-btn mx-auto mt-4 mb-3 px-0 text-decoration-none fs-5 w-75'}>언어 등록하기</Link>
+                            </li>
+                    }
                 </ul>
             </div>
         )
