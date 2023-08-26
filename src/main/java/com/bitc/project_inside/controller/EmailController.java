@@ -99,31 +99,23 @@ public class EmailController {
     // 사이트 사용 인증 정보 확인
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody PersonRequest personRequest) {
-//    서비스를 사용하여 사용자 인증 정보 가져오기
+        // 서비스를 사용하여 사용자 인증 정보 가져오기
         System.out.println(personRequest);
         PersonEntity person = personService.getByCredentials(
                 personRequest.getPersonId(),
                 personRequest.getPersonPassword(),
                 passwordEncoder);
 
-
-        // 유저 정보를 가져오기
-        try {
-            person = simService.getUserInfo(personRequest.getPersonId());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        if (person.getPersonBannedMsg() != null) {
-            // 차단당한 유저인 경우 HTTP 상태 코드와 데이터를 클라이언트로 전송
-            ResponseDTO responseDTO = ResponseDTO.builder()
-                    .error(person.getPersonBannedMsg())
-                    .build();
-            return ResponseEntity
-                    .badRequest()
-                    .body(responseDTO);
-        } else {
             if (person != null) {
+                if (person.getPersonBannedMsg() != null) {
+                    // 차단당한 유저인 경우 HTTP 상태 코드와 데이터를 클라이언트로 전송
+                    ResponseDTO responseDTO = ResponseDTO.builder()
+                            .error(person.getPersonBannedMsg())
+                            .build();
+                    return ResponseEntity
+                            .badRequest()
+                            .body(responseDTO);
+                }
                 // 웹 토큰 생성기로 토큰 생성
                 final String token = tokenProvider.create(person);
 //      UserDTO 타입으로 사용자 ID/PW, 토큰 정보 저장
@@ -154,7 +146,7 @@ public class EmailController {
                         .badRequest()
                         .body(responseDTO);
             }
-        }
+
 
 //    사용자 정보가 있을 경우
 

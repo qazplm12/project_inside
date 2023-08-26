@@ -7,7 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 function Thumbnail(props) {
-    const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike,projectLevel} = props.toyProject;
+    const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike,projectLevel,projectFull} = props.toyProject;
     // 기본적으로 false 로 주는 이유는 아이콘의 불이 꺼진에 default 로 설정하기 위해서
     const [iconCheck, setIconCheck] = useState(false);
     const [recruitMent, setRecruitMent] = useState(true);
@@ -27,6 +27,8 @@ function Thumbnail(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // 현재 인원 계산용
+    const [matchingList, setMatchingList] = useState([]);
 
 
     // (2-1) 새로 entity 을 만든다 아니면 테이블을 추가 시켜준다. -> 그리고 내 이메일 주소와 클릭한 idx 값을 저장을 시켜 준다.
@@ -170,6 +172,19 @@ function Thumbnail(props) {
             //     .catch((error) =>{
             //         console.log("plus view error message :::"+error)
             //     })
+
+        axios.post("http://localhost:8080/simServer/getMatchingAllList", null, {
+            params: {
+                matchingProjectIdx: projectIdx
+            }
+        })
+            .then((res) => {
+                setMatchingList(res.data)
+            })
+            .catch((error) => {
+
+            });
+
     }, []);
 
     ////////////////////////////////////////////////////
@@ -242,7 +257,7 @@ function Thumbnail(props) {
                 <Row>
                     <Col sm={6}>
                         <div className={"mb-5"}>
-                            <span className={"text-start d-block theme-font"}>인원 : 0명 / {projectMember}명<br/></span>
+                            <span className={"text-start d-block theme-font"}>인원 : {matchingList.filter(item => item.matchingMemberAccept === "3").length}명 / {projectMember}명<br/></span>
                         </div>
                         <div className={"d-flex"}>
                             <span className={"mt-4 text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
@@ -255,7 +270,7 @@ function Thumbnail(props) {
                         </div>
                         <div className={"mt-5 ms-5"}>
                             <span className={"text-success-emphasis"} onChange={recruitMentChange} >
-                                {recruitMent ?
+                                {projectFull === "Y" ?
                                     <span className={"theme-font"}>모집 완료</span>
                                     :
                                     <span className={"theme-font"}>모집 중</span>}

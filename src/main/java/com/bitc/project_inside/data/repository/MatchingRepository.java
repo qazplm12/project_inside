@@ -5,6 +5,7 @@ import com.bitc.project_inside.data.entity.MatchingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MatchingRepository extends JpaRepository<MatchingEntity, Integer> {
 
@@ -17,4 +18,17 @@ public interface MatchingRepository extends JpaRepository<MatchingEntity, Intege
     List<MatchingEntity> findAllByMatchingProjectIdx(int idx) throws Exception;
 
     MatchingEntity findByMatchingIdx(int idx) throws Exception;
+
+    List<MatchingEntity> findAllByMatchingMemberNick(String memberNick) throws Exception;
+
+    int countByMatchingProjectIdxAndMatchingMemberAccept(int idx, String number) throws Exception;
+
+    MatchingEntity findByMatchingProjectIdxAndMatchingMemberNickAndMatchingMemberAccept(int projectIdx, String matchingMemberNick, String number);
+
+    int countByMatchingProjectIdxAndMatchingMemberNickAndMatchingMemberAccept(int idx, String nick, String number) throws Exception;
+
+
+    Optional<MatchingEntity> findByMatchingProjectIdxAndMatchingMemberAcceptAndMatchingMemberNick(int idx, String nick, String number) throws Exception;
+
+    Optional<MatchingEntity> findByMatchingProjectIdxAndMatchingLeaderNick(int idx, String nick) throws Exception;
 }

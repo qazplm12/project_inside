@@ -3,6 +3,7 @@ import axios from "axios";
 
 function RequestMember(props) {
 
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
     const [memberInfo, setMemberInfo] = useState(props.memberInfo);
     const [hidden, setHidden] = useState(false);
 
@@ -10,29 +11,31 @@ function RequestMember(props) {
         setMemberInfo(props.memberInfo)
     }, [])
 
+    const formData = new FormData();
+    formData.append("matchingIdx", props.matchingIdx);
+    formData.append("alarmToPerson", memberInfo.personNickName);
+    formData.append("alarmContent", props.projectInfo.projectTitle);
+    formData.append("alarmFromPerson", userInfo.personNickName);
+    formData.append("alarmContentIdx", props.projectInfo.projectIdx);
+
+
     const accept = () => {
-        axios.post('http://localhost:8080/simServer/memberAccept', null, {
-            params: {
-                matchingIdx : props.matchingIdx
-            }
-        })
+        formData.append("alarmFrom", "projectAcc");
+        axios.post('http://localhost:8080/simServer/memberAccept', formData)
             .then(response => {
                 alert('수락되었습니다.');
-                props.setHidden(true);
+                props.fetchUpdateData();
             })
             .catch((error) => {
             });
     };
 
     const reject = () => {
-        axios.post('http://localhost:8080/simServer/memberReject', null, {
-            params: {
-                matchingIdx : props.matchingIdx
-            }
-        })
+        formData.append("alarmFrom", "projectRej");
+        axios.post('http://localhost:8080/simServer/memberReject', formData)
             .then(response => {
                 alert('거부되었습니다.');
-                props.setHidden(true);
+                props.fetchUpdateData();
             })
             .catch((error) => {
             });
@@ -46,7 +49,7 @@ function RequestMember(props) {
                         src={memberInfo.personImgPath === null ? "/images/ProfileImg.png" : `/images/profileImg/${memberInfo.personImgPath}`}
                         alt="" className={'circle-background'} style={{width: '5vw', height: '10vh'}}/>
                 </div>
-                <div className={'col ms-2 mt-2'}>
+                <div className={'col ms-4 mt-2'}>
                     <div className={'m-0'}><h5 className={'d-inline'}>{memberInfo ? memberInfo.personNickName : ""}</h5>
                         <small><span>(Lv.{memberInfo ? memberInfo.personLevel : ""})</span></small>
                     </div>

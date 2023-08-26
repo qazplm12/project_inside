@@ -35,5 +35,6 @@ public class MatchingEntity {
     // 2 취소
     // 3 수락
     // 4 거부
+    // 5 매칭완료
 
 }

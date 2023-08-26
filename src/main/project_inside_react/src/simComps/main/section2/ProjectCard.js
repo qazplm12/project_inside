@@ -7,6 +7,8 @@ import axios from "axios";
 
 function ProjectCard(props) {
 
+    const [joinMember, setJoinMember] = useState(0);
+
     const {projectTitle, projectThumbnail, projectIdx, projectLanguage,projectMember,projectLike,projectLevel} = props.toyProject;
     const [iconCheck, setIconCheck] = useState(false);
     const [recruitMent, setRecruitMent] = useState(false);
@@ -98,7 +100,17 @@ function ProjectCard(props) {
                         console.log("error value :::"+error)
                     })
             }
-        }
+        }axios.post('http://localhost:8080/simServer/countJoinMember',null, {
+            params : {
+                matchingProjectIdx : projectIdx
+            }
+        })
+            .then(res => {
+                setJoinMember(res.data);
+            })
+            .catch((error) => {
+
+            })
 
     }
 
@@ -128,6 +140,18 @@ function ProjectCard(props) {
                 console.log("plus view error message :::" + error)
             })
 
+        axios.post('http://localhost:8080/simServer/countJoinMember',null, {
+            params : {
+                matchingProjectIdx : projectIdx
+            }
+        })
+            .then(res => {
+                setJoinMember(res.data);
+            })
+            .catch((error) => {
+
+            })
+
     }, []);
 
 
@@ -137,7 +161,7 @@ function ProjectCard(props) {
 
 
     return (
-        <div className={' col-sm-4 p-5 text-start shadow'}>
+        <div className={' col-sm-4 px-4 text-start'}>
             <Card className={"ms-3"} key={projectIdx}>
                 <Link to={`/pi/toyDetail/${projectIdx}`}>
                     <Card.Header className={"p-0"}>
@@ -201,7 +225,7 @@ function ProjectCard(props) {
                     <Row>
                         <Col sm={6}>
                             <div className={"mb-5"}>
-                                <span className={"text-start d-block theme-font"}>인원 : 0명 / {projectMember}명<br/></span>
+                                <span className={"text-start d-block theme-font"}>인원 : {joinMember}명 / {projectMember}명<br/></span>
                             </div>
                             <div className={"d-flex"}>
                                 <span className={"mt-4 text-start bg-danger-subtle rounded-1 theme-font fw-bold"}>{projectLanguage}</span>
@@ -209,7 +233,7 @@ function ProjectCard(props) {
                         </Col>
                         <Col sm={6}>
                             <div className={"mt-1 ms-5"}>
-                                <span className={"theme-font fw-bold"}>참여가능 레벨</span><br/>
+                                <span className={"theme-font fw-bold"}>참여 레벨</span><br/>
                                 <span className={"theme-font"}>Lv.{projectLevel}</span>
                             </div>
                             <div className={"mt-5 ms-5"}>
