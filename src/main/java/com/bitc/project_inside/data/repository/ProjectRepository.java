@@ -1,7 +1,5 @@
 package com.bitc.project_inside.data.repository;
 
-
-import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer> {
+
     List<ProjectEntity> findAllByOrderByProjectDateDesc();
 
     List<ProjectEntity> findAllByOrderByProjectDateAsc();
@@ -42,5 +40,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
 
     ProjectEntity findFirstByOrderByProjectIdxDesc() throws Exception;
 
-    List<ProjectEntity> findAllByProjectLanguageContaining(String language) throws Exception;
+    @Query("SELECT p.projectLanguage FROM ProjectEntity p WHERE p.projectLanguage LIKE %:keywords%")
+    List<ProjectEntity> findAllByProjectLanguageContainingKeywords(List<String> keywords) throws Exception;
+
+    List<ProjectEntity> findAllByProjectLanguageContaining(String language);
 }

@@ -101,10 +101,10 @@ public class ToyServiceImpl implements  ToyService {
         return projectRepository.findById(projectIdx);
     }
 
-    @Override
-    public List<ProjectEntity> toyProjectSearch(String keyword) throws Exception {
-        return projectRepository.findProjectsByProjectLanguageContaining(keyword);
-    }
+//    @Override
+//    public List<ProjectEntity> toyProjectSearch(String keyword) throws Exception {
+//        return projectRepository.findProjectsByProjectLanguageContaining(keyword);
+//    }
 
     @Override
     public PersonEntity sideProfile(String personId) throws Exception {
@@ -183,6 +183,12 @@ public class ToyServiceImpl implements  ToyService {
     public List<ProjectEntity> likeMinLatestPost() throws Exception {
         return projectRepository.findAllByOrderByProjectLikeAsc();
     }
+
+    @Override
+    public List<ProjectEntity> searchListProject(List<String> keywords) throws Exception {
+        return projectRepository.findAllByProjectLanguageContainingKeywords(keywords);
+    }
+
 
 //    @Override
 //    public LikeCheckEntity likeMinCheck(int projectIdx, String personId) throws Exception {
