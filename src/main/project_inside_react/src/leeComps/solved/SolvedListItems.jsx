@@ -35,7 +35,7 @@ function SolvedListItems(props) {
                     <p className={'mb-0 ms-3'}><i className="bi bi-person-fill"></i> {getItem.solvedNick}</p>
                 </div>
                 <div className={'me-2'}>
-                    <p className={'badge theme-btn p-2 mb-0'}>{getItem.solvedLanguage}</p>
+                    <p className={'badge theme-bg p-2 mb-0'}>{getItem.solvedLanguage}</p>
                 </div>
             </div>
             <CodeEditor language={getItem.solvedLanguage} code={getItem.solvedContent} readOnly={readOnly}/>

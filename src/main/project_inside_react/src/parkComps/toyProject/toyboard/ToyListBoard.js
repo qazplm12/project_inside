@@ -2,7 +2,6 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import Thumbnail from "./boardcomponent/Thumbnail";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import TypeSearchProject from "./boardcomponent/TypeSearchProject";
 import {InView, useInView} from "react-intersection-observer";
 import ProjectSide from "./boardcomponent/ProjectSide";
 import ChallengeListSidebar from "../../../leeComps/chanllengeList/ChallengeListSidebar";
@@ -39,7 +38,7 @@ function ToyListBoard(props) {
         setIsLoading(true);
         axios.get(`http://localhost:8080/pi/toyProject/ToyListBoard?page=${page}`)
             .then(response => {
-                setToyProjects((e) => [ ...response.data]);
+                setToyProjects((e) => [...response.data]);
                 setIsLoading(false);
                 setPage(prevPage => prevPage + 1);
             })
@@ -68,7 +67,6 @@ function ToyListBoard(props) {
                 console.log('검색 실패: ' + error);
             });
     };
-
 
 
     useEffect(() => {
@@ -177,12 +175,6 @@ function ToyListBoard(props) {
                             <span>좋아요 순<i className={"bi bi-caret-down-fill "}></i></span>
                         }
                     </button>
-                </Col>
-                {/* 검색 실행후 바로 검색 되게 만드는 부분 */}
-                <Col sm={6}>
-                    <div className={"justify-content-start"}>
-                        <TypeSearchProject handleTagChange={handleTagSelections}/>
-                    </div>
                 </Col>
             </Row>
 

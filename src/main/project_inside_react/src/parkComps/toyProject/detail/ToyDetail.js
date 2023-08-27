@@ -207,26 +207,29 @@ function ToyDetail(props) {
                             <div className={'d-flex'}>
                                 <div className={'text-start me-auto'}>
                                     <div>
-                                        <span><i className="me-2 text-danger-emphasis fs-3 bi bi-people-fill"></i><span className={'text-secondary'}> 총 모집 인원 : </span></span>
+                                        <span><i className="me-2 text-danger-emphasis fs-3 bi bi-people-fill"></i><span
+                                            className={'text-secondary'}> 총 모집 인원 : </span></span>
                                         <span
                                             className={"fs-5 mx-auto mx-1"}><strong>{toyProject.projectMember} 명</strong></span><br/>
                                     </div>
                                     <div className={"mt-2"}>
-                                            <span><i className="me-2 text-danger-emphasis fs-3 bi bi-star-fill"></i><span className={'text-secondary'}> 참여가능 레벨 : </span></span>
+                                        <span><i className="me-2 text-danger-emphasis fs-3 bi bi-star-fill"></i><span
+                                            className={'text-secondary'}> 참여가능 레벨 : </span></span>
                                         <span
                                             className={"fs-5"}><strong>Lv.{toyProject.projectLevel}</strong> </span>
                                     </div>
-
                                     <div className={"mt-2"}>
                                             <span><i
-                                                className="me-2 text-danger-emphasis fs-3 bi bi-gear-wide-connected"></i><span className={'text-secondary'}> 주 사용 언어 / 기술 스텍 : </span></span>
+                                                className="me-2 text-danger-emphasis fs-3 bi bi-gear-wide-connected"></i><span
+                                                className={'text-secondary'}> 주 사용 언어 / 기술 스텍 : </span></span>
                                         <span></span>
                                         <span
                                             className={"fs-5"}><strong>{toyProject.projectLanguage}</strong></span>
                                     </div>
                                 </div>
                                 <div>
-                                    <span><i className="me-2 text-danger-emphasis fs-3 bi bi-calendar3"></i><span className={'text-secondary '}> 등록일 : </span></span>
+                                    <span><i className="me-2 text-danger-emphasis fs-3 bi bi-calendar3"></i><span
+                                        className={'text-secondary '}> 등록일 : </span></span>
                                     <span className={"fs-5 mx-auto"}><strong><ProjectDate
                                         date={toyProject.projectDate}/></strong></span><br/>
                                 </div>
@@ -236,13 +239,14 @@ function ToyDetail(props) {
                                     <div className="col-md-4">
                                         <img src="/images/kazha.jpg" className="img-fluid rounded-start"/>
                                     </div>
-                                    <div className="col-md-8" style={{backgroundColor : 'rgba(200, 240, 240, 0.5)'}}>
+                                    <div className="col-md-8" style={{backgroundColor: 'rgba(200, 240, 240, 0.5)'}}>
                                         <div className="card-body text-start">
-                                            <h5 className="card-title mb-4"><strong>PM({userNames.personNickName}) 프로필</strong></h5>
+                                            <h5 className="card-title mb-4"><strong>PM({userNames.personNickName})
+                                                프로필</strong></h5>
                                             <div className={'text-muted'}>
-                                            <p className="card-text mb-1">레벨 : Lv.{userNames.personLevel}</p>
-                                            <p className="card-text mb-1">이메일 : {userNames.personId}</p>
-                                            <p className="card-text mb-1">보유 기술 : {userNames.personLanguage}</p>
+                                                <p className="card-text mb-1">레벨 : Lv.{userNames.personLevel}</p>
+                                                <p className="card-text mb-1">이메일 : {userNames.personId}</p>
+                                                <p className="card-text mb-1">보유 기술 : {userNames.personLanguage}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -251,8 +255,6 @@ function ToyDetail(props) {
                         </div>
                     </div>
                 </Col>
-                {/*<Col sm={6}>*/}
-                {/*</Col>*/}
             </Row>
             {/* 프로젝트 상세 내용 */}
             <Row className={"border-top"}>

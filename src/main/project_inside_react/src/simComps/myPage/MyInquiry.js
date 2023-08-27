@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Card, Form, Modal, Table} from "react-bootstrap";
 import axios from "axios";
+import DisabledButton from "../commons/DisabledButton";
 
 const categoryList = [
     "계정",
@@ -166,11 +167,11 @@ function MyInquiry(props) {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <button className={'theme-outline-btn'} onClick={handleClose}>
                             닫기
-                        </Button>
-                        <Button type={'button'} variant="primary" onClick={updateInquiry}
-                                disabled={target ? target.inquiryStatus === "1" ? "" : "disabled" : ""}>수정</Button>
+                        </button>
+                        <DisabledButton type={'button'} onClick={updateInquiry}
+                                        btnText={'수정'} disabled={target ? target.inquiryStatus === "1" ? "" : "disabled" : ""} />
                     </Modal.Footer>
                 </Modal>
             </Table>

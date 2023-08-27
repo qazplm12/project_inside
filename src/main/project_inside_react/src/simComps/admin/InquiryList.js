@@ -107,7 +107,9 @@ function InquiryList(props) {
                 <tbody>
                 {currentInquiry.map((inquiry, index, array) => (
                     <tr key={index}>
-                        <td className={'py-3'}>{inquiry.inquiryIdx}</td>
+                        <td className={'py-3'}>
+                            {inquiry.inquiryIdx}
+                        </td>
                         <td className={'py-3'}>{inquiry.inquiryDt}</td>
                         <td className={'py-3'}>
                             {

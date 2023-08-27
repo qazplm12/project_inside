@@ -41,7 +41,7 @@ function LoginForm(props) {
                     name={'personPassword'}
                 />
             </InputGroup>
-            <div className={'d-grid my-5'}>
+            <div className={'d-grid mt-5 mb-4'}>
             {/* 로그인은 컨트롤에 따로 함수 안만들어도 됨 알아서 DetailService의 loadUserByUsername로 가기 때문, axios 사용하지 않고 form action에 직접 /login주소를 주고 버튼은 type submit.
             제대로 세션이 생성되지 않던 이유는 axios로 받아오는 데이터 타입때문 같음.. 이건 내 생각(form으로 보내면 DTO 혹은 각각 받아오니까)
             Spring Security는 기본적으로 "/login" 주소로 로그인 요청이 오는 것을 감지하고 처리 */}

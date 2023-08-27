@@ -254,7 +254,7 @@ function SignupForm(props) {
                         : <p className={'text-danger text-start'}>비밀번호가 일치하지 않습니다.</p>)
                     : ""}
             </div>
-            <div className={'d-grid my-5'}>
+            <div className={'d-grid mt-5 mb-4'}>
                 <DisabledButton btnText={'회원가입'} disabled={disabled} onClick={insertPerson}/>
             </div>
         </Form>

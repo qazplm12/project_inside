@@ -23,9 +23,6 @@ function App(props) {
 
     return (
         <div className="App">
-            <div className={'position-absolute top-50 start-50 '}>
-                <HappyCat />
-            </div>
             <BrowserRouter>
                 <Routes>
                     <Route path={'/pi'} element={<Layout/>}>
