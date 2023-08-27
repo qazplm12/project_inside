@@ -64,4 +64,6 @@ public interface LeeService {
     PersonEntity selectUserDetail(String userId) throws Exception;
 
     List<MatchingEntity> selectMatching(int idx) throws Exception;
+
+    void deleteTodo(int idx) throws Exception;
 }

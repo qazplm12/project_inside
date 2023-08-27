@@ -379,5 +379,10 @@ public class LeeController {
     public List<MatchingEntity> pmInfo(@RequestParam(value = "idx") int idx) throws Exception {
         return leeService.selectMatching(idx);  // 프로젝트 번호
     }
-    
+
+    @RequestMapping(value = "todoDelete", method = RequestMethod.DELETE)
+    public void todoDelete(@RequestParam(value = "idx") int idx) throws Exception{
+        System.out.println("=====0idx0===== : " + idx);
+        leeService.deleteTodo(idx);
+    }
 }

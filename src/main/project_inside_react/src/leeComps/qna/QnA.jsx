@@ -87,7 +87,7 @@ function QnA(props) {
                                         </div>
                                     </div>
                                     <div className={'me-5'}>
-                                        <span className={'badge bg-secondary p-2'}>{item.questionLanguage}</span>
+                                        <span className={'badge theme-btn p-2'}>{item.questionLanguage}</span>
                                     </div>
                                 </Accordion.Header>
                                 <Accordion.Body>
