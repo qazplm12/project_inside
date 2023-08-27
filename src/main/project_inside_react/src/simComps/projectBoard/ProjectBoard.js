@@ -4,10 +4,10 @@ import axios from "axios";
 import {FrappeGantt} from "frappe-gantt-react";
 import ProjectBoardMember from "./ProjectBoardMember";
 import ChallengeListPaging from "../../leeComps/chanllengeList/ChallengeListPaging";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 function ProjectBoard(props) {
-    const [idx, setIdx] = useState(28);
+    const {idx} = useParams();
     // axios로 값 불러오기
     const [tasks, setTasks] = useState([{}])
     const [pm, setPm] = useState('');
@@ -17,8 +17,8 @@ function ProjectBoard(props) {
     const navigate = useNavigate();
     const [once, setOnce] = useState(0);
 
-    const filter = (e) => {
-            alert('정상적인 접근경로가 아닙니다.');
+    const welcome = (e) => {
+            alert('참여중인 프로젝트가 아닙니다.');
             navigate(`/pi/toyListBoard`);
     };
 
@@ -36,11 +36,14 @@ function ProjectBoard(props) {
                     if (allUser[i].personNickName == matchUser[j].matchingMemberNick && matchUser[j].matchingMemberAccept == "3") {
                         arr.push(allUser[i]);
                         if (userInfo.personNickName != matchUser[j].matchingMemberNick && matchUser.length == j + 1) {
-                            filter();
+                            welcome();
                         }
                     }
                     else if (allUser[i].personNickName == matchUser[j].matchingLeaderNick) {
                         setPm(allUser[i]);
+                        if (userInfo.personNickName != matchUser[j].matchingLeaderNick && matchUser.length == j + 1) {
+                            welcome();
+                        }
                     }
                 }
             }
@@ -95,6 +98,8 @@ function ProjectBoard(props) {
 
             });
         setOnce(1);
+        console.log('---idx---');
+        console.log(idx);
     }, []);
 
     useEffect(() =>{
@@ -114,6 +119,7 @@ function ProjectBoard(props) {
         setProgress(0);
         setTarget(null);
     };
+
     const handleShow = e => {
         setShow(true);
     };
