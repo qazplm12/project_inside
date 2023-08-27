@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<QuestionEntity, Integer> {
 
-    List<QuestionEntity> findAllByQuestionChallengeIdx(int idx) throws Exception;
+    List<QuestionEntity> findAllByQuestionChallengeIdxOrderByQuestionIdxDesc(int idx) throws Exception;
 
     @Modifying
     @Query(value = "" +

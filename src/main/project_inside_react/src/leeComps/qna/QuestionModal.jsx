@@ -69,7 +69,7 @@ function QuestionModal(props) {
                 <textarea className={'form-control mt-3'} cols="30" rows="5" value={questionContent} onChange={(e) => setQuestionContent(e.target.value)} placeholder={`내용을 입력하세요`}></textarea>
                 <div className={'d-flex mt-3'}>
                     <h5 className={'me-auto mt-2 align-middle'}>질문 코드</h5>
-                    <select name="" id="" className={'btn btn-secondary text-start'} value={language} onChange={handleSelect}>
+                    <select name="" id="" className={'theme-select text-start'} value={language} onChange={handleSelect}>
                         <option value={'Java'} selected={true}>Java</option>
                         <option value={'JavaScript'}>JavaScript</option>
                         <option value={'Python'}>Python</option>
@@ -78,8 +78,8 @@ function QuestionModal(props) {
                 <CodeEditor setCode={setCode} code={`코드를 입력하세요`}/>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.onHide}>취소</Button>
-                <Button onClick={handleSubmit}>확인</Button>
+                <button className={"theme-outline-btn"} onClick={handleClose}>취소</button>
+                <button className={'theme-btn'} onClick={handleSubmit}>확인</button>
             </Modal.Footer>
         </Modal>
     )

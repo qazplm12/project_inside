@@ -7,11 +7,13 @@ import ChallengeListPaging from "../../leeComps/chanllengeList/ChallengeListPagi
 import {useNavigate, useParams} from "react-router-dom";
 
 function ProjectBoard(props) {
-    const {idx} = useParams();
+    const {idx} = useParams();  // 프로젝트 번호
     // axios로 값 불러오기
     const [tasks, setTasks] = useState([{}])
     const [pm, setPm] = useState('');
     const [member, setMember] = useState([]);
+    const [todoIdx, setTodoIdx] = useState('');
+    const [deleteCount, setDeleteCount] = useState(0);
     const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     const navigate = useNavigate();
@@ -33,17 +35,17 @@ function ProjectBoard(props) {
 
             for (let i = 0; i < allUser.length; i++) {
                 for (let j = 0; j < matchUser.length; j++) {
-                    if (allUser[i].personNickName == matchUser[j].matchingMemberNick && matchUser[j].matchingMemberAccept == "3") {
+                    if (allUser[i].personNickName == matchUser[j].matchingMemberNick && matchUser[j].matchingMemberAccept == "3") { // 멤버 추리기
                         arr.push(allUser[i]);
-                        if (userInfo.personNickName != matchUser[j].matchingMemberNick && matchUser.length == j + 1) {
-                            welcome();
-                        }
+                        // if (userInfo.personNickName != matchUser[j].matchingMemberNick && matchUser.length == j + 1) {
+                        //     welcome();
+                        // }
                     }
                     else if (allUser[i].personNickName == matchUser[j].matchingLeaderNick) {
                         setPm(allUser[i]);
-                        if (userInfo.personNickName != matchUser[j].matchingLeaderNick && matchUser.length == j + 1) {
-                            welcome();
-                        }
+                        // if (userInfo.personNickName != matchUser[j].matchingLeaderNick && matchUser.length == j + 1) {  // 매니저 찾기
+                        //     welcome();
+                        // }
                     }
                 }
             }
@@ -98,9 +100,9 @@ function ProjectBoard(props) {
 
             });
         setOnce(1);
-        console.log('---idx---');
-        console.log(idx);
-    }, []);
+        // console.log('---idx---');
+        // console.log(idx);
+    }, [deleteCount]);
 
     useEffect(() =>{
         if (once > 0) {
@@ -318,62 +320,6 @@ function ProjectBoard(props) {
                 />
             </div>
             <div className={'mt-3'}>
-                {/*<Table bordered hover size="sm" className={'container'}>*/}
-                {/*    <colgroup>*/}
-                {/*        <col width={'5%'}/>*/}
-                {/*        <col/>*/}
-                {/*        <col/>*/}
-                {/*        <col width={'15%'}/>*/}
-                {/*        <col width={'5%'}/>*/}
-                {/*    </colgroup>*/}
-                {/*    <thead>*/}
-                {/*    <tr>*/}
-                {/*        <th>번호</th>*/}
-                {/*        <th>제목</th>*/}
-                {/*        <th>등록자</th>*/}
-                {/*        <th>상태</th>*/}
-                {/*        <th></th>*/}
-                {/*    </tr>*/}
-                {/*    </thead>*/}
-                {/*    <tbody>*/}
-                {/*    <tr>*/}
-                {/*        <td></td>*/}
-                {/*        <td colSpan={3}>*/}
-                {/*            <Form.Control*/}
-                {/*                as={'input'}*/}
-                {/*                type={'text'}*/}
-                {/*                value={itemName}*/}
-                {/*                onChange={e => setItemName(e.target.value)}*/}
-                {/*                onKeyDown={handleKeyDown}*/}
-                {/*            ></Form.Control></td>*/}
-                {/*        <td>*/}
-                {/*            <button type={'button'} className={'theme-btn border-0 fs-5'} onClick={e => handleShow(e)}>*/}
-                {/*                <i className="bi bi-plus-square"></i></button>*/}
-                {/*        </td>*/}
-                {/*    </tr>*/}
-                {/*    {tasks.map((item, index, array) => (*/}
-                {/*        <tr key={item.id}>*/}
-                {/*            <td></td>*/}
-                {/*            <td><a type={'button'} onClick={() => setTarget(array[index])}*/}
-                {/*                   className={'theme-link'}>{item.name}</a></td>*/}
-                {/*            <td>{item.user}</td>*/}
-                {/*            <td>*/}
-                {/*                <Form.Select*/}
-                {/*                value={item.status}*/}
-                {/*                onChange={e => editStatus(e, array[index])}>*/}
-                {/*                <option>상태</option>*/}
-                {/*                <option value="1">할일</option>*/}
-                {/*                <option value="2">진행중</option>*/}
-                {/*                <option value="3">완료</option>*/}
-                {/*                <option value="4">이슈발생</option>*/}
-                {/*            </Form.Select>*/}
-                {/*            </td>*/}
-                {/*            <td></td>*/}
-                {/*        </tr>*/}
-                {/*    ))}*/}
-
-                {/*    </tbody>*/}
-                {/*</Table>*/}
             </div>
 
             <Modal
@@ -555,10 +501,11 @@ function ProjectBoard(props) {
                         <Table bordered hover size="sm" className={'container'}>
                             <colgroup>
                                 <col width={'8%'}/>
-                                <col width={'40%'}/>
+                                <col width={'34%'}/>
                                 <col width={'20%'}/>
                                 <col width={'20%'}/>
-                                <col width={'12%'}/>
+                                <col width={'10%'}/>
+                                <col width={'8%'}/>
                             </colgroup>
                             <thead>
                             <tr>
@@ -567,6 +514,7 @@ function ProjectBoard(props) {
                                 <th>등록자</th>
                                 <th>상태</th>
                                 <th>진척도</th>
+                                <th>입력</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -581,9 +529,10 @@ function ProjectBoard(props) {
                                             onKeyDown={handleKeyDown}
                                             placeholder={'제목을 입력하세요.'}
                                         ></Form.Control>
-                                        <button type={'button'} className={'theme-btn border-0 fs-5 ms-1'} onClick={e => handleShow(e)}><i className="bi bi-plus-square"></i></button>
-
                                     </div>
+                                </td>
+                                <td>
+                                    <button type={'button'} className={'theme-btn border-0 fs-5'} onClick={e => handleShow(e)}><i className="bi bi-plus-square"></i></button>
                                 </td>
                             </tr>
                             {currentPosts.map((item, index, array) => (
@@ -603,6 +552,18 @@ function ProjectBoard(props) {
                                         </Form.Select>
                                     </td>
                                     <td className={'align-middle'}><b className={'theme-font'}>{item.progress}</b>%</td>
+                                    <td className={'align-middle'}><button className={'btn btn-danger'} value={item.idx} onClick={
+                                        e => {
+                                            axios.delete(`http://localhost:8080/server/todoDelete?idx=${item.idx}`)
+                                                .then(res => {
+                                                    setDeleteCount(deleteCount + 1);
+                                                    alert('삭제되었습니다.');
+                                                })
+                                                .catch(err => {
+
+                                                })
+                                        }
+                                    }><i className="bi bi-dash-square"></i></button></td>
                                 </tr>
                             ))}
                             </tbody>

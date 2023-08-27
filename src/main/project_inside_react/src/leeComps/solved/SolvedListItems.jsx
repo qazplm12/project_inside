@@ -32,10 +32,10 @@ function SolvedListItems(props) {
                 <div className={'d-flex align-items-center me-auto'}>
                     {/*<img src="/images/sakura.jpg" alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>*/}
                     <img src={profile === null ? "/images/ProfileImg.png" : `/images/profileImg/${profile}`} alt="" className={'circle-background'} style={{maxWidth: "4em", maxHeight: "4em"}}/>
-                    <p className={'mb-0 ms-3'}>{getItem.solvedNick}</p>
+                    <p className={'mb-0 ms-3'}><i className="bi bi-person-fill"></i> {getItem.solvedNick}</p>
                 </div>
                 <div className={'me-2'}>
-                    <p className={'mb-0'}>{getItem.solvedLanguage}</p>
+                    <p className={'badge theme-btn p-2 mb-0'}>{getItem.solvedLanguage}</p>
                 </div>
             </div>
             <CodeEditor language={getItem.solvedLanguage} code={getItem.solvedContent} readOnly={readOnly}/>

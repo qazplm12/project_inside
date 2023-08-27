@@ -86,8 +86,8 @@ function AnswerModal(props) {
                 <CodeEditor setCode={setCode} code={`코드를 입력하세요`}/>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>취소</Button>
-                <Button onClick={handleSubmit}>확인</Button>
+                <button className={'theme-outline-btn'} onClick={handleClose}>취소</button>
+                <button className={'theme-btn'} onClick={handleSubmit}>확인</button>
             </Modal.Footer>
         </Modal>
     )

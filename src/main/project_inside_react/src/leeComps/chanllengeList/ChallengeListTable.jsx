@@ -46,6 +46,13 @@ function ChallengeListTable(props) {
     return (
         <div>
             <table className={'table table-borderless table-hover border'}>
+                <colgroup>
+                    <col width={'10%'}/>
+                    <col width={'35%'}/>
+                    <col width={'15%'}/>
+                    <col width={'15%'}/>
+                    <col width={'15%'}/>
+                </colgroup>
                 <thead className={'border'}>
                 <tr>
                     <th>상태</th>

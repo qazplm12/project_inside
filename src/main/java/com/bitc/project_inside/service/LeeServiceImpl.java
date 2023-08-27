@@ -28,6 +28,7 @@ public class LeeServiceImpl implements LeeService {
     private final QuestionRepository questionRepository;
     private final ProjectRepository projectRepository;
     private final MatchingRepository matchingRepository;
+    private final TodoRepository todoRepository;
 
     @Override
     public List<ChallengeEntity> selectChallengeList() throws Exception {
@@ -154,12 +155,12 @@ public class LeeServiceImpl implements LeeService {
 
     @Override
     public List<SolvedEntity> selectSolvedList(int idx) throws Exception {
-        return solvedRepository.findAllBySolvedChallengeIdx(idx);
+        return solvedRepository.findAllBySolvedChallengeIdxOrderBySolvedIdxDesc(idx);
     }
 
     @Override
     public List<QuestionEntity> selectQnAList(int idx) throws Exception {
-        return questionRepository.findAllByQuestionChallengeIdx(idx);
+        return questionRepository.findAllByQuestionChallengeIdxOrderByQuestionIdxDesc(idx);
     }
 
     @Override
@@ -273,5 +274,11 @@ public class LeeServiceImpl implements LeeService {
     @Override
     public List<MatchingEntity> selectMatching(int idx) throws Exception {
         return matchingRepository.findAllByMatchingProjectIdx(idx);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTodo(int idx) throws Exception {
+        todoRepository.deleteByTodoIdx(idx);
     }
 }
