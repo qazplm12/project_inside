@@ -1,13 +1,39 @@
-import React from 'react';
-
-const projects = {
-    project: 100,
-    matching: 35,
-    proceeding: 48,
-    finished: 17,
-}
+import React, {useEffect, useState} from 'react';
+import axios from "axios";
 
 function Projects(props) {
+
+    const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
+
+
+    // 전체 프로젝트
+    const [total, setTotal] = useState(0);
+    // 매칭중인 프로젝트
+    const [match, setMatch] = useState(0);
+    // 진행중인 프로젝트
+    const [full, setFull] = useState(0);
+    // 완료된 프로젝트
+    const [finished, setFinished] = useState(0);
+
+    useEffect(() => {
+        axios.post("http://localhost:8080/simServer/getProjects", null, {
+            params: {
+                checking: userInfo.personNickName
+            }
+        })
+            .then((res) => {
+                console.log(res.data)
+                setTotal(res.data.length)
+                setMatch(res.data.filter(item => item.projectFull !== "Y" && item.projectFinish !== "Y").length)
+                setFull(res.data.filter(item => item.projectFull === "Y" && item.projectFinish !== "Y").length)
+                setFinished(res.data.filter(item => item.projectFinish === "Y").length)
+            })
+            .catch((error) => {
+                alert('관리자만 열람 가능한 페이지입니다.');
+                window.location.href = "/pi/main";
+            });
+    }, [])
+
 
     return (
         <div className={'shadow'}>
@@ -22,12 +48,17 @@ function Projects(props) {
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td className={'py-4'}>{projects.project}</td>
-                    <td className={'py-4'}>{projects.matching}</td>
-                    <td className={'py-4'}>{projects.proceeding}</td>
-                    <td className={'py-4'}>{projects.finished}</td>
-                </tr>
+                {
+                    total > 0
+                        ?
+                        <tr>
+                            <td className={'py-4'}>{total}</td>
+                            <td className={'py-4'}>{match}</td>
+                            <td className={'py-4'}>{full}</td>
+                            <td className={'py-4'}>{finished}</td>
+                        </tr>
+                        : ""
+                }
                 </tbody>
             </table>
         </div>

@@ -1,5 +1,6 @@
 package com.bitc.project_inside.data.repository;
 
+import com.bitc.project_inside.data.DTO.QuestionRequest;
 import com.bitc.project_inside.data.entity.QuestionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,4 +24,8 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Intege
     QuestionEntity findByQuestionIdx(int idx) throws Exception;
 
     List<QuestionEntity> findAllByOrderByQuestionIdxDesc() throws Exception;
+
+    int countByQuestionNick(String nick) throws Exception;
+
+    List<QuestionEntity> findAllByQuestionNick(String nick) throws Exception;
 }

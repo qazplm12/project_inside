@@ -9,4 +9,8 @@ import java.util.List;
 public interface AnswerRepository extends JpaRepository<AnswerEntity, Integer> {
 
     List<AnswerEntity> findAllByAnswerQuestionIdx(int idx) throws Exception;
+
+    int countByAnswerNick(String nick) throws Exception;
+
+    List<AnswerEntity> findAllByAnswerNick(String nick) throws Exception;
 }

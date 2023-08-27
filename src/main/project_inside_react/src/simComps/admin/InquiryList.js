@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Form, Modal, Pagination, Table} from "react-bootstrap";
 import axios from "axios";
+import DisabledButton from "../commons/DisabledButton";
 
 const inquirysPerPage = 7; // 한 페이지에 표시할 문의 수
 
@@ -180,10 +181,10 @@ function InquiryList(props) {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <button className={'theme-outline-btn'} onClick={handleClose}>
                             닫기
-                        </Button>
-                        <Button type={'button'} variant="primary" onClick={sendAnswer} disabled={target ? target.inquiryStatus === "1" ? "" : "disabled" : ""}>답변</Button>
+                        </button>
+                        <DisabledButton onClick={sendAnswer} btnText={'답변'} disabled={target ? target.inquiryStatus === "1" ? "" : "disabled" : ""}/>
                     </Modal.Footer>
                 </Modal>
             </Table>

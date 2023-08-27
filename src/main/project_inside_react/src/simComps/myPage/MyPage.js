@@ -5,10 +5,10 @@ import MyCard from "./MyCard";
 import MyStack from "./Account/MyStack";
 import ChangePassword from "./Account/ChangePassword";
 import MyInquiry from "./MyInquiry";
-import {useParams} from "react-router-dom";
-import MyProjectCard from "./MyProjectCard";
+import {Link, useParams} from "react-router-dom";
+import MyProjectCard from "./project/MyProjectCard";
 import axios from "axios";
-import MyJoinProjectCard from "./MyJoinProjectCard";
+import MyJoinProjectCard from "./project/MyJoinProjectCard";
 
 
 function MyPage(props) {
@@ -30,6 +30,14 @@ function MyPage(props) {
     const [myFinishedProject, setMyFinishedProject] = useState([]);
     // 매칭 리스트 가져오기
     const [myMatchingList, setMyMatchingList] = useState([]);
+
+    // 풀이 리스트
+    const [solved, setSolved] = useState([]);
+
+    // 문제 질문 리스트
+    const [question, setQuestion] = useState([])
+    // 질문 답변 리스트
+    const [answer, setAnswer] = useState([]);
     // 꼼수용 state
     const [time, setTime] = useState(0);
 
@@ -49,7 +57,6 @@ function MyPage(props) {
             .catch((error) => {
 
             });
-
 
         // 내가 신청한 && 참여한 프로젝트
         axios.post("http://localhost:8080/simServer/getJoinProject", null, {
@@ -97,7 +104,6 @@ function MyPage(props) {
 
             });
 
-
         // 내가 신청한 && 참여한 프로젝트
         axios.post("http://localhost:8080/simServer/getJoinProject", null, {
             params: {
@@ -123,6 +129,47 @@ function MyPage(props) {
             .catch((error) => {
 
             });
+        // 내가 푼 문제 리스트 가져오기
+        axios.post("http://localhost:8080/simServer/getMySolutionList", null, {
+            params: {
+                solvedNick: userInfo.personNickName
+            }
+        })
+            .then((res) => {
+                setSolved(res.data);
+            })
+            .catch((error) => {
+
+            });
+
+        // 내 질문 리스트 가져오기
+        axios.post("http://localhost:8080/simServer/getMyQuestionList", null, {
+            params: {
+                questionNick: userInfo.personNickName
+            }
+        })
+            .then((res) => {
+                console.log(res.data)
+                setQuestion(res.data);
+            })
+            .catch((error) => {
+
+            });
+
+        // 내 답변 리스트 가져오기
+        axios.post("http://localhost:8080/simServer/getMyAnswerList", null, {
+            params: {
+                answerNick: userInfo.personNickName
+            }
+        })
+            .then((res) => {
+                console.log(res.data)
+                setAnswer(res.data);
+            })
+            .catch((error) => {
+
+            });
+
         setTimeout(timer, 1000)
     }, []);
 
@@ -204,9 +251,7 @@ function MyPage(props) {
                                         ? <MyProjectCard myProject={myProject}/>
                                         : <h3 className={'my-3'}>생성한 프로젝트가 없습니다.</h3>
                                 }
-
                             </MyCard>
-
                             <MyCard title={'내가 신청한 프로젝트'}>
                                 <div className={'row p-0'}>
                                     {
@@ -222,7 +267,6 @@ function MyPage(props) {
                                     }
                                 </div>
                             </MyCard>
-
                             <MyCard title={'내가 참여한 프로젝트'}>
                                 <div className={'row p-0'}>
                                     {
@@ -237,8 +281,6 @@ function MyPage(props) {
                                     }
                                 </div>
                             </MyCard>
-
-
                             <MyCard title={'내가 완료한 프로젝트'}>
                                 <div className={'row'}>
                                     {
@@ -249,7 +291,6 @@ function MyPage(props) {
                                             ))
                                             // 맵 함수
                                             : <h3 className={'my-3'}>완료한 프로젝트가 없습니다.</h3>
-
                                     }
                                 </div>
                             </MyCard>
@@ -258,16 +299,78 @@ function MyPage(props) {
                         <Tab.Pane eventKey="#solution">
                             <h2 className={'text-start ms-5 mt-5'}>나의 풀이</h2>
                             <MyCard title={'풀이 확인'}>
-
+                                <div className={'text-start'}>
+                                    {
+                                        solved.length > 0
+                                            ?
+                                            solved.map((item, index, array) => (
+                                                <Link to={`/pi/solved?idx=${item.challengeEntity.challengeIdx}`}
+                                                      key={index}
+                                                      className={'theme-bg text-decoration-none custom-token rounded-3 m-2 px-3'}
+                                                >
+                                                    <span
+                                                        className={'text-black'}><small><strong>{item.solvedLanguage}</strong> </small> </span>
+                                                    <p className={'m-0'}>
+                                                        <strong>{item.challengeEntity.challengeTitle}</strong></p>
+                                                </Link>
+                                            ))
+                                            : <h3 className={'my-3 text-center'}>해결한 문제가 없습니다.</h3>
+                                    }
+                                </div>
                             </MyCard>
                         </Tab.Pane>
                         <Tab.Pane eventKey="#question">
                             <h2 className={'text-start ms-5 mt-5'}>질문 / 답변</h2>
                             <MyCard title={'내가 작성한 질문'}>
-
+                                {
+                                    question.length > 0
+                                        ?
+                                        question.map((item, index, array) => (
+                                            <Link to={`/pi/QnA?idx=${item.challengeEntity.challengeIdx}`} key={index}
+                                                  className={'text-decoration-none m-2 px-3'}
+                                            >
+                                                <Row className={'p-2 form-control d-flex'}>
+                                                    <Col sm={2} className={'mt-3'}>
+                                                        <div className={'theme-border mb-4 theme-font'}>
+                                                            <h3 className={'my-3'}><strong>{item.questionCount}</strong>
+                                                            </h3>
+                                                            <p>답변</p>
+                                                        </div>
+                                                    </Col>
+                                                    <Col sm={10} className={'text-start mt-3'}>
+                                                        <h5 className={'d-inline theme-font opacity-75 me-2'}>{item.challengeEntity.challengeTitle}</h5>
+                                                        <span
+                                                            className={'theme-bg custom-token rounded-3 px-2 py-1'}>{item.questionLanguage}</span>
+                                                        <h4 className={'text-black mb-0'}>{item.questionTitle}</h4>
+                                                        <p className={'text-muted mt-1'}>{item.questionContent}</p>
+                                                    </Col>
+                                                </Row>
+                                            </Link>
+                                        ))
+                                        : <h3 className={'my-3 text-center'}>작성한 질문이 없습니다.</h3>
+                                }
                             </MyCard>
                             <MyCard title={'내가 작성한 답변'}>
-
+                                {
+                                    answer.length > 0
+                                        ?
+                                        answer.map((item, index, array) => (
+                                            <Link to={`/pi/QnA?idx=${item.challengeEntity.challengeIdx}`} key={index}
+                                                  className={'text-decoration-none m-2 px-3'}
+                                            >
+                                                <div className={'form-control d-flex'}>
+                                                    <div className={'text-start'}>
+                                                        <h5 className={'d-inline theme-font opacity-75 me-2'}>{item.challengeEntity.challengeTitle}</h5>
+                                                        <span
+                                                            className={'theme-bg custom-token rounded-3 px-2 py-1'}>{item.answerLanguage}</span>
+                                                        <p className={'text-black mb-0'}><strong>{item.answerContent}</strong></p>
+                                                        <p className={'text-muted mt-1'}>{item.questionEntity.questionTitle}</p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        ))
+                                        : <h3 className={'my-3 text-center'}>작성한 질문이 없습니다.</h3>
+                                }
                             </MyCard>
                         </Tab.Pane>
                         <Tab.Pane eventKey="#inquiry">

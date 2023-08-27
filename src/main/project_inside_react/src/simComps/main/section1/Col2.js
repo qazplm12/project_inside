@@ -79,7 +79,7 @@ function Col2(props) {
                                             : <Link className={'theme-link'}
                                                     to={`/pi/QnA?idx=${item.challengeIdx}`}>{questionList[index].questionTitle.slice(0, 12) + '...'}</Link>}
                                     </td>
-                                    <td>{item.challengeCorrectPercent}</td>
+                                    <td>{item.challengeCorrectPercent}%</td>
                                 </tr>
                                 : ""
                             ))

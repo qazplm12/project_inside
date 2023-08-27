@@ -50,8 +50,8 @@ function Col1(props) {
                                         ? <Link className={'theme-link'} to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link>
                                         : <Link className={'theme-link'} to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle.slice(0, 13)+ '...'}</Link>}
                                 </td>
-                                <td>{item.challengeClass}</td>
-                                <td>{item.challengeCorrectPercent}</td>
+                                <td>Lv.{item.challengeClass}</td>
+                                <td>{item.challengeCorrectPercent}%</td>
                             </tr>
                             : ""
                     ))

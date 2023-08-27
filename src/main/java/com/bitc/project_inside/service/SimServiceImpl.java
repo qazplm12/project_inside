@@ -1,6 +1,9 @@
 package com.bitc.project_inside.service;
 
 
+import com.bitc.project_inside.data.DTO.AnswerRequest;
+import com.bitc.project_inside.data.DTO.QuestionRequest;
+import com.bitc.project_inside.data.DTO.SolvedRequest;
 import com.bitc.project_inside.data.entity.*;
 import com.bitc.project_inside.data.repository.*;
 import jakarta.transaction.Transactional;
@@ -30,6 +33,8 @@ public class SimServiceImpl implements SimService {
     private final ChallengeRepository challengeRepository;
     private final MatchingRepository matchingRepository;
     private final QuestionRepository questionRepository;
+    private final SolvedRepository solvedRepository;
+    private final AnswerRepository answerRepository;
 
     @Value("${app.upload-profile-dir}")
     private String uploadDir;
@@ -83,7 +88,7 @@ public class SimServiceImpl implements SimService {
 
     @Override
     public List<PersonEntity> getPersonList() throws Exception {
-        return personRepository.findAllPerson();
+        return personRepository.findAllByOrderByPersonIdxDesc();
     }
 
     @Override
@@ -162,7 +167,7 @@ public class SimServiceImpl implements SimService {
 
         if (personNickName.equals("admin")) {
             // 관리자는 모든 문의사항 가져오기
-            return inquiryRepository.findAll();
+            return inquiryRepository.findAllByOrderByInquiryIdxDesc();
         } else {
             // 유저일 경우 자기 것만
             return inquiryRepository.findByInquiryPersonNick(personNickName);
@@ -291,6 +296,119 @@ public class SimServiceImpl implements SimService {
     }
 
     @Override
+    public List<SolvedEntity> getMySolutionList(String nick) throws Exception {
+
+        if (solvedRepository.countBySolvedNick(nick) > 0) {
+            return solvedRepository.findAllBySolvedNick(nick);
+        } else {
+            // 오류 방지
+            List<SolvedEntity> emptyList = new ArrayList<>();
+            return emptyList;
+        }
+    }
+
+    @Override
+    public List<SolvedRequest> solvedInfoInChallengeInfo(List<SolvedEntity> solvedList) throws Exception {
+
+        if (solvedList.size() > 0) {
+            List<SolvedRequest> solvedDtoList = new ArrayList<>();
+            for (SolvedEntity solvedItem : solvedList) {
+                // 엔티티 정보 dto 타입에 넣기
+                SolvedRequest dtoItem = new SolvedRequest();
+                dtoItem.setSolvedIdx(solvedItem.getSolvedIdx());
+                dtoItem.setSolvedDate(solvedItem.getSolvedDate());
+                dtoItem.setSolvedNick(solvedItem.getSolvedNick());
+                dtoItem.setSolvedLanguage(solvedItem.getSolvedLanguage());
+                dtoItem.setChallengeEntity(challengeRepository.findByChallengeIdx(solvedItem.getSolvedChallengeIdx()));
+                solvedDtoList.add(dtoItem);
+            }
+            return solvedDtoList;
+        } else {
+            // 오류 방지
+            List<SolvedRequest> emptyList = new ArrayList<>();
+            return emptyList;
+        }
+
+    }
+
+    @Override
+    public List<QuestionEntity> getMyQuestionList(String nick) throws Exception {
+
+        if (questionRepository.countByQuestionNick(nick) > 0) {
+            return questionRepository.findAllByQuestionNick(nick);
+        } else {
+            // 오류 방지
+            List<QuestionEntity> emptyList = new ArrayList<>();
+            return emptyList;
+        }
+    }
+
+    @Override
+    public List<QuestionRequest> questionInfoInChallengeInfo(List<QuestionEntity> questionList) throws Exception {
+
+        if (questionList.size() > 0) {
+            List<QuestionRequest> questionDtoList = new ArrayList<>();
+            for (QuestionEntity questionItem : questionList) {
+                // 엔티티 정보 dto 타입에 넣기 (필요한 것만)
+                QuestionRequest dtoItem = new QuestionRequest();
+                dtoItem.setQuestionIdx(questionItem.getQuestionIdx());
+                dtoItem.setQuestionContent(questionItem.getQuestionContent());
+                dtoItem.setQuestionDate(questionItem.getQuestionDate());
+                dtoItem.setQuestionLanguage(questionItem.getQuestionLanguage());
+                dtoItem.setQuestionTitle(questionItem.getQuestionTitle());
+                dtoItem.setQuestionCount(questionItem.getQuestionCount());
+                dtoItem.setChallengeEntity(challengeRepository.findByChallengeIdx(questionItem.getQuestionChallengeIdx()));
+                questionDtoList.add(dtoItem);
+            }
+            return questionDtoList;
+        } else {
+            // 오류 방지
+            List<QuestionRequest> emptyList = new ArrayList<>();
+            return emptyList;
+        }
+    }
+
+    @Override
+    public List<AnswerEntity> getMyAnswerList(String nick) throws Exception {
+
+        if (answerRepository.countByAnswerNick(nick) > 0) {
+            return answerRepository.findAllByAnswerNick(nick);
+        } else {
+            // 오류 방지
+            List<AnswerEntity> emptyList = new ArrayList<>();
+            return emptyList;
+        }
+    }
+
+    @Override
+    public List<AnswerRequest> answerInfoInQuestionInfoInChallengeInfo(List<AnswerEntity> answerList) throws Exception {
+
+        if (answerList.size() > 0) {
+            List<AnswerRequest> answerDtoList = new ArrayList<>();
+            for (AnswerEntity answerItem : answerList) {
+                // 엔티티 정보 dto 타입에 넣기 (필요한 것만)
+                AnswerRequest dtoItem = new AnswerRequest();
+                dtoItem.setAnswerIdx(answerItem.getAnswerIdx());
+                dtoItem.setAnswerContent(answerItem.getAnswerContent());
+                dtoItem.setAnswerLanguage(answerItem.getAnswerLanguage());
+                dtoItem.setQuestionEntity(questionRepository.findByQuestionIdx(answerItem.getAnswerQuestionIdx()));
+                dtoItem.setChallengeEntity(challengeRepository.findByChallengeIdx(dtoItem.getQuestionEntity().getQuestionChallengeIdx()));
+                answerDtoList.add(dtoItem);
+            }
+            return answerDtoList;
+        } else {
+            // 오류 방지
+            List<AnswerRequest> emptyList = new ArrayList<>();
+            return emptyList;
+        }
+    }
+
+    @Override
+    public List<ProjectEntity> getProjects() throws Exception {
+        return projectRepository.findAll();
+    }
+
+    @Override
     public List<MatchingEntity> getMatchingList(int idx) throws Exception {
         return matchingRepository.findAllByMatchingProjectIdxAndMatchingMemberAccept(idx, "1");
     }
@@ -309,13 +427,5 @@ public class SimServiceImpl implements SimService {
         matchingRepository.save(matching);
     }
 
-//    @Override
-//    public Integer save(PersonEntity person) {
-//        return personRepository.save(PersonEntity.builder()
-//                .personId(person.getPersonId())
-//                .personNickName(person.getPersonNickName())
-//                .personPassword(bCryptPasswordEncoder.encode(person.getPersonPassword()))
-//                .build()).getPersonIdx();   // idx 리턴
-//    }
 
 }

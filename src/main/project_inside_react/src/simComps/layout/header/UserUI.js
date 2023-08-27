@@ -206,7 +206,8 @@ function UserUI(props) {
                                                             <ListGroup.Item key={index} className={'py-3'}
                                                                             variant={'light'}
                                                                             action
-                                                                            href={''} // 링크
+                                                                            href={`/pi/QnA?idx=${item.alarmContentIdx}`} // 링크}
+                                                                            onClick={() => setTarget(array[index])}
                                                             >
                                                                 <div className={"theme-link- mx-3"}>
                                                                     <strong

@@ -1,6 +1,9 @@
 package com.bitc.project_inside.controller;
 
 import com.bitc.project_inside.data.DTO.AlarmRequest;
+import com.bitc.project_inside.data.DTO.AnswerRequest;
+import com.bitc.project_inside.data.DTO.QuestionRequest;
+import com.bitc.project_inside.data.DTO.SolvedRequest;
 import com.bitc.project_inside.data.entity.*;
 import com.bitc.project_inside.data.repository.MatchingRepository;
 import com.bitc.project_inside.data.repository.PersonRepository;
@@ -202,12 +205,24 @@ public class SimController {
         return simService.getPersonList();
     }
 
-    // 관리자 페이지 관련
     @RequestMapping(value = "/getChallengeList", method = RequestMethod.POST)
     public List<ChallengeEntity> getChallengeList() throws Exception {
         System.out.println("--------- /getChallengeList 서버 --------");
 
         return simService.getChallengeList();
+    }
+
+    @RequestMapping(value = "/getProjects", method = RequestMethod.POST)
+    public List<ProjectEntity> getProjects(
+            @RequestParam(value ="checking") String admin
+    ) throws Exception {
+        System.out.println("--------- /getProjects 서버 --------");
+        // 어드민 체크
+        if (!admin.equals("admin")) {
+            return null;
+        }
+
+        return simService.getProjects();
     }
 
 
@@ -467,5 +482,43 @@ public class SimController {
 
         return simService.checkRejectMember(idx, nick);
     }
+
+    // 마이 페이지 풀이확인 탭
+    @RequestMapping(value = "/getMySolutionList", method = RequestMethod.POST)
+    public List<SolvedRequest> getMySolutionList(
+            @RequestParam(value = "solvedNick") String nick
+    ) throws Exception {
+        System.out.println("--------- /getMySolutionList 서버 --------");
+
+        List<SolvedEntity> solvedList = simService.getMySolutionList(nick);
+
+        return simService.solvedInfoInChallengeInfo(solvedList);
+    }
+
+    // 마이 페이지 질문
+    @RequestMapping(value = "/getMyQuestionList", method = RequestMethod.POST)
+    public List<QuestionRequest> getMyQuestionList(
+            @RequestParam(value = "questionNick") String nick
+    ) throws Exception {
+        System.out.println("--------- /getMyQuestionList 서버 --------");
+
+        List<QuestionEntity> questionList = simService.getMyQuestionList(nick);
+
+        return simService.questionInfoInChallengeInfo(questionList);
+    }
+
+
+    // 마이 페이지 답변
+    @RequestMapping(value = "/getMyAnswerList", method = RequestMethod.POST)
+    public List<AnswerRequest> getMyAnswerList(
+            @RequestParam(value = "answerNick") String nick
+    ) throws Exception {
+        System.out.println("--------- /getMyAnswerList 서버 --------");
+
+        List<AnswerEntity> answerList = simService.getMyAnswerList(nick);
+
+        return simService.answerInfoInQuestionInfoInChallengeInfo(answerList);
+    }
+
 
 }

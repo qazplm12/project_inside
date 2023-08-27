@@ -17,7 +17,7 @@ public interface SolvedRepository extends JpaRepository<SolvedEntity, Integer> {
 //            "WHERE S.solvedChallengeIdx = :state AND S.solvedId = :id" +
 //            "")
 
-// 큰 따옴표 끝에 꼭 띄어쓰기 ...., 쿼리 메소드에선 group by, having 사용 불가
+    // 큰 따옴표 끝에 꼭 띄어쓰기 ...., 쿼리 메소드에선 group by, having 사용 불가
     @Query(value = "" +
             "SELECT solvedChallengeIdx " +
             "FROM SolvedEntity " +
@@ -33,4 +33,6 @@ public interface SolvedRepository extends JpaRepository<SolvedEntity, Integer> {
     List<SolvedEntity> findAllBySolvedChallengeIdx(int idx) throws Exception;
 
     int countBySolvedNick(String userNick) throws Exception;
+
+    List<SolvedEntity> findAllBySolvedNick(String nick) throws Exception;
 }

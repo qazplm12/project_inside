@@ -1,5 +1,6 @@
 package com.bitc.project_inside.data.repository;
 
+import com.bitc.project_inside.data.entity.ChallengeEntity;
 import com.bitc.project_inside.data.entity.ProjectEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -36,7 +37,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
 
     List<ProjectEntity> findByProjectLeaderId(String leader) throws Exception;
 
-    ProjectEntity findByProjectIdx(int matchingIdx)throws Exception;
+    ProjectEntity findByProjectIdx(int matchingIdx) throws Exception;
 
     ProjectEntity findFirstByOrderByProjectIdxDesc() throws Exception;
 

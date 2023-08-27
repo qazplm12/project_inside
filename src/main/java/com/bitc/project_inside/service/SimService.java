@@ -1,6 +1,9 @@
 package com.bitc.project_inside.service;
 
 
+import com.bitc.project_inside.data.DTO.AnswerRequest;
+import com.bitc.project_inside.data.DTO.QuestionRequest;
+import com.bitc.project_inside.data.DTO.SolvedRequest;
 import com.bitc.project_inside.data.entity.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
@@ -94,6 +97,20 @@ public interface SimService {
     List<MatchingEntity> getMatchingMembers(int idx) throws Exception;
 
     Optional<MatchingEntity> isMatchingMember(int idx, String nick) throws Exception;
+
+    List<SolvedEntity> getMySolutionList(String nick) throws Exception;
+
+    List<SolvedRequest> solvedInfoInChallengeInfo(List<SolvedEntity> solvedList) throws Exception;
+
+    List<QuestionEntity> getMyQuestionList(String nick) throws Exception;
+
+    List<QuestionRequest> questionInfoInChallengeInfo(List<QuestionEntity> questionList) throws Exception;
+
+    List<AnswerEntity> getMyAnswerList(String nick) throws Exception;
+
+    List<AnswerRequest> answerInfoInQuestionInfoInChallengeInfo(List<AnswerEntity> answerList) throws Exception;
+
+    List<ProjectEntity> getProjects() throws Exception;
 
 //    Integer save(PersonEntity person);
 }

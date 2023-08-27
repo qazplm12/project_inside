@@ -23,4 +23,6 @@ public interface InquiryRepository extends JpaRepository<InquiryEntity, Integer>
     @Transactional
     @Query(value = "UPDATE InquiryEntity i SET i.inquiryContent = :content WHERE i.inquiryIdx = :idx ")
     void updateInquiry(int idx, String content)throws Exception;
+
+    List<InquiryEntity> findAllByOrderByInquiryIdxDesc();
 }
