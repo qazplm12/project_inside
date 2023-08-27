@@ -68,12 +68,21 @@ function CodeChallenge(props) {
 
     const handleRun = (e) => {
         // e.preventDefault();
+        let requestData = {};
 
-        // 코드를 JSON 형식으로 변환(자바언어가 textarea로 입력이 안되는 인코딩 이슈 발생)
-        const requestData = {
-            code: code.replace(/\n/g, ''), // 줄바꿈 제거
-            language: language
-        };
+        if (language == "Python") {
+            // 코드를 JSON 형식으로 변환(자바언어가 textarea로 입력이 안되는 인코딩 이슈 발생)
+            requestData = {
+                code: code,
+                language: language
+            };
+        }
+        else {
+            requestData = {
+                code: code.replace(/\n/g, ''), // 줄바꿈 제거
+                language: language
+            };
+        }
 
         // 셀리니움 호출
         axios.post('http://localhost:8080/server/challenge', requestData)
