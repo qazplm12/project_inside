@@ -86,7 +86,7 @@ public class ParkController {
 //            List<String> keywords = Arrays.asList(keyword);
 //            return toyService.searchListProject(keywords);
 //        }
-            return toyService.selectListProject();
+        return toyService.selectListProject();
     }
 
     // 프로젝트 최신 순 버튼 클릭시 내림차순
@@ -155,21 +155,12 @@ public class ParkController {
 
 
     // side profile(사이드 프로필)
-    @ResponseBody
     @RequestMapping(value = "toyProject/sideProfile", method = RequestMethod.POST)
-    public PersonEntity sideProfileGet(@RequestBody String userInfo) throws Exception {
-        System.out.println("com in value email??" + userInfo);
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            JsonNode jsonNode = objectMapper.readTree(userInfo);
-            String personId = jsonNode.get("userInfo").get("personId").asText();
-            System.out.println("personId 값이 잘 들어 왔는지 확인 :" + personId);
-            return toyService.sideProfile(personId);
-        } catch (Exception e) {
-            System.out.println("이메일 정보가 없습니다." + e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
+    public PersonEntity sideProfileGet(
+            @RequestParam(value = "personId") String projectLeaderId
+    ) throws Exception {
+
+        return simService.getUserInfo(projectLeaderId);
     }
 
     // 상세 보기 페이지 http://localhost:3000/pi/toyDetail/12
@@ -227,15 +218,17 @@ public class ParkController {
     }
 
     // 클릭시 해재 설정
-    @ResponseBody
-    @RequestMapping(value = "toyProject/likeMin", method = RequestMethod.POST)
-    public List<LikeCheckEntity> minCheckPost(
-            @RequestParam(value = "projectIdx") int projectIdx,
-            @RequestParam(value = "personId") String personId
-    ) throws Exception {
-
-        return toyService.minCheck(projectIdx, personId);
-    }
+//    @ResponseBody
+//    @RequestMapping(value = "toyProject/likeMin", method = RequestMethod.POST)
+//    public List<LikeCheckEntity> minCheckPost(
+//            @RequestParam(value = "projectIdx") int projectIdx,
+//            @RequestParam(value = "personId") String personId
+//    ) throws Exception {
+//        System.out.println("-1 일 동작 여기임??"+projectIdx);
+//        System.out.println("-1 일 동작 여기임??"+personId);
+//
+//        return toyService.minCheck(projectIdx, personId);
+//    }
 
     // 좋아요 유지 화면에 보여주기
     @ResponseBody
@@ -249,6 +242,7 @@ public class ParkController {
     @RequestMapping(value = "toyProject/likeMinView", method = RequestMethod.POST)
     public List<LikeCheckEntity> minViewPost(@RequestParam(value = "personId") String personId) throws Exception {
 
+        System.out.println("Min personId의 값이 들어 오나요 ??" + personId);
         return toyService.minView(personId, 0);
     }
 

@@ -146,18 +146,18 @@ public class ToyServiceImpl implements  ToyService {
         return likeCheckRepository.findByMemberIdAndLikeCheck(personId, 0);
     }
 
-    @Override
-    public List<LikeCheckEntity> minCheck(int projectIdx, String personId) throws Exception {
-
-        LikeCheckEntity likePlusCheck = new LikeCheckEntity();
-        likePlusCheck.setProjectIdx(projectIdx);
-        likePlusCheck.setMemberId(personId);
-        likePlusCheck.setLikeCheck(0);
-
-        System.out.println("0의 자리로 타나요");
-
-        return likeCheckRepository.findByMemberIdAndLikeCheck(personId, 0);
-    }
+//    @Override
+//    public List<LikeCheckEntity> minCheck(int projectIdx, String personId) throws Exception {
+//
+//        LikeCheckEntity likePlusCheck = new LikeCheckEntity();
+//        likePlusCheck.setProjectIdx(projectIdx);
+//        likePlusCheck.setMemberId(personId);
+//        likePlusCheck.setLikeCheck(0);
+//
+//        System.out.println("0의 자리로 타나요");
+//
+//        return likeCheckRepository.findByMemberIdAndLikeCheck(personId, 0);
+//    }
 
     @Override
     public int projectCheck(String personNickName) throws Exception {

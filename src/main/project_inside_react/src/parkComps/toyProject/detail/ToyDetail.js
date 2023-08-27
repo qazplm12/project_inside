@@ -21,24 +21,11 @@ function ToyDetail(props) {
         console.log("userIn?::" + userInfo);
     }, [userInfo]);
 
-    // 회원 정보 가져 오기
+    //  프로젝트 매니저 정보 가져 오기
     const [userNames, setUserNames] = useState([]);
 
     useEffect(() => {
-        // 비회원은 에러 뜨길래 유저 정보 있을때만 실행하도록 수정
-        if (userInfo) {
-            axios.post("http://localhost:8080/pi/toyProject/sideProfile", {
-                userInfo: userInfo
-            })
-                .then(response => {
-                    console.log('성공')
-                    console.log('response.data 정체 ::' + response.data)
-                    setUserNames(response.data)
-                })
-                .catch((error) => {
-                    console.log("userInfo side value:::" + error)
-                });
-        }
+
         axios.get(`http://localhost:8080/pi/toyProject/toyDetail/${projectIdx}`)
             .then(response => {
                 setToyProject(response.data);
@@ -52,6 +39,20 @@ function ToyDetail(props) {
 
 
     useEffect(() => {
+        if (toyProject) {
+            axios.post("http://localhost:8080/pi/toyProject/sideProfile", null, {
+                params: {
+                    personId: toyProject.projectLeaderId
+                }
+            })
+                .then(response => {
+                    setUserNames(response.data)
+                })
+                .catch((error) => {
+                    console.log("userInfo side value:::" + error)
+                });
+        }
+
 
         // 로그인 상태일때만 상태값 가져오기
         if (userInfo) {
@@ -85,7 +86,7 @@ function ToyDetail(props) {
                     // 에러 발생시
                 });
 
-        // 거절 기록 있는지 확인
+            // 거절 기록 있는지 확인
             axios.post(`http://localhost:8080/simServer/checkRejectMember`, null, {
                 params: {
                     matchingProjectIdx: toyProject.projectIdx,
@@ -113,16 +114,15 @@ function ToyDetail(props) {
             } else if (rejected > 0) {
                 // 프로젝트 거부 당했을때 (0 : 기본값, 1이상 : 해당시)
                 alert('거절 당한 프로젝트 입니다.');
-            } else if(myMatchingStatus.matchingMemberAccept === "3"){
+            } else if (myMatchingStatus.matchingMemberAccept === "3") {
                 alert('이미 참여중인 프로젝트 입니다.');
-            }
-            else if (toyProject.projectFull === "Y") {
+            } else if (toyProject.projectFull === "Y") {
                 alert('모집이 완료된 프로젝트 입니다.');
             } else {
                 const formData = new FormData();
                 formData.append("projectIdx", projectIdx);
                 formData.append("projectLeaderId", toyProject.projectLeaderId);
-                formData.append("matchingMemberNick", userNames.personNickName);
+                formData.append("matchingMemberNick", userInfo.personNickName);
 
                 axios({
                     method: 'POST',
@@ -151,7 +151,7 @@ function ToyDetail(props) {
         const formData = new FormData()
         formData.append("projectIdx", projectIdx);
         formData.append("projectLeaderId", toyProject.projectLeaderId)
-        formData.append("matchingMemberNick", userNames.personNickName);
+        formData.append("matchingMemberNick", userInfo.personNickName);
 
         axios.post(`http://localhost:8080/pi/toyProject/projectCancel`, formData)
             .then(response => {
@@ -187,73 +187,72 @@ function ToyDetail(props) {
                 </Col>
             </Row>
             {/* 프로젝트 기본 정보및 개설자 정보 */}
-            <Row className={"py-3 mt-2 "}>
+            <Row className={""}>
                 <Col sm={12}>
-                    <div className={'ms-5 ps-3'}>
+                    <div className={''}>
                         <span className={"fs-1 text-secondary fw-bold "}> {toyProject.projectTitle}</span>
-                    </div>
-                </Col>
-            </Row>
-            {/* 등록자 프로필 */}
-            <Row className={"py-5 border-top mx-auto rounded-1 mt-2"}>
-                <Col sm={6}>
-                    <div className={'box mx-auto'}>
-                        <img src={"/images/profile.jpg"} className={"rounded-circle profile"}/>
-                    </div>
-                    <div className={"mt-5"}>
-                        <span className={"text-secondary fs-5"}>프로젝트 관리자 프로필 <br/>
-                                <i className="bi bi-envelope-open-heart"></i>
-                        <span className={"fw-bold ms-3"}>{toyProject.projectLeaderId}</span></span>
-                    </div>
-                </Col>
-                <Col sm={6}>
-                    {/*  관리자 닉네임, 레벨, 기술스팩   */}
-                    <div>
-                        <span><i className="bi bi-person-bounding-box text-danger-emphasis fs-1 fw-bold"></i></span>
-                        <span className={"ms-3 text-secondary fs-5"}> {toyProject.personNickName}</span>
-                    </div>
-                    <div className={"mt-5"}>
-                        <span><i className="bi bi-star-fill text-danger-emphasis fs-1 fw-bold me-5"></i></span>
-                        <span className={"text-secondary text-start"}>Lv. {toyProject.projectLevel}</span>
-                    </div>
-                    <div className={"mt-5"}>
-                            <span><i
-                                className="bi bi-gear-wide-connected text-danger-emphasis fs-1 fw-bold ms-5 ps-5"></i></span>
-                        <span className={"ms-3 text-secondary text-center"}>{toyProject.projectLanguage}</span>
                     </div>
                 </Col>
             </Row>
             {/*총 모집 인원 / 참여가능레벨 / 날짜 */}
             <Row className={"py-5 border-top mx-auto rounded-1 mt-2"}>
                 <div>
-                    <span className={"fw-bold fs-3 text-secondary"}>[프로젝트 상세]</span>
+                    <span className={"fw-bold fs-3 text-secondary"}>[프로젝트 개요]</span>
                 </div>
             </Row>
-            <Row>
-                <Col sm={6}>
-                    <div>
-                        <span><i className="text-danger-emphasis fs-3 bi bi-people-fill"></i></span>
-                        <span
-                            className={"fs-5 ms-3 mx-auto text-secondary text-start"}>{toyProject.projectMember} 명</span><br/>
-                    </div>
-                    <div className={"mt-4"}>
-                        <span><i className="text-danger-emphasis fs-3 bi bi-star-fill me-2"></i></span>
-                        <span
-                            className={"fs-5 mx-auto text-secondary text-center ms-4"}>Lv. {toyProject.projectLevel}</span>
+            <Row className={"mx-auto"}>
+                <Col sm>
+                    <div className={'row'}>
+                        <div className={'col'}>
+                            <div className={'d-flex'}>
+                                <div className={'text-start me-auto'}>
+                                    <div>
+                                        <span><i className="me-2 text-danger-emphasis fs-3 bi bi-people-fill"></i><span className={'text-secondary'}> 총 모집 인원 : </span></span>
+                                        <span
+                                            className={"fs-5 mx-auto mx-1"}><strong>{toyProject.projectMember} 명</strong></span><br/>
+                                    </div>
+                                    <div className={"mt-2"}>
+                                            <span><i className="me-2 text-danger-emphasis fs-3 bi bi-star-fill"></i><span className={'text-secondary'}> 참여가능 레벨 : </span></span>
+                                        <span
+                                            className={"fs-5"}><strong>Lv.{toyProject.projectLevel}</strong> </span>
+                                    </div>
+
+                                    <div className={"mt-2"}>
+                                            <span><i
+                                                className="me-2 text-danger-emphasis fs-3 bi bi-gear-wide-connected"></i><span className={'text-secondary'}> 주 사용 언어 / 기술 스텍 : </span></span>
+                                        <span></span>
+                                        <span
+                                            className={"fs-5"}><strong>{toyProject.projectLanguage}</strong></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span><i className="me-2 text-danger-emphasis fs-3 bi bi-calendar3"></i><span className={'text-secondary '}> 등록일 : </span></span>
+                                    <span className={"fs-5 mx-auto"}><strong><ProjectDate
+                                        date={toyProject.projectDate}/></strong></span><br/>
+                                </div>
+                            </div>
+                            <div className="card my-4" style={{maxWidth: "540px"}}>
+                                <div className="row g-0">
+                                    <div className="col-md-4">
+                                        <img src="/images/kazha.jpg" className="img-fluid rounded-start"/>
+                                    </div>
+                                    <div className="col-md-8" style={{backgroundColor : 'rgba(200, 240, 240, 0.5)'}}>
+                                        <div className="card-body text-start">
+                                            <h5 className="card-title mb-4"><strong>PM({userNames.personNickName}) 프로필</strong></h5>
+                                            <div className={'text-muted'}>
+                                            <p className="card-text mb-1">레벨 : Lv.{userNames.personLevel}</p>
+                                            <p className="card-text mb-1">이메일 : {userNames.personId}</p>
+                                            <p className="card-text mb-1">보유 기술 : {userNames.personLanguage}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </Col>
-                <Col sm={6}>
-                    <div>
-                        <span><i className="text-danger-emphasis fs-3 bi bi-calendar3"></i></span>
-                        <span className={"fs-5 ms-3 mx-auto text-secondary text-center ms-3"}><ProjectDate
-                            date={toyProject.projectDate}/></span><br/>
-                    </div>
-                    <div className={"mt-4"}>
-                        <span><i className="text-danger-emphasis fs-3 bi bi-gear-wide-connected ms-5"></i></span>
-                        <span
-                            className={"fs-5 mx-auto text-secondary text-center ps-4"}>{toyProject.projectLanguage}</span>
-                    </div>
-                </Col>
+                {/*<Col sm={6}>*/}
+                {/*</Col>*/}
             </Row>
             {/* 프로젝트 상세 내용 */}
             <Row className={"border-top"}>

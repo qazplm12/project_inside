@@ -186,8 +186,8 @@ function ToyListBoard(props) {
                 </Col>
             </Row>
 
-            <Row>
-                <Col sm={9} className={'mx-auto'}>
+            <Row className={"d-flex justify-content-center"}>
+                <Col sm={9} className={'me-4 ms-3'}>
                     <div>
                         {chunksThumbnail.map((toyProjects, index) => (
                             <Row
@@ -202,7 +202,7 @@ function ToyListBoard(props) {
                     </div>
                 </Col>
                 <Col sm={2} className={'px-0'}>
-                    <aside>
+                    <aside className={"me-5"}>
                         {/*<ProjectSide/>*/}
                         <ListSidebar/>
                     </aside>

@@ -143,7 +143,11 @@ function Thumbnail(props) {
                         .filter(item => item.memberId === userInfo.personId && item.likeCheck === 1)
                         .map(item => item.projectIdx);
 
+                    console.log("projectIdxArray"+projectIdxArray)
+
                     const projectIdxSet = new Set(projectIdxArray);
+                    console.log("projectIdxSet"+projectIdxSet)
+                    console.log("+1 부분::"+projectIdxSet.toString())
                     const uniqueProjectIdxArray = Array.from(projectIdxSet);
 
                     if (uniqueProjectIdxArray.includes(projectIdx)) {
@@ -154,24 +158,7 @@ function Thumbnail(props) {
                     console.log("plus view error message :::" + error)
                 })
 
-            // axios.post('http://localhost:8080/pi/toyProject/likeMinView', formData)
-            //     .then(response =>{
-            //         const likeDataArray = response.data;
-            //
-            //         const projectIdxArray = likeDataArray
-            //             .filter(item => item.memberId === userInfo.personId && item.likeCheck === 0)
-            //             .map(item => item.projectIdx);
-            //
-            //         const projectIdxSet = new Set(projectIdxArray);
-            //         const uniqueProjectIdxArray = Array.from(projectIdxSet);
-            //
-            //         if (uniqueProjectIdxArray.includes(projectIdx)) {
-            //             setIconCheck(iconCheck);
-            //         }
-            //     })
-            //     .catch((error) =>{
-            //         console.log("plus view error message :::"+error)
-            //     })
+
 
         axios.post("http://localhost:8080/simServer/getMatchingAllList", null, {
             params: {
@@ -185,6 +172,35 @@ function Thumbnail(props) {
 
             });
 
+    }, []);
+
+    useEffect(() => {
+        const formData = new FormData();
+        formData.append("personId", userInfo ? userInfo.personId : "")
+
+        // 이제 화면에 뿌려주는 부분
+        axios.post('http://localhost:8080/pi/toyProject/likeMinView', formData)
+            .then(response => {
+                const likeDataArray = response.data;
+
+                const projectIdxArray = likeDataArray
+                    .filter(item => item.memberId === userInfo.personId && item.likeCheck != 0)
+                    .map(item => item.projectIdx);
+
+                console.log("projectIdxArray"+projectIdxArray)
+
+                const projectIdxSet = new Set(projectIdxArray);
+                console.log("projectIdxSet"+projectIdxSet)
+                console.log("+1 부분::"+projectIdxSet.toString())
+                const uniqueProjectIdxArray = Array.from(projectIdxSet);
+
+                if (uniqueProjectIdxArray.includes(projectIdx)) {
+                    setIconCheck(!iconCheck);
+                }
+            })
+            .catch((error) => {
+                console.log("plus view error message :::" + error)
+            })
     }, []);
 
     ////////////////////////////////////////////////////
