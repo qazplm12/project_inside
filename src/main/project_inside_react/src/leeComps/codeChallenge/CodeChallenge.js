@@ -120,6 +120,7 @@ function CodeChallenge(props) {
 
                     const argu1 = scoreList[i].argu1;
                     const argu2 = scoreList[i].argu2;
+                    const argu3 = scoreList[i].argu3;
                     const expectedValue = scoreList[i].expectedValue;
 
                     // 검산용 매개변수로 치환
@@ -130,14 +131,17 @@ function CodeChallenge(props) {
                     // 검산용 매개변수 값
                     const validationNum1 = argu1;
                     const validationNum2 = argu2;
+                    const validationNum3 = argu3;
 
                     // 매개변수 이름
                     const paramName1 = "num1";
                     const paramName2 = "num2";
+                    const paramName3 = "num3";
 
                     // 매개변수 값을 변경한 코드 생성
                     let modifiedCode = replaceParameterValues(code, paramName1, validationNum1);
                     modifiedCode = replaceParameterValues(modifiedCode, paramName2, validationNum2);
+                    modifiedCode = replaceParameterValues(modifiedCode, paramName3, validationNum3);
 
                     // setCode(modifiedCode);   // 이 조건문 속에선 setCode가 동작 안되는거같음
                     // console.log("잘 바뀌었을까요? \n" + modifiedCode);
@@ -180,8 +184,8 @@ function CodeChallenge(props) {
                                 testCount++;
                                 correctCount++;
                                 // 카운트가 다 차면 최종 성공, 결과 출력
-                                console.log("테스트" + testCount + " 성공!!");
-                                str = str.concat(`테스트 ${testCount} 성공!! 입력값 : ${argu1}, ${argu2} 기댓값 : ${expectedValue} \n`); // 기본 문자열에 append하는 느낌
+                                console.log("테스트" + testCount + " 성공!!" + respectCorrect);
+                                str = str.concat(`테스트 ${testCount} 성공!! 입력값 : ${argu1}, ${argu2}, ${argu3} 기댓값 : ${expectedValue} \n`); // 기본 문자열에 append하는 느낌
                                 setResult(str);
                                 if (correctCount == listLength) { // const 로 변수를 선언해 준 다음 받으니 정상 작동.., 검산 전부 정답 시
                                     alert("최종 정답입니다");
@@ -197,8 +201,8 @@ function CodeChallenge(props) {
                             else {  // 오답 시
                                 testCount++;
                                 wrongCount++;
-                                console.log("테스트" + testCount + " 실패!!");
-                                str = str.concat(`테스트 ${testCount} 실패.. 입력값 : ${argu1}, ${argu2} 기댓값 : ${expectedValue} \n`);
+                                console.log("테스트" + testCount + " 실패!!" + respectCorrect);
+                                str = str.concat(`테스트 ${testCount} 실패.. 입력값 : ${argu1}, ${argu2}, ${argu3} 기댓값 : ${expectedValue} \n`);
                                 setResult(str);
                                 if (wrongCount == listLength) {
                                     alert("오답입니다");
