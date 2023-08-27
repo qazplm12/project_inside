@@ -126,9 +126,9 @@ public class ParkController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "toyProject/likeMinProjectCheck", method = RequestMethod.POST)
-    public void minLikePost(@RequestBody ProjectEntity projectEntity) throws Exception {
-        System.out.println("123::" + projectEntity.getProjectIdx());
+    @RequestMapping(value="toyProject/likeMinProjectCheck", method = RequestMethod.POST)
+    public void minLikePost( @RequestBody ProjectEntity projectEntity) throws Exception{
+        System.out.println("123::"+projectEntity.getProjectIdx());
         int projectIdx = projectEntity.getProjectIdx();
         toyService.likeMinProjectLike(projectIdx);
     }
@@ -227,15 +227,17 @@ public class ParkController {
     }
 
     // 클릭시 해재 설정
-    @ResponseBody
-    @RequestMapping(value = "toyProject/likeMin", method = RequestMethod.POST)
-    public List<LikeCheckEntity> minCheckPost(
-            @RequestParam(value = "projectIdx") int projectIdx,
-            @RequestParam(value = "personId") String personId
-    ) throws Exception {
-
-        return toyService.minCheck(projectIdx, personId);
-    }
+//    @ResponseBody
+//    @RequestMapping(value = "toyProject/likeMin", method = RequestMethod.POST)
+//    public List<LikeCheckEntity> minCheckPost(
+//            @RequestParam(value = "projectIdx") int projectIdx,
+//            @RequestParam(value = "personId") String personId
+//    ) throws Exception {
+//        System.out.println("-1 일 동작 여기임??"+projectIdx);
+//        System.out.println("-1 일 동작 여기임??"+personId);
+//
+//        return toyService.minCheck(projectIdx, personId);
+//    }
 
     // 좋아요 유지 화면에 보여주기
     @ResponseBody
@@ -249,6 +251,7 @@ public class ParkController {
     @RequestMapping(value = "toyProject/likeMinView", method = RequestMethod.POST)
     public List<LikeCheckEntity> minViewPost(@RequestParam(value = "personId") String personId) throws Exception {
 
+        System.out.println("Min personId의 값이 들어 오나요 ??"+personId);
         return toyService.minView(personId, 0);
     }
 

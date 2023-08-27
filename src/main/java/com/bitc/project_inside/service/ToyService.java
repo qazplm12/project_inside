@@ -21,8 +21,6 @@ public interface ToyService {
 
     public void likePlusProjectLike(int projectIdx) throws Exception;
 
-    public void likeMinProjectLike(int projectIdx) throws Exception;
-
     List<ProjectEntity> likeUpToy()throws Exception;
 
     List<ProjectEntity> likeDownToy() throws Exception;
@@ -39,7 +37,7 @@ public interface ToyService {
 
     List<LikeCheckEntity> minView(String personId, int i) throws Exception;
 
-    List<LikeCheckEntity> minCheck(int projectIdx, String personId) throws Exception;
+//    List<LikeCheckEntity> minCheck(int projectIdx, String personId) throws Exception;
 
     int projectCheck(String personNickName) throws Exception;
 
@@ -48,4 +46,6 @@ public interface ToyService {
     List<ProjectEntity> likeMinLatestPost() throws Exception;
 
     List<ProjectEntity> searchListProject(List<String> keywords) throws Exception;
+
+    void likeMinProjectLike(int projectIdx) throws Exception;
 }

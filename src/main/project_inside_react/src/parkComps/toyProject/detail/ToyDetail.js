@@ -196,17 +196,20 @@ function ToyDetail(props) {
             </Row>
             {/* 등록자 프로필 */}
             <Row className={"py-5 border-top mx-auto rounded-1 mt-2"}>
+                {/*<Col sm={6}>*/}
+                {/*</Col>*/}
                 <Col sm={6}>
                     <div className={'box mx-auto'}>
                         <img src={"/images/profile.jpg"} className={"rounded-circle profile"}/>
+                        <p>프로젝트 매니저 프로필</p>
+                        <p>Lv.</p>
+                        <p>이메일 : </p>
                     </div>
                     <div className={"mt-5"}>
                         <span className={"text-secondary fs-5"}>프로젝트 관리자 프로필 <br/>
                                 <i className="bi bi-envelope-open-heart"></i>
                         <span className={"fw-bold ms-3"}>{toyProject.projectLeaderId}</span></span>
                     </div>
-                </Col>
-                <Col sm={6}>
                     {/*  관리자 닉네임, 레벨, 기술스팩   */}
                     <div>
                         <span><i className="bi bi-person-bounding-box text-danger-emphasis fs-1 fw-bold"></i></span>
@@ -229,8 +232,8 @@ function ToyDetail(props) {
                     <span className={"fw-bold fs-3 text-secondary"}>[프로젝트 상세]</span>
                 </div>
             </Row>
-            <Row>
-                <Col sm={6}>
+            <Row className={"mx-auto"}>
+                <Col sm>
                     <div>
                         <span><i className="text-danger-emphasis fs-3 bi bi-people-fill"></i></span>
                         <span
@@ -241,8 +244,6 @@ function ToyDetail(props) {
                         <span
                             className={"fs-5 mx-auto text-secondary text-center ms-4"}>Lv. {toyProject.projectLevel}</span>
                     </div>
-                </Col>
-                <Col sm={6}>
                     <div>
                         <span><i className="text-danger-emphasis fs-3 bi bi-calendar3"></i></span>
                         <span className={"fs-5 ms-3 mx-auto text-secondary text-center ms-3"}><ProjectDate
@@ -254,6 +255,8 @@ function ToyDetail(props) {
                             className={"fs-5 mx-auto text-secondary text-center ps-4"}>{toyProject.projectLanguage}</span>
                     </div>
                 </Col>
+                {/*<Col sm={6}>*/}
+                {/*</Col>*/}
             </Row>
             {/* 프로젝트 상세 내용 */}
             <Row className={"border-top"}>
