@@ -19,6 +19,7 @@ import javax.swing.plaf.PanelUI;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,7 +81,12 @@ public class ParkController {
     @RequestMapping(value = "toyProject/ToyListBoard", method = RequestMethod.GET)
     public List<ProjectEntity> toyListBoardGet() throws Exception {
 
-        return toyService.selectListProject();
+//        @RequestParam String[] keyword
+//        if(keyword != null){
+//            List<String> keywords = Arrays.asList(keyword);
+//            return toyService.searchListProject(keywords);
+//        }
+            return toyService.selectListProject();
     }
 
     // 프로젝트 최신 순 버튼 클릭시 내림차순
@@ -140,12 +146,13 @@ public class ParkController {
         return toyService.likeDownToy();
     }
 
-    // 검색기능
-    @ResponseBody
-    @RequestMapping(value = "toyProject/codeSearch", method = RequestMethod.POST)
-    public List<ProjectEntity> searchPost(@RequestParam("keyword") String keyword) throws Exception {
-        return toyService.toyProjectSearch(keyword);
-    }
+//    // 검색기능
+//    @ResponseBody
+//    @RequestMapping(value = "toyProject/codeSearch", method = RequestMethod.POST)
+//    public List<ProjectEntity> searchPost(@RequestParam("keyword") String keyword) throws Exception {
+//        return toyService.toyProjectSearch(keyword);
+//    }
+
 
     // side profile(사이드 프로필)
     @ResponseBody

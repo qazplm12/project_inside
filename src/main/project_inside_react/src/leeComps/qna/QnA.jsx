@@ -95,16 +95,18 @@ function QnA(props) {
                                         <p className={'text-start'}>{item.questionContent}</p>
                                         <CodeEditor language={item.questionLanguage} code={item.questionCode} readOnly={true}/>
                                     </div>
-                                    <hr className={'my-5'}/>
-                                    <div className={'d-flex justify-content-start mb-4'}>
-                                        <h5 className={'align-middle me-auto mb-0 mt-1'}>{item.questionCount} 개의 답변</h5>
-                                        <button className={'btn btn-primary me-2'} onClick={() => {
+                                    <div className={'d-flex justify-content-start mt-5 mb-1'}>
+                                        <h5 className={'align-middle me-auto mb-0 mt-1 theme-font fs-4 '}><h3 className={'d-inline'}><strong>{item.questionCount}</strong></h3>개의 답변</h5>
+                                        <button className={'theme-btn p-2 me-2'} onClick={() => {
                                             setQuestionIdx(item.questionIdx);
                                             setQuestionLanguage(item.questionLanguage);
                                             setQuestionNick(item.questionNick);
                                             setAnswerModalShow(true)
-                                        }}>답변 작성하기</button>
+                                        }}><h5 className={'m-0'}>답변 작성하기</h5></button>
                                     </div>
+                                    {/*<hr className={'mt-5'}/>*/}
+                                    <hr className={'mb-5'}/>
+
                                     <AnswerBody questionIdx={item.questionIdx} AnswerModalShow={AnswerModalShow} />
                                 </Accordion.Body>
                             </Accordion.Item>

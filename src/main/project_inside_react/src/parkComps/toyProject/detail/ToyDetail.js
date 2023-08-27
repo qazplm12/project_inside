@@ -85,7 +85,6 @@ function ToyDetail(props) {
                     // 에러 발생시
                 });
 
-
         // 거절 기록 있는지 확인
             axios.post(`http://localhost:8080/simServer/checkRejectMember`, null, {
                 params: {

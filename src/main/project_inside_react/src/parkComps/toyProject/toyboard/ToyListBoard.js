@@ -16,6 +16,9 @@ function ToyListBoard(props) {
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
 
+    // 태그 저장
+    const [intag, setintag] = useState([])
+
     // 최신 순 클릭시
     const [latest, setLatest] = useState(true);
 
@@ -36,7 +39,7 @@ function ToyListBoard(props) {
         setIsLoading(true);
         axios.get(`http://localhost:8080/pi/toyProject/ToyListBoard?page=${page}`)
             .then(response => {
-                setToyProjects((e) => [...toyProjects, ...response.data]);
+                setToyProjects((e) => [ ...response.data]);
                 setIsLoading(false);
                 setPage(prevPage => prevPage + 1);
             })
@@ -66,14 +69,21 @@ function ToyListBoard(props) {
             });
     };
 
-    // useEffect(() => {
-    //     handleTagSelections(tag);
-    // }, []);
+
 
     useEffect(() => {
         loadMoreItems();
     }, []);
 
+
+    // 아래 꺼랑  그밑에꺼랑 useEffect 랑 합쳐야 되나??
+
+    // 이게 검색 결과르 불러 오는 useEffect
+    // useEffect(() => {
+    //     handleTagSelections(intag);
+    // }, [intag]);
+
+    // 기본 화면을 불러 오는거야
     useEffect(() => {
         const _chunksThumbnail = []
         for (let i = 0; i < toyProjects.length; i += thumbnailSize) {
@@ -82,6 +92,17 @@ function ToyListBoard(props) {
 
         setChunksThumbnail(_chunksThumbnail)
     }, [toyProjects]);
+
+    // useEffect(() => {
+    //     handleTagSelections(intag);
+    //
+    //     const _chunksThumbnail = [];
+    //     for (let i = 0; i < toyProjects.length; i += thumbnailSize) {
+    //         _chunksThumbnail.push(toyProjects.slice(i, i + thumbnailSize));
+    //     }
+    //
+    //     setChunksThumbnail(_chunksThumbnail);
+    // }, [intag, toyProjects]);
 
     // 최신 순 클릭 시
     const LatestCheck = () => {

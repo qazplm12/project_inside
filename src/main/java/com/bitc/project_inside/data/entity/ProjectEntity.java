@@ -26,9 +26,6 @@ public class ProjectEntity {
     private int projectIdx; //
 
     @Column
-    private int projectMatchingIdx; //
-
-    @Column
     private String projectLeaderId; //
 
     @Column

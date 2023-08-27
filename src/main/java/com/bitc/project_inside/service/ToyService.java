@@ -29,8 +29,6 @@ public interface ToyService {
 
     Optional<ProjectEntity> toyProjectSelect(int projectIdx) throws Exception;
 
-    List<ProjectEntity> toyProjectSearch(String keyword) throws Exception;
-
     PersonEntity sideProfile(String personId) throws Exception;
 
     MatchingEntity matchingPart(int projectIdx, String projectLeaderId, String matchingMemberNick) throws Exception;
@@ -48,4 +46,6 @@ public interface ToyService {
     List<ProjectEntity> likeLatestPost() throws Exception;
 
     List<ProjectEntity> likeMinLatestPost() throws Exception;
+
+    List<ProjectEntity> searchListProject(List<String> keywords) throws Exception;
 }

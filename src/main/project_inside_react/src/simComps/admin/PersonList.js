@@ -40,7 +40,7 @@ const PersonList = (props) => {
     };
 
     const sendMsg = () => {
-        if (window.confirm(`${target.nickName}님을 정말 차단하시겠습니까?`)) {
+        if (window.confirm(`${target.personNickName}님을 정말 차단하시겠습니까?`)) {
             axios.post('http://localhost:8080/simServer/banningPerson', null, {
                 params: {
                     // 유저 특정 정보 보내기
@@ -64,7 +64,10 @@ const PersonList = (props) => {
         }, 300);
     };
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false)
+        setTarget(null);
+    };
     const handleShow = () => setShow(true);
 
     // 페이지 변경 핸들러
