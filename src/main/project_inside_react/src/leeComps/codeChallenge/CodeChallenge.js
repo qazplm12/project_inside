@@ -93,7 +93,7 @@ function CodeChallenge(props) {
                 setResult(res.data);
             })
             .catch(err => {
-                alert('axios 통신 실패' + err);
+                // alert('axios 통신 실패' + err);
                 console.log(err);
             });
     }
@@ -217,13 +217,13 @@ function CodeChallenge(props) {
                             }
                         })
                         .catch(err => {
-                            alert('axios 통신 실패' + err);
+                            // alert('axios 통신 실패' + err);
                             console.log(err);
                         });
                 }   // 반복문 끝
             })
             .catch(err => {
-                alert('axios 통신 실패' + err);
+                // alert('axios 통신 실패' + err);
                 console.log(err);
             });
     }
@@ -258,7 +258,7 @@ function CodeChallenge(props) {
                 // alert("저장성공 : " + res.data);
             })
             .catch(err => {
-                alert("통신 실패 : " + err);
+                // alert("통신 실패 : " + err);
                 console.log("통신 실패 : " + err);
             });
     }

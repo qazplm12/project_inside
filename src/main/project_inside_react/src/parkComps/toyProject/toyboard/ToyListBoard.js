@@ -38,7 +38,7 @@ function ToyListBoard(props) {
         setIsLoading(true);
         axios.get(`http://localhost:8080/pi/toyProject/ToyListBoard?page=${page}`)
             .then(response => {
-                setToyProjects((e) => [...response.data]);
+                setToyProjects((e) => [...toyProjects, ...response.data]);
                 setIsLoading(false);
                 setPage(prevPage => prevPage + 1);
             })
