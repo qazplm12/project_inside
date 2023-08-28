@@ -129,6 +129,7 @@ function ListSidebar(props) {
                                 <span className={'theme-font'} style={{fontSize: '1.2em'}}><b><i className="bi bi-lightbulb theme-font"></i> 문제</b></span>
                                 <p className={'mt-2'}>{totalChallenge} 개</p>
                             </div>
+                            <Link to={'/pi/ToyRegis'} className={'theme-btn text-decoration-none fs-5 mb-3 w-75'}>프로젝트 등록</Link>
                         </div>
                     </li>
                     {
