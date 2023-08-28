@@ -28,10 +28,10 @@ public class ChallengeEntity {
     @Column
     private String challengeLimit;
 
-    @Column
+    @Column(length = 1000)
     private String challengeParamExample;
 
-    @Column(length = 2000)
+    @Column(length = 1000)
     private String challengeSolutionExample;
 
     @Column(length = 2000)

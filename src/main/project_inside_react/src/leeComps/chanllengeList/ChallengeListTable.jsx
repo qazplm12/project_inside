@@ -10,7 +10,7 @@ function ChallengeListTable(props) {
     // const [items, setItems] = React.useState([])  //리스트에 나타낼 아이템
     const [count, setCount] = useState(0); //아이템 총 개수
     const [currentPage, setCurrentPage] = useState(1); //현재페이지
-    const [postPerPage] = useState(5); //페이지당 아이템 개수
+    const [postPerPage] = useState(15); //페이지당 아이템 개수
 
     const [indexOfLastPost, setIndexOfLastPost] = useState(0);
     const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
