@@ -382,20 +382,28 @@ public class SimServiceImpl implements SimService {
 
     @Override
     public List<AnswerRequest> answerInfoInQuestionInfoInChallengeInfo(List<AnswerEntity> answerList) throws Exception {
-
         if (answerList.size() > 0) {
+            // 리턴 타입에 맞춰 리스트 생성
             List<AnswerRequest> answerDtoList = new ArrayList<>();
+
             for (AnswerEntity answerItem : answerList) {
-                // 엔티티 정보 dto 타입에 넣기 (필요한 것만)
                 AnswerRequest dtoItem = new AnswerRequest();
+
+                // Entity 정보 DTO 타입에 넣기 (필요한 것만)
                 dtoItem.setAnswerIdx(answerItem.getAnswerIdx());
                 dtoItem.setAnswerContent(answerItem.getAnswerContent());
                 dtoItem.setAnswerLanguage(answerItem.getAnswerLanguage());
+
+                // 주가 되는 Entity 객체의 데이터를 이용해서 다른 Entity 타입의 객체를 통째로 DTO 객체에 받아들인다
                 dtoItem.setQuestionEntity(questionRepository.findByQuestionIdx(answerItem.getAnswerQuestionIdx()));
                 dtoItem.setChallengeEntity(challengeRepository.findByChallengeIdx(dtoItem.getQuestionEntity().getQuestionChallengeIdx()));
+
+                // DTO 리스트에 추가
                 answerDtoList.add(dtoItem);
             }
             return answerDtoList;
+
+
         } else {
             // 오류 방지
             List<AnswerRequest> emptyList = new ArrayList<>();

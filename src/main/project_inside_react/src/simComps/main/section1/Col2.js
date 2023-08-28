@@ -64,20 +64,20 @@ function Col2(props) {
                                 <tr key={`Cl${index}`}>
                                     <td>{questionList ? questionList[index].questionIdx : ""}</td>
                                     <td className={'px-0'}>
-                                        {item.challengeTitle.length < 13
+                                        {item.challengeTitle.length < 9
                                             ? <Link className={'theme-link'}
                                                     to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle}</Link>
 
                                             : <Link className={'theme-link'}
-                                                    to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle.slice(0, 12) + '...'}</Link>}
+                                                    to={`/codeChallenge?idx=${item.challengeIdx}`}>{item.challengeTitle.slice(0, 8) + '...'}</Link>}
                                     </td>
                                     <td className={'px-0'}>
-                                        {questionList[index].questionTitle.length < 13
+                                        {questionList[index].questionTitle.length < 9
                                             ? <Link className={'theme-link'}
                                                     to={`/pi/QnA?idx=${item.challengeIdx}`}>{questionList[index].questionTitle}</Link>
 
                                             : <Link className={'theme-link'}
-                                                    to={`/pi/QnA?idx=${item.challengeIdx}`}>{questionList[index].questionTitle.slice(0, 12) + '...'}</Link>}
+                                                    to={`/pi/QnA?idx=${item.challengeIdx}`}>{questionList[index].questionTitle.slice(0, 8) + '...'}</Link>}
                                     </td>
                                     <td>{item.challengeCorrectPercent}%</td>
                                 </tr>
