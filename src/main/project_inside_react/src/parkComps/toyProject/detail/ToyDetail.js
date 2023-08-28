@@ -237,7 +237,7 @@ function ToyDetail(props) {
                             <div className="card my-4" style={{maxWidth: "540px"}}>
                                 <div className="row g-0">
                                     <div className="col-md-4">
-                                        <img src="/images/kazha.jpg" className="img-fluid rounded-start"/>
+                                        <img src={userNames?.personImgPath === null ? "/images/ProfileImg.png" : `/images/profileImg/${userNames?.personImgPath}`} className="img-fluid rounded-start"/>
                                     </div>
                                     <div className="col-md-8" style={{backgroundColor: 'rgba(200, 240, 240, 0.5)'}}>
                                         <div className="card-body text-start">
