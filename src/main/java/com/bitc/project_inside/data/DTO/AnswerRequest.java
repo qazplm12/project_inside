@@ -15,6 +15,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class AnswerRequest {
+
+
     private int answerIdx;
     private int answerQuestionIdx;
     private String answerNick;
@@ -22,6 +24,8 @@ public class AnswerRequest {
     private String answerLanguage;
     private String answerCode;
     private LocalDate answerDate;
+
+
     private ChallengeEntity challengeEntity;
     private QuestionEntity questionEntity;
 }

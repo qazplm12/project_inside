@@ -6,15 +6,10 @@ import com.bitc.project_inside.data.entity.PersonEntity;
 import com.bitc.project_inside.security.TokenProvider;
 import com.bitc.project_inside.service.*;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RequiredArgsConstructor

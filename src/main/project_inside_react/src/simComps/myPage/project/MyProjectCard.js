@@ -142,7 +142,7 @@ function MyProjectCard(props) {
                                           to={`/pi/projectBoard/${projectIdx}`}>프로젝트관리</Link>
                                 </div>
                                 :
-                                <div className={"mb-0 ms-2 ps-4"}>
+                                <div className={"text-end mb-0"}>
 
                                     <button className={'theme-btn'}
                                             onClick={modeHandler}><small>요청 확인</small>
