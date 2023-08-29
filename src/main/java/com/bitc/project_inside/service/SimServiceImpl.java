@@ -88,7 +88,7 @@ public class SimServiceImpl implements SimService {
 
     @Override
     public List<PersonEntity> getPersonList() throws Exception {
-        return personRepository.findAllByOrderByPersonIdxDesc();
+        return personRepository.findAllByPersonBannedMsgIsNullOrderByPersonIdxDesc();
     }
 
     @Override

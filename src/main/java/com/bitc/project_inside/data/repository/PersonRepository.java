@@ -48,7 +48,7 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Integer> {
 
     PersonEntity findByPersonNickName(String matchingMemberNick) throws Exception;
 
-    List<PersonEntity> findAllByOrderByPersonIdxDesc() throws Exception;
+    List<PersonEntity> findAllByPersonBannedMsgIsNullOrderByPersonIdxDesc();
 
     // 아이디 중복 검사
 

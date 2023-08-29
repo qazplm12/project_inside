@@ -35,7 +35,7 @@ function DashBoard(props) {
                                  <div className={'m-o p-0'}>
                                      <p className={'mb-1 border-bottom'}>문제</p>
                                      {/* 총 문제 수 데이터*/}
-                                     <h2 className={'mb-0 d-inline'}>{props.challengeList.length*3}</h2><small>가지</small>
+                                     <h2 className={'mb-0 d-inline'}>{props.challengeList.length}</h2><small>가지</small>
                                  </div>
                              }>
                             {/* 차트 자리 */}
