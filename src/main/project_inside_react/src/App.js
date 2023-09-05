@@ -1,7 +1,7 @@
 import './App.css';
 import './theme.css'; // 메인테마 커스터 마이징
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import React from "react";
+import {HashRouter as Router, Routes, Route, useNavigate, Link} from "react-router-dom";
+import React, {useEffect} from "react";
 import CodeChallenge from "./leeComps/codeChallenge/CodeChallenge";
 import ChallengeList from "./leeComps/chanllengeList/ChallengeList";
 import ToyRegis from "./parkComps/toyProject/regis/ToyRegis";
@@ -17,17 +17,20 @@ import ProjectBoard from "./simComps/projectBoard/ProjectBoard";
 import QnA from "./leeComps/qna/QnA";
 import ChallengeWrite from "./leeComps/codeChallenge/ChallengeWrite";
 import HappyCat from "./simComps/commons/HappyCat";
+import {Layer} from "recharts";
 
 function App(props) {
 
-
     return (
         <div className="App">
-            <BrowserRouter>
+            <Router>
                 <Routes>
+                    <Route path={"/"} element={<Layout/>}>
+                        <Route path={"/"} element={<Main/>}></Route>
+                    </Route>
                     <Route path={'/pi'} element={<Layout/>}>
                         {/* 헤더, 푸터 필요한 컴포넌트들*/}
-                        <Route path={'main'} element={<Main/>}></Route>
+                        <Route path={'main'}  element={<Main/>}></Route>
                         <Route path={'myPage/:mode/:linkIdx'} element={<MyPage/>}></Route>
                         <Route path={'toyDetail/:projectIdx'} element={<ToyDetail/>}></Route>
                         <Route path={'ToyRegis'} element={<ToyRegis/>}></Route>
@@ -35,7 +38,7 @@ function App(props) {
                         <Route path={'challengeList'} element={<ChallengeList/>}></Route>
                         <Route path={'admin'} element={<Admin/>}></Route>
                         <Route path={'solved'} element={<Solved/>}></Route>
-                        <Route path={'projectBoard/:idx'} element={<ProjectBoard />}></Route>
+                        <Route path={'projectBoard/:idx'} element={<ProjectBoard/>}></Route>
                         <Route path={'QnA'} element={<QnA/>}></Route>
                     </Route>
                     {/* 그 외 개별 컴포넌트들 */}
@@ -43,7 +46,7 @@ function App(props) {
                     <Route path={'/codeChallenge'} element={<CodeChallenge/>}></Route>
                     <Route path={'/challengeWrite'} element={<ChallengeWrite/>}></Route>
                 </Routes>
-            </BrowserRouter>
+            </Router>
         </div>
     );
 }

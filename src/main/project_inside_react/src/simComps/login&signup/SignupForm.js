@@ -3,6 +3,7 @@ import {Form, InputGroup} from "react-bootstrap";
 import DisabledButton from "../commons/DisabledButton";
 import axios from "axios";
 import {signUp} from "../../service/Service";
+import {useNavigate} from "react-router-dom";
 
 function SignupForm(props) {
 
@@ -119,12 +120,19 @@ function SignupForm(props) {
         }
     }, [nick]);
 
+    const navi = useNavigate();
+
     const insertPerson = () => {
         signUp({
             personId: mailVal,
             personNickName: nick,
             personPassword: password2,
         });
+
+        setTimeout(() => {
+            navi('/userAuth/login')
+        }, 100);
+
 
 
         // axios.post("http://localhost:8080/signup", null, {

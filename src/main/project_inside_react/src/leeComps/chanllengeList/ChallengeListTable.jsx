@@ -69,7 +69,8 @@ function ChallengeListTable(props) {
                             return (
                                     <tr key={index}>
                                         <ChallengeListTableTd challengeIdx={item.challengeIdx}></ChallengeListTableTd>
-                                        <td><Link to={`http://localhost:3000/codeChallenge?idx=${item.challengeIdx}`} className={'theme-link'}>{item.challengeTitle}</Link></td>
+                                        {/*<td><Link to={`http://localhost:3000/codeChallenge?idx=${item.challengeIdx}`} className={'theme-link'}>{item.challengeTitle}</Link></td>*/}
+                                        <td><Link to={`/codeChallenge?idx=${item.challengeIdx}`} className={'theme-link'}>{item.challengeTitle}</Link></td>
                                         <td>Lv.{item.challengeClass}</td>
                                         <td>{item.challengeCompletePerson}명</td>
                                         <td>{item.challengeCorrectPercent}%</td>
@@ -80,7 +81,8 @@ function ChallengeListTable(props) {
                             return (
                                     <tr key={index}>
                                         <ChallengeListTableTd challengeIdx={item.challengeIdx}></ChallengeListTableTd>
-                                        <td><Link to={`http://localhost:3000/codeChallenge?idx=${item.challengeIdx}`} className={'theme-link'}>{item.challengeTitle}</Link></td>
+                                        {/*<td><Link to={`http://localhost:3000/codeChallenge?idx=${item.challengeIdx}`} className={'theme-link'}>{item.challengeTitle}</Link></td>*/}
+                                        <td><Link to={`/codeChallenge?idx=${item.challengeIdx}`} className={'theme-link'}>{item.challengeTitle}</Link></td>
                                         <td>Lv.{item.challengeClass}</td>
                                         <td>{item.challengeCompletePerson}명</td>
                                         <td>{item.challengeCorrectPercent}%</td>

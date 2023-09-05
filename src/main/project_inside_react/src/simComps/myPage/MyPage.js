@@ -207,23 +207,23 @@ function MyPage(props) {
                 <Col sm={1}></Col>
                 <Col sm={2} className={'my-5 text-start'}>
                     <ListGroup id={'list-group-myPage'}>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#profile"
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#/pi/myPage/profile/0"
                                         onClick={() => activateTab('#profile')}>
                             계정 관리
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#project"
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#/pi/myPage/project/0"
                                         onClick={() => activateTab('#project')}>
                             프로젝트
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#solution"
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#/pi/myPage/solution/0"
                                         onClick={() => activateTab('#solution')}>
                             문제 풀이
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#question"
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#/pi/myPage/question/0"
                                         onClick={() => activateTab('#question')}>
                             질문 / 답변
                         </ListGroup.Item>
-                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#inquiry"
+                        <ListGroup.Item className={'py-3'} variant={'light'} action href="#/pi/myPage/inquiry/0"
                                         onClick={() => activateTab('#inquiry')}>
                             문의사항
                         </ListGroup.Item>

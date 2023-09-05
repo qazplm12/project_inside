@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import {ListGroup, OverlayTrigger, Popover} from "react-bootstrap";
@@ -48,6 +48,15 @@ function UserUI(props) {
             });
     }, []);
 
+    const navi = useNavigate();
+
+    const doLogout = () => {
+        logout();
+        setTimeout(() => {
+            navi('/userAuth/login')
+        }, 100);
+    }
+
     // 눌렀을때 N -> A
     const readAlarmList = () => {
         axios.post('http://localhost:8080/simServer/readAlarmList', null, {
@@ -90,7 +99,7 @@ function UserUI(props) {
                         <Popover.Body className={'text-center'}>
                             <Link to={'/pi/myPage/profile/0'} className={'theme-link'}>마이 페이지</Link>
                             <hr/>
-                            <a type={'button'} onClick={logout} className={'theme-link'}>로그아웃</a>
+                            <a type={'button'} onClick={doLogout} className={'theme-link'}>로그아웃</a>
                         </Popover.Body>
                     </Popover>
                 }
@@ -124,7 +133,7 @@ function UserUI(props) {
                                                             <ListGroup.Item key={index} className={'py-3'}
                                                                             variant={'light'}
                                                                             action
-                                                                            href={`/pi/myPage/project/${item.alarmContentIdx}`} // 링크}
+                                                                            href={`/#/pi/myPage/project/${item.alarmContentIdx}`} // 링크}
                                                                             onClick={() => setTarget(array[index])}
                                                             >
                                                                 <div className={"theme-link- mx-3"}>
@@ -151,7 +160,7 @@ function UserUI(props) {
                                                             <ListGroup.Item key={index} className={'py-3'}
                                                                             variant={'light'}
                                                                             action
-                                                                            href={`/pi/myPage/project/${item.alarmContentIdx}`} // 링크}
+                                                                            href={`/#/pi/myPage/project/${item.alarmContentIdx}`} // 링크}
                                                                             onClick={() => setTarget(array[index])}
                                                             >
                                                                 <div className={"theme-link- mx-3"}>
@@ -178,7 +187,7 @@ function UserUI(props) {
                                                             <ListGroup.Item key={index} className={'py-3'}
                                                                             variant={'light'}
                                                                             action
-                                                                            href={`/pi/myPage/project/${item.alarmContentIdx}`} // 링크}
+                                                                            href={`/#/pi/myPage/project/${item.alarmContentIdx}`} // 링크}
                                                                             onClick={() => setTarget(array[index])}
                                                             >
                                                                 <div className={"theme-link- mx-3"}>
@@ -206,7 +215,7 @@ function UserUI(props) {
                                                             <ListGroup.Item key={index} className={'py-3'}
                                                                             variant={'light'}
                                                                             action
-                                                                            href={`/pi/QnA?idx=${item.alarmContentIdx}`} // 링크}
+                                                                            href={`/#/pi/QnA?idx=${item.alarmContentIdx}`} // 링크}
                                                                             onClick={() => setTarget(array[index])}
                                                             >
                                                                 <div className={"theme-link- mx-3"}>
@@ -235,7 +244,7 @@ function UserUI(props) {
                                                             <ListGroup.Item key={index} className={'py-3'}
                                                                             variant={'light'}
                                                                             action
-                                                                            href={`/pi/myPage/inquiry/${item.alarmContentIdx}`} // 링크}
+                                                                            href={`/#/pi/myPage/inquiry/${item.alarmContentIdx}`} // 링크}
                                                                             onClick={() => setTarget(array[index])}
                                                             >
                                                                 <div className={"theme-link- mx-3"}>
@@ -262,7 +271,7 @@ function UserUI(props) {
                                                             <ListGroup.Item key={index} className={'py-3'}
                                                                             variant={'light'}
                                                                             action
-                                                                            href={`/pi/projectBoard/${item.alarmContentIdx}`} // 링크}
+                                                                            href={`/#/pi/projectBoard/${item.alarmContentIdx}`} // 링크}
                                                                             onClick={() => setTarget(array[index])}
                                                             >
                                                                 <div className={"theme-link- mx-3"}>

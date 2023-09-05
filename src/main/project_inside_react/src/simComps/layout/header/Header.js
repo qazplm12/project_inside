@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import HeaderNavbar from "./HeaderNavbar";
 import Logo from "../../commons/Logo";
 import UserUI from "./UserUI";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {logout} from "../../../service/Service";
 
 function Header(props) {
@@ -20,6 +20,16 @@ function Header(props) {
             }
         }
     }, [])
+
+    const navi = useNavigate();
+
+    const doLogout = () => {
+        logout()
+        setTimeout(() => {
+            navi('/userAuth/login');
+        }, 100)
+    }
+
 
 
     return (
@@ -42,7 +52,7 @@ function Header(props) {
                             :
                             <div className={'d-flex justify-content-around align-items-center me-5'}>
                                 <Link to={'admin'} className={'theme-link me-4'}><h4>관리자 페이지</h4></Link>
-                                <a type={'button'} onClick={logout} className={'theme-link'}><h4>로그아웃</h4></a>
+                                <a type={'button'} onClick={doLogout} className={'theme-link'}><h4>로그아웃</h4></a>
                             </div>
                 }
             </div>

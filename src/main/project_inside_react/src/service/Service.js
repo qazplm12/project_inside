@@ -88,6 +88,9 @@ export async function postings(apiUrl, method, data) {
     }
 }
 
+
+
+
 export function login(userId, userPw) {
     axios.post(`${BASE_URL}/login`, {
         personId: userId,
@@ -100,7 +103,7 @@ export function login(userId, userPw) {
             sessionStorage.setItem("ACCESS_TOKEN", JSON.stringify(res.data.token));
             sessionStorage.setItem("userInfo", JSON.stringify(res.data));
 
-            window.location.href = '/pi/main';
+            // window.location.href = '/pi/main';
         })
         .catch(err => {
             if (err.response.data.error === "fail") {
@@ -144,7 +147,7 @@ export function logout() {
     sessionStorage.removeItem('ACCESS_TOKEN');
     sessionStorage.removeItem('userInfo');
 
-    window.location.href = "/userAuth/login";
+    // window.location.href = "/userAuth/login";
 }
 
 export function signUp(userDto) {
@@ -152,7 +155,7 @@ export function signUp(userDto) {
         .then((res) => {
             alert("회원 가입이 완료되었습니다.");
             console.log(res);
-            window.location.href = '/userAuth/login';
+            // window.location.href = '/userAuth/login';
         })
         .catch((err) => {
             alert('회원 가입 중 오류가 발생했습니다.');

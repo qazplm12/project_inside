@@ -187,4 +187,9 @@ public class EmailController {
         }
     }
 
+//    @RequestMapping("/")
+//    public String main() throws Exception {
+//
+//        return "redirect:/pi/main";
+//    }
 }

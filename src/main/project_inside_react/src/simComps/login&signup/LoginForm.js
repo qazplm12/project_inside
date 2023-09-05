@@ -2,13 +2,19 @@ import React, {useEffect, useState} from 'react';
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {login} from "../../service/Service";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function LoginForm(props) {
+    const navi = useNavigate();
+
     const [userId, setUserId] = useState("");
     const [userPw, setUserPw] = useState("");
 
     const doLogin = () => {
         login(userId, userPw);
+        setTimeout(() => {
+            navi('/pi/main')
+        }, 300);
     };
 
     useEffect(() => {
