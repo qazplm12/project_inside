@@ -26,9 +26,9 @@ function ProjectBoard(props) {
 
     const user = async() => {
         try {
-            const result1 = await axios.get(`http://localhost:8080/server/userProfile`)    // 유저 리스트 가져오기
+            const result1 = await axios.get(`http://localhost:8081/server/userProfile`)    // 유저 리스트 가져오기
             const allUser = result1.data;
-            const result2 = await axios.get(`http://localhost:8080/server/matching?idx=${idx}`)    // 매칭 정보 가져오기
+            const result2 = await axios.get(`http://localhost:8081/server/matching?idx=${idx}`)    // 매칭 정보 가져오기
             const matchUser = result2.data;
 
             const arr = [];
@@ -76,7 +76,7 @@ function ProjectBoard(props) {
     }, [currentPage, indexOfFirstPost, indexOfLastPost, tasks, postPerPage])
 
     useEffect(() => {
-        axios.post("http://localhost:8080/simServer/getTodoList", null, {
+        axios.post("http://localhost:8081/simServer/getTodoList", null, {
             params: {
                 // 보드 idx 보내기
                 todoMatchingIdx: idx
@@ -200,7 +200,7 @@ function ProjectBoard(props) {
     const addItem = () => { // + 버튼 모달로 실행
         // axios insert 문으로 바꾸기
         if (startDay && endDay && itemName) {
-            axios.post("http://localhost:8080/simServer/addTodoItem", null, {
+            axios.post("http://localhost:8081/simServer/addTodoItem", null, {
                 params: {
                     todoMatchingIdx: idx,
                     todoNickName: userInfo.personNickName, // 로그인 정보에서 닉네임
@@ -238,7 +238,7 @@ function ProjectBoard(props) {
 
     const editItem = () => {    // 제목 누르고 수정 모달을 통해 수정하면 실행
         console.log(target);
-        axios.post("http://localhost:8080/simServer/editTodoItem", null, {
+        axios.post("http://localhost:8081/simServer/editTodoItem", null, {
             params: {
                 // idx 보내기
                 todoMatchingIdx: idx,
@@ -274,7 +274,7 @@ function ProjectBoard(props) {
 
     const editStatus = (e, obj) => {    // 리스트에서 상태 바뀌면 실행
         console.log(obj)
-        axios.post("http://localhost:8080/simServer/editTodoItem", null, {
+        axios.post("http://localhost:8081/simServer/editTodoItem", null, {
             params: {
                 // idx 보내기
                 todoMatchingIdx : idx,
@@ -554,7 +554,7 @@ function ProjectBoard(props) {
                                     <td className={'align-middle'}><b className={'theme-font'}>{item.progress}</b>%</td>
                                     <td className={'align-middle'}><button className={'btn btn-danger'} value={item.idx} onClick={
                                         e => {
-                                            axios.delete(`http://localhost:8080/server/todoDelete?idx=${item.idx}`)
+                                            axios.delete(`http://localhost:8081/server/todoDelete?idx=${item.idx}`)
                                                 .then(res => {
                                                     setDeleteCount(deleteCount + 1);
                                                     alert('삭제되었습니다.');

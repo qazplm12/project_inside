@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // 서버 접속 기본 주소
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = 'http://localhost:8081'
 
 // axios로 서버와 통신을 위한 함수
 // url와 method, 전달할 데이터를 매개변수로 받아 하나의 명령으로 통신
@@ -73,7 +73,7 @@ export async function postings(apiUrl, method, data) {
         // axios.method() 방식 사용 시 header 정보에 Content-Type 가 없어도 됨 (자동설정)
         // 인증 정보인 Authorization 에 jwt 토큰 정보만 함께 전달
 
-        // axios.get('http://localhost:8080/todo/test', {
+        // axios.get('http://localhost:8081/todo/test', {
         //     headers: {
         //       Authorization: `Bearer ${accessToken}`
         //     }

@@ -35,7 +35,7 @@ function ChallengeWrite(props) {
     //
     //             formData.append("multipartFiles", file[0]);
     //
-    //             const res = await axios.post(`http://localhost:8080/uploadImage`, formData);
+    //             const res = await axios.post(`http://localhost:8081/uploadImage`, formData);
     //             if (quillRef.current) {
     //                 const index = (quillRef.current.getEditor().getSelection() as RangeStatic).index;
     //             }
@@ -51,7 +51,7 @@ function ChallengeWrite(props) {
     //         }
     //     }
     //
-    //     axios.post(`http://localhost:8080/server/challengeWrite`, fd, {
+    //     axios.post(`http://localhost:8081/server/challengeWrite`, fd, {
     //         headers: {
     //             "Content-Type": `multipart/form-data; `,
     //         }
@@ -69,7 +69,7 @@ function ChallengeWrite(props) {
     //     formData.append('image', file);
     //
     //     try {
-    //         const response = await axios.post(`http://localhost:8080/server/challengeWrite`, formData, {
+    //         const response = await axios.post(`http://localhost:8081/server/challengeWrite`, formData, {
     //             headers: {
     //                 'Content-Type': 'multipart/form-data'
     //             }
@@ -141,7 +141,7 @@ function ChallengeWrite(props) {
             challengeClass: challengeClass
         }
 
-        axios.post(`http://localhost:8080/server/challengeWrite`, requestData)
+        axios.post(`http://localhost:8081/server/challengeWrite`, requestData)
             .then(res => {
                 console.log("업로드 통신 성공 : " + res.data);
             })

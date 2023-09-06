@@ -20,7 +20,7 @@ function CodeChallenge(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/challenge?idx=${idx}`)  // 문제 정보 호출
+        axios.get(`http://localhost:8081/server/challenge?idx=${idx}`)  // 문제 정보 호출
             .then(res => {
                 // alert('통신 성공')
                 // console.log(res.data);
@@ -37,7 +37,7 @@ function CodeChallenge(props) {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/userDetail?userId=${userInfo?.personId}`)
+        axios.get(`http://localhost:8081/server/userDetail?userId=${userInfo?.personId}`)
             .then(res => {
                 setUserTotalScore(res.data.personTotalScore);
             })
@@ -85,7 +85,7 @@ function CodeChallenge(props) {
         }
 
         // 셀리니움 호출
-        axios.post('http://localhost:8080/server/challenge', requestData)
+        axios.post('http://localhost:8081/server/challenge', requestData)
             .then(res => {
                 // alert('axios 통신 성공');
                 // console.log(res.data);
@@ -106,7 +106,7 @@ function CodeChallenge(props) {
         let str = "";
 
         // 검산용 매개변수, 기댓값 가져오기
-        axios.get(`http://localhost:8080/server/challengeScoring?idx=${idx}`)
+        axios.get(`http://localhost:8081/server/challengeScoring?idx=${idx}`)
             .then(res => {
                 // alert('axios 통신 성공');
                 // console.log("검증용 매개변수, 기댓값 : " + res.data);
@@ -237,7 +237,7 @@ function CodeChallenge(props) {
             score: `${challengeScore + userTotalScore}`,   // 덧셈 식 주의, jwt 로그인 하였기 때문에 최초 로그인 한 정보에서 업데이트 안되고 있음(걍 정보 불러옴..)
         };
 
-        axios.post(`http://localhost:8080/server/challengeCorrect`, requestData)
+        axios.post(`http://localhost:8081/server/challengeCorrect`, requestData)
             .then(res => {
                 // alert("저장성공 : " + res.data);
             })
@@ -248,7 +248,7 @@ function CodeChallenge(props) {
     }
 
     function wrong() {
-        axios.post(`http://localhost:8080/server/challengeWrong`, null, {
+        axios.post(`http://localhost:8081/server/challengeWrong`, null, {
             params: { // params 하면 쿼리스트링으로 데이터 전달, data는 바디에 포함되어 데이터 전달.. data 사용하면 서버에서 못받음
                 userNick: userInfo.personNickName,
                 idx: idx

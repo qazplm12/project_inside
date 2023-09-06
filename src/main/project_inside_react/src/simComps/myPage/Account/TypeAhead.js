@@ -4,8 +4,6 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import "./Token.css";
 import axios from "axios";
 
-// 가상 유저
-import person from "../../commons/Person";
 import {update} from "../../../service/Service";
 
 function TypeAhead(props) {
@@ -100,7 +98,7 @@ function TypeAhead(props) {
         // 보내기 전 배열 > 문자열로 파싱
         const param = tokenValues.join(', ');
         console.log(param);
-        axios.post('http://localhost:8080/simServer/updatePersonInfo', null, {
+        axios.post('http://localhost:8081/simServer/updatePersonInfo', null, {
             params: {
                 personId : userInfo.personId,
                 personLanguage: param

@@ -12,7 +12,7 @@ function Admin(props) {
     const [challengeList, setChallengeList] = useState([]);
 
     useEffect(() => {
-        axios.post("http://localhost:8080/simServer/getPersonList", null, {
+        axios.post("http://localhost:8081/simServer/getPersonList", null, {
             params: {
                 // 로그인 정보로 어드민 일시에만 리스트 가져오기
             }
@@ -24,7 +24,7 @@ function Admin(props) {
 
             });
 
-        axios.post("http://localhost:8080/simServer/getChallengeList", null, {
+        axios.post("http://localhost:8081/simServer/getChallengeList", null, {
             params: {
                 // 로그인 정보로 어드민 일시에만 리스트 가져오기
             }

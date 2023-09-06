@@ -7,7 +7,7 @@ function ChallengeListTableTd(props) {
     const [userInfo, setUserInfo] = useState(JSON.parse(sessionStorage.getItem("userInfo")));
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/challengeListState?userNick=${userInfo?.personNickName}`)    // 로그인 정보 넣기
+        axios.get(`http://localhost:8081/server/challengeListState?userNick=${userInfo?.personNickName}`)    // 로그인 정보 넣기
             .then(res => {
                 // console.log("통신 성공 : " + res.data);
 

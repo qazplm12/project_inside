@@ -12,7 +12,7 @@ function Solved(props) {
     const idx = params.get('idx');
 
     useEffect(() => {   // 모든 풀이 리스트
-        axios.get(`http://localhost:8080/server/solvedList?idx=${idx}`)
+        axios.get(`http://localhost:8081/server/solvedList?idx=${idx}`)
             .then(res => {
                 // alert('통신 성공 : ' + res.data);
                 // console.log('통신 성공 : ' + res.data);

@@ -59,7 +59,7 @@ function Park(props) {
 
         axios({
             method : 'POST',
-            url : 'http://localhost:8080/pi/toyProject/ToyRegis',
+            url : 'http://localhost:8081/pi/toyProject/ToyRegis',
             data : formData,
             headers: {
                 'Content-Type': 'multipart/form-data',

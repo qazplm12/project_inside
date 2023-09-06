@@ -41,7 +41,7 @@ const PersonList = (props) => {
 
     const sendMsg = () => {
         if (window.confirm(`${target.personNickName}님을 정말 차단하시겠습니까?`)) {
-            axios.post('http://localhost:8080/simServer/banningPerson', null, {
+            axios.post('http://localhost:8081/simServer/banningPerson', null, {
                 params: {
                     // 유저 특정 정보 보내기
                     personId : target.personId,

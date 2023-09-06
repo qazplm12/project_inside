@@ -21,7 +21,7 @@ function AnswerModal(props) {
     }, [props.AnswerModalShow]);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/challenge?idx=${challengeIdx}`)  // 문제 정보 호출
+        axios.get(`http://localhost:8081/server/challenge?idx=${challengeIdx}`)  // 문제 정보 호출
             .then(res => {
                 // alert('통신 성공')
                 // console.log(res.data);
@@ -53,7 +53,7 @@ function AnswerModal(props) {
             content: answerContent,
         };
 
-        axios.post(`http://localhost:8080/server/Answer`, requestData)
+        axios.post(`http://localhost:8081/server/Answer`, requestData)
             .then(res => {
                 // alert('통신 성공 : ' + res);
                 // console.log('통신 성공 : ' +

@@ -44,7 +44,7 @@ function CodeRunner(props) {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/challenge?idx=${idx}`)  // 문제 정보 호출
+        axios.get(`http://localhost:8081/server/challenge?idx=${idx}`)  // 문제 정보 호출
             .then(res => {
                 setChallengeData(res.data);
                 setCode(res.data.challengeTemplateJavaScript);

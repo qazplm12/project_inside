@@ -8,7 +8,7 @@ function Col2(props) {
     const [challengeList, setChallengeList] = useState([]);
 
     useEffect(() => {
-        axios.post("http://localhost:8080/simServer/getQuestionListLatest", null)
+        axios.post("http://localhost:8081/simServer/getQuestionListLatest", null)
             .then((res) => {
                 const list = []
                 for (let i = 0; i < 5; i++) {
@@ -21,7 +21,7 @@ function Col2(props) {
 
             });
 
-        axios.post("http://localhost:8080/simServer/getChallengeList", null)
+        axios.post("http://localhost:8081/simServer/getChallengeList", null)
             .then((res) => {
                 setChallengeList(res.data)
             })

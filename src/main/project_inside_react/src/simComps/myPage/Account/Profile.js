@@ -5,7 +5,6 @@ import axios from "axios";
 import DisabledButton from "../../commons/DisabledButton";
 
 // 가상유저 정보
-import person from "../../commons/Person";
 import {update} from "../../../service/Service";
 
 
@@ -43,7 +42,7 @@ function Profile(props) {
         if (nickName === "" || userInfo.personNickName === nickName) {
             setNickText(0);
         } else {
-            axios.post('http://localhost:8080/checkNick', null, {
+            axios.post('http://localhost:8081/checkNick', null, {
                 params: {
                     nickName: nickName,
                 }
@@ -78,7 +77,7 @@ function Profile(props) {
             formData.append("personProfileImg", updateImg[0]);
         }
 
-        axios.post("http://localhost:8080/simServer/updatePersonInfo", formData)
+        axios.post("http://localhost:8081/simServer/updatePersonInfo", formData)
             .then((resp) => {
                 update(userInfo.personId, userInfo.personPassword);
                 // 필요한 업데이트 로직 추가

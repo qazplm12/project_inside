@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import "./Token.css";
 // 가상 유저
-import person from "../../commons/Person";
 
 function MyLanguage(props) {
 

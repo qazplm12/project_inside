@@ -32,7 +32,7 @@ function InquiryList(props) {
     const [answer, setAnswer] = useState("");
 
     useEffect(() => {
-        axios.post('http://localhost:8080/simServer/getInquiryList', null, {
+        axios.post('http://localhost:8081/simServer/getInquiryList', null, {
             params: {
                 personNickName: userInfo.personId,
             }
@@ -47,7 +47,7 @@ function InquiryList(props) {
 
     const sendAnswer = () => {
 
-        axios.post('http://localhost:8080/simServer/sendInquiryAnswer', null, {
+        axios.post('http://localhost:8081/simServer/sendInquiryAnswer', null, {
             params: {
                 personNickName: userInfo.personId,
                 inquiryTitle : target.inquiryTitle,

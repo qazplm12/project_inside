@@ -32,7 +32,7 @@ function MyInquiry(props) {
     const handleShow = () => setShow(true)
 
     useEffect(() => {
-        axios.post('http://localhost:8080/simServer/getInquiryList', null, {
+        axios.post('http://localhost:8081/simServer/getInquiryList', null, {
             params: {
                 personNickName: userInfo.personNickName,
             }
@@ -48,7 +48,7 @@ function MyInquiry(props) {
 
     const updateInquiry = () => {
         console.log(target.inquiryIdx);
-        axios.post('http://localhost:8080/simServer/updateInquiry', null, {
+        axios.post('http://localhost:8081/simServer/updateInquiry', null, {
             params: {
                 inquiryIdx: target.inquiryIdx,
                 personNickName: userInfo.personNickName,

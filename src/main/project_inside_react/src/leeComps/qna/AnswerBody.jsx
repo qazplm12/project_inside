@@ -10,7 +10,7 @@ function AnswerBody(props) {
     const AnswerModalShow = props.AnswerModalShow;
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/QnAItems?idx=${questionIdx}`)   // 문제번호로 조회해서 그 리스트만 가져오기
+        axios.get(`http://localhost:8081/server/QnAItems?idx=${questionIdx}`)   // 문제번호로 조회해서 그 리스트만 가져오기
             .then(res => {
                 // alert('통신 성공 : ' + res);
                 // console.log('통신 성공 : ' + res);
@@ -18,7 +18,7 @@ function AnswerBody(props) {
 
                 const nickList = res.data;
                 let arr = new Array(res.data.length).fill(0);    // qnaList와 같은 크기의 배열 선언
-                axios.get('http://localhost:8080/server/userProfile')
+                axios.get('http://localhost:8081/server/userProfile')
                     .then(res => {
                         // setProfile(res.data);
                         // console.log("이미지 경로 : " + res.data)

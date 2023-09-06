@@ -26,7 +26,7 @@ function ToyDetail(props) {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:8080/pi/toyProject/toyDetail/${projectIdx}`)
+        axios.get(`http://localhost:8081/pi/toyProject/toyDetail/${projectIdx}`)
             .then(response => {
                 setToyProject(response.data);
                 console.log('성공')
@@ -40,7 +40,7 @@ function ToyDetail(props) {
 
     useEffect(() => {
         if (toyProject) {
-            axios.post("http://localhost:8080/pi/toyProject/sideProfile", null, {
+            axios.post("http://localhost:8081/pi/toyProject/sideProfile", null, {
                 params: {
                     personId: toyProject.projectLeaderId
                 }
@@ -57,7 +57,7 @@ function ToyDetail(props) {
         // 로그인 상태일때만 상태값 가져오기
         if (userInfo) {
             // 신청 / 취소 보여주기 조건부 렌더링 해주기 위함
-            axios.post(`http://localhost:8080/simServer/getMyMatchingInfo`, null, {
+            axios.post(`http://localhost:8081/simServer/getMyMatchingInfo`, null, {
                 params: {
                     matchingProjectIdx: toyProject.projectIdx,
                     nick: userInfo.personNickName,
@@ -72,7 +72,7 @@ function ToyDetail(props) {
                 });
 
             // 매칭 완료시 조건부 렌더링 해주기 위함
-            axios.post(`http://localhost:8080/simServer/isMatchMember`, null, {
+            axios.post(`http://localhost:8081/simServer/isMatchMember`, null, {
                 params: {
                     matchingProjectIdx: toyProject.projectIdx,
                     nick: userInfo.personNickName,
@@ -87,7 +87,7 @@ function ToyDetail(props) {
                 });
 
             // 거절 기록 있는지 확인
-            axios.post(`http://localhost:8080/simServer/checkRejectMember`, null, {
+            axios.post(`http://localhost:8081/simServer/checkRejectMember`, null, {
                 params: {
                     matchingProjectIdx: toyProject.projectIdx,
                     nick: userInfo.personNickName,
@@ -126,7 +126,7 @@ function ToyDetail(props) {
 
                 axios({
                     method: 'POST',
-                    url: 'http://localhost:8080/pi/toyProject/projectApplication',
+                    url: 'http://localhost:8081/pi/toyProject/projectApplication',
                     data: formData
                 })
                     .then(function (data) {
@@ -153,7 +153,7 @@ function ToyDetail(props) {
         formData.append("projectLeaderId", toyProject.projectLeaderId)
         formData.append("matchingMemberNick", userInfo.personNickName);
 
-        axios.post(`http://localhost:8080/pi/toyProject/projectCancel`, formData)
+        axios.post(`http://localhost:8081/pi/toyProject/projectCancel`, formData)
             .then(response => {
                 alert('신청이 취소되었습니다.');
                 // 응답이 있을때만 세팅 해줘야함

@@ -13,9 +13,9 @@ function ChallengeListSidebar(props) {
 
     const rank = async() => {
         try {
-            const result1 = await axios.get(`http://localhost:8080/server/userRank`);
+            const result1 = await axios.get(`http://localhost:8081/server/userRank`);
             const userRank = result1.data;
-            const result2 = await axios.get(`http://localhost:8080/server/numRank`);
+            const result2 = await axios.get(`http://localhost:8081/server/numRank`);
             const numRank = result2.data;
 
             for (let i = 0; i < userRank.length; i++) {
@@ -32,21 +32,21 @@ function ChallengeListSidebar(props) {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/totalChallenge?userNick=${userInfo?.personNickName}`)
+        axios.get(`http://localhost:8081/server/totalChallenge?userNick=${userInfo?.personNickName}`)
             .then(res => {
                 setTotalChallenge(res.data);
             })
             .catch(err => {
                 console.log('ChallengeListSidebar1 통신 에러 : ' + err);
             })
-        axios.get(`http://localhost:8080/server/toyAnnony`)
+        axios.get(`http://localhost:8081/server/toyAnnony`)
             .then(res => {
                 setToyAnnony(res.data);
             })
             .catch(err => {
 
             })
-        axios.get(`http://localhost:8080/server/toyUser?language=${userInfo?.personLanguage}`)
+        axios.get(`http://localhost:8081/server/toyUser?language=${userInfo?.personLanguage}`)
             .then(res => {
                 setToyUser(res.data);
                 // console.log(res.data);
@@ -57,7 +57,7 @@ function ChallengeListSidebar(props) {
             .catch(err => {
 
             })
-        axios.get(`http://localhost:8080/server/userDetail?userId=${userInfo?.personId}`)
+        axios.get(`http://localhost:8081/server/userDetail?userId=${userInfo?.personId}`)
             .then(res => {
                 setUserDetail(res.data);
             })

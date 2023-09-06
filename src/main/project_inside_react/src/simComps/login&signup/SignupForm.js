@@ -61,7 +61,7 @@ function SignupForm(props) {
             // authEl의 빠른 출력을 위한 타이머
             let timer = setTimeout(() => setAuthEl(true), 200)
 
-            axios.post('http://localhost:8080/emailConfirm', null, {
+            axios.post('http://localhost:8081/emailConfirm', null, {
                 params: {
                     email: mailVal,
                 }
@@ -98,7 +98,7 @@ function SignupForm(props) {
             setNickText(0);
         } else {
             nickTimer = setTimeout(() => {
-                axios.post('http://localhost:8080/checkNick', null, {
+                axios.post('http://localhost:8081/checkNick', null, {
                     params: {
                         nickName: nick,
                     }
@@ -135,7 +135,7 @@ function SignupForm(props) {
 
 
 
-        // axios.post("http://localhost:8080/signup", null, {
+        // axios.post("http://localhost:8081/signup", null, {
         //     params: {
         //         personId: mailVal,
         //         personNickName: nick,

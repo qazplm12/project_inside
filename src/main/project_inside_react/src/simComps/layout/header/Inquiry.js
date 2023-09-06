@@ -36,7 +36,7 @@ function Inquiry(props) {
 
     const sendInquiry = () => {
 
-        axios.post('http://localhost:8080/simServer/sendInquiry', null, {
+        axios.post('http://localhost:8081/simServer/sendInquiry', null, {
             params: {
                 // 사용자 정보도 보내야함
                 personNickName: userInfo.personNickName,

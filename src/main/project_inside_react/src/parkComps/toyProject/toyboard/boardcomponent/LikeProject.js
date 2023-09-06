@@ -49,7 +49,7 @@ function LikeProject(props){
                 setLikeCount(updatedLikeCount);
                 //[1-2] db 와 연동이 되어야 한다
                 axios.post(
-                    'http://localhost:8080/pi/toyProject/likeMinProjectCheck',
+                    'http://localhost:8081/pi/toyProject/likeMinProjectCheck',
                     {
                         projectIdx
                     },
@@ -70,7 +70,7 @@ function LikeProject(props){
                 //[1-1] +1 -1 이 실시간으로 동작이 되어야 한다.
                 setLikeCount(updatedLikeCount);
                 //[1-2] db 와 연동이 되어야 한다
-                axios.post('http://localhost:8080/pi/toyProject/likePlusProjectCheck',
+                axios.post('http://localhost:8081/pi/toyProject/likePlusProjectCheck',
                     {
                         projectIdx
                     }, {

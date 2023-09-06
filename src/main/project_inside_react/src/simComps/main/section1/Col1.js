@@ -7,7 +7,7 @@ function Col1(props) {
     const [challengeList, setChallengeList] = useState([]);
 
     useEffect(() => {
-        axios.post("http://localhost:8080/simServer/getChallengeListLatest", null)
+        axios.post("http://localhost:8081/simServer/getChallengeListLatest", null)
             .then((res) => {
                 setChallengeList(res.data)
             })

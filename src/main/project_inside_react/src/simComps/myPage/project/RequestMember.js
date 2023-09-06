@@ -21,7 +21,7 @@ function RequestMember(props) {
 
     const accept = () => {
         formData.append("alarmFrom", "projectAcc");
-        axios.post('http://localhost:8080/simServer/memberAccept', formData)
+        axios.post('http://localhost:8081/simServer/memberAccept', formData)
             .then(response => {
                 alert('수락되었습니다.');
                 props.fetchUpdateData();
@@ -32,7 +32,7 @@ function RequestMember(props) {
 
     const reject = () => {
         formData.append("alarmFrom", "projectRej");
-        axios.post('http://localhost:8080/simServer/memberReject', formData)
+        axios.post('http://localhost:8081/simServer/memberReject', formData)
             .then(response => {
                 alert('거부되었습니다.');
                 props.fetchUpdateData();

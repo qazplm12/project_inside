@@ -3,7 +3,6 @@ import {Form, InputGroup} from "react-bootstrap";
 import DisabledButton from "../../commons/DisabledButton";
 import axios from "axios";
 
-import person from "../../commons/Person";
 import {update} from "../../../service/Service";
 
 function ChangePassword(props) {
@@ -33,7 +32,7 @@ function ChangePassword(props) {
         if (myPassword === "") {
             setMyPassword("");
         } else {
-            axios.post('http://localhost:8080/checkPassword', null, {
+            axios.post('http://localhost:8081/checkPassword', null, {
                 params: {
                     personId: userInfo.personId,
                     personPassword: myPassword,
@@ -67,7 +66,7 @@ function ChangePassword(props) {
         // myPassword와 newPassword1,2 가 일치해야함
         // 일치하면 disabled(false) 넣어주기
 
-        axios.post("http://localhost:8080/simServer/updatePersonInfo", null, {
+        axios.post("http://localhost:8081/simServer/updatePersonInfo", null, {
             params: {
                 personId : userInfo.personId,
                 personPassword: newPassword2

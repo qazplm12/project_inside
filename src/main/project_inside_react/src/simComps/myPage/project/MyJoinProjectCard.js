@@ -53,7 +53,7 @@ function MyJoinProjectCard(props) {
                 setLikeCount(updatedLikeCount);
                 //[1-2] db 와 연동이 되어야 한다
                 axios.post(
-                    'http://localhost:8080/pi/toyProject/likeMinProjectCheck',
+                    'http://localhost:8081/pi/toyProject/likeMinProjectCheck',
                     {
                         projectIdx
                     },
@@ -73,7 +73,7 @@ function MyJoinProjectCard(props) {
                 //[1-1] +1 -1 이 실시간으로 동작이 되어야 한다.
                 setLikeCount(updatedLikeCount);
                 //[1-2] db 와 연동이 되어야 한다
-                axios.post('http://localhost:8080/pi/toyProject/likePlusProjectCheck',
+                axios.post('http://localhost:8081/pi/toyProject/likePlusProjectCheck',
                     {
                         projectIdx
                     }, {
@@ -95,7 +95,7 @@ function MyJoinProjectCard(props) {
                 formData.append("personId", userInfo ? userInfo.personId : "")
 
                 axios.post(
-                    'http://localhost:8080/pi/toyProject/likePlus', formData)
+                    'http://localhost:8081/pi/toyProject/likePlus', formData)
                     .then(response => {
                         console.log('성공')
                     })
@@ -114,7 +114,7 @@ function MyJoinProjectCard(props) {
         formData.append("personId", userInfo ? userInfo.personId : "")
 
         // 이제 화면에 뿌려주는 부분
-        axios.post('http://localhost:8080/pi/toyProject/likePlusView', formData)
+        axios.post('http://localhost:8081/pi/toyProject/likePlusView', formData)
             .then(response => {
                 const likeDataArray = response.data;
 
@@ -133,7 +133,7 @@ function MyJoinProjectCard(props) {
                 console.log("plus view error message :::" + error)
             })
 
-        axios.post('http://localhost:8080/simServer/getMyMatchingList', null, {
+        axios.post('http://localhost:8081/simServer/getMyMatchingList', null, {
             params: {
                 matcingMemberNick: userInfo.personNickName
             }
@@ -162,7 +162,7 @@ function MyJoinProjectCard(props) {
         }
         if (window.confirm("정말 요청을 취소하시겠습니까?\n" +
             `현재 상태 : ${status}`)) {
-            axios.post('http://localhost:8080/simServer/cancelRequest', null, {
+            axios.post('http://localhost:8081/simServer/cancelRequest', null, {
                 params: {
                     matchingIdx: matchingIdx
                 }

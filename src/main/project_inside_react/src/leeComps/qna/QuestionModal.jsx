@@ -37,7 +37,7 @@ function QuestionModal(props) {
             content: questionContent,
         };
 
-        axios.post(`http://localhost:8080/server/Question`, requestData)
+        axios.post(`http://localhost:8081/server/Question`, requestData)
             .then(res => {
                 // alert('통신 성공 : ' + res);
                 // console.log('통신 성공 : ' + res);

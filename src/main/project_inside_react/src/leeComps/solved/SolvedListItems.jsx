@@ -9,7 +9,7 @@ function SolvedListItems(props) {
     const readOnly = props.readOnly;
 
     useEffect(() => {
-        axios.get('http://localhost:8080/server/userProfile')
+        axios.get('http://localhost:8081/server/userProfile')
             .then(res => {
                 // setProfile(res.data);
                 // console.log("이미지 경로 : " + res.data)

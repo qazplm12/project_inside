@@ -8,7 +8,7 @@ function Section2(props) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        axios.post("http://localhost:8080/simServer/getProjectList", null )
+        axios.post("http://localhost:8081/simServer/getProjectList", null )
             .then((res) => {
                 setData(res.data)
             })

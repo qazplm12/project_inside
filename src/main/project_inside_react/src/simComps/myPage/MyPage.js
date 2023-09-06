@@ -44,7 +44,7 @@ function MyPage(props) {
 
     const fetchRequestMembers = () => {
         console.log('최신화');
-        axios.post("http://localhost:8080/simServer/getMyProject", null, {
+        axios.post("http://localhost:8081/simServer/getMyProject", null, {
             params: {
                 projectLeaderId: userInfo.personId
             }
@@ -59,7 +59,7 @@ function MyPage(props) {
             });
 
         // 내가 신청한 && 참여한 프로젝트
-        axios.post("http://localhost:8080/simServer/getJoinProject", null, {
+        axios.post("http://localhost:8081/simServer/getJoinProject", null, {
             params: {
                 matchingMemberNick: userInfo.personNickName
             }
@@ -72,7 +72,7 @@ function MyPage(props) {
 
             });
         // 참여 요청의 상태를 가져오기 위함
-        axios.post("http://localhost:8080/simServer/getMyMatchingList", null, {
+        axios.post("http://localhost:8081/simServer/getMyMatchingList", null, {
             params: {
                 matchingMemberNick: userInfo.personNickName
             }
@@ -90,7 +90,7 @@ function MyPage(props) {
         setActiveTab(`#${mode}`);
         console.log(linkIdx);
         // 내가 생성한 프로젝트
-        axios.post("http://localhost:8080/simServer/getMyProject", null, {
+        axios.post("http://localhost:8081/simServer/getMyProject", null, {
             params: {
                 projectLeaderId: userInfo.personId
             }
@@ -105,7 +105,7 @@ function MyPage(props) {
             });
 
         // 내가 신청한 && 참여한 프로젝트
-        axios.post("http://localhost:8080/simServer/getJoinProject", null, {
+        axios.post("http://localhost:8081/simServer/getJoinProject", null, {
             params: {
                 matchingMemberNick: userInfo.personNickName
             }
@@ -118,7 +118,7 @@ function MyPage(props) {
 
             });
         // 참여 요청의 상태를 가져오기 위함
-        axios.post("http://localhost:8080/simServer/getMyMatchingList", null, {
+        axios.post("http://localhost:8081/simServer/getMyMatchingList", null, {
             params: {
                 matchingMemberNick: userInfo.personNickName
             }
@@ -130,7 +130,7 @@ function MyPage(props) {
 
             });
         // 내가 푼 문제 리스트 가져오기
-        axios.post("http://localhost:8080/simServer/getMySolutionList", null, {
+        axios.post("http://localhost:8081/simServer/getMySolutionList", null, {
             params: {
                 solvedNick: userInfo.personNickName
             }
@@ -143,7 +143,7 @@ function MyPage(props) {
             });
 
         // 내 질문 리스트 가져오기
-        axios.post("http://localhost:8080/simServer/getMyQuestionList", null, {
+        axios.post("http://localhost:8081/simServer/getMyQuestionList", null, {
             params: {
                 questionNick: userInfo.personNickName
             }
@@ -157,7 +157,7 @@ function MyPage(props) {
             });
 
         // 내 답변 리스트 가져오기
-        axios.post("http://localhost:8080/simServer/getMyAnswerList", null, {
+        axios.post("http://localhost:8081/simServer/getMyAnswerList", null, {
             params: {
                 answerNick: userInfo.personNickName
             }

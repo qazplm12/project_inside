@@ -22,7 +22,7 @@ function QnA(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/server/QnAList?idx=${idx}`)
+        axios.get(`http://localhost:8081/server/QnAList?idx=${idx}`)
             .then(res => {
                 // alert('통신 성공 : ' + res);
                 // console.log('통신 성공 : ' + res.data);
@@ -30,7 +30,7 @@ function QnA(props) {
 
                 const nickList = res.data;
                 let arr = new Array(res.data.length).fill(0);    // qnaList와 같은 크기의 배열 선언
-                axios.get('http://localhost:8080/server/userProfile')
+                axios.get('http://localhost:8081/server/userProfile')
                     .then(res => {
                         // setProfile(res.data);
                         // console.log("이미지 경로 : " + res.data)

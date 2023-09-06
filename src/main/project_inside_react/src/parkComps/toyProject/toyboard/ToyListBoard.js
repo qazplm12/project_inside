@@ -36,7 +36,7 @@ function ToyListBoard(props) {
     // ...toyProjects,
     const loadMoreItems = () => {
         setIsLoading(true);
-        axios.get(`http://localhost:8080/pi/toyProject/ToyListBoard?page=${page}`)
+        axios.get(`http://localhost:8081/pi/toyProject/ToyListBoard?page=${page}`)
             .then(response => {
                 setToyProjects((e) => [...toyProjects, ...response.data]);
                 setIsLoading(false);
@@ -56,7 +56,7 @@ function ToyListBoard(props) {
     const handleTagSelections = (tag) => {
         console.log(tag + "아프다 ")
         setProjectCode(tag);
-        axios.post(`http://localhost:8080/pi/toyProject/codeSearch?keyword=${tag}`)
+        axios.post(`http://localhost:8081/pi/toyProject/codeSearch?keyword=${tag}`)
             .then(response => {
                 console.log('아프다')
                 setProjectCode(response.data);
@@ -106,7 +106,7 @@ function ToyListBoard(props) {
     const LatestCheck = () => {
         setLatest(true);
         if (latest) {
-            axios.post("http://localhost:8080/pi/toyProject/ReLatest")
+            axios.post("http://localhost:8081/pi/toyProject/ReLatest")
                 .then(response => {
                     // 진행중인 리스트만 가져오도록 필터링
                     setToyProjects(response.data.filter(item => item.projectFull !== "Y" && item.projectFinish !== "Y"));
@@ -117,7 +117,7 @@ function ToyListBoard(props) {
                     setLatest(false);
                 });
         } else {
-            axios.post("http://localhost:8080/pi/toyProject/Latest")
+            axios.post("http://localhost:8081/pi/toyProject/Latest")
                 .then(response => {
                     // 진행중인 리스트만 가져오도록 필터링
                     setToyProjects(response.data.filter(item => item.projectFull !== "Y" && item.projectFinish !== "Y"));
@@ -134,7 +134,7 @@ function ToyListBoard(props) {
     const likeListCheck = () => {
         setLikeList(true);
         if (likeList) {
-            axios.post("http://localhost:8080/pi/toyProject/likeLatest")
+            axios.post("http://localhost:8081/pi/toyProject/likeLatest")
                 .then(response => {
                     setToyProjects(response.data);
                     setLikeList(false);
@@ -144,7 +144,7 @@ function ToyListBoard(props) {
                     setLikeList(false);
                 });
         } else {
-            axios.post("http://localhost:8080/pi/toyProject/likeMinLatest")
+            axios.post("http://localhost:8081/pi/toyProject/likeMinLatest")
                 .then(response => {
                     setToyProjects(response.data);
                     setLikeList(true);

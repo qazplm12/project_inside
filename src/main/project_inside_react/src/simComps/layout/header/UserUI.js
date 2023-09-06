@@ -19,7 +19,7 @@ function UserUI(props) {
 
     // 눌렀을때 A -> Y
     useEffect(() => {
-        axios.post('http://localhost:8080/simServer/readAlarm', null, {
+        axios.post('http://localhost:8081/simServer/readAlarm', null, {
             params: {
                 alarmIdx: target.alarmIdx
             }
@@ -33,7 +33,7 @@ function UserUI(props) {
     }, [target]);
 
     useEffect(() => {
-        axios.post('http://localhost:8080/simServer/getAlarmList', null, {
+        axios.post('http://localhost:8081/simServer/getAlarmList', null, {
             params: {
                 alarmToPerson: userInfo.personNickName,
             }
@@ -59,7 +59,7 @@ function UserUI(props) {
 
     // 눌렀을때 N -> A
     const readAlarmList = () => {
-        axios.post('http://localhost:8080/simServer/readAlarmList', null, {
+        axios.post('http://localhost:8081/simServer/readAlarmList', null, {
             params: {
                 alarmToPerson: userInfo.personNickName,
             }

@@ -32,7 +32,7 @@ function MyProjectCard(props) {
     }
 
     useEffect(() => {
-        axios.post("http://localhost:8080/simServer/getRequestMembers", null, {
+        axios.post("http://localhost:8081/simServer/getRequestMembers", null, {
             params: {
                 matchingProjectIdx: projectIdx
             }
@@ -43,7 +43,7 @@ function MyProjectCard(props) {
             .catch((error) => {
 
             });
-        axios.post("http://localhost:8080/simServer/getMatchingAllList", null, {
+        axios.post("http://localhost:8081/simServer/getMatchingAllList", null, {
             params: {
                 matchingProjectIdx: projectIdx
             }
@@ -54,7 +54,7 @@ function MyProjectCard(props) {
             .catch((error) => {
 
             });
-        axios.post("http://localhost:8080/simServer/getMatchingList", null, {
+        axios.post("http://localhost:8081/simServer/getMatchingList", null, {
             params: {
                 matchingProjectIdx: projectIdx
             }
@@ -69,7 +69,7 @@ function MyProjectCard(props) {
 
     const fetchRequestMembers = () => {
         console.log('최신화');
-        axios.post("http://localhost:8080/simServer/getRequestMembers", null, {
+        axios.post("http://localhost:8081/simServer/getRequestMembers", null, {
             params: {
                 matchingProjectIdx: projectIdx
             }
@@ -80,7 +80,7 @@ function MyProjectCard(props) {
             .catch((error) => {
 
             });
-        axios.post("http://localhost:8080/simServer/getMatchingAllList", null, {
+        axios.post("http://localhost:8081/simServer/getMatchingAllList", null, {
             params: {
                 matchingProjectIdx: projectIdx
             }
@@ -91,7 +91,7 @@ function MyProjectCard(props) {
             .catch((error) => {
 
             });
-        axios.post("http://localhost:8080/simServer/getMatchingList", null, {
+        axios.post("http://localhost:8081/simServer/getMatchingList", null, {
             params: {
                 matchingProjectIdx: projectIdx
             }

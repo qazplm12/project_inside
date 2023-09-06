@@ -16,7 +16,7 @@ function Projects(props) {
     const [finished, setFinished] = useState(0);
 
     useEffect(() => {
-        axios.post("http://localhost:8080/simServer/getProjects", null, {
+        axios.post("http://localhost:8081/simServer/getProjects", null, {
             params: {
                 checking: userInfo.personNickName
             }
